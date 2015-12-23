@@ -1,0 +1,34 @@
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
+public class VehicleTester : MonoBehaviour
+{
+    public List<GameObject> InputReceivers;
+	void Awake ()
+    {
+        InputReceivers.ForEach(hGO => hGO.GetComponent<InputProviderPCStd>().enabled = false);
+        InputReceivers.First().GetComponent<InputProviderPCStd>().enabled = true;
+    }
+	
+	void Update ()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            RaycastHit hit;
+
+            if(Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
+            {
+                InputProviderPCStd provider = hit.collider.transform.root.GetComponent<InputProviderPCStd>();
+                if (provider && InputReceivers.Contains(provider.gameObject))
+                {
+                    Debug.Log(hit.transform.root.gameObject.name + " Selected!");
+
+                    InputReceivers.Where(hGO => hGO != provider.gameObject).ToList().ForEach(hGO => hGO.GetComponent<InputProviderPCStd>().enabled = false);
+                    provider.enabled = true;
+                }
+            }
+        }
+	}
+}
