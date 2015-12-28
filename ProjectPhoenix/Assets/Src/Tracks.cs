@@ -5,7 +5,7 @@ public class Tracks : MonoBehaviour
 {
     private float tracksSpeed;
     private Material material;
-    public float TracksSpeed
+    internal float TracksSpeed
     {
         get
         {
@@ -16,9 +16,6 @@ public class Tracks : MonoBehaviour
             tracksSpeed = Mathf.Clamp(value, -100f, 100f);
         }
     }
-
-
-
 
 	void Awake ()
     {

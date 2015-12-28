@@ -5,7 +5,9 @@ using System.Linq;
 
 public class VehicleTester : MonoBehaviour
 {
-    public List<GameObject> InputReceivers;
+    [SerializeField]
+    internal List<GameObject> InputReceivers;
+
 	void Awake ()
     {
         InputReceivers.ForEach(hGO => hGO.GetComponent<InputProviderPCStd>().enabled = false);

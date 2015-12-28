@@ -7,8 +7,11 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 {
     private List<Wheel> m_hWheels;
     private Tracks tracks;
-    public float Brake = 100f;
-    public float Hp = 100f;
+
+    [SerializeField]
+    internal float Brake = 100f;
+    [SerializeField]
+    internal float Hp = 100f;
 
     private Drive m_hEngine;
     private BrakeSystem m_hBrake;
@@ -36,7 +39,6 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
     void Update()
     {
-
         vel = m_hRigidbody.velocity.magnitude;
         tracks.TracksSpeed = vel * sign;
     }
@@ -275,14 +277,13 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
             m_hWheels.ForEach(hW => hW.Collider.brakeTorque = 0f);
         }
     }
-
     #endregion
+}
 
-    [System.Serializable]
-    public enum DriveType
-    {
-        Forward,
-        Backward,
-        AWD
-    }
+[System.Serializable]
+internal enum DriveType
+{
+    Forward,
+    Backward,
+    AWD
 }

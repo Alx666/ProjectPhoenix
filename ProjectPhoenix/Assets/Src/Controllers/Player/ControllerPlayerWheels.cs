@@ -20,7 +20,7 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
     private BrakeSystem brake;
     private bool reverse;
 
-    internal void Awake()
+    void Awake()
     {
         rigidbody = this.GetComponent<Rigidbody>();
         wheels = new List<Wheel>();
@@ -35,7 +35,7 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
         brake = new BrakeSystem(0.4f * BrakeForce, 0.6f * BrakeForce, wheels);
     }
 
-    internal void Update()
+    void Update()
     {
         wheels.ForEach(hW => hW.OnUpdate());
     }
@@ -253,20 +253,12 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
             Vector3 position;
             Quaternion rotation;
             Collider.GetWorldPose(out position, out rotation);
-
+            
             Gfx.transform.position = position;
             Gfx.transform.rotation = rotation;
         }
     }
     #endregion
-
-    [System.Serializable]
-    internal enum DriveType
-    {
-        Forward,
-        Backward,
-        AWD
-    }
 }
 
 
