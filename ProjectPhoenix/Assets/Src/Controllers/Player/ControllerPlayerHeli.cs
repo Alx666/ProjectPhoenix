@@ -4,6 +4,19 @@ using System;
 
 internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
 {
+    public GameObject OwnBody;
+    public float MaxHeight;
+    public float MaxVelocityMagnitude;
+    public float VelocityForce;
+    public float VelocityRotation;
+
+    Rigidbody heliRigidbody;
+    bool isFlying;
+    void Awake()
+    {
+        this.heliRigidbody = GetComponent<Rigidbody>();
+    }
+
     public void BeginBackward()
     {
         throw new NotImplementedException();
@@ -46,7 +59,11 @@ internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
 
     public void BeginUp()
     {
-        throw new NotImplementedException();
+        if(!isFlying)
+        {
+            this.heliRigidbody.AddForce(Vector3.up * 70f);
+            this.isFlying = true;
+        }
     }
 
     public void EndBackward()
