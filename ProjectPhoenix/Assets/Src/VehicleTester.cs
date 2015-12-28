@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class VehicleTester : MonoBehaviour
+internal class VehicleTester : MonoBehaviour
 {
     [SerializeField]
     internal List<GameObject> InputReceivers;

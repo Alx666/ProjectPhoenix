@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InputProviderNetwork : MonoBehaviour {
+internal class InputProviderNetwork : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

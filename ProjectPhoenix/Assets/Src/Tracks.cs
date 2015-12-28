@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Tracks : MonoBehaviour
+internal class Tracks : MonoBehaviour
 {
     private float tracksSpeed;
     private Material material;

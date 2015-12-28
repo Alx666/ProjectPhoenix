@@ -2,7 +2,7 @@
 using System.Collections;
 
 [RequireComponent(typeof(IControllerPlayer))]
-public class InputProviderPCStd : MonoBehaviour
+internal class InputProviderPCStd : MonoBehaviour
 {
     [Header("Configurable Keys")]
     public KeyCode Forward = KeyCode.W;
