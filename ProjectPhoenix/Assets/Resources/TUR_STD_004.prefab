@@ -8,11 +8,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 484092}
-  - 114: {fileID: 11431474}
-  - 114: {fileID: 11409698}
-  - 114: {fileID: 11475534}
-  - 114: {fileID: 11444070}
-  - 114: {fileID: 11430300}
   m_Layer: 0
   m_Name: TUR_STD_004
   m_TagString: Untagged
@@ -60,6 +55,7 @@ GameObject:
   - 4: {fileID: 466726}
   - 33: {fileID: 3309228}
   - 23: {fileID: 2329634}
+  - 64: {fileID: 6497148}
   m_Layer: 0
   m_Name: barrel_Lx
   m_TagString: Untagged
@@ -92,6 +88,7 @@ GameObject:
   - 4: {fileID: 422222}
   - 33: {fileID: 3327840}
   - 23: {fileID: 2364882}
+  - 64: {fileID: 6401726}
   m_Layer: 0
   m_Name: Gfx_Center
   m_TagString: Untagged
@@ -124,6 +121,7 @@ GameObject:
   - 4: {fileID: 442146}
   - 33: {fileID: 3318210}
   - 23: {fileID: 2382690}
+  - 64: {fileID: 6403634}
   m_Layer: 0
   m_Name: Gfx_Back
   m_TagString: Untagged
@@ -141,6 +139,7 @@ GameObject:
   - 4: {fileID: 457700}
   - 33: {fileID: 3373820}
   - 23: {fileID: 2301014}
+  - 64: {fileID: 6422068}
   m_Layer: 0
   m_Name: base
   m_TagString: Untagged
@@ -158,6 +157,7 @@ GameObject:
   - 4: {fileID: 462270}
   - 33: {fileID: 3327450}
   - 23: {fileID: 2318728}
+  - 64: {fileID: 6496524}
   m_Layer: 0
   m_Name: barrel_Rx
   m_TagString: Untagged
@@ -287,7 +287,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106420}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.82999992, y: 0, z: 0}
+  m_LocalPosition: {x: -8.81000042, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 457700}
@@ -449,95 +449,66 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 189250}
   m_Mesh: {fileID: 4300000, guid: 132dff269db7248a3b1767f717fdcb86, type: 3}
---- !u!114 &11409698
-MonoBehaviour:
+--- !u!64 &6401726
+MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 106420}
+  m_GameObject: {fileID: 161750}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c34ddf5ae402ebe409d430ca88ad0a20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseCannon: {fileID: 0}
-  enemy: {fileID: 0}
-  cannon: {fileID: 0}
-  velocityEnemy: 0
-  minRange: -50
-  vRotationCannon: 0
-  maxDistance: 0
---- !u!114 &11430300
-MonoBehaviour:
+  serializedVersion: 2
+  m_Convex: 1
+  m_Mesh: {fileID: 4300002, guid: 132dff269db7248a3b1767f717fdcb86, type: 3}
+--- !u!64 &6403634
+MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 106420}
+  m_GameObject: {fileID: 184112}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6d0d061ae4f4e94286b46ecf322afc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Target: {fileID: 0}
-  Turrety: {fileID: 0}
-  Turretx: {fileID: 0}
-  Laser: {fileID: 0}
-  Barrel: {fileID: 0}
-  maxDistance: 0
-  SpeedRotation: 0
---- !u!114 &11431474
-MonoBehaviour:
+  serializedVersion: 2
+  m_Convex: 1
+  m_Mesh: {fileID: 4300004, guid: 132dff269db7248a3b1767f717fdcb86, type: 3}
+--- !u!64 &6422068
+MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 106420}
+  m_GameObject: {fileID: 189250}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41165960082b1ec429b947b4bdc05481, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FreezeRotationX: 0
-  FreezeRotationY: 0
-  FreezeRotationZ: 0
---- !u!114 &11444070
-MonoBehaviour:
+  serializedVersion: 2
+  m_Convex: 1
+  m_Mesh: {fileID: 4300000, guid: 132dff269db7248a3b1767f717fdcb86, type: 3}
+--- !u!64 &6496524
+MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 106420}
+  m_GameObject: {fileID: 194036}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5152493fd22dc334cb206cf35b9611d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
-  maxDistance: 0
-  minRange: 0
-  velocityRotation: 10
-  baseCannon: {fileID: 0}
-  cannon: {fileID: 0}
-  BarrelRx: {fileID: 0}
-  BarrelSx: {fileID: 0}
-  SpeedRotationBarrel: .100000001
---- !u!114 &11475534
-MonoBehaviour:
+  serializedVersion: 2
+  m_Convex: 1
+  m_Mesh: {fileID: 4300006, guid: 132dff269db7248a3b1767f717fdcb86, type: 3}
+--- !u!64 &6497148
+MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 106420}
+  m_GameObject: {fileID: 120046}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 731cda9cd40e8934784a0753a232059a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
-  maxDistance: 0
-  minRange: 0
-  velocityRotation: 10
-  baseCannon: {fileID: 0}
-  cannon: {fileID: 0}
-  Barrel: {fileID: 0}
-  SpeedRotationBarrel: 0
+  serializedVersion: 2
+  m_Convex: 1
+  m_Mesh: {fileID: 4300008, guid: 132dff269db7248a3b1767f717fdcb86, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -23,11 +23,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 422360}
-  - 114: {fileID: 11413960}
-  - 114: {fileID: 11403850}
-  - 114: {fileID: 11441838}
-  - 114: {fileID: 11470466}
-  - 114: {fileID: 11475656}
   m_Layer: 0
   m_Name: TUR_STD_005
   m_TagString: Untagged
@@ -123,8 +118,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 123502}
-  m_LocalRotation: {x: 0, y: -.707106829, z: 0, w: .707106709}
-  m_LocalPosition: {x: 124.199997, y: -.920000017, z: -30.2999992}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.8000002, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 471814}
@@ -310,95 +305,6 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 1
   m_Mesh: {fileID: 4300004, guid: f54e881d6be58495e8ddf38fcffe451e, type: 3}
---- !u!114 &11403850
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 123502}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c34ddf5ae402ebe409d430ca88ad0a20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseCannon: {fileID: 0}
-  enemy: {fileID: 0}
-  cannon: {fileID: 0}
-  velocityEnemy: 0
-  minRange: -50
-  vRotationCannon: 0
-  maxDistance: 0
---- !u!114 &11413960
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 123502}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41165960082b1ec429b947b4bdc05481, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FreezeRotationX: 0
-  FreezeRotationY: 0
-  FreezeRotationZ: 0
---- !u!114 &11441838
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 123502}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 731cda9cd40e8934784a0753a232059a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
-  maxDistance: 0
-  minRange: 0
-  velocityRotation: 10
-  baseCannon: {fileID: 0}
-  cannon: {fileID: 0}
-  Barrel: {fileID: 0}
-  SpeedRotationBarrel: 0
---- !u!114 &11470466
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 123502}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5152493fd22dc334cb206cf35b9611d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemy: {fileID: 0}
-  maxDistance: 0
-  minRange: 0
-  velocityRotation: 10
-  baseCannon: {fileID: 0}
-  cannon: {fileID: 0}
-  BarrelRx: {fileID: 0}
-  BarrelSx: {fileID: 0}
-  SpeedRotationBarrel: .100000001
---- !u!114 &11475656
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 123502}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6d0d061ae4f4e94286b46ecf322afc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Target: {fileID: 0}
-  Turrety: {fileID: 0}
-  Turretx: {fileID: 0}
-  Laser: {fileID: 0}
-  Barrel: {fileID: 0}
-  maxDistance: 0
-  SpeedRotation: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
