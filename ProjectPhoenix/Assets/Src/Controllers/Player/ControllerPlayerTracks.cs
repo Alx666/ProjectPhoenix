@@ -15,11 +15,13 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
     private Drive m_hEngine;
     private BrakeSystem m_hBrake;
-    private bool m_hReverse;
+    public bool m_hReverse;
     private Rigidbody m_hRigidbody;
     private Transform m_hTurretPosition;
     public float vel;
     private float sign;
+
+    public bool isMoving;
 
     void Awake()
     {
@@ -41,10 +43,20 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
     {
         vel = m_hRigidbody.velocity.magnitude;
         tracks.TracksSpeed = vel * sign;
+
+        if (this.m_hRigidbody.velocity.magnitude >= 0f && this.m_hRigidbody.velocity.magnitude <= 0.1f)
+            isMoving = false;
+        else
+            isMoving = true;
     }
 
+
+    //CONTROLS
     public void BeginForward()
     {
+        m_hReverse = false;
+        m_hBrake.EndBrake();
+
         sign = 1f;
         m_hEngine.BeginAccelerate();
     }
@@ -56,6 +68,8 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
     public void BeginBackward()
     {
+        m_hBrake.EndBrake();
+
         if (Mathf.Approximately(m_hRigidbody.velocity.magnitude, 0f))
         {
             sign = -1f;
@@ -68,7 +82,7 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
     public void EndBackward()
     {
-        if (!m_hReverse)
+        if (m_hReverse)
             m_hBrake.EndBrake();
         else
         {
@@ -79,55 +93,51 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
     public void BeginTurnRight()
     {
-        if (Mathf.Approximately(m_hRigidbody.velocity.magnitude, 0f))
+        m_hBrake.EndBrake();
+
+        if (!isMoving)
         {
             m_hWheels[0].Steer(90f);
             m_hWheels[1].Steer(90f);
             m_hWheels[2].Steer(-90f);
             m_hWheels[3].Steer(-90f);
 
-            m_hEngine.BeginAccelerate();
+            m_hEngine.BeginRotate();
         }
-
     }
 
     public void EndTurnRight()
     {
-        m_hWheels[0].Steer(0);
-        m_hWheels[1].Steer(0);
-        m_hWheels[2].Steer(0);
-        m_hWheels[3].Steer(0);
-
-        m_hEngine.EndAccelerate();
-
-
+        m_hWheels.ForEach(hW => hW.Steer(0f));
+        m_hEngine.EndRotate();
+        m_hBrake.StopInstantly();
     }
 
     public void BeginTurnLeft()
     {
-        if (Mathf.Approximately(m_hRigidbody.velocity.magnitude, 0f))
+        m_hBrake.EndBrake();
+
+        if (!isMoving)
         {
             m_hWheels[0].Steer(-90f);
             m_hWheels[1].Steer(-90f);
             m_hWheels[2].Steer(90f);
             m_hWheels[3].Steer(90f);
 
-            m_hEngine.BeginAccelerate();
+            m_hEngine.BeginRotate();
         }
     }
 
     public void EndTurnLeft()
     {
-        m_hWheels[0].Steer(0);
-        m_hWheels[1].Steer(0);
-        m_hWheels[2].Steer(0);
-        m_hWheels[3].Steer(0);
-        m_hEngine.EndAccelerate();
-
-
-
+        m_hWheels.ForEach(hW => hW.Steer(0f));
+        m_hEngine.EndRotate();
+        m_hBrake.StopInstantly();
     }
 
+
+
+    #region notimplemented
     public void BeginFire()
     {
 
@@ -144,8 +154,6 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
         //if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
         //    this.m_hTurretPosition.LookAt(hit.point);
     }
-
-    #region notimplemented
     public void BeginUp()
     {
 
@@ -222,7 +230,7 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
         public void BeginRotate()
         {
-            m_hWheels.ForEach(hW => hW.Collider.motorTorque = m_fHp * 0.025f);
+            m_hWheels.ForEach(hW => hW.Collider.motorTorque = 15f);
         }
         public void EndRotate()
         {
@@ -232,8 +240,6 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
         {
             //AWD
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = m_fHp * 0.25f);
-
-
         }
 
         public void EndAccelerate()
@@ -275,6 +281,10 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
         public void EndBrake()
         {
             m_hWheels.ForEach(hW => hW.Collider.brakeTorque = 0f);
+        }
+        public void StopInstantly()
+        {
+            m_hWheels.ForEach(hW => hW.Collider.brakeTorque = Mathf.Infinity);
         }
     }
     #endregion
