@@ -139,6 +139,48 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f8321d42c2000c4ebb7ebc08186b7a7, type: 2}
   m_IsPrefabParent: 0
+--- !u!1001 &636493189
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400000, guid: 7fc24a83e146a724ca3075919c36335a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 70.4000015
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7fc24a83e146a724ca3075919c36335a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.98586559
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7fc24a83e146a724ca3075919c36335a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: .0698404312
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7fc24a83e146a724ca3075919c36335a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -.707106829
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7fc24a83e146a724ca3075919c36335a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7fc24a83e146a724ca3075919c36335a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7fc24a83e146a724ca3075919c36335a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: .707106709
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 7fc24a83e146a724ca3075919c36335a, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 7fc24a83e146a724ca3075919c36335a, type: 3}
+  m_IsPrefabParent: 0
 --- !u!1 &811905317
 GameObject:
   m_ObjectHideFlags: 0
@@ -462,9 +504,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
-  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
