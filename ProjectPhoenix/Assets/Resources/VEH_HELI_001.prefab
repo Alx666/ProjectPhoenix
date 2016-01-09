@@ -20,7 +20,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &129842
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
@@ -29,6 +29,21 @@ GameObject:
   - 33: {fileID: 3331858}
   - 23: {fileID: 2320540}
   - 64: {fileID: 6400386}
+  m_Layer: 0
+  m_Name: object
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &196888
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 463538}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -42,11 +57,11 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 129842}
-  m_LocalRotation: {x: -.707106829, y: 0, z: -0, w: .707106829}
-  m_LocalPosition: {x: 0, y: 3.20000005, z: -0}
+  m_LocalRotation: {x: -.707106829, y: 0, z: 0, w: .707106709}
+  m_LocalPosition: {x: 0, y: 3.20000005, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 423552}
+  m_Father: {fileID: 463538}
   m_RootOrder: 0
 --- !u!4 &423552
 Transform:
@@ -58,8 +73,21 @@ Transform:
   m_LocalPosition: {x: 13.2799997, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 420584}
+  - {fileID: 463538}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!4 &463538
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 196888}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 420584}
+  m_Father: {fileID: 423552}
   m_RootOrder: 0
 --- !u!23 &2320540
 MeshRenderer:
@@ -150,7 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1c15247b9e2a24d8360b97fad5898f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OwnBody: {fileID: 0}
+  OwnBody: {fileID: 196888}
   MaxHeight: 10
   MaxVelocityMagnitude: 100
   VelocityForce: 500

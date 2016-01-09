@@ -40,8 +40,8 @@ internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
     {
         if (!isGrounded)
         {
-            Inclination();
             Rotation();
+            Inclination();
         }
     }
     private void LiftProcess()
