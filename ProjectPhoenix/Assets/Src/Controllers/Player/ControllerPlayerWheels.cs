@@ -29,6 +29,7 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
         List<Transform> gfxPos = this.GetComponentsInChildren<Transform>().Where(hT => hT.GetComponent<WheelCollider>() == null).ToList();
         this.GetComponentsInChildren<WheelCollider>().ToList().ForEach(hW => wheels.Add(new Wheel(hW, gfxPos.OrderBy(hP => Vector3.Distance(hP.position, hW.transform.position)).First().gameObject)));
         wheels = wheels.OrderByDescending(hW => hW.Collider.transform.position.z).ToList();
+        wheels.ForEach(hW => hW.Collider.forceAppPointDistance = rigidbody.centerOfMass.y - 0.5f);
 
         //Initialize Drive/Brake State Machine
         drive = new DriveSystem(Hp, wheels);
