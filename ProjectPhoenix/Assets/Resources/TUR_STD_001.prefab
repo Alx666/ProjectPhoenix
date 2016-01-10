@@ -107,6 +107,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 420418}
+  - 114: {fileID: 11400566}
   m_Layer: 0
   m_Name: TUR_STD_001
   m_TagString: Untagged
@@ -146,7 +147,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 184908}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.8299999, y: 0, z: 0}
+  m_LocalPosition: {x: 10, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 408530}
@@ -333,6 +334,22 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 1
   m_Mesh: {fileID: 4300002, guid: 46d8bce02f29d457f90cad1b79fdd446, type: 3}
+--- !u!114 &11400566
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 184908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e33860ab7165d646847ce011a7e8442, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 0}
+  maxDistance: 200
+  maxVelocity: 10
+  cannon: {fileID: 408530}
+  baseCannon: {fileID: 435272}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
