@@ -26,9 +26,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 499616}
   - 54: {fileID: 5432030}
-  - 65: {fileID: 6525696}
   - 114: {fileID: 11489230}
   - 114: {fileID: 11420008}
+  - 64: {fileID: 6422114}
   m_Layer: 0
   m_Name: VEH_HELI_003
   m_TagString: Untagged
@@ -126,7 +126,7 @@ MeshRenderer:
   m_ReceiveShadows: 1
   m_Materials:
   - {fileID: 2100000, guid: 387e9e29d7366034883ab5a3b27853f7, type: 2}
-  - {fileID: 2100000, guid: 6fed11b468df0f3488cd9bcec217b0d8, type: 2}
+  - {fileID: 2100000, guid: 2011d911bf5692e4197729e7058a6bcc, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -161,7 +161,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 133452}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: .0500000007
   m_UseGravity: 1
@@ -169,8 +169,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &6525696
-BoxCollider:
+--- !u!64 &6422114
+MeshCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -179,8 +179,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4, y: 4, z: 8}
-  m_Center: {x: 0, y: -1, z: 0}
+  m_Convex: 1
+  m_Mesh: {fileID: 4300000, guid: 0af03f8c8fc124d498bf87d79ec08f40, type: 3}
 --- !u!114 &11420008
 MonoBehaviour:
   m_ObjectHideFlags: 1
