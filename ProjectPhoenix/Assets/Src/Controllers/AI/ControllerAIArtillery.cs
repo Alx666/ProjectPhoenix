@@ -17,7 +17,12 @@ internal class ControllerAIArtillery : MonoBehaviour, IControllerAI
         }
     }
 
-    public void Move()
+    public void Idle()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Patrol()
     {
         throw new NotImplementedException();
     }

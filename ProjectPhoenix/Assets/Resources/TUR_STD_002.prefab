@@ -147,7 +147,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &189016
 GameObject:
   m_ObjectHideFlags: 1
@@ -524,8 +524,10 @@ MonoBehaviour:
   Target: {fileID: 0}
   maxDistance: 200
   maxVelocity: 10
-  cannon: {fileID: 457748}
+  cannon: {fileID: 409782}
   baseCannon: {fileID: 459676}
+  Raycast: {fileID: 0}
+  MinRange: -40
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
