@@ -8,20 +8,17 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
     private List<Wheel> m_hWheels;
     private Tracks tracks;
 
-    [SerializeField]
-    internal float Brake = 100f;
-    [SerializeField]
-    internal float Hp = 100f;
+    public float Brake = 100f;
+    public float Hp = 100f;
+    public float SteerAngle = 30f;
 
     private Drive m_hEngine;
     private BrakeSystem m_hBrake;
-    public bool m_hReverse;
+    private bool m_hReverse;
     private Rigidbody m_hRigidbody;
     private Transform m_hTurretPosition;
     public float vel;
     private float sign;
-
-    public bool isMoving;
 
     void Awake()
     {
@@ -44,14 +41,9 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
         vel = m_hRigidbody.velocity.magnitude;
         tracks.TracksSpeed = vel * sign;
 
-        if (this.m_hRigidbody.velocity.magnitude >= 0f && this.m_hRigidbody.velocity.magnitude <= 0.1f)
-            isMoving = false;
-        else
-            isMoving = true;
+
     }
 
-
-    //CONTROLS
     public void BeginForward()
     {
         m_hReverse = false;
@@ -82,7 +74,7 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
     public void EndBackward()
     {
-        if (m_hReverse)
+        if (!m_hReverse)
             m_hBrake.EndBrake();
         else
         {
@@ -93,51 +85,28 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
     public void BeginTurnRight()
     {
-        m_hBrake.EndBrake();
-
-        if (!isMoving)
-        {
-            m_hWheels[0].Steer(90f);
-            m_hWheels[1].Steer(90f);
-            m_hWheels[2].Steer(-90f);
-            m_hWheels[3].Steer(-90f);
-
-            m_hEngine.BeginRotate();
-        }
+        m_hWheels[0].Steer(this.SteerAngle);
+        m_hWheels[1].Steer(this.SteerAngle);
     }
 
     public void EndTurnRight()
     {
-        m_hWheels.ForEach(hW => hW.Steer(0f));
-        m_hEngine.EndRotate();
-        m_hBrake.StopInstantly();
+        m_hWheels[0].Steer(0);
+        m_hWheels[1].Steer(0);
     }
 
     public void BeginTurnLeft()
     {
-        m_hBrake.EndBrake();
-
-        if (!isMoving)
-        {
-            m_hWheels[0].Steer(-90f);
-            m_hWheels[1].Steer(-90f);
-            m_hWheels[2].Steer(90f);
-            m_hWheels[3].Steer(90f);
-
-            m_hEngine.BeginRotate();
-        }
+        m_hWheels[0].Steer(-this.SteerAngle);
+        m_hWheels[1].Steer(-this.SteerAngle);
     }
 
     public void EndTurnLeft()
     {
-        m_hWheels.ForEach(hW => hW.Steer(0f));
-        m_hEngine.EndRotate();
-        m_hBrake.StopInstantly();
+        m_hWheels[0].Steer(0);
+        m_hWheels[1].Steer(0);
     }
 
-
-
-    #region notimplemented
     public void BeginFire()
     {
 
@@ -154,6 +123,8 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
         //if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
         //    this.m_hTurretPosition.LookAt(hit.point);
     }
+
+    #region notimplemented
     public void BeginUp()
     {
 
@@ -230,7 +201,7 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
         public void BeginRotate()
         {
-            m_hWheels.ForEach(hW => hW.Collider.motorTorque = 15f);
+            m_hWheels.ForEach(hW => hW.Collider.motorTorque = m_fHp * 0.25f);
         }
         public void EndRotate()
         {
@@ -240,6 +211,8 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
         {
             //AWD
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = m_fHp * 0.25f);
+
+
         }
 
         public void EndAccelerate()
@@ -282,18 +255,15 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
         {
             m_hWheels.ForEach(hW => hW.Collider.brakeTorque = 0f);
         }
-        public void StopInstantly()
-        {
-            m_hWheels.ForEach(hW => hW.Collider.brakeTorque = Mathf.Infinity);
-        }
     }
-    #endregion
-}
 
-[System.Serializable]
-internal enum DriveType
-{
-    Forward,
-    Backward,
-    AWD
+    #endregion
+
+    [System.Serializable]
+    public enum DriveType
+    {
+        Forward,
+        Backward,
+        AWD
+    }
 }
