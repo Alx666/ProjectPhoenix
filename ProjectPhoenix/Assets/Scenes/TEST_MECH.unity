@@ -840,12 +840,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 649499885}
-  m_LocalRotation: {x: .130966589, y: -.754221737, z: .158392936, w: .623625755}
-  m_LocalPosition: {x: 16.1651459, y: 9.61725807, z: -.94145298}
+  m_LocalRotation: {x: -.0368505381, y: .690115452, z: -.035227444, w: -.721901476}
+  m_LocalPosition: {x: 13.2705593, y: 4.9820385, z: 6.90036106}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Father: {fileID: 1730000738}
+  m_RootOrder: 9
 --- !u!1 &656114100
 GameObject:
   m_ObjectHideFlags: 0
@@ -992,6 +992,10 @@ Transform:
   - {fileID: 871438749}
   m_Father: {fileID: 566872032}
   m_RootOrder: 2
+--- !u!1 &711141755 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100074, guid: f43092f34f4c01d4aa62ef88a045d570, type: 3}
+  m_PrefabInternal: {fileID: 830295667}
 --- !u!1001 &743108445
 Prefab:
   m_ObjectHideFlags: 0
@@ -1451,7 +1455,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!1 &1038328673
 GameObject:
   m_ObjectHideFlags: 0
@@ -1593,7 +1597,7 @@ Transform:
   m_LocalScale: {x: 4.90076065, y: 4.90076256, z: 4.90076256}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
 --- !u!1 &1073784553
 GameObject:
   m_ObjectHideFlags: 0
@@ -2178,8 +2182,10 @@ MonoBehaviour:
   MovementSpeed: 10
   TurnSpeed: 1
   StepDistance: 5
-  RepositioningTime: .0500000007
   Torso: {fileID: 1451342142}
+  BreatRoot: {fileID: 711141755}
+  BreathExcursion: .00300000003
+  BreatFreq: .200000003
 --- !u!114 &1730000741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2648,8 +2654,10 @@ MonoBehaviour:
   MovementSpeed: 0
   TurnSpeed: 0
   StepDistance: 0
-  RepositioningTime: .100000001
   Torso: {fileID: 56605939}
+  BreatRoot: {fileID: 0}
+  BreathExcursion: .5
+  BreatFreq: 1
 --- !u!54 &2091605781
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -10,8 +10,10 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
     public float        MovementSpeed     = 10f;
     public float        TurnSpeed         = 1f;
     public float        StepDistance      = 2f;
-    public float        RepositioningTime = 0.1f;
     public GameObject   Torso;
+    public GameObject   BreatRoot;
+    public float        BreathExcursion   = 0.003f;
+    public float        BreatFreq         = 0.2f;
 
     private Rigidbody   m_hBody;    
     private Vector3     m_vTurn;
@@ -21,6 +23,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
 
     private Queue<IKLeg> m_hLegs;
     private IKLeg        m_hLeg;
+    public float        RepositioningTime { get; private set; }
 
     void Start()
     {
@@ -29,10 +32,18 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
 
 
         m_hBody = this.GetComponent<Rigidbody>();
+
+        RepositioningTime = this.MovementSpeed / 100f;
     }
 
     void Update()
     {
+        float fy = BreathExcursion * Mathf.Sin(2.0f * Mathf.PI * BreatFreq * Time.time);
+        Vector3 vRootPos = BreatRoot.transform.position;
+        vRootPos.y += fy;
+        BreatRoot.transform.position = vRootPos;
+
+
         if (m_bMoveForward)
         {            
             m_hBody.velocity = this.transform.forward * this.MovementSpeed;
