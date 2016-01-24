@@ -11,14 +11,16 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
     public float Brake = 100f;
     public float Hp = 100f;
     public float SteerAngle = 30f;
+    public float MaxSpeed = 50f;
 
     private Drive m_hEngine;
     private BrakeSystem m_hBrake;
-    private bool m_hReverse;
+    public bool m_hReverse;
     private Rigidbody m_hRigidbody;
     private Transform m_hTurretPosition;
     public float vel;
     private float sign;
+    private GameObject obj;
 
     void Awake()
     {
@@ -29,6 +31,14 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
         this.GetComponentsInChildren<WheelCollider>().ToList().ForEach(hW => m_hWheels.Add(new Wheel(hW)));
         m_hWheels = m_hWheels.OrderByDescending(hW => hW.Collider.transform.position.z).ToList();
 
+        m_hRigidbody.centerOfMass = new Vector3(m_hRigidbody.centerOfMass.x, 0.6f, m_hRigidbody.centerOfMass.z);
+
+        //DELETEME
+        obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        obj.GetComponent<Collider>().enabled = false;
+        obj.transform.parent = this.transform;
+        obj.transform.localPosition = m_hRigidbody.centerOfMass;
+
         //m_hTurretPosition = this.GetComponentInChildren<Turret>().transform;
 
         //Initialize Drive/Brake State Machine
@@ -38,10 +48,13 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
     void Update()
     {
-        vel = m_hRigidbody.velocity.magnitude;
-        tracks.TracksSpeed = vel * sign;
+        m_hRigidbody.velocity = Vector3.ClampMagnitude(m_hRigidbody.velocity, MaxSpeed / 3.6f);
 
+        vel = m_hRigidbody.velocity.magnitude * 3.6f;
+        tracks.TracksSpeed = (vel * sign);
 
+        if (m_hRigidbody.velocity.magnitude > 0f && m_hRigidbody.velocity.magnitude < 1f)
+            m_hRigidbody.velocity = Vector3.zero;
     }
 
     public void BeginForward()
@@ -185,7 +198,6 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
     #endregion
 
-
     #region Drive
 
     private class Drive
@@ -198,7 +210,6 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
             m_fHp = fHp;
             m_hWheels = hWheels;
         }
-
         public void BeginRotate()
         {
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = m_fHp * 0.25f);
@@ -211,8 +222,6 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
         {
             //AWD
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = m_fHp * 0.25f);
-
-
         }
 
         public void EndAccelerate()
