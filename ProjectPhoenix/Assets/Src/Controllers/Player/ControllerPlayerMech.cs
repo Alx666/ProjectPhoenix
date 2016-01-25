@@ -7,8 +7,8 @@ using System.Linq;
 [RequireComponent(typeof(Rigidbody))]
 internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
 {
-    public float        MovementSpeed     = 10f;
-    public float        TurnSpeed         = 1f;
+    public float        MovementSpeed     = 3f;
+    public float        TurnSpeed         = 0.3f;
     public float        StepDistance      = 2f;
     public GameObject   Torso;
     public GameObject   BreatRoot;
@@ -20,20 +20,18 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
     private Vector3     m_vTorsoDirection;
     private bool        m_bMoveForward;
     private bool        m_bMoveBackward;
+    private bool switchLeg;
 
     private Queue<IKLeg> m_hLegs;
     private IKLeg        m_hLeg;
-    public float        RepositioningTime { get; private set; }
+    public float RepositioningTime = 0.5f;
 
     void Start()
     {
         m_hLegs = new Queue<IKLeg>(this.GetComponentsInChildren<IKLeg>());        
         m_hLeg  = m_hLegs.Dequeue();
-
-
+        
         m_hBody = this.GetComponent<Rigidbody>();
-
-        RepositioningTime = this.MovementSpeed / 100f;
     }
 
     void Update()
@@ -45,26 +43,35 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
 
 
         if (m_bMoveForward)
-        {            
+        {
+            if (switchLeg)
+            {
+                SwitchLeg(m_hLeg);
+                switchLeg = false;
+            }
+
             m_hBody.velocity = this.transform.forward * this.MovementSpeed;
 
-            if (m_hLeg.NeedFrontReposition && !m_hLeg.IsRepositioning)
+            if (!m_hLeg.IsRepositioning)
             {
                 m_hLeg.BeginRepositionFront();
             }           
+                
         }
         else if(m_bMoveBackward)
         {
+            if (!switchLeg)
+            {
+                SwitchLeg(m_hLeg);
+                switchLeg = true;
+            }
+
             m_hBody.velocity = -this.transform.forward * this.MovementSpeed;
 
-            if (m_hLeg.NeedBackReposition && !m_hLeg.IsRepositioning)
+            if (!m_hLeg.IsRepositioning)
             {
                 m_hLeg.BeginRepositionRear();
             }
-        }
-        else
-        {
-            m_hBody.velocity = Vector3.zero;
         }
 
         if (m_vTurn.magnitude > 0.1)
@@ -81,6 +88,13 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
     }
 
     public void EndReposition(IKLeg hLeg)
+    {
+        m_hBody.velocity = Vector3.zero;
+        m_hLegs.Enqueue(hLeg);
+        m_hLeg = m_hLegs.Dequeue();
+    }
+
+    private void SwitchLeg(IKLeg hLeg)
     {
         m_hLegs.Enqueue(hLeg);
         m_hLeg = m_hLegs.Dequeue();

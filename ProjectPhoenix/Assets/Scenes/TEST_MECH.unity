@@ -751,7 +751,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: e64e4eb42143e1e41aae054a4302afcf, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e64e4eb42143e1e41aae054a4302afcf, type: 3}
@@ -840,8 +840,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 649499885}
-  m_LocalRotation: {x: -.0368505381, y: .690115452, z: -.035227444, w: -.721901476}
-  m_LocalPosition: {x: 13.2705593, y: 4.9820385, z: 6.90036106}
+  m_LocalRotation: {x: .254267067, y: -.400140762, z: .116581246, w: .872722447}
+  m_LocalPosition: {x: 47.0117836, y: 41.9389534, z: -30.9904938}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1730000738}
@@ -1070,63 +1070,6 @@ Transform:
   - {fileID: 2050635300}
   m_Father: {fileID: 566872032}
   m_RootOrder: 3
---- !u!1 &773670288 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100042, guid: f43092f34f4c01d4aa62ef88a045d570, type: 3}
-  m_PrefabInternal: {fileID: 830295667}
---- !u!4 &773670289 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 400042, guid: f43092f34f4c01d4aa62ef88a045d570, type: 3}
-  m_PrefabInternal: {fileID: 830295667}
---- !u!114 &773670292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 773670288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c180bc454b601c746947fb106eac23b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &773670293
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 773670288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98b9a1a9e9a934b23a7db351dd9ec69e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeStep: 0
-  fixTransforms: 1
-  solver:
-    IKPosition: {x: 2.7783649, y: .0130357742, z: -20.7095051}
-    IKPositionWeight: 1
-    root: {fileID: 773670289}
-    target: {fileID: 0}
-    tolerance: 0
-    maxIterations: 4
-    useRotationLimits: 1
-    bones:
-    - transform: {fileID: 1885436992}
-      weight: 1
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 0}
-      defaultLocalPosition: {x: .461409569, y: -1.44289994, z: .76461035}
-      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 1}
-      length: 1.2489996
-      axis: {x: 0, y: -1.2489996, z: 0}
-    - transform: {fileID: 191339746}
-      weight: 1
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 0}
-      defaultLocalPosition: {x: 0, y: -1.24899995, z: 0}
-      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 1}
-      length: 0
-      axis: {x: 0, y: -1.2489996, z: 0}
 --- !u!1 &818363113 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100016, guid: f43092f34f4c01d4aa62ef88a045d570, type: 3}
@@ -1204,7 +1147,7 @@ MonoBehaviour:
   defaultLocalRotation: {x: 0, y: 0, z: 0, w: 1}
   useLimits: 1
   min: -25.5479584
-  max: 25.3485279
+  max: 21
   zeroAxisDisplayOffset: 0
 --- !u!114 &818363119
 MonoBehaviour:
@@ -1701,76 +1644,15 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1210553776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f726cebdac51ea3408303d7ace9aedfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FrontLocator: {fileID: 1825580592}
-  RearLocator: {fileID: 167306316}
-  CenterLocator: {fileID: 186153622}
-  UpLocator: {fileID: 377187871}
---- !u!114 &1210553780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1210553776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98b9a1a9e9a934b23a7db351dd9ec69e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeStep: 0
-  fixTransforms: 0
-  solver:
-    IKPosition: {x: 2.7783649, y: 1.26203537, z: -20.7095051}
-    IKPositionWeight: 1
-    root: {fileID: 1210553777}
-    target: {fileID: 0}
-    tolerance: 0
-    maxIterations: 4
-    useRotationLimits: 1
-    bones:
-    - transform: {fileID: 1210553777}
-      weight: .310000002
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 0}
-      defaultLocalPosition: {x: 1.4672929, y: .121642947, z: -5.72204577e-08}
-      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 1}
-      length: 2.24951911
-      axis: {x: .445531368, y: -1.4454143, z: -1.66511726}
-    - transform: {fileID: 2034782285}
-      weight: .289999992
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 0}
-      defaultLocalPosition: {x: .445531368, y: -1.44541419, z: -1.66511786}
-      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 1}
-      length: 1.69690537
-      axis: {x: .461409569, y: -1.44289994, z: .764610291}
-    - transform: {fileID: 1885436992}
-      weight: .300000012
-      solverPosition: {x: 0, y: 0, z: 0}
-      solverRotation: {x: 0, y: 0, z: 0, w: 0}
-      defaultLocalPosition: {x: .461409569, y: -1.44289994, z: .76461035}
-      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 1}
-      length: 1.2489996
-      axis: {x: .906940937, y: -2.88831425, z: -.900506973}
---- !u!114 &1210553781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1210553776}
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 484718f2c4ab849829491782b508958a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 1, y: 0, z: 0}
+  axis: {x: -1, y: 0, z: 0}
   defaultLocalRotation: {x: 0, y: 0, z: 0, w: 1}
   useLimits: 1
-  min: -90
+  min: -45
   max: 90
   zeroAxisDisplayOffset: 0
 --- !u!1 &1314602938
@@ -2145,6 +2027,100 @@ MonoBehaviour:
   min: -148.508896
   max: 148.743988
   zeroAxisDisplayOffset: 0
+--- !u!1 &1724635252 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 100052, guid: f43092f34f4c01d4aa62ef88a045d570, type: 3}
+  m_PrefabInternal: {fileID: 830295667}
+--- !u!4 &1724635253 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 400052, guid: f43092f34f4c01d4aa62ef88a045d570, type: 3}
+  m_PrefabInternal: {fileID: 830295667}
+--- !u!114 &1724635254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1724635252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f726cebdac51ea3408303d7ace9aedfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FrontLocator: {fileID: 1825580592}
+  RearLocator: {fileID: 167306316}
+  CenterLocator: {fileID: 186153622}
+  UpLocator: {fileID: 377187871}
+--- !u!114 &1724635255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1724635252}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 484718f2c4ab849829491782b508958a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axis: {x: 0, y: 0, z: 1}
+  defaultLocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  useLimits: 1
+  min: -25
+  max: 21
+  zeroAxisDisplayOffset: 0
+--- !u!114 &1724635256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1724635252}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98b9a1a9e9a934b23a7db351dd9ec69e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeStep: 0
+  fixTransforms: 0
+  solver:
+    IKPosition: {x: 2.7783649, y: 1.26203537, z: -20.7095051}
+    IKPositionWeight: 1
+    root: {fileID: 1724635253}
+    target: {fileID: 0}
+    tolerance: 0
+    maxIterations: 4
+    useRotationLimits: 1
+    bones:
+    - transform: {fileID: 1724635253}
+      weight: 1
+      solverPosition: {x: 0, y: 0, z: 0}
+      solverRotation: {x: 0, y: 0, z: 0, w: 0}
+      defaultLocalPosition: {x: .280279517, y: 0, z: 0}
+      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 1}
+      length: 1.47232664
+      axis: {x: 1.46729302, y: .121643066, z: 0}
+    - transform: {fileID: 1210553777}
+      weight: 1
+      solverPosition: {x: 0, y: 0, z: 0}
+      solverRotation: {x: 0, y: 0, z: 0, w: 0}
+      defaultLocalPosition: {x: 1.4672929, y: .121642947, z: -5.72204577e-08}
+      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 1}
+      length: 2.24951911
+      axis: {x: .445531368, y: -1.4454143, z: -1.66511726}
+    - transform: {fileID: 2034782285}
+      weight: 1
+      solverPosition: {x: 0, y: 0, z: 0}
+      solverRotation: {x: 0, y: 0, z: 0, w: 0}
+      defaultLocalPosition: {x: .445531368, y: -1.44541419, z: -1.66511786}
+      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 1}
+      length: 1.69690537
+      axis: {x: .461409569, y: -1.44289994, z: .764610291}
+    - transform: {fileID: 1885436992}
+      weight: 1
+      solverPosition: {x: 0, y: 0, z: 0}
+      solverRotation: {x: 0, y: 0, z: 0, w: 0}
+      defaultLocalPosition: {x: .461409569, y: -1.44289994, z: .76461035}
+      defaultLocalRotation: {x: 0, y: 0, z: 0, w: 1}
+      length: 0
+      axis: {x: 2.37423396, y: -2.76667118, z: -.900506973}
 --- !u!1 &1730000737 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100076, guid: f43092f34f4c01d4aa62ef88a045d570, type: 3}
@@ -2179,13 +2155,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83c72cc49db6f61449d4f0b4d286a4b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 10
-  TurnSpeed: 1
+  MovementSpeed: 3
+  TurnSpeed: .200000003
   StepDistance: 5
   Torso: {fileID: 1451342142}
   BreatRoot: {fileID: 711141755}
   BreathExcursion: .00300000003
   BreatFreq: .200000003
+  RepositioningTime: .5
 --- !u!114 &1730000741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2266,7 +2243,7 @@ GameObject:
 Transform:
   m_PrefabParentObject: {fileID: 400038, guid: f43092f34f4c01d4aa62ef88a045d570, type: 3}
   m_PrefabInternal: {fileID: 830295667}
---- !u!114 &1885436995
+--- !u!114 &1885436993
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -2277,13 +2254,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 484718f2c4ab849829491782b508958a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 1, y: 0, z: 0}
+  axis: {x: -1, y: 0, z: 0}
   defaultLocalRotation: {x: 0, y: 0, z: 0, w: 1}
   useLimits: 1
-  min: -72.2900848
-  max: 70.0136719
+  min: -69
+  max: 69
   zeroAxisDisplayOffset: 0
---- !u!114 &1885436996
+--- !u!114 &1885436994
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -2294,7 +2271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c180bc454b601c746947fb106eac23b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1885436997
+--- !u!114 &1885436995
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -2306,7 +2283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeStep: 0
-  fixTransforms: 0
+  fixTransforms: 1
   solver:
     IKPosition: {x: 2.7783649, y: .0130357742, z: -20.7095051}
     IKPositionWeight: 1
@@ -2367,7 +2344,7 @@ GameObject:
 Transform:
   m_PrefabParentObject: {fileID: 400054, guid: f43092f34f4c01d4aa62ef88a045d570, type: 3}
   m_PrefabInternal: {fileID: 830295667}
---- !u!114 &2034782288
+--- !u!114 &2034782286
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -2378,10 +2355,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 484718f2c4ab849829491782b508958a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axis: {x: 1, y: 0, z: 0}
+  axis: {x: -1, y: 0, z: 0}
   defaultLocalRotation: {x: 0, y: 0, z: 0, w: 1}
   useLimits: 1
-  min: -90
+  min: -45
   max: 90
   zeroAxisDisplayOffset: 0
 --- !u!1 &2050635299
@@ -2651,13 +2628,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83c72cc49db6f61449d4f0b4d286a4b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MovementSpeed: 0
-  TurnSpeed: 0
-  StepDistance: 0
+  MovementSpeed: 3
+  TurnSpeed: 1
+  StepDistance: 3
   Torso: {fileID: 56605939}
   BreatRoot: {fileID: 0}
   BreathExcursion: .5
   BreatFreq: 1
+  RepositioningTime: .5
 --- !u!54 &2091605781
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2693,3 +2671,30 @@ MonoBehaviour:
   Up: 304
   Down: 32
   Fire: 323
+--- !u!1 &2146201274
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2146201275}
+  m_Layer: 0
+  m_Name: Root
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2146201275
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2146201274}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 566872032}
+  m_RootOrder: 5
