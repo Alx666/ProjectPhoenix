@@ -13,6 +13,7 @@ internal interface IControllerPlayer
     void EndTurnLeft();
     void BeginFire();
     void EndFire();
+
     void MousePosition(Vector3 vMousePosition);
 
     void BeginUp();
