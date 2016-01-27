@@ -518,9 +518,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8224965cf0fff0647b4ebdf860a77a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SteerAngle: 40
-  BrakeForce: 300
-  Hp: 100
+  Brake: 1000
+  Hp: 500
+  SteerAngle: 30
+  MaxSpeed: 100
 --- !u!114 &11417840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -550,24 +551,24 @@ WheelCollider:
   m_Center: {x: 0, y: .150000006, z: 0}
   m_Radius: .699999988
   m_SuspensionSpring:
-    spring: 1000
-    damper: 50
-    targetPosition: .5
-  m_SuspensionDistance: .300000012
-  m_ForceAppPointDistance: 1.10000002
+    spring: 100
+    damper: 30
+    targetPosition: .550000012
+  m_SuspensionDistance: .319999993
+  m_ForceAppPointDistance: .5
   m_Mass: 1
-  m_WheelDampingRate: .25
+  m_WheelDampingRate: .150000006
   m_ForwardFriction:
-    m_ExtremumSlip: .400000006
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: .800000012
-    m_AsymptoteValue: .5
+    m_ExtremumSlip: .5
+    m_ExtremumValue: 10
+    m_AsymptoteSlip: .5
+    m_AsymptoteValue: 5
     m_Stiffness: 1
   m_SidewaysFriction:
-    m_ExtremumSlip: .200000003
-    m_ExtremumValue: 1
+    m_ExtremumSlip: 1
+    m_ExtremumValue: 10
     m_AsymptoteSlip: .5
-    m_AsymptoteValue: .75
+    m_AsymptoteValue: 10
     m_Stiffness: 1
   m_Enabled: 1
 --- !u!146 &14669168
@@ -579,24 +580,24 @@ WheelCollider:
   m_Center: {x: 0, y: .150000006, z: 0}
   m_Radius: .699999988
   m_SuspensionSpring:
-    spring: 1000
-    damper: 50
-    targetPosition: .5
-  m_SuspensionDistance: .300000012
-  m_ForceAppPointDistance: 1.10000002
+    spring: 100
+    damper: 30
+    targetPosition: .550000012
+  m_SuspensionDistance: .319999993
+  m_ForceAppPointDistance: .5
   m_Mass: 1
-  m_WheelDampingRate: .25
+  m_WheelDampingRate: .150000006
   m_ForwardFriction:
-    m_ExtremumSlip: .400000006
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: .800000012
-    m_AsymptoteValue: .5
+    m_ExtremumSlip: .5
+    m_ExtremumValue: 10
+    m_AsymptoteSlip: .5
+    m_AsymptoteValue: 5
     m_Stiffness: 1
   m_SidewaysFriction:
-    m_ExtremumSlip: .200000003
-    m_ExtremumValue: 1
+    m_ExtremumSlip: 1
+    m_ExtremumValue: 10
     m_AsymptoteSlip: .5
-    m_AsymptoteValue: .75
+    m_AsymptoteValue: 10
     m_Stiffness: 1
   m_Enabled: 1
 --- !u!146 &14678484
@@ -608,24 +609,24 @@ WheelCollider:
   m_Center: {x: 0, y: .150000006, z: 0}
   m_Radius: .699999988
   m_SuspensionSpring:
-    spring: 1000
-    damper: 50
-    targetPosition: .5
-  m_SuspensionDistance: .300000012
-  m_ForceAppPointDistance: 1.10000002
+    spring: 100
+    damper: 30
+    targetPosition: .550000012
+  m_SuspensionDistance: .319999993
+  m_ForceAppPointDistance: .5
   m_Mass: 1
-  m_WheelDampingRate: .25
+  m_WheelDampingRate: .150000006
   m_ForwardFriction:
-    m_ExtremumSlip: .400000006
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: .800000012
-    m_AsymptoteValue: .5
+    m_ExtremumSlip: .5
+    m_ExtremumValue: 10
+    m_AsymptoteSlip: .5
+    m_AsymptoteValue: 5
     m_Stiffness: 1
   m_SidewaysFriction:
-    m_ExtremumSlip: .200000003
-    m_ExtremumValue: 1
+    m_ExtremumSlip: 1
+    m_ExtremumValue: 10
     m_AsymptoteSlip: .5
-    m_AsymptoteValue: .75
+    m_AsymptoteValue: 10
     m_Stiffness: 1
   m_Enabled: 1
 --- !u!146 &14698590
@@ -637,24 +638,24 @@ WheelCollider:
   m_Center: {x: 0, y: .150000006, z: 0}
   m_Radius: .699999988
   m_SuspensionSpring:
-    spring: 1000
-    damper: 50
-    targetPosition: .5
-  m_SuspensionDistance: .300000012
-  m_ForceAppPointDistance: 1.10000002
+    spring: 100
+    damper: 30
+    targetPosition: .550000012
+  m_SuspensionDistance: .319999993
+  m_ForceAppPointDistance: .5
   m_Mass: 1
-  m_WheelDampingRate: .25
+  m_WheelDampingRate: .150000006
   m_ForwardFriction:
-    m_ExtremumSlip: .400000006
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: .800000012
-    m_AsymptoteValue: .5
+    m_ExtremumSlip: .5
+    m_ExtremumValue: 10
+    m_AsymptoteSlip: .5
+    m_AsymptoteValue: 5
     m_Stiffness: 1
   m_SidewaysFriction:
-    m_ExtremumSlip: .200000003
-    m_ExtremumValue: 1
+    m_ExtremumSlip: 1
+    m_ExtremumValue: 10
     m_AsymptoteSlip: .5
-    m_AsymptoteValue: .75
+    m_AsymptoteValue: 10
     m_Stiffness: 1
   m_Enabled: 1
 --- !u!1001 &100100000

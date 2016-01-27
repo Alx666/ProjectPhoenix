@@ -3,9 +3,7 @@ using System.Collections;
 
 public interface IWeapon
 {
-    void OnbuttonReleased();
-
-    void OnbuttonPressed();
-
+    void OnFireButtonPressed();
+    void OnFireButtonReleased();
     bool IsFiring { get; }
 }

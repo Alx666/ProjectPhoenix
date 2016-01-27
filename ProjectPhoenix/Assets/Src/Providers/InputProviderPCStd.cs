@@ -12,9 +12,9 @@ internal class InputProviderPCStd : MonoBehaviour
     public KeyCode PanRight = KeyCode.E;
     public KeyCode PanLeft  = KeyCode.Q;
 
-    public KeyCode Up = KeyCode.LeftShift;
-    public KeyCode Down = KeyCode.Space;
-    public KeyCode Fire = KeyCode.Mouse0;
+    public KeyCode Up       = KeyCode.LeftShift;
+    public KeyCode Down     = KeyCode.Space;
+    public KeyCode Fire     = KeyCode.Mouse0;
 
     private IControllerPlayer m_hTarget;
 
@@ -69,6 +69,12 @@ internal class InputProviderPCStd : MonoBehaviour
             m_hTarget.BeginPanRight();
         if (Input.GetKeyUp(PanRight))
             m_hTarget.EndPanRight();
+
+        //FIRE
+        if (Input.GetKeyDown(Fire))
+            m_hTarget.BeginFire();
+        if (Input.GetKeyUp(Fire))
+            m_hTarget.EndFire();
 
         //MOUSEPOSITION
         m_hTarget.MousePosition(Input.mousePosition);

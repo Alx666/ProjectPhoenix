@@ -102,7 +102,7 @@ public class WeaponLaser : MonoBehaviour, IWeapon
 
 
 
-    public void OnbuttonPressed()
+    public void OnFireButtonPressed()
     {
         m_bFire = true;
         StartEffect.SetActive(true);
@@ -110,7 +110,7 @@ public class WeaponLaser : MonoBehaviour, IWeapon
     }
 
 
-    public void OnbuttonReleased()
+    public void OnFireButtonReleased()
     {
         m_bFire = false;
         m_hRenderer.enabled = false;

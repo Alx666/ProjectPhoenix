@@ -6,147 +6,134 @@ using System;
 
 internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
 {
-    [SerializeField]
-    internal float SteerAngle = 25;
-    [SerializeField]
-    internal float BrakeForce = 100f;
-    [SerializeField]
-    internal float Hp = 100f;
+    public float Brake = 100f;
+    public float Hp = 100f;
+    public float SteerAngle = 30f;
+    public float MaxSpeed = 50f;
 
-    private new Rigidbody rigidbody;
-    //private Transform turretTransform;
-    private List<Wheel> wheels;
-    private DriveSystem drive;
-    private BrakeSystem brake;
-    private bool reverse;
+    private List<Wheel> m_hWheels;
+    private Rigidbody m_hRigidbody;
+    private Drive m_hEngine;
+    private BrakeSystem m_hBrake;
+    private bool m_hBackward = false;
+    private bool m_hRight = false;
+    private bool m_hLeft = false;
 
     void Awake()
     {
-        rigidbody = this.GetComponent<Rigidbody>();
-        wheels = new List<Wheel>();
+        m_hWheels = new List<Wheel>();
+        m_hRigidbody = this.GetComponent<Rigidbody>();
+        m_hRigidbody.centerOfMass = new Vector3(m_hRigidbody.centerOfMass.x, 0.6f, m_hRigidbody.centerOfMass.z);
 
-        //Initialize wheels
+        //Initialize effective wheels
         List<Transform> gfxPos = this.GetComponentsInChildren<Transform>().Where(hT => hT.GetComponent<WheelCollider>() == null).ToList();
-        this.GetComponentsInChildren<WheelCollider>().ToList().ForEach(hW => wheels.Add(new Wheel(hW, gfxPos.OrderBy(hP => Vector3.Distance(hP.position, hW.transform.position)).First().gameObject)));
-        wheels = wheels.OrderByDescending(hW => hW.Collider.transform.position.z).ToList();
-        wheels.ForEach(hW => hW.Collider.forceAppPointDistance = rigidbody.centerOfMass.y - 0.5f);
+        this.GetComponentsInChildren<WheelCollider>().ToList().ForEach(hW => m_hWheels.Add(new Wheel(hW, gfxPos.OrderBy(hP => Vector3.Distance(hP.position, hW.transform.position)).First().gameObject)));
+        m_hWheels = m_hWheels.OrderByDescending(hW => hW.Collider.transform.position.z).ToList();
 
-        //Initialize Drive/Brake State Machine
-        drive = new DriveSystem(Hp, wheels);
-        brake = new BrakeSystem(0.4f * BrakeForce, 0.6f * BrakeForce, wheels);
+        //Todo: initialize extra wheels
+
+        //Initialize Drive/Brake System
+        m_hEngine = new Drive(Hp, m_hWheels);
+        m_hBrake = new BrakeSystem(0.4f * Brake, 0.6f * Brake, m_hWheels);
     }
 
     void Update()
     {
-        wheels.ForEach(hW => hW.OnUpdate());
+        m_hWheels.ForEach(hW => hW.OnUpdate());
+        m_hRigidbody.velocity = Vector3.ClampMagnitude(m_hRigidbody.velocity, MaxSpeed / 3.6f);
+
+        if (m_hRigidbody.velocity.magnitude > 0f && m_hRigidbody.velocity.magnitude < 1f)
+            m_hRigidbody.velocity = Vector3.zero;
     }
 
-    #region IControllerPlayer 
-
-    public void BeginBackward()
-    {
-        if (Mathf.Approximately(rigidbody.velocity.magnitude, 0f))
-        {
-            drive.BeginReverse();
-            reverse = true;
-        }
-        else if (!reverse)
-            brake.BeginBrake();
-    }
-
-    public void BeginDown()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void BeginFire()
-    {
-        throw new NotImplementedException();
-    }
+    #region IControllerPlayer
 
     public void BeginForward()
     {
-        drive.BeginAccelerate();
-    }
+        m_hBackward = false;
+        m_hBrake.EndBrake();
 
-    public void BeginPanLeft()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void BeginPanRight()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void BeginTurnLeft()
-    {
-        wheels[0].Steer(-this.SteerAngle);
-        wheels[1].Steer(-this.SteerAngle);
-    }
-
-    public void BeginTurnRight()
-    {
-        wheels[0].Steer(this.SteerAngle);
-        wheels[1].Steer(this.SteerAngle);
-    }
-
-    public void BeginUp()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void EndBackward()
-    {
-        if (!reverse)
-            brake.EndBrake();
-        else
-        {
-            drive.EndReverse();
-            reverse = false;
-        }
-    }
-
-    public void EndDown()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void EndFire()
-    {
-        throw new NotImplementedException();
+        m_hEngine.BeginAccelerate();
     }
 
     public void EndForward()
     {
-        drive.EndAccelerate();
+        m_hEngine.EndAccelerate();
     }
 
-    public void EndPanLeft()
+    public void BeginBackward()
     {
-        throw new NotImplementedException();
+        m_hBrake.EndBrake();
+        m_hEngine.EndAccelerate();
+
+        if (Mathf.Approximately(m_hRigidbody.velocity.magnitude, 0f))
+        {
+            m_hEngine.BeginReverse();
+            m_hBackward = true;
+        }
+        else if (!m_hBackward)
+            m_hBrake.BeginBrake();
     }
 
-    public void EndPanRight()
+    public void EndBackward()
     {
-        throw new NotImplementedException();
+        if (!m_hBackward)
+            m_hBrake.EndBrake();
+        else
+        {
+            m_hEngine.EndReverse();
+            m_hBackward = false;
+        }
     }
 
-    public void EndTurnLeft()
+    public void BeginTurnRight()
     {
-        wheels[0].Steer(0);
-        wheels[1].Steer(0);
+        if (m_hLeft)
+            EndTurnLeft();
+
+        m_hRight = true;
+        m_hWheels[0].Steer(this.SteerAngle);
+        m_hWheels[1].Steer(this.SteerAngle);
     }
 
     public void EndTurnRight()
     {
-        wheels[0].Steer(0);
-        wheels[1].Steer(0);
+        if(m_hRight)
+        {
+            m_hRight = false;
+            m_hWheels[0].Steer(0);
+            m_hWheels[1].Steer(0);
+        } 
     }
 
-    public void EndUp()
+    public void BeginTurnLeft()
     {
-        throw new NotImplementedException();
+        if (m_hRight)
+            EndTurnRight();
+
+        m_hLeft = true;
+        m_hWheels[0].Steer(-this.SteerAngle);
+        m_hWheels[1].Steer(-this.SteerAngle);
+    }
+
+    public void EndTurnLeft()
+    {
+        if (m_hLeft)
+        {
+            m_hLeft = false;
+            m_hWheels[0].Steer(0);
+            m_hWheels[1].Steer(0);
+        }
+    }
+
+    public void BeginFire()
+    {
+
+    }
+
+    public void EndFire()
+    {
+
     }
 
     public void MousePosition(Vector3 vMousePosition)
@@ -155,84 +142,121 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
         //if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
         //    this.m_hTurretPosition.LookAt(hit.point);
     }
+
+    public void BeginUp()
+    {
+
+    }
+
+    public void EndUp()
+    {
+
+    }
+
+    public void BeginDown()
+    {
+
+    }
+
+    public void EndDown()
+    {
+
+    }
+
+    public void BeginPanLeft()
+    {
+
+    }
+
+    public void EndPanLeft()
+    {
+
+    }
+
+    public void BeginPanRight()
+    {
+
+    }
+
+    public void EndPanRight()
+    {
+
+    }
+
     #endregion
 
-    #region DriveSystem
-    internal class DriveSystem
+    #region Drive and Brake system
+
+    private class Drive
     {
-        private float hp;
-        private List<Wheel> wheels;
+        private float m_fHp;
+        private List<Wheel> m_hWheels;
 
-        internal DriveSystem(float fHp, List<Wheel> hWheels)
+        public Drive(float fHp, List<Wheel> hWheels)
         {
-            hp = fHp;
-            wheels = hWheels;
+            m_fHp = fHp;
+            m_hWheels = hWheels;
         }
-
-        internal void BeginAccelerate()
+        public void BeginRotate()
+        {
+            m_hWheels.ForEach(hW => hW.Collider.motorTorque = m_fHp * 0.25f);
+        }
+        public void EndRotate()
+        {
+            m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
+        }
+        public void BeginAccelerate()
         {
             //AWD
-            wheels.ForEach(hW => hW.Collider.motorTorque = hp * 0.25f);
-
-            //FWD
-            //wheels.Take(2).ToList().ForEach(hW => hW.Collider.motorTorque = hp * 0.5f); 
-
-            //BWD
-            //wheels.Skip(2).ToList().ForEach(hW => hW.Collider.motorTorque = hp * 0.5f);
+            m_hWheels.ForEach(hW => hW.Collider.motorTorque = m_fHp * 0.25f);
         }
 
-        internal void EndAccelerate()
+        public void EndAccelerate()
         {
-            wheels.ForEach(hW => hW.Collider.motorTorque = 0f);
+            m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
         }
 
-        internal void BeginReverse()
+        public void BeginReverse()
         {
             //AWD
-            wheels.ForEach(hW => hW.Collider.motorTorque = -(hp * 0.25f));
-
-            //FWD
-            //wheels.Take(2).ToList().ForEach(hW => hW.Collider.motorTorque = -(hp * 0.5f)); 
-
-            //BWD
-            //wheels.Skip(2).ToList().ForEach(hW => hW.Collider.motorTorque = -(hp * 0.5f));
+            m_hWheels.ForEach(hW => hW.Collider.motorTorque = -(m_fHp * 0.25f));
         }
 
-        internal void EndReverse()
+        public void EndReverse()
         {
-            wheels.ForEach(hW => hW.Collider.motorTorque = 0f);
+            m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
         }
     }
-    #endregion
 
-    #region BrakeSystem
-    internal class BrakeSystem
+    private class BrakeSystem
     {
-        private float forwardBrake;
-        private float backwardBrake;
-        private List<Wheel> wheels;
+        private float m_fForwardBrake;
+        private float m_fBackwardBrake;
+        private List<Wheel> m_hWheels;
 
-        internal BrakeSystem(float fForwardBrake, float fBackwardBrake, List<Wheel> hWheels)
+        public BrakeSystem(float fForwardBrake, float fBackwardBrake, List<Wheel> hWheels)
         {
-            forwardBrake = fForwardBrake;
-            backwardBrake = fBackwardBrake;
-            wheels = hWheels;
+            m_fForwardBrake = fForwardBrake;
+            m_fBackwardBrake = fBackwardBrake;
+            m_hWheels = hWheels;
         }
 
-        internal void BeginBrake()
+        public void BeginBrake()
         {
-            wheels.Take(2).ToList().ForEach(hW => hW.Collider.brakeTorque = forwardBrake);
-            wheels.Skip(2).ToList().ForEach(hW => hW.Collider.brakeTorque = backwardBrake);
+            m_hWheels.Take(2).ToList().ForEach(hW => hW.Collider.brakeTorque = m_fForwardBrake);
+            m_hWheels.Skip(2).ToList().ForEach(hW => hW.Collider.brakeTorque = m_fBackwardBrake);
         }
 
-        internal void EndBrake()
+        public void EndBrake()
         {
-            wheels.ForEach(hW => hW.Collider.brakeTorque = 0f);
+            m_hWheels.ForEach(hW => hW.Collider.brakeTorque = 0f);
         }
     }
+
     #endregion
 
     #region Wheel
+
     internal class Wheel
     {
         internal WheelCollider Collider { get; private set; }
@@ -254,11 +278,12 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
             Vector3 position;
             Quaternion rotation;
             Collider.GetWorldPose(out position, out rotation);
-            
+
             Gfx.transform.position = position;
             Gfx.transform.rotation = rotation;
         }
     }
+
     #endregion
 }
 

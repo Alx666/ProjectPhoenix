@@ -82,22 +82,7 @@ public class Bullet : MonoBehaviour, IPoolable, IBullet
                 Pool.Recycle(this.gameObject);
             }
         }
-        else
-        {
-            Shield hShield = hColl.gameObject.GetComponent<Shield>();
-            if (hShield)
-            {
-                //Has hit the shield, so reverse bullet direction
-                Vector3 vCounterDirection = -(hShield.transform.position - this.transform.position);
-                //Quaternion vRandomAngle = Quaternion.EulerAngles(0f, UnityEngine.Random.Range(0f, 10.0f), 0f);
-                //vCounterDirection = vCounterDirection;
-                vCounterDirection.Normalize();
-
-                Rigidbody hPhysBody = this.GetComponent<Rigidbody>();
-                this.transform.forward = vCounterDirection;
-                hPhysBody.velocity = vCounterDirection * hPhysBody.velocity.magnitude;
-            }
-        }
+       
     }
 
     public Pool Pool { get; set; }
