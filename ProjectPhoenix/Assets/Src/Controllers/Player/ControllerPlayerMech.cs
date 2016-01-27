@@ -206,11 +206,15 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
         float fRes;
         Ray vRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         vPlane.Raycast(vRay, out fRes);
-
+        
+        float angle = Mathf.Acos( Vector3.Dot(this.transform.position.normalized, m_vTorsoDirection.normalized));
+        Debug.Log(angle);
         m_vTorsoDirection = vRay.GetPoint(fRes);
-        m_vTorsoDirection.y = Torso.transform.position.y;
-
-        Torso.transform.LookAt(m_vTorsoDirection);
+        m_vTorsoDirection.x = 0f;
+        m_vTorsoDirection.z = 0f;
+        Debug.Log(m_vTorsoDirection);
+        Torso.transform.rotation = Quaternion.Euler(m_vTorsoDirection);
+        //Torso.transform.LookAt(m_vTorsoDirection);
     }
 
 
