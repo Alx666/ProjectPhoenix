@@ -1,50 +1,47 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System;
-using RootMotion.FinalIK;
-using System.Linq;
 
 [RequireComponent(typeof(Rigidbody))]
-internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
+internal class ControllerSpiderMech : MonoBehaviour, IControllerPlayer
 {
-    public float        MovementSpeed     = 3f;
-    public float        TurnSpeed         = 0.3f;
-    public float        StepDistance      = 2f;
-    public GameObject   Torso;
-    public GameObject   BreatRoot;
-    public float        BreathExcursion   = 0.003f;
-    public float        BreatFreq         = 0.2f;
+    public float MovementSpeed = 3f;
+    public float TurnSpeed = 0.3f;
+    public float StepDistance = 2f;
+    public GameObject Torso;
+    public GameObject BreatRoot;
+    public float BreathExcursion = 0.003f;
+    public float BreatFreq = 0.2f;
     public float RotationSpeed = 5f;
 
-    private Rigidbody   m_hBody;    
-    private Vector3     m_vTurn;
-    private Vector3     m_vTorsoDirection;
-    private bool        m_bMoveForward;
-    private bool        m_bMoveBackward;
+    private Rigidbody m_hBody;
+    private Vector3 m_vTurn;
+    private Vector3 m_vTorsoDirection;
+    private bool m_bMoveForward;
+    private bool m_bMoveBackward;
     private bool switchLeg;
 
     private Quaternion baseRotation;
     private Quaternion targetRotation;
 
-    private Queue<IKLeg> m_hLegs;
-    private IKLeg        m_hLeg;
+    private Queue<IKLegSpider> m_hLegs;
+    private IKLegSpider m_hLeg;
     public float RepositioningTime = 0.5f;
 
     void Start()
     {
-        m_hLegs = new Queue<IKLeg>(this.GetComponentsInChildren<IKLeg>());        
-        m_hLeg  = m_hLegs.Dequeue();
-        
+        m_hLegs = new Queue<IKLegSpider>(this.GetComponentsInChildren<IKLegSpider>());
+        m_hLeg = m_hLegs.Dequeue();
+
         m_hBody = this.GetComponent<Rigidbody>();
         baseRotation = Torso.transform.rotation;
     }
 
     void Update()
     {
-        float fy = BreathExcursion * Mathf.Sin(2.0f * Mathf.PI * BreatFreq * Time.time);
-        Vector3 vRootPos = BreatRoot.transform.position;
-        vRootPos.y += fy;
-        BreatRoot.transform.position = vRootPos;
+        //float fy = BreathExcursion * Mathf.Sin(2.0f * Mathf.PI * BreatFreq * Time.time);
+        //Vector3 vRootPos = BreatRoot.transform.position;
+        //vRootPos.y += fy;
+        //BreatRoot.transform.position = vRootPos;
 
 
         if (m_bMoveForward)
@@ -60,10 +57,10 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
             if (!m_hLeg.IsRepositioning)
             {
                 m_hLeg.BeginRepositionFront();
-            }           
-                
+            }
+
         }
-        else if(m_bMoveBackward)
+        else if (m_bMoveBackward)
         {
             if (!switchLeg)
             {
@@ -96,14 +93,14 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
         }
     }
 
-    public void EndReposition(IKLeg hLeg)
+    public void EndReposition(IKLegSpider hLeg)
     {
         m_hBody.velocity = Vector3.zero;
         m_hLegs.Enqueue(hLeg);
         m_hLeg = m_hLegs.Dequeue();
     }
 
-    private void SwitchLeg(IKLeg hLeg)
+    private void SwitchLeg(IKLegSpider hLeg)
     {
         m_hLegs.Enqueue(hLeg);
         m_hLeg = m_hLegs.Dequeue();
@@ -112,7 +109,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
 
     public void BeginForward()
     {
-        m_bMoveForward  = true;
+        m_bMoveForward = true;
     }
     public void EndForward()
     {
@@ -205,7 +202,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
 
     }
 
-    
+
 
     //Turn the torso in the direction of mouse position
     public void MousePosition(Vector3 vMousePosition)
@@ -213,7 +210,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
         Plane vPlane = new Plane(Vector3.up, this.gameObject.transform.position);
         float fRes;
         Ray vRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        
+
 
         if (vPlane.Raycast(vRay, out fRes))
         {
@@ -239,5 +236,4 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
     {
 
     }
-
 }

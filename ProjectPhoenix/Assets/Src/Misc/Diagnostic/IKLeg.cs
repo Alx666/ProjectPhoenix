@@ -57,7 +57,8 @@ public class IKLeg : MonoBehaviour
 
     public void BeginRepositionFront()
     {
-        IsRepositioning = true;        
+        IsRepositioning = true;
+        Debug.Log(this.gameObject +" "+ m_hIK.GetIKPosition() + " " + UpLocator.transform.position + " " + m_hController.RepositioningTime);        
         LeanTween.value(this.gameObject, m_hIK.GetIKPosition(), UpLocator.transform.position, m_hController.RepositioningTime).setOnUpdateVector3(OnUpdateVector3).setOnComplete(OnForwardUpComplete);
     }
 
