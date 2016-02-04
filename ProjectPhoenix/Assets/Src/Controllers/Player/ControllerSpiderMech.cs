@@ -114,19 +114,17 @@ internal class ControllerSpiderMech : MonoBehaviour, IControllerPlayer
         else
             m_hLeg.leg2done = true;
 
-        EndReposition(m_hLeg);
+        if (m_hLeg.leg1done && m_hLeg.leg2done)
+            EndReposition(m_hLeg);
     }
 
     private void EndReposition(LegCouple hLeg)
     {
-        if(m_hLeg.leg1done && m_hLeg.leg2done)
-        {
-            m_hLeg.leg1done = false;
-            m_hLeg.leg2done = false;
-            m_hBody.velocity = Vector3.zero;
-            m_hLegs.Enqueue(hLeg);
-            m_hLeg = m_hLegs.Dequeue();
-        }
+        m_hLeg.leg1done = false;
+        m_hLeg.leg2done = false;
+        m_hBody.velocity = Vector3.zero;
+        m_hLegs.Enqueue(hLeg);
+        m_hLeg = m_hLegs.Dequeue();
     }
 
     private void SwitchLeg(LegCouple hLeg)
