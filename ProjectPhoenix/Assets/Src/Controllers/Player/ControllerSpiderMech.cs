@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 
 [RequireComponent(typeof(Rigidbody))]
 internal class ControllerSpiderMech : MonoBehaviour, IControllerPlayer
@@ -23,13 +24,23 @@ internal class ControllerSpiderMech : MonoBehaviour, IControllerPlayer
     private Quaternion baseRotation;
     private Quaternion targetRotation;
 
-    private Queue<IKLegSpider> m_hLegs;
-    private IKLegSpider m_hLeg;
+    private Queue<LegCouple> m_hLegs;
+    private LegCouple m_hLeg;
+    private List<IKLegSpider> legsList;
+
     public float RepositioningTime = 0.5f;
 
     void Start()
     {
-        m_hLegs = new Queue<IKLegSpider>(this.GetComponentsInChildren<IKLegSpider>());
+        legsList = new List<IKLegSpider>(this.GetComponentsInChildren<IKLegSpider>());
+
+        LegCouple firstCouple = new LegCouple(legsList[0], legsList[1]);
+        LegCouple secondCouple = new LegCouple(legsList[2], legsList[3]);
+
+        m_hLegs = new Queue<LegCouple>();
+        m_hLegs.Enqueue(firstCouple);
+        m_hLegs.Enqueue(secondCouple);
+
         m_hLeg = m_hLegs.Dequeue();
 
         m_hBody = this.GetComponent<Rigidbody>();
@@ -53,10 +64,11 @@ internal class ControllerSpiderMech : MonoBehaviour, IControllerPlayer
             }
 
             m_hBody.velocity = this.transform.forward * this.MovementSpeed;
-
-            if (!m_hLeg.IsRepositioning)
+            
+            if (!m_hLeg.leg1.IsRepositioning && !m_hLeg.leg1.IsRepositioning)
             {
-                m_hLeg.BeginRepositionFront();
+                m_hLeg.leg1.BeginRepositionFront();
+                m_hLeg.leg2.BeginRepositionFront();
             }
 
         }
@@ -70,9 +82,10 @@ internal class ControllerSpiderMech : MonoBehaviour, IControllerPlayer
 
             m_hBody.velocity = -this.transform.forward * this.MovementSpeed;
 
-            if (!m_hLeg.IsRepositioning)
+            if (!m_hLeg.leg1.IsRepositioning && !m_hLeg.leg1.IsRepositioning)
             {
-                m_hLeg.BeginRepositionRear();
+                m_hLeg.leg1.BeginRepositionRear();
+                m_hLeg.leg2.BeginRepositionRear();
             }
         }
 
@@ -80,9 +93,10 @@ internal class ControllerSpiderMech : MonoBehaviour, IControllerPlayer
         {
             m_hBody.angularVelocity = m_vTurn.normalized * this.TurnSpeed;
 
-            if (!m_hLeg.IsRepositioning)
+            if (!m_hLeg.leg1.IsRepositioning && !m_hLeg.leg1.IsRepositioning)
             {
-                m_hLeg.BeginRepositionCenter();
+                m_hLeg.leg1.BeginRepositionCenter();
+                m_hLeg.leg2.BeginRepositionCenter();
             }
 
             baseRotation = Torso.transform.rotation;
@@ -95,12 +109,27 @@ internal class ControllerSpiderMech : MonoBehaviour, IControllerPlayer
 
     public void EndReposition(IKLegSpider hLeg)
     {
-        m_hBody.velocity = Vector3.zero;
-        m_hLegs.Enqueue(hLeg);
-        m_hLeg = m_hLegs.Dequeue();
+        if (hLeg == m_hLeg.leg1)
+            m_hLeg.leg1done = true;
+        else
+            m_hLeg.leg2done = true;
+
+        EndReposition(m_hLeg);
     }
 
-    private void SwitchLeg(IKLegSpider hLeg)
+    private void EndReposition(LegCouple hLeg)
+    {
+        if(m_hLeg.leg1done && m_hLeg.leg2done)
+        {
+            m_hLeg.leg1done = false;
+            m_hLeg.leg2done = false;
+            m_hBody.velocity = Vector3.zero;
+            m_hLegs.Enqueue(hLeg);
+            m_hLeg = m_hLegs.Dequeue();
+        }
+    }
+
+    private void SwitchLeg(LegCouple hLeg)
     {
         m_hLegs.Enqueue(hLeg);
         m_hLeg = m_hLegs.Dequeue();
@@ -234,6 +263,23 @@ internal class ControllerSpiderMech : MonoBehaviour, IControllerPlayer
 
     private class StateMove
     {
+
+    }
+
+    internal class LegCouple
+    {
+        public IKLegSpider leg1;
+        public IKLegSpider leg2;
+
+        public bool leg1done { get; set; }
+        public bool leg2done { get; set; }
+
+        public LegCouple(IKLegSpider leg1, IKLegSpider leg2)
+        {
+            this.leg1 = leg1;
+            this.leg2 = leg2;
+        }
+
 
     }
 }

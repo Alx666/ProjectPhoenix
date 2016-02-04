@@ -37,7 +37,7 @@ public class IKLegSpider : MonoBehaviour
 
     private void OnBackwardUpComplete()
     {
-        LeanTween.value(this.gameObject, m_hIK.GetIKPosition(), RearLocator.transform.position, m_hController.RepositioningTime).setOnUpdateVector3(OnUpdateVector3).setOnComplete(BeginRepositionDown);
+        LeanTween.value(this.gameObject, m_hIK.GetIKPosition(), RearLocator.transform.position, m_hController.RepositioningTime).setOnUpdateVector3(OnUpdateVector3).setOnComplete(OnLegDownComplete);
     }
 
     private void OnCenterUpComplete()
