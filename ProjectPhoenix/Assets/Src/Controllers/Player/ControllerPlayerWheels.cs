@@ -12,9 +12,11 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
     public float MaxSpeed = 50f;
 
     private List<Wheel> m_hWheels;
+    private List<FakeWheel> m_hFakeWheels;
     private Rigidbody m_hRigidbody;
     private Drive m_hEngine;
     private BrakeSystem m_hBrake;
+    private bool m_hForward = false;
     private bool m_hBackward = false;
     private bool m_hRight = false;
     private bool m_hLeft = false;
@@ -30,7 +32,8 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
         this.GetComponentsInChildren<WheelCollider>().ToList().ForEach(hW => m_hWheels.Add(new Wheel(hW, gfxPos.OrderBy(hP => Vector3.Distance(hP.position, hW.transform.position)).First().gameObject)));
         m_hWheels = m_hWheels.OrderByDescending(hW => hW.Collider.transform.position.z).ToList();
 
-        //Todo: initialize extra wheels
+        //Initialize extra wheels
+        m_hFakeWheels = GetComponentsInChildren<FakeWheel>().ToList();
 
         //Initialize Drive/Brake System
         m_hEngine = new Drive(Hp, m_hWheels);
@@ -40,6 +43,8 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
     void Update()
     {
         m_hWheels.ForEach(hW => hW.OnUpdate());
+        m_hFakeWheels.ForEach(hfw => hfw.OnUpdate(m_hWheels.Last().Collider));
+
         m_hRigidbody.velocity = Vector3.ClampMagnitude(m_hRigidbody.velocity, MaxSpeed / 3.6f);
 
         if (m_hRigidbody.velocity.magnitude > 0f && m_hRigidbody.velocity.magnitude < 1f)
@@ -50,47 +55,44 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
 
     public void BeginForward()
     {
-        m_hBackward = false;
-        m_hBrake.EndBrake();
-
+        m_hForward = true;
         m_hEngine.BeginAccelerate();
     }
 
     public void EndForward()
     {
-        m_hEngine.EndAccelerate();
+        m_hForward = false;
+        if (m_hBackward)
+        {
+            m_hEngine.BeginBackward();
+        }
+        else
+        {
+            m_hEngine.EndAccelerate();
+        }
     }
 
     public void BeginBackward()
     {
-        m_hBrake.EndBrake();
-        m_hEngine.EndAccelerate();
-
-        if (Mathf.Approximately(m_hRigidbody.velocity.magnitude, 0f))
-        {
-            m_hEngine.BeginReverse();
-            m_hBackward = true;
-        }
-        else if (!m_hBackward)
-            m_hBrake.BeginBrake();
+        m_hBackward = true;
+        m_hEngine.BeginBackward();
     }
 
     public void EndBackward()
     {
-        if (!m_hBackward)
-            m_hBrake.EndBrake();
+        m_hBackward = false;
+        if (m_hForward)
+        {
+            m_hEngine.BeginAccelerate();
+        }
         else
         {
-            m_hEngine.EndReverse();
-            m_hBackward = false;
+            m_hEngine.EndBackward();
         }
     }
 
     public void BeginTurnRight()
     {
-        if (m_hLeft)
-            EndTurnLeft();
-
         m_hRight = true;
         m_hWheels[0].Steer(this.SteerAngle);
         m_hWheels[1].Steer(this.SteerAngle);
@@ -98,19 +100,21 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
 
     public void EndTurnRight()
     {
-        if(m_hRight)
+        m_hRight = false;
+        if (m_hLeft)
         {
-            m_hRight = false;
+            m_hWheels[0].Steer(-this.SteerAngle);
+            m_hWheels[1].Steer(-this.SteerAngle);
+        }
+        else
+        {
             m_hWheels[0].Steer(0);
             m_hWheels[1].Steer(0);
-        } 
+        }
     }
 
     public void BeginTurnLeft()
     {
-        if (m_hRight)
-            EndTurnRight();
-
         m_hLeft = true;
         m_hWheels[0].Steer(-this.SteerAngle);
         m_hWheels[1].Steer(-this.SteerAngle);
@@ -118,9 +122,14 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
 
     public void EndTurnLeft()
     {
-        if (m_hLeft)
+        m_hLeft = false;
+        if (m_hRight)
         {
-            m_hLeft = false;
+            m_hWheels[0].Steer(this.SteerAngle);
+            m_hWheels[1].Steer(this.SteerAngle);
+        }
+        else
+        {
             m_hWheels[0].Steer(0);
             m_hWheels[1].Steer(0);
         }
@@ -216,13 +225,13 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
         }
 
-        public void BeginReverse()
+        public void BeginBackward()
         {
             //AWD
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = -(m_fHp * 0.25f));
         }
 
-        public void EndReverse()
+        public void EndBackward()
         {
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
         }
