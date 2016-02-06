@@ -145,21 +145,22 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
 
         public IState OnStateUpdate()
         {
-            Vector3 baseDirection = (owner.target.transform.position - owner.AxeXrot.transform.position).normalized;
+            Vector3 baseDirection = (owner.target.transform.position - owner.AxeYrot.transform.position).normalized;
             float rotY = Mathf.Atan2(baseDirection.x, baseDirection.z) * (180 / Mathf.PI);
 
             // Z axis inclination
             Vector3 cannonInclination = owner.AxeXrot.transform.rotation.eulerAngles;
-            float angle = Vector3.Distance(owner.target.transform.position, owner.AxeXrot.transform.position) / owner.RotationSpeed;
+            float angle = Vector3.Distance(owner.AxeXrot.transform.position, owner.target.transform.position) /owner.RotationSpeed;
+            cannonInclination.z = (-Mathf.Atan(angle) * (180 / Mathf.PI)) / 4.0F;
 
-            cannonInclination.y = (-Mathf.Atan(angle) * (180 / Mathf.PI)) / 4.0F;
+            if (owner.target.transform.position.y <= owner.transform.position.y)
+                cannonInclination.z = -cannonInclination.z;
 
-            cannonInclination.x = Mathf.Clamp(Mathf.Abs(cannonInclination.y), owner.minRange, 0);
-
+            cannonInclination.z = Mathf.Clamp(cannonInclination.z, owner.minRange, Math.Abs(owner.minRange));
             owner.AxeYrot.transform.rotation = Quaternion.Slerp(owner.AxeYrot.transform.rotation, Quaternion.Euler(owner.AxeYrot.transform.eulerAngles.x, rotY, owner.AxeYrot.transform.eulerAngles.z), Time.deltaTime * owner.RotationSpeed);
-            owner.AxeXrot.transform.rotation = Quaternion.Slerp(owner.AxeXrot.transform.rotation, Quaternion.Euler(cannonInclination.x, owner.AxeXrot.transform.transform.eulerAngles.y, owner.AxeXrot.transform.transform.eulerAngles.z), Time.deltaTime * owner.RotationSpeed);
+            owner.AxeXrot.transform.rotation = Quaternion.Slerp(owner.AxeXrot.transform.rotation, Quaternion.Euler(cannonInclination.z, owner.AxeYrot.transform.eulerAngles.y, owner.AxeXrot.transform.eulerAngles.z), Time.deltaTime * owner.RotationSpeed);
 
-         
+
             if (!owner.Trovato)
             {
                 return Idle;
