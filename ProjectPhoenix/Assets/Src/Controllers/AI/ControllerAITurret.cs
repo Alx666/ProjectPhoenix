@@ -9,6 +9,7 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
     public float minRange;
     public float maxRange;
     public  bool Trovato = false;
+    private float tolerance = 1f;   //Gli dò 1 grado come angolo di tolleranza
 
     public float RotationSpeed = 10;
     public IState CurrentState { get; set; }
@@ -116,16 +117,18 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
            
             yRot.transform.localRotation = Quaternion.Slerp(yRot.transform.localRotation, Quaternion.LookRotation(vRotation), owner.RotationSpeed * Time.deltaTime);
 
-
-            if (Mathf.Approximately ( yRot.transform.localEulerAngles.y , newPosition.eulerAngles.y ))
-                
+            if (yRot.transform.localEulerAngles.y >= newPosition.eulerAngles.y - owner.tolerance && yRot.transform.localEulerAngles.y <= newPosition.eulerAngles.y + owner.tolerance)
+            {
+                Idle.OnStateEnter();
                 return Idle;
-            else if (owner.Trovato )
+            }
+            if (owner.Trovato )
             {
                 Attack.OnStateEnter();
                 return Attack;
             }
-                return this;   
+
+            return this;   
         }
     }
     class AttackState : IState
