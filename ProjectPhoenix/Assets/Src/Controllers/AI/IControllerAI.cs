@@ -3,9 +3,11 @@ using System.Collections;
 
 internal interface IControllerAI
 {
-    GameObject target { get; set; }
+    GameObject Target { get; set; }
     void Idle();
 
     void Patrol();
+
+    void Attack();
 
 }

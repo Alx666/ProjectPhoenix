@@ -2,18 +2,177 @@
 using System.Collections;
 using System;
 
-internal class ControllerAITurret : MonoBehaviour, IControllerAI
+public class ControllerAITurret : MonoBehaviour, IControllerAI
 {
-    public GameObject Target;
-    public float maxDistance;
-    public float maxVelocity = 10.0F;
-    private float vRotation = 30.0F;
-    public Transform cannon;
-    public Transform baseCannon;
-    public Transform Raycast;
-    public float MinRange;
+    public GameObject AxeYrot;
+    public GameObject AxeXrot;
+    public float minRange;
+    public float maxRange;
+    public  bool Trovato = false;
 
-    public GameObject target
+    public float RotationSpeed = 10;
+    public IState CurrentState { get; set; }
+    //public bool Trovato = true;
+    public string DEBUG_STATE;
+ 
+    void Awake()
+    {
+        IdleState stateIdle = new IdleState(this);
+        PatrolState statepatrol = new PatrolState(this);
+        AttackState stateAttack = new AttackState(this);
+
+        stateIdle.Patrol = statepatrol;
+        stateIdle.Attack = stateAttack;
+
+        statepatrol.Idle = stateIdle;
+        statepatrol.Attack = stateAttack;
+
+        stateAttack.Idle = stateIdle;
+
+        //Init
+        CurrentState = stateIdle;
+        CurrentState.OnStateEnter();
+    }
+	void Start ()
+    {
+        
+    }
+	void Update ()
+    {
+        DEBUG_STATE = CurrentState.ToString();
+        CurrentState = CurrentState.OnStateUpdate();
+    }
+    
+
+    public interface IState
+    {
+        void OnStateEnter();
+        IState OnStateUpdate();
+    }
+
+    class IdleState : IState
+    {
+        ControllerAITurret owner;
+        public IState Patrol { get; internal set; }
+        public IState Attack { get; internal set; }
+
+        private float timer;
+
+        public IdleState(ControllerAITurret owner)
+        {
+            this.owner = owner;
+        }
+        public void OnStateEnter()
+        {
+            timer = UnityEngine.Random.Range(1f, 3f);
+        }
+        public IState OnStateUpdate()
+        {
+            timer = Mathf.Clamp(timer - Time.deltaTime, 0f, timer);
+            if(timer == 0f)
+            {
+                Patrol.OnStateEnter();
+                return Patrol;
+            }
+            return this;
+        }
+    }
+    class PatrolState : IState
+    {
+        private ControllerAITurret owner;
+
+        public IState Idle { get; internal set; }
+        public IState Attack { get; internal set; }
+
+        float yAngle;
+        Transform yRot;
+        Transform xRot;
+
+        Vector3 vRotation;
+
+        public PatrolState(ControllerAITurret owner)
+        {
+            this.owner = owner;
+
+            yRot = this.owner.AxeYrot.transform;
+            xRot = this.owner.AxeXrot.transform;
+        }
+
+        public void OnStateEnter()
+        {
+          
+            yAngle = UnityEngine.Random.Range(-180f, 180f);
+       
+
+            yAngle += yRot.transform.localRotation.eulerAngles.y;
+           
+
+            vRotation = Quaternion.Euler(0, yAngle, 0) * yRot.transform.forward;
+        }
+
+        public IState OnStateUpdate()
+        {
+            Quaternion newPosition = Quaternion.LookRotation(vRotation);
+           
+            yRot.transform.localRotation = Quaternion.Slerp(yRot.transform.localRotation, Quaternion.LookRotation(vRotation), owner.RotationSpeed * Time.deltaTime);
+
+
+            if (Mathf.Approximately ( yRot.transform.localEulerAngles.y , newPosition.eulerAngles.y ))
+                
+                return Idle;
+            else if (owner.Trovato )
+            {
+                Attack.OnStateEnter();
+                return Attack;
+            }
+                return this;   
+        }
+    }
+    class AttackState : IState
+    {
+        private ControllerAITurret owner;
+
+        public IState Idle { get; internal set; }
+
+        public AttackState(ControllerAITurret owner)
+        {
+            this.owner = owner;
+        }
+        public void OnStateEnter()
+        {
+
+        }
+
+        public IState OnStateUpdate()
+        {
+            Vector3 baseDirection = (owner.target.transform.position - owner.AxeXrot.transform.position).normalized;
+            float rotY = Mathf.Atan2(baseDirection.x, baseDirection.z) * (180 / Mathf.PI);
+
+            // Z axis inclination
+            Vector3 cannonInclination = owner.AxeXrot.transform.rotation.eulerAngles;
+            float angle = Vector3.Distance(owner.target.transform.position, owner.AxeYrot.transform.position) / owner.RotationSpeed;
+
+            float angle2 = owner.target.transform.position.y - owner.AxeYrot.transform.position.y;
+            cannonInclination.y = (-Mathf.Atan(angle) * (180 / Mathf.PI)) / 4.0F;
+
+            cannonInclination.x = Mathf.Clamp(Mathf.Abs(cannonInclination.y), owner.minRange, owner.maxRange);
+
+            owner.AxeYrot.transform.rotation = Quaternion.Slerp(owner.AxeYrot.transform.rotation, Quaternion.Euler(owner.AxeYrot.transform.eulerAngles.x, rotY, owner.AxeYrot.transform.eulerAngles.z), Time.deltaTime * owner.RotationSpeed);
+            owner.AxeXrot.transform.rotation = Quaternion.Slerp(owner.AxeXrot.transform.rotation, Quaternion.Euler(cannonInclination.x, owner.AxeXrot.transform.transform.eulerAngles.y, owner.AxeXrot.transform.transform.eulerAngles.z), Time.deltaTime * owner.RotationSpeed);
+        
+            if (!owner.Trovato)
+            {
+                return Idle;
+            }
+            return this;
+        }
+    }
+
+    #region IAITurret
+    public  GameObject target;
+  
+
+    public GameObject Target
     {
         get
         {
@@ -22,72 +181,17 @@ internal class ControllerAITurret : MonoBehaviour, IControllerAI
 
         set
         {
-            target = Target;
+            target = value;
         }
     }
-
-    void Update()
-    {
-        if (IsFindTarget())
-        {
-            Patrol();
-        }
-        else
-            Idle();
-    }
-
     public void Idle()
     {
-       
     }
-
     public void Patrol()
     {
-        float distance = Vector3.Distance(Target.transform.position, this.transform.position);
-        if (distance < maxDistance)
-        { 
-
-            // Y axis rotate
-            Vector3 baseDirection = (Target.transform.position - cannon.transform.position).normalized;
-            float rotY = Mathf.Atan2(baseDirection.x, baseDirection.z) * (180 / Mathf.PI);
-
-            baseCannon.transform.rotation = Quaternion.Slerp(baseCannon.transform.rotation, Quaternion.Euler(baseCannon.transform.eulerAngles.x, rotY, baseCannon.transform.eulerAngles.z), Time.deltaTime * maxVelocity);
-
-            //Xaxis rotate
-            Vector3 cannonInclination = cannon.transform.rotation.eulerAngles;
-            float angle = Vector3.Distance(Target.transform.position, cannon.transform.position) / vRotation;
-
-            float angle2 = Target.transform.position.y - cannon.transform.position.y;
-            cannonInclination.y = (-Mathf.Atan(angle2) * (180 / Mathf.PI)) / 4.0F;
-
-            cannonInclination.y = Mathf.Clamp(cannonInclination.y, MinRange ,0F);
-            baseCannon.transform.rotation = Quaternion.Slerp(baseCannon.transform.rotation, Quaternion.Euler(baseCannon.transform.eulerAngles.x, rotY, baseCannon.transform.eulerAngles.z), Time.deltaTime * vRotation);
-            cannon.transform.rotation = Quaternion.Slerp(cannon.transform.rotation, Quaternion.Euler(cannonInclination.y, baseCannon.transform.eulerAngles.y, cannon.transform.eulerAngles.z), Time.deltaTime * vRotation);
-        }
     }
-
-    //se il la distanza del target è minore uguale a quella della torretta lancia un raycast per controllare se è visibile se true la torretta si girera in direzione del nemico altrimenti continuera su idle
-    private bool IsFindTarget()
+    public void Attack()
     {
-        bool isFindTarget;
-        RaycastHit hit;
-
-        Ray ray;
-
-        ray = new Ray(Raycast.transform.position, cannon.transform.forward);
-
-        Physics.Raycast(ray, out hit, maxDistance);
-
-
-        Debug.DrawRay(ray.origin, ray.direction, Color.red);
-        if (hit.transform != null)
-        {
-            if (hit.transform.tag == Target.transform.tag)
-            {
-              return  isFindTarget = true;
-            }
-        }
-
-            return isFindTarget= true;
     }
+    #endregion
 }
