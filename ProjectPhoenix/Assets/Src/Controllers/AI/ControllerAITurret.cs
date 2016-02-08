@@ -6,28 +6,29 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
 {
     public GameObject AxeYrot;
     public GameObject AxeXrot;
-    public float minRange;
-    public float maxRange;
-    public  bool Trovato = false;
-    private float tolerance = 1f;   //Gli dò 1 grado come angolo di tolleranza
+    public float  minRange;
+    public float  maxRange;
+    public float  MaxDistance   = 50;
+    public float  RotationSpeed = 10;
 
-    public float RotationSpeed = 10;
+    private float tolerance   = 1f;   //Gli dò 1 grado come angolo di tolleranza
+
     public IState CurrentState { get; set; }
-    //public bool Trovato = true;
+
     public string DEBUG_STATE;
  
     void Awake()
     {
-        IdleState stateIdle = new IdleState(this);
+        IdleState   stateIdle   = new IdleState(this);
         PatrolState statepatrol = new PatrolState(this);
         AttackState stateAttack = new AttackState(this);
-
+        //Idle
         stateIdle.Patrol = statepatrol;
         stateIdle.Attack = stateAttack;
-
+        //Patrol
         statepatrol.Idle = stateIdle;
         statepatrol.Attack = stateAttack;
-
+        //Attack
         stateAttack.Idle = stateIdle;
 
         //Init
@@ -43,8 +44,8 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
         DEBUG_STATE = CurrentState.ToString();
         CurrentState = CurrentState.OnStateUpdate();
     }
-    
 
+    #region FMS
     public interface IState
     {
         void OnStateEnter();
@@ -74,6 +75,11 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
             {
                 Patrol.OnStateEnter();
                 return Patrol;
+            }
+             if (Vector3.Distance(owner.gameObject.transform.position,owner.Target.transform.position)<= owner.MaxDistance)
+            {
+                Attack.OnStateEnter();
+                return Attack;
             }
             return this;
         }
@@ -122,7 +128,7 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
                 Idle.OnStateEnter();
                 return Idle;
             }
-            if (owner.Trovato )
+            if (Vector3.Distance(owner.gameObject.transform.position, owner.Target.transform.position) <= owner.MaxDistance)
             {
                 Attack.OnStateEnter();
                 return Attack;
@@ -163,18 +169,18 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
             owner.AxeYrot.transform.rotation = Quaternion.Slerp(owner.AxeYrot.transform.rotation, Quaternion.Euler(owner.AxeYrot.transform.eulerAngles.x, rotY, owner.AxeYrot.transform.eulerAngles.z), Time.deltaTime * owner.RotationSpeed);
             owner.AxeXrot.transform.rotation = Quaternion.Slerp(owner.AxeXrot.transform.rotation, Quaternion.Euler(cannonInclination.x, owner.AxeXrot.transform.transform.eulerAngles.y, owner.AxeXrot.transform.transform.eulerAngles.z), Time.deltaTime * owner.RotationSpeed);
         
-            if (!owner.Trovato)
+            if (!(Vector3.Distance(owner.gameObject.transform.position, owner.Target.transform.position) <= owner.MaxDistance))
             {
+                Idle.OnStateEnter();
                 return Idle;
             }
             return this;
         }
     }
+    #endregion
 
     #region IAITurret
     public  GameObject target;
-  
-
     public GameObject Target
     {
         get
