@@ -22,6 +22,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
     private bool        m_bMoveForward;
     private bool        m_bMoveBackward;
     private bool switchLeg;
+    private bool done;
 
     private Quaternion baseRotation;
     private Quaternion targetRotation;
@@ -29,6 +30,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
     private Queue<IKLeg> m_hLegs;
     private IKLeg        m_hLeg;
     public float RepositioningTime = 0.5f;
+    private bool isRotating;
 
     void Start()
     {
@@ -45,7 +47,6 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
         Vector3 vRootPos = BreatRoot.transform.position;
         vRootPos.y += fy;
         BreatRoot.transform.position = vRootPos;
-
 
         if (m_bMoveForward)
         {
@@ -81,6 +82,10 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
 
         if (m_vTurn.magnitude > 0.1)
         {
+            isRotating = true;
+
+            
+
             m_hBody.angularVelocity = m_vTurn.normalized * this.TurnSpeed;
 
             if (!m_hLeg.IsRepositioning)
@@ -89,10 +94,12 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
             }
 
             baseRotation = Torso.transform.rotation;
+            targetRotation = Torso.transform.rotation;
         }
         else
         {
             m_hBody.angularVelocity = Vector3.zero;
+            isRotating = false;
         }
     }
 
@@ -210,22 +217,23 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
     //Turn the torso in the direction of mouse position
     public void MousePosition(Vector3 vMousePosition)
     {
-        Plane vPlane = new Plane(Vector3.up, this.gameObject.transform.position);
-        float fRes;
-        Ray vRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        
-
-        if (vPlane.Raycast(vRay, out fRes))
+        if (!isRotating)
         {
-            Vector3 target = vRay.GetPoint(fRes);
-            Vector3 look = target - this.transform.position;
+            Plane vPlane = new Plane(Vector3.up, this.gameObject.transform.position);
+            float fRes;
+            Ray vRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        
+            if (vPlane.Raycast(vRay, out fRes))
+            {
+                Vector3 target = vRay.GetPoint(fRes);
+                Vector3 look = target - this.transform.position;
 
+                Quaternion q = Quaternion.LookRotation(look);
+                if (Quaternion.Angle(q, baseRotation) <= 35f)
+                    targetRotation = q;
 
-            Quaternion q = Quaternion.LookRotation(look);
-            if (Quaternion.Angle(q, baseRotation) <= 35f)
-                targetRotation = q;
-
-            Torso.transform.rotation = Quaternion.Slerp(Torso.transform.rotation, targetRotation, Time.deltaTime * RotationSpeed);
+                Torso.transform.rotation = Quaternion.Slerp(Torso.transform.rotation, targetRotation, Time.deltaTime * RotationSpeed);
+            }
         }
     }
 
