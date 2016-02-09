@@ -5,22 +5,26 @@ using System.Collections.Generic;
 
 internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 {
+    [SerializeField]
+    internal float Hp = 100f;
+    [SerializeField]
+    internal float SteerAngle = 30f;
+    [SerializeField]
+    internal float MaxSpeed = 50f;
+
     private List<Wheel> m_hWheels;
     private Tracks tracks;
-
-    public float Brake = 100f;
-    public float Hp = 100f;
-    public float SteerAngle = 30f;
-    public float MaxSpeed = 50f;
-
     private Drive m_hEngine;
-    private BrakeSystem m_hBrake;
-    public bool m_hReverse;
     private Rigidbody m_hRigidbody;
-    private Transform m_hTurretPosition;
-    public float vel;
+    private VehicleTurret m_hTurret;
+    private bool m_hLeft = false;
+    private bool m_hRight = false;
+    private bool m_hForward = false;
+    private bool m_hBackward = false;
     private float sign;
+
     private GameObject obj;
+    public float vel;
 
     void Awake()
     {
@@ -39,11 +43,11 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
         obj.transform.parent = this.transform;
         obj.transform.localPosition = m_hRigidbody.centerOfMass;
 
-        //m_hTurretPosition = this.GetComponentInChildren<Turret>().transform;
+        //Initialize VehicleTurret
+        m_hTurret = GetComponentInChildren<VehicleTurret>();
 
         //Initialize Drive/Brake State Machine
         m_hEngine = new Drive(Hp, m_hWheels);
-        m_hBrake = new BrakeSystem(0.4f * Brake, 0.6f * Brake, m_hWheels);
     }
 
     void Update()
@@ -59,65 +63,84 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
     public void BeginForward()
     {
-        m_hReverse = false;
-        m_hBrake.EndBrake();
-
-        sign = 1f;
+        m_hForward = true;
         m_hEngine.BeginAccelerate();
     }
 
     public void EndForward()
     {
-        m_hEngine.EndAccelerate();
+        m_hForward = false;
+        if (m_hBackward)
+        {
+            m_hEngine.BeginBackward();
+        }
+        else
+        {
+            m_hEngine.EndAccelerate();
+        }
     }
 
     public void BeginBackward()
     {
-        m_hBrake.EndBrake();
-
-        if (Mathf.Approximately(m_hRigidbody.velocity.magnitude, 0f))
-        {
-            sign = -1f;
-            m_hEngine.BeginReverse();
-            m_hReverse = true;
-        }
-        else if (!m_hReverse)
-            m_hBrake.BeginBrake();
+        m_hBackward = true;
+        m_hEngine.BeginBackward();
     }
 
     public void EndBackward()
     {
-        if (!m_hReverse)
-            m_hBrake.EndBrake();
+        m_hBackward = false;
+        if (m_hForward)
+        {
+            m_hEngine.BeginAccelerate();
+        }
         else
         {
-            m_hEngine.EndReverse();
-            m_hReverse = false;
+            m_hEngine.EndBackward();
         }
     }
 
     public void BeginTurnRight()
     {
+        m_hRight = true;
         m_hWheels[0].Steer(this.SteerAngle);
         m_hWheels[1].Steer(this.SteerAngle);
     }
 
     public void EndTurnRight()
     {
-        m_hWheels[0].Steer(0);
-        m_hWheels[1].Steer(0);
+        m_hRight = false;
+        if (m_hLeft)
+        {
+            m_hWheels[0].Steer(-this.SteerAngle);
+            m_hWheels[1].Steer(-this.SteerAngle);
+        }
+        else
+        {
+            m_hWheels[0].Steer(0);
+            m_hWheels[1].Steer(0);
+        }
     }
 
     public void BeginTurnLeft()
     {
+        m_hLeft = true;
         m_hWheels[0].Steer(-this.SteerAngle);
         m_hWheels[1].Steer(-this.SteerAngle);
     }
 
     public void EndTurnLeft()
     {
-        m_hWheels[0].Steer(0);
-        m_hWheels[1].Steer(0);
+        m_hLeft = false;
+        if (m_hRight)
+        {
+            m_hWheels[0].Steer(this.SteerAngle);
+            m_hWheels[1].Steer(this.SteerAngle);
+        }
+        else
+        {
+            m_hWheels[0].Steer(0);
+            m_hWheels[1].Steer(0);
+        }
     }
 
     public void BeginFire()
@@ -132,9 +155,7 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
     public void MousePosition(Vector3 vMousePosition)
     {
-        //RaycastHit hit;
-        //if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
-        //    this.m_hTurretPosition.LookAt(hit.point);
+        m_hTurret.UpdateRotation(vMousePosition);
     }
 
     #region notimplemented
@@ -229,13 +250,13 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
         }
 
-        public void BeginReverse()
+        public void BeginBackward()
         {
             //AWD
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = -(m_fHp * 0.25f));
         }
 
-        public void EndReverse()
+        public void EndBackward()
         {
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
         }

@@ -77,6 +77,6 @@ internal class InputProviderPCStd : MonoBehaviour
             m_hTarget.EndFire();
 
         //MOUSEPOSITION
-        m_hTarget.MousePosition(Input.mousePosition);
+        m_hTarget.MousePosition(Input.mousePosition); 
     }
 }

@@ -106,6 +106,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 498064}
   - 65: {fileID: 6583368}
+  - 114: {fileID: 11402620}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -161,6 +162,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &159736
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 468980}
+  m_Layer: 0
+  m_Name: BulletLocator2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &163400
 GameObject:
   m_ObjectHideFlags: 1
@@ -207,6 +223,21 @@ GameObject:
   - 23: {fileID: 2356558}
   m_Layer: 0
   m_Name: TurretWeaponGfx
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &173638
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 456620}
+  m_Layer: 0
+  m_Name: BulletLocator1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -379,6 +410,18 @@ Transform:
   - {fileID: 458432}
   m_Father: {fileID: 436318}
   m_RootOrder: 2
+--- !u!4 &456620
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 173638}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: .649999976, y: .25, z: 3.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 464946}
+  m_RootOrder: 1
 --- !u!4 &458432
 Transform:
   m_ObjectHideFlags: 1
@@ -402,8 +445,22 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 432302}
+  - {fileID: 456620}
+  - {fileID: 468980}
   m_Father: {fileID: 498064}
   m_RootOrder: 1
+--- !u!4 &468980
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 159736}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -.649999976, y: .25, z: 3.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 464946}
+  m_RootOrder: 2
 --- !u!4 &477646
 Transform:
   m_ObjectHideFlags: 1
@@ -698,6 +755,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.60000002, y: .699999988, z: 3}
   m_Center: {x: 0, y: .74000001, z: .720000029}
+--- !u!114 &11402620
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 144604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b53e8c6cf26b324d8344be802746d13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11453084
 MonoBehaviour:
   m_ObjectHideFlags: 1
