@@ -10,6 +10,7 @@ internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
     public float VelocityForce;
     public float VelocityRotation;
 
+    WeaponProjectile weapon;
     Plane playerPlane;
     Rigidbody heliRigidbody;
     Vector3 mousePos;
@@ -22,6 +23,7 @@ internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
     float currentStrafeSlope;
     void Awake()
     {
+        this.weapon = GetComponent<WeaponProjectile>();
         this.heliRigidbody = GetComponent<Rigidbody>();
         this.mass = heliRigidbody.mass;
         this.isGrounded = true;
@@ -87,6 +89,7 @@ internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
 
     public void BeginFire()
     {
+        weapon.OnFireButtonPressed();
     }
 
     public void BeginForward()
@@ -130,6 +133,7 @@ internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
 
     public void EndFire()
     {
+        weapon.OnFireButtonReleased();
     }
 
     public void EndForward()

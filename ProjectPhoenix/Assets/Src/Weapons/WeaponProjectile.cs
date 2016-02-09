@@ -67,7 +67,7 @@ public class WeaponProjectile : MonoBehaviour, IWeapon
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
         m_hStateMachine = m_hStateMachine.Update();
     }
