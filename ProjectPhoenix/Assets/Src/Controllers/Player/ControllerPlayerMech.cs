@@ -48,6 +48,8 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
         vRootPos.y += fy;
         BreatRoot.transform.position = vRootPos;
 
+        Debug.DrawRay(this.transform.position, this.transform.forward * 20, Color.red);
+
         if (m_bMoveForward)
         {
             if (switchLeg)
@@ -84,7 +86,11 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
         {
             isRotating = true;
 
-            
+            if (!done)
+            {
+                Torso.transform.localRotation = Quaternion.Euler(this.transform.forward);
+                done = true;
+            }
 
             m_hBody.angularVelocity = m_vTurn.normalized * this.TurnSpeed;
 
@@ -100,6 +106,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
         {
             m_hBody.angularVelocity = Vector3.zero;
             isRotating = false;
+            done = false;
         }
     }
 
