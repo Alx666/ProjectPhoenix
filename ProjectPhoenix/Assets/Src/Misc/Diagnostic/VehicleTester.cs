@@ -43,13 +43,9 @@ internal class VehicleTester : MonoBehaviour
 
     void LateUpdate()
     {
-        try
-        {
+        if(rB != null)
             this.MyCamera.transform.position = rB.transform.position + Offset;
-        }
-        catch
-        {
+        else
             this.MyCamera.transform.position = InputReceivers[0].transform.position + Offset;
-        }
     }
 }
