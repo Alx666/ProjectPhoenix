@@ -5,6 +5,11 @@ using System.Linq;
 
 internal class VehicleTester : MonoBehaviour
 {
+    public Camera MyCamera;
+    public Vector3 Offset = new Vector3(-20f, 30f, -20f);
+
+    private Rigidbody rB;
+
     [SerializeField]
     internal List<GameObject> InputReceivers;
 
@@ -29,8 +34,22 @@ internal class VehicleTester : MonoBehaviour
 
                     InputReceivers.Where(hGO => hGO != provider.gameObject).ToList().ForEach(hGO => hGO.GetComponent<InputProviderPCStd>().enabled = false);
                     provider.enabled = true;
+
+                    rB = provider.GetComponentInParent<Rigidbody>();
                 }
             }
         }
 	}
+
+    void LateUpdate()
+    {
+        try
+        {
+            this.MyCamera.transform.position = rB.transform.position + Offset;
+        }
+        catch
+        {
+            this.MyCamera.transform.position = InputReceivers[0].transform.position + Offset;
+        }
+    }
 }
