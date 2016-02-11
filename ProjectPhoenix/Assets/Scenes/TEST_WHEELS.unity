@@ -2365,7 +2365,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!81 &667741153
 AudioListener:
   m_ObjectHideFlags: 0
@@ -3081,7 +3081,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &811905318
 AudioListener:
   m_ObjectHideFlags: 0
@@ -4538,6 +4538,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 11453084, guid: 9d3de3687dd6abd4687a9d324d31be56, type: 2}
+      propertyPath: CenterOfMassY
+      value: .319999993
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9d3de3687dd6abd4687a9d324d31be56, type: 2}
   m_IsPrefabParent: 0
@@ -4983,10 +4987,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1413018371}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1417772276 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 458300, guid: 93faadea30c7c0f49b43b16fd5b2a914, type: 2}
-  m_PrefabInternal: {fileID: 1868737307}
 --- !u!1 &1442143922
 GameObject:
   m_ObjectHideFlags: 0
@@ -6666,10 +6666,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1861518693}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!4 &1862061935 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 413698, guid: 93faadea30c7c0f49b43b16fd5b2a914, type: 2}
-  m_PrefabInternal: {fileID: 1868737307}
 --- !u!1 &1867201011
 GameObject:
   m_ObjectHideFlags: 0
@@ -6781,26 +6777,6 @@ Prefab:
     - target: {fileID: 464304, guid: 93faadea30c7c0f49b43b16fd5b2a914, type: 2}
       propertyPath: m_RootOrder
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 11487026, guid: 93faadea30c7c0f49b43b16fd5b2a914, type: 2}
-      propertyPath: TurretWeapon
-      value: 
-      objectReference: {fileID: 1862061935}
-    - target: {fileID: 11487026, guid: 93faadea30c7c0f49b43b16fd5b2a914, type: 2}
-      propertyPath: TurretCannon
-      value: 
-      objectReference: {fileID: 1417772276}
-    - target: {fileID: 11487026, guid: 93faadea30c7c0f49b43b16fd5b2a914, type: 2}
-      propertyPath: AxeY
-      value: 
-      objectReference: {fileID: 1862061935}
-    - target: {fileID: 11487026, guid: 93faadea30c7c0f49b43b16fd5b2a914, type: 2}
-      propertyPath: AxeX
-      value: 
-      objectReference: {fileID: 1417772276}
-    - target: {fileID: 11487026, guid: 93faadea30c7c0f49b43b16fd5b2a914, type: 2}
-      propertyPath: RotationSpeed
-      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 93faadea30c7c0f49b43b16fd5b2a914, type: 2}

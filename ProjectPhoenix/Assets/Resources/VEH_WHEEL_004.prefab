@@ -766,10 +766,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8224965cf0fff0647b4ebdf860a77a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Brake: 1000
   Hp: 500
   SteerAngle: 30
   MaxSpeed: 100
+  CenterOfMassY: .600000024
 --- !u!114 &11438808
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -801,6 +801,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b53e8c6cf26b324d8344be802746d13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AxeY: {fileID: 493838}
+  AxeX: {fileID: 412730}
+  RotationSpeed: 15
 --- !u!146 &14600028
 WheelCollider:
   m_ObjectHideFlags: 1

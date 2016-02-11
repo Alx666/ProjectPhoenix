@@ -12,12 +12,15 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
     internal float SteerAngle = 30f;
     [SerializeField]
     internal float MaxSpeed = 50f;
+    [SerializeField] [Range(0f, 1f)]
+    internal float CenterOfMassY = 0.6f;
 
     private List<Wheel> m_hWheels;
     private List<FakeWheel> m_hFakeWheels;
     private Rigidbody m_hRigidbody;
     private Drive m_hEngine;
     private VehicleTurret m_hTurret;
+    private IWeapon m_hCurrentWeapon;
     private bool m_hForward = false;
     private bool m_hBackward = false;
     private bool m_hRight = false;
@@ -27,7 +30,7 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
     {
         m_hWheels = new List<Wheel>();
         m_hRigidbody = this.GetComponent<Rigidbody>();
-        m_hRigidbody.centerOfMass = new Vector3(m_hRigidbody.centerOfMass.x, 0.6f, m_hRigidbody.centerOfMass.z);
+        m_hRigidbody.centerOfMass = new Vector3(m_hRigidbody.centerOfMass.x, CenterOfMassY, m_hRigidbody.centerOfMass.z);
 
         //Initialize effective wheels
         List<Transform> gfxPos = this.GetComponentsInChildren<Transform>().Where(hT => hT.GetComponent<WheelCollider>() == null).ToList();
@@ -39,6 +42,9 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
 
         //Initialize VehicleTurret
         m_hTurret = GetComponentInChildren<VehicleTurret>();
+
+        //Initialize IWeapon
+        m_hCurrentWeapon = GetComponentInChildren<IWeapon>();
 
         //Initialize Drive/Brake System
         m_hEngine = new Drive(Hp, m_hWheels);
@@ -141,17 +147,20 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
 
     public void BeginFire()
     {
-
+        if (m_hCurrentWeapon != null)
+            m_hCurrentWeapon.OnFireButtonPressed();
     }
 
     public void EndFire()
     {
-
+        if (m_hCurrentWeapon != null)
+            m_hCurrentWeapon.OnFireButtonReleased();
     }
 
     public void MousePosition(Vector3 vMousePosition)
     {
-        m_hTurret.UpdateRotation(vMousePosition);
+        if(m_hTurret != null)
+            m_hTurret.UpdateRotation(vMousePosition);
     }
 
     public void BeginUp()

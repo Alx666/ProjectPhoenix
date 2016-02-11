@@ -45,6 +45,7 @@ GameObject:
   - 65: {fileID: 6585078}
   - 114: {fileID: 11498168}
   - 114: {fileID: 11435262}
+  - 114: {fileID: 11476328}
   m_Layer: 0
   m_Name: VEH_WHEEL_000
   m_TagString: Untagged
@@ -747,6 +748,24 @@ MonoBehaviour:
   Up: 304
   Down: 32
   Fire: 323
+--- !u!114 &11476328
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 104024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletPrefab: {fileID: 100000, guid: dad65925df464a64985ee2ef54c46de9, type: 2}
+  ShootLocator: {fileID: 146600}
+  Spread: 0
+  BulletDelay: .300000012
+  Force: 80
+  BarrageDelay: .300000012
+  Barrage: 1
 --- !u!114 &11487026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -758,6 +777,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b53e8c6cf26b324d8344be802746d13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AxeY: {fileID: 413698}
+  AxeX: {fileID: 458300}
+  RotationSpeed: 15
 --- !u!114 &11498168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -769,10 +791,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8224965cf0fff0647b4ebdf860a77a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Brake: 1000
   Hp: 500
   SteerAngle: 30
   MaxSpeed: 100
+  CenterOfMassY: .600000024
 --- !u!146 &14603554
 WheelCollider:
   m_ObjectHideFlags: 1
