@@ -51,6 +51,7 @@ public class FastBullet : MonoBehaviour, IBullet,IPoolable
                                           Quaternion.identity);
             ApplyForce(10.0F);
             Debug.Log(Particle[randomExplosion].ToString());
+            GlobalFactory.Recycle(this.gameObject);
         }
     }
 
