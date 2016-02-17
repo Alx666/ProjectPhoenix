@@ -156,8 +156,8 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
             float   angle       = Vector3.Distance(owner.AxeXrot.transform.position, owner.target.transform.position) /owner.RotationSpeed;
             cannonInclination.z = (-Mathf.Atan(angle) * (180 / Mathf.PI)) / 4.0F;
 
-            if (owner.target.transform.position.y <= owner.transform.position.y)//Serve??
-                cannonInclination.z = -cannonInclination.z;
+            if (owner.target.transform.position.y <= owner.transform.position.y)//Serve?? siiiiii!!!!
+                cannonInclination.x = -cannonInclination.x;
 
             cannonInclination.z = Mathf.Clamp(cannonInclination.z, owner.minRange, Math.Abs(owner.minRange));
             owner.AxeXrot.transform.rotation = Quaternion.Slerp(owner.AxeXrot.transform.rotation, Quaternion.Euler(

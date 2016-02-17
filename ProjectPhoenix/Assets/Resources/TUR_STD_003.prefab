@@ -115,6 +115,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &158300
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 440554}
+  m_Layer: 0
+  m_Name: Locator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &163782
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,7 +226,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 122536}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -20, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 449350}
@@ -256,6 +271,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 431204}
+  - {fileID: 440554}
   m_Father: {fileID: 420652}
   m_RootOrder: 0
 --- !u!4 &431204
@@ -283,6 +299,18 @@ Transform:
   - {fileID: 401306}
   m_Father: {fileID: 420652}
   m_RootOrder: 2
+--- !u!4 &440554
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 158300}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.03, y: 0.1, z: 3.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 428246}
+  m_RootOrder: 1
 --- !u!4 &449350
 Transform:
   m_ObjectHideFlags: 1
@@ -533,9 +561,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AxeYrot: {fileID: 121848}
   AxeXrot: {fileID: 197410}
-  minRange: 0
-  maxRange: 0
-  Trovato: 0
+  minRange: -45
+  maxRange: 15
+  LightRadius: 50
   RotationSpeed: 5
   DEBUG_STATE: 
   target: {fileID: 0}

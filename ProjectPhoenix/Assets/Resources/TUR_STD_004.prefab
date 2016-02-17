@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 484092}
   - 114: {fileID: 11496978}
+  - 114: {fileID: 11480468}
   m_Layer: 0
   m_Name: TUR_STD_004
   m_TagString: Untagged
@@ -26,6 +27,21 @@ GameObject:
   - 4: {fileID: 460586}
   m_Layer: 0
   m_Name: Barrel_Rx
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &116052
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 403014}
+  m_Layer: 0
+  m_Name: Locator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,6 +75,21 @@ GameObject:
   - 64: {fileID: 6497148}
   m_Layer: 0
   m_Name: barrel_Lx
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &126774
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 443374}
+  m_Layer: 0
+  m_Name: Locator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -166,6 +197,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &403014
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 116052}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.05, y: 0.1, z: 2.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 460586}
+  m_RootOrder: 1
 --- !u!4 &422222
 Transform:
   m_ObjectHideFlags: 1
@@ -184,7 +227,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 117578}
-  m_LocalRotation: {x: 0, y: 0, z: 0.003275486, w: 0.99999464}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -204,6 +247,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 461122}
   m_RootOrder: 0
+--- !u!4 &443374
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 126774}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.05, y: 0.1, z: 2.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 477194}
+  m_RootOrder: 1
 --- !u!4 &457700
 Transform:
   m_ObjectHideFlags: 1
@@ -227,6 +282,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 462270}
+  - {fileID: 403014}
   m_Father: {fileID: 461122}
   m_RootOrder: 1
 --- !u!4 &461122
@@ -279,6 +335,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 466726}
+  - {fileID: 443374}
   m_Father: {fileID: 461122}
   m_RootOrder: 2
 --- !u!4 &484092
@@ -288,7 +345,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106420}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 61.6, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 457700}
@@ -520,6 +577,24 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 1
   m_Mesh: {fileID: 4300008, guid: 132dff269db7248a3b1767f717fdcb86, type: 3}
+--- !u!114 &11480468
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 106420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletPrefab: {fileID: 100000, guid: dad65925df464a64985ee2ef54c46de9, type: 2}
+  ShootLocator: {fileID: 116052}
+  Spread: 0
+  BulletDelay: 0.3
+  Force: 50
+  BarrageDelay: 0.3
+  Barrage: 1
 --- !u!114 &11496978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -533,9 +608,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AxeYrot: {fileID: 117578}
   AxeXrot: {fileID: 131582}
-  minRange: 0
-  maxRange: 0
-  Trovato: 0
+  minRange: -45
+  maxRange: 15
+  LightRadius: 50
   RotationSpeed: 5
   DEBUG_STATE: 
   target: {fileID: 0}

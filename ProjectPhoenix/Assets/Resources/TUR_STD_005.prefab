@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &102824
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 426568}
+  m_Layer: 0
+  m_Name: Locator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &112312
 GameObject:
   m_ObjectHideFlags: 0
@@ -64,6 +79,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &138642
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 466844}
+  m_Layer: 0
+  m_Name: Locator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &166342
 GameObject:
   m_ObjectHideFlags: 1
@@ -110,6 +140,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 15.748031, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 466844}
+  - {fileID: 426568}
   - {fileID: 499490}
   m_Father: {fileID: 471814}
   m_RootOrder: 0
@@ -120,13 +152,25 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 123502}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -40, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 436542}
   - {fileID: 471814}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!4 &426568
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 102824}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -32, y: 14, z: 112}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 409914}
+  m_RootOrder: 1
 --- !u!4 &436542
 Transform:
   m_ObjectHideFlags: 1
@@ -138,6 +182,18 @@ Transform:
   m_LocalScale: {x: 0.025400003, y: 0.025400003, z: 0.0254}
   m_Children: []
   m_Father: {fileID: 422360}
+  m_RootOrder: 0
+--- !u!4 &466844
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 138642}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 30, y: 14, z: 112}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 409914}
   m_RootOrder: 0
 --- !u!4 &471814
 Transform:
@@ -159,12 +215,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 179776}
-  m_LocalRotation: {x: -0.7071068, y: 0.0000000493601, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0.7071066, y: 0, z: 0, w: -0.70710695}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 409914}
-  m_RootOrder: 0
+  m_RootOrder: 2
 --- !u!4 &499800
 Transform:
   m_ObjectHideFlags: 1
@@ -325,9 +381,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AxeYrot: {fileID: 112312}
   AxeXrot: {fileID: 124864}
-  minRange: 0
-  maxRange: 0
-  Trovato: 0
+  minRange: -45
+  maxRange: 15
+  LightRadius: 50
   RotationSpeed: 5
   DEBUG_STATE: 
   target: {fileID: 0}
