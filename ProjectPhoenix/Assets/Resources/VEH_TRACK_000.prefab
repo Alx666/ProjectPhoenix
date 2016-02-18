@@ -752,7 +752,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 195174}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 20.9594765, y: -4.19736827e-16, z: 18.9032669}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 403516}
@@ -1581,11 +1581,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 163644, guid: 696c6fbd421805849afd3456194fbd8a, type: 2}
-  ShootLocator: {fileID: 116578}
+  Muzzle: {fileID: 116794, guid: 35465e0799cfd6d4ca7712b826c38210, type: 2}
+  ShootLocators:
+  - {fileID: 116578}
   Spread: 0
-  BulletDelay: .300000012
+  BulletDelay: .100000001
   Force: 50
-  BarrageDelay: .300000012
+  BarrageDelay: .00999999978
   Barrage: 1
 --- !u!114 &11480408
 MonoBehaviour:
