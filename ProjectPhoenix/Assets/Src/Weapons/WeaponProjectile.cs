@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class WeaponProjectile : MonoBehaviour, IWeapon
 {
     public GameObject BulletPrefab;
+    public AudioSource FireSFX;
     public GameObject Muzzle;
     public List<GameObject> ShootLocators;
 
@@ -65,7 +66,6 @@ public class WeaponProjectile : MonoBehaviour, IWeapon
 
     void Start()
     {
-
     }
 
     void FixedUpdate()
@@ -172,6 +172,8 @@ public class WeaponProjectile : MonoBehaviour, IWeapon
                     IBullet hBullet = GlobalFactory.GetInstance<IBullet>(m_hOwner.BulletPrefab);
                     hBullet.Shoot(vPosition, vDirection, m_hOwner.Force, ForceMode.VelocityChange);
                     GameObject.Instantiate(m_hOwner.Muzzle, vPosition, m_hOwner.ShootLocators[j].transform.rotation);
+
+                    m_hOwner.FireSFX.Play();
                 }              
             }
             return Next;
