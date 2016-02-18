@@ -62,6 +62,7 @@ public class FastBullet : MonoBehaviour, IBullet,IPoolable
 
     public void Disable()
     {
+        this.Rigidbody.velocity = Vector3.zero;
         this.gameObject.SetActive(false);
     }
 }
