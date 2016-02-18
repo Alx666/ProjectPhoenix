@@ -1,20 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-
+using System.Collections.Generic;
+using System.Linq;
 public class ControllerAIArtillery : MonoBehaviour, IControllerAI
 {
     public GameObject AxeYrot;
     public GameObject AxeXrot;
+    public float minRange;
+    public float maxRange;
+    public float LightRadius = 50f;
+    public float RotationSpeed = 10f;
 
-    public float MaxDistance; // Distanza massima di visibilita 
-    public float RotationSpeed = 10;
 
+    private List<GameObject> PlayerList;
+
+    private float tolerance = 1f;   //Gli dò 1 grado come angolo di tolleranza
 
     public IState CurrentState { get; set; }
 
     public string DEBUG_STATE;
- 
+  
     void Awake()
     {
         //Initizializazione stati
@@ -33,16 +39,39 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
         CurrentState = stateIdle;
         CurrentState.OnStateEnter();
     }
-	void Start ()
+    void Start()
     {
-        
+        PlayerList = FindObjectsOfType<GameObject>().Where(GO => GO.GetComponent<IControllerPlayer>() != null).ToList();
+        this.Target = this.SetTarget();
+
+        IdleState stateIdle = new IdleState(this);
+        PatrolState statepatrol = new PatrolState(this);
+        AttackState stateAttack = new AttackState(this);
+        //Idle
+        stateIdle.Patrol = statepatrol;
+        stateIdle.Attack = stateAttack;
+        //Patrol
+        statepatrol.Idle = stateIdle;
+        statepatrol.Attack = stateAttack;
+        //Attack
+        stateAttack.Idle = stateIdle;
+
+        //Init
+        CurrentState = stateIdle;
+        CurrentState.OnStateEnter();
+
     }
-	void Update ()
+    void Update ()
     {
+        this.Target = this.SetTarget();
         DEBUG_STATE  = CurrentState.ToString();
         CurrentState = CurrentState.OnStateUpdate();
     }
-    
+    private GameObject SetTarget()
+    {
+        return PlayerList.OrderBy(go => Vector3.Distance(go.transform.position, this.transform.position)).First();
+    }
+
 
     #region FMS
     public interface IState
@@ -75,7 +104,7 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
                 return Patrol;
             }
 
-            if ((Vector3.Distance(owner.gameObject.transform.position, owner.Target.transform.position) <= owner.MaxDistance))
+            if ((Vector3.Distance(owner.gameObject.transform.position, owner.Target.transform.position) <= owner.LightRadius))
             {
                 Attack.OnStateEnter();
                 return Attack;
@@ -119,7 +148,7 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
             if (Mathf.Approximately ( yRot.transform.localEulerAngles.y , newPosition.eulerAngles.y ))    //True:Se L'angolazione è la stessa
                 return Idle;
 
-            if ((Vector3.Distance(owner.gameObject.transform.position, owner.Target.transform.position) <= owner.MaxDistance))//True:Se la distanza è minore
+            if ((Vector3.Distance(owner.gameObject.transform.position, owner.Target.transform.position) <= owner.LightRadius))//True:Se la distanza è minore
             {
                 Attack.OnStateEnter();
                 return Attack;
@@ -131,40 +160,48 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
     {
         private ControllerAIArtillery owner;
 
-        public IState Idle { get; internal set; }
+        private Transform Target;
+        private Transform XRot;
+        private Transform Yrot;
+
+        private float xAngle;
+        private float yAngle;
+
+
+       public IState Idle { get; internal set; }
+
 
         public AttackState(ControllerAIArtillery owner)
         {
-            this.owner = owner;
+            this.owner  = owner;    
+            this.XRot   = owner.AxeXrot.transform;
+            this.Yrot   = owner.AxeYrot.transform;
+            this.xAngle = XRot.transform.localEulerAngles.x;
+            this.yAngle = Yrot.transform.localEulerAngles.y;
         }
         public void OnStateEnter()
         {
-
+            this.Target = owner.target.transform;
         }
 
         public IState OnStateUpdate()
         {
             // Y axis inclination
-            Vector3 baseDirection = (owner.target.transform.position - owner.AxeYrot.transform.position).normalized;
-            float   rotY          = Mathf.Atan2(baseDirection.x, baseDirection.z) * (180 / Mathf.PI);
-
-            owner.AxeYrot.transform.rotation = Quaternion.Slerp(owner.AxeYrot.transform.rotation, Quaternion.Euler
-                (owner.AxeYrot.transform.eulerAngles.x, rotY, owner.AxeYrot.transform.eulerAngles.z), Time.deltaTime * owner.RotationSpeed);
-
-            // X axis inclination
-            Vector3 cannonInclination = owner.AxeXrot.transform.rotation.eulerAngles;
-            float   angle       = Vector3.Distance(owner.AxeXrot.transform.position, owner.target.transform.position) /owner.RotationSpeed;
-            cannonInclination.z = (-Mathf.Atan(angle) * (180 / Mathf.PI)) / 4.0F;
-
-            if (owner.target.transform.position.y <= owner.transform.position.y)//Serve?? siiiiii!!!!
-                cannonInclination.x = -cannonInclination.x;
-
-            cannonInclination.z = Mathf.Clamp(cannonInclination.z, owner.minRange, Math.Abs(owner.minRange));
-            owner.AxeXrot.transform.rotation = Quaternion.Slerp(owner.AxeXrot.transform.rotation, Quaternion.Euler(
-                cannonInclination.z, owner.AxeYrot.transform.eulerAngles.y, owner.AxeXrot.transform.eulerAngles.z), Time.deltaTime * owner.RotationSpeed);
+            Vector3 vDirection           = Target.transform.position - Yrot.transform.position;
+            Yrot.transform.localRotation = Quaternion.RotateTowards(Yrot.transform.localRotation, Quaternion.LookRotation(vDirection), owner.RotationSpeed);
+            Yrot.transform.localRotation = Quaternion.Euler(0f, Yrot.transform.localRotation.eulerAngles.y, 0f);
 
 
-            if (!(Vector3.Distance(owner.gameObject.transform.position, owner.Target.transform.position) <= owner.MaxDistance))
+            float Distance = Vector3.Distance(XRot.transform.position, Target.transform.position);
+        
+            float Distance2 = XRot.transform.position.z - Target.transform.position.z;
+         
+            float anglex = XRot.transform.rotation.x;
+
+            anglex = owner.ClampAngle(anglex-Distance, owner.maxRange, owner.minRange);
+            XRot.transform.localRotation =Quaternion.Slerp(XRot.transform.localRotation, Quaternion.Euler(anglex,0f,0f), owner.RotationSpeed);
+
+            if (!(Vector3.Distance(owner.gameObject.transform.position, owner.Target.transform.position) <= owner.LightRadius))
             {
                 Idle.OnStateEnter();
                 return Idle;
@@ -173,10 +210,21 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
         }
     }
     #endregion
-
+    internal float ClampAngle(float angle, float max, float min)
+    {
+        if (angle < 90 || angle > 270)
+        {       // if angle in the critic region...
+            if (angle > 180) angle -= 360;  // convert all angles to -180..+180
+            if (max > 180) max -= 360;
+            if (min > 180) min -= 360;
+        }
+        angle = Mathf.Clamp(angle, min, max);
+        if (angle < 0) angle += 360;  // if angle negative, convert to 0..360
+        return angle;
+    }
     #region IAITurret
-    public GameObject target;
-    public  float minRange;
+    private GameObject target;
+    
 
     public GameObject Target
     {

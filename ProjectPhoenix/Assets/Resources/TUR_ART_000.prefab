@@ -325,11 +325,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AxeYrot: {fileID: 138386}
   AxeXrot: {fileID: 103804}
-  MaxDistance: 50
+  minRange: -50
+  maxRange: 0
+  LightRadius: 50
   RotationSpeed: 10
   DEBUG_STATE: 
-  target: {fileID: 0}
-  minRange: -50
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

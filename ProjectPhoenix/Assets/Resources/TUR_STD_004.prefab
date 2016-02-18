@@ -204,10 +204,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 116052}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.05, y: 0.1, z: 2.6}
+  m_LocalPosition: {x: 1.399999, y: 1.3000005, z: 3.9499998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 460586}
+  m_Father: {fileID: 461122}
   m_RootOrder: 1
 --- !u!4 &422222
 Transform:
@@ -254,11 +254,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 126774}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.05, y: 0.1, z: 2.6}
+  m_LocalPosition: {x: -1.4999999, y: 1.3000004, z: 3.9499998}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 477194}
-  m_RootOrder: 1
+  m_Father: {fileID: 461122}
+  m_RootOrder: 2
 --- !u!4 &457700
 Transform:
   m_ObjectHideFlags: 1
@@ -282,9 +282,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 462270}
-  - {fileID: 403014}
   m_Father: {fileID: 461122}
-  m_RootOrder: 1
+  m_RootOrder: 3
 --- !u!4 &461122
 Transform:
   m_ObjectHideFlags: 1
@@ -296,6 +295,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 442146}
+  - {fileID: 403014}
+  - {fileID: 443374}
   - {fileID: 460586}
   - {fileID: 477194}
   m_Father: {fileID: 427088}
@@ -335,9 +336,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 466726}
-  - {fileID: 443374}
   m_Father: {fileID: 461122}
-  m_RootOrder: 2
+  m_RootOrder: 4
 --- !u!4 &484092
 Transform:
   m_ObjectHideFlags: 1
@@ -613,7 +613,7 @@ MonoBehaviour:
   LightRadius: 50
   RotationSpeed: 5
   DEBUG_STATE: 
-  target: {fileID: 0}
+  Debug_Target: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

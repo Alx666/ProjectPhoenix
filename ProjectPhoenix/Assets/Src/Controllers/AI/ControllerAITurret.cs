@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-
+using System.Collections.Generic;
+using System.Linq;
 //To Do: INSERIRE LO SCRIPT GIUSTO ALLA TORRETTA GIUSTA
 //        Clampare le x delle torrette
 public class ControllerAITurret : MonoBehaviour, IControllerAI
@@ -13,7 +14,7 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
     public float  LightRadius   = 50f;
     public float  RotationSpeed = 10f;
 
-    
+    private List<GameObject> PlayerList;
     public IWeapon Weapon;
 
     private float tolerance   = 1f;   //Gli dò 1 grado come angolo di tolleranza
@@ -21,10 +22,16 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
     public IState CurrentState { get; set; }
 
     public string DEBUG_STATE;
- 
+    public string Debug_Target;
+
     void Awake()
     {
-        this.Weapon = this.GetComponent<WeaponProjectile>();
+        this.Weapon = this.GetComponent<WeaponProjectile>();     
+    }
+	void Start ()
+    {
+        PlayerList  = FindObjectsOfType<GameObject>().Where(GO => GO.GetComponent<IControllerPlayer>() != null).ToList();
+        this.Target = this.SetTarget();
 
         IdleState   stateIdle   = new IdleState(this);
         PatrolState statepatrol = new PatrolState(this);
@@ -41,16 +48,21 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
         //Init
         CurrentState = stateIdle;
         CurrentState.OnStateEnter();
-    }
-	void Start ()
-    {
-        
+
     }
 	void Update ()
     {
-        DEBUG_STATE = CurrentState.ToString();
-        CurrentState = CurrentState.OnStateUpdate();
 
+        this.Target  = this.SetTarget();
+        DEBUG_STATE  = CurrentState.ToString();
+        Debug_Target = target.name.ToString();
+        CurrentState = CurrentState.OnStateUpdate();
+       
+    }
+
+    private GameObject SetTarget()
+    {
+       return PlayerList.OrderBy(go => Vector3.Distance(go.transform.position, this.transform.position)).First();
     }
 
     #region FMS
@@ -84,7 +96,7 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
                 Patrol.OnStateEnter();
                 return Patrol;
             }
-             if (Vector3.Distance(owner.gameObject.transform.position,owner.Target.transform.position)<= owner.LightRadius)
+             if (Vector3.Distance(owner.gameObject.transform.position,owner.target.transform.position)<= owner.LightRadius)
             {
                 Attack.OnStateEnter();
                 return Attack;
@@ -162,7 +174,7 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
             }
 
             //TOATTACK
-            if (Vector3.Distance(owner.gameObject.transform.position, owner.Target.transform.position) <= owner.LightRadius)
+            if (Vector3.Distance(owner.gameObject.transform.position, owner.target.transform.position) <= owner.LightRadius)
             {
                 Attack.OnStateEnter();
                 return Attack;
@@ -180,26 +192,22 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
 
         private float xAngle;
         private float yAngle;
-        private float TargetAngle;
-
+      
 
         public IState Idle { get; internal set; }
 
         public AttackState(ControllerAITurret owner)
         {
             this.owner  = owner;
-            this.Target = owner.target.transform;
             this.XRot   = owner.AxeXrot.transform;
             this.Yrot   = owner.AxeYrot.transform;
             this.xAngle = XRot.transform.localEulerAngles.x;
             this.yAngle = Yrot.transform.localEulerAngles.y;
-            
-
 
         }
         public void OnStateEnter()
         {
-          
+            this.Target = owner.target.transform;
         }
 
         public IState OnStateUpdate()
@@ -220,7 +228,7 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
             XRot.transform.localRotation = Quaternion.Euler(anglex, 0f, 0f);
 
 
-            if (!(Vector3.Distance(owner.gameObject.transform.position, owner.Target.transform.position) <= owner.LightRadius))
+            if (!(Vector3.Distance(owner.gameObject.transform.position, owner.target.transform.position) <= owner.LightRadius))
             {
                 owner.Weapon.OnFireButtonReleased();
                 Idle.OnStateEnter();
@@ -243,9 +251,10 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
             if (angle < 0) angle += 360;  // if angle negative, convert to 0..360
             return angle;
         }
+
     #endregion
     #region IAITurret
-    public  GameObject target;
+    private  GameObject target;
     public GameObject Target
     {
         get
