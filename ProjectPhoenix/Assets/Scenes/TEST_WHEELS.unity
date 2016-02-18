@@ -852,7 +852,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 445222, guid: b32cfe1167b861a469a3ce0ae4c00308, type: 2}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 120030, guid: b32cfe1167b861a469a3ce0ae4c00308, type: 2}
       propertyPath: m_IsActive
@@ -877,6 +877,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 163644, guid: 696c6fbd421805849afd3456194fbd8a, type: 2}
+  FireSFX: {fileID: 0}
   Muzzle: {fileID: 116794, guid: 35465e0799cfd6d4ca7712b826c38210, type: 2}
   ShootLocators:
   - {fileID: 1581458800}
@@ -2401,7 +2402,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 422600, guid: 4630fc07f363a2249b1c6b14e67c92d0, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 105618, guid: 4630fc07f363a2249b1c6b14e67c92d0, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4630fc07f363a2249b1c6b14e67c92d0, type: 2}
@@ -4482,7 +4487,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 436318, guid: 9d3de3687dd6abd4687a9d324d31be56, type: 2}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 11453084, guid: 9d3de3687dd6abd4687a9d324d31be56, type: 2}
       propertyPath: CenterOfMassY
@@ -5493,7 +5498,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 472090, guid: 82fceab2dd0c37d428e6a3be931d3e29, type: 2}
       propertyPath: m_RootOrder
-      value: 13
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 169994, guid: 82fceab2dd0c37d428e6a3be931d3e29, type: 2}
       propertyPath: m_IsActive
@@ -6097,6 +6102,10 @@ Prefab:
     - target: {fileID: 479316, guid: 514f7ca7bd8286e4cb516c7fb91e5aa6, type: 2}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 116616, guid: 514f7ca7bd8286e4cb516c7fb91e5aa6, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 514f7ca7bd8286e4cb516c7fb91e5aa6, type: 2}
@@ -7439,6 +7448,10 @@ Prefab:
       propertyPath: ShootLocators.Array.data[0]
       value: 
       objectReference: {fileID: 1347011044}
+    - target: {fileID: 171920, guid: 8c5f124c50bad274cac135652be5dbf1, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8c5f124c50bad274cac135652be5dbf1, type: 2}
   m_IsPrefabParent: 0
