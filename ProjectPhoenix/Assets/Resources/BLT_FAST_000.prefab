@@ -59,7 +59,7 @@ Transform:
   m_GameObject: {fileID: 139292}
   m_LocalRotation: {x: .506228447, y: .493693054, z: -.506228268, w: .493693113}
   m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 1.93388557, y: .302887946, z: .605776072}
+  m_LocalScale: {x: 2, y: .300000012, z: 1}
   m_Children: []
   m_Father: {fileID: 450370}
   m_RootOrder: 1
@@ -71,7 +71,7 @@ Transform:
   m_GameObject: {fileID: 196576}
   m_LocalRotation: {x: -1.4922315e-15, y: .707106829, z: -1.4922315e-15, w: .707106829}
   m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 1.93388522, y: .302887976, z: -.605776072}
+  m_LocalScale: {x: 2, y: .300000012, z: -1}
   m_Children: []
   m_Father: {fileID: 450370}
   m_RootOrder: 0
@@ -178,13 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDistance: 10
-  Particle:
-  - {fileID: 100004, guid: 275e4d829fb44b14bb9c196b87d47bed, type: 2}
-  - {fileID: 100000, guid: d126518de1c0cc74bb0c0f519d2c065f, type: 2}
-  - {fileID: 100008, guid: 865aba5a657efa5438ec516930f2c024, type: 2}
-  - {fileID: 100006, guid: 1039f43d6609c654dab58d54482161e3, type: 2}
-  - {fileID: 100010, guid: 4b8aaeaaeda4ba14f8360a986b628b3b, type: 2}
-  - {fileID: 100012, guid: fcacddd59c2119c46b1e951d58c82b91, type: 2}
+  OnHitParticle: {fileID: 100000, guid: 78137ee2097a6f2468a9b6b1f07cd713, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -196,6 +190,14 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: c0123a4de09c1f7448d6bb72b44c7345, type: 2}
+    - target: {fileID: 0}
+      propertyPath: OnHitParticle
+      value: 
+      objectReference: {fileID: 100000, guid: 78137ee2097a6f2468a9b6b1f07cd713, type: 2}
+    - target: {fileID: 0}
+      propertyPath: maxDistance
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 149850}

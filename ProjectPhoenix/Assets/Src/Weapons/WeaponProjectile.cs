@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class WeaponProjectile : MonoBehaviour, IWeapon
 {
     public GameObject BulletPrefab;
-
-    public GameObject ShootLocator;
+    public GameObject Muzzle;
+    public List<GameObject> ShootLocators;
 
     [Range(0f, 90f)]
     public float Spread = 0f;
@@ -147,30 +148,32 @@ public class WeaponProjectile : MonoBehaviour, IWeapon
             m_iShootCount = iCount;
         }
 
-
         public IWeaponState Update()
         {
             for (int i = 0; i < m_iShootCount; i++)
             {
-                Vector3 vPosition = m_hOwner.ShootLocator.transform.position;
-
-                Vector3 vDirection;
-
-                if (m_hOwner.Spread > 0f)
+                for (int j = 0; j < m_hOwner.ShootLocators.Count; j++)
                 {
-                    float fRange = UnityEngine.Random.Range(-m_hOwner.Spread, m_hOwner.Spread);
-                    vDirection = Quaternion.Euler(0f, fRange, 0f) * m_hOwner.ShootLocator.transform.forward;
-                    vDirection.Normalize();
-                }
-                else
-                {
-                    vDirection = m_hOwner.ShootLocator.transform.forward;
-                }
+                    Vector3 vPosition = m_hOwner.ShootLocators[j].transform.position;
 
-                IBullet hBullet = GlobalFactory.GetInstance<IBullet>(m_hOwner.BulletPrefab);
-                hBullet.Shoot(vPosition, vDirection, m_hOwner.Force, ForceMode.VelocityChange);
+                    Vector3 vDirection;
+
+                    if (m_hOwner.Spread > 0f)
+                    {
+                        float fRange = UnityEngine.Random.Range(-m_hOwner.Spread, m_hOwner.Spread);
+                        vDirection = Quaternion.Euler(0f, fRange, 0f) * m_hOwner.ShootLocators[j].transform.forward;
+                        vDirection.Normalize();
+                    }
+                    else
+                    {
+                        vDirection = m_hOwner.ShootLocators[j].transform.forward;
+                    }
+
+                    IBullet hBullet = GlobalFactory.GetInstance<IBullet>(m_hOwner.BulletPrefab);
+                    hBullet.Shoot(vPosition, vDirection, m_hOwner.Force, ForceMode.VelocityChange);
+                    GameObject.Instantiate(m_hOwner.Muzzle, vPosition, m_hOwner.ShootLocators[j].transform.rotation);
+                }              
             }
-
             return Next;
         }
     }
@@ -186,7 +189,6 @@ public class WeaponProjectile : MonoBehaviour, IWeapon
         {
             if (m_bFire)
             {
-
                 return Next;
             }
             else

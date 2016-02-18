@@ -41,6 +41,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 409434}
+  - 114: {fileID: 11440786}
   m_Layer: 0
   m_Name: VFX_FIRE_000
   m_TagString: Untagged
@@ -188,8 +189,8 @@ Light:
   serializedVersion: 6
   m_Type: 2
   m_Color: {r: 1, g: .828600407, b: .522058845, a: 1}
-  m_Intensity: 1.24000001
-  m_Range: 250
+  m_Intensity: .600000024
+  m_Range: 20
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -210,6 +211,18 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
+--- !u!114 &11440786
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df42b3df0eeeec94197ce79f6efdf38b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Duration: .0500000007
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -273,6 +286,22 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d86c1b16dd9a2314bb29224747d1de42, type: 2}
+    - target: {fileID: 0}
+      propertyPath: DespawnDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Duration
+      value: .0500000007
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Intensity
+      value: .600000024
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Range
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 143398}
