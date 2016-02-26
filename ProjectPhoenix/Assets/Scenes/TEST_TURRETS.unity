@@ -611,6 +611,30 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2507e31d80d2b114dbc2b92a3dd9e5d4, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1209595218 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 113378, guid: 2507e31d80d2b114dbc2b92a3dd9e5d4, type: 2}
+  m_PrefabInternal: {fileID: 1209595217}
+--- !u!114 &1209595219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1209595218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletPrefab: {fileID: 0}
+  FireSFX: {fileID: 0}
+  Muzzle: {fileID: 0}
+  ShootLocators: []
+  Spread: 0
+  BulletDelay: 0.3
+  Force: 50
+  BarrageDelay: 0.3
+  Barrage: 1
 --- !u!1 &1211442510
 GameObject:
   m_ObjectHideFlags: 0
