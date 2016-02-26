@@ -11,12 +11,15 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
     internal float SteerAngle = 30f;
     [SerializeField]
     internal float MaxSpeed = 50f;
+    [SerializeField] [Range(0f, 1f)]
+    internal float CenterOfMassY = 0.6f;
 
     private List<Wheel> m_hWheels;
     private Tracks tracks;
     private Drive m_hEngine;
     private Rigidbody m_hRigidbody;
     private VehicleTurret m_hTurret;
+    private IWeapon m_hCurrentWeapon;
     private bool m_hLeft = false;
     private bool m_hRight = false;
     private bool m_hForward = false;
@@ -35,7 +38,7 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
         this.GetComponentsInChildren<WheelCollider>().ToList().ForEach(hW => m_hWheels.Add(new Wheel(hW)));
         m_hWheels = m_hWheels.OrderByDescending(hW => hW.Collider.transform.position.z).ToList();
 
-        m_hRigidbody.centerOfMass = new Vector3(m_hRigidbody.centerOfMass.x, 0.6f, m_hRigidbody.centerOfMass.z);
+        m_hRigidbody.centerOfMass = new Vector3(m_hRigidbody.centerOfMass.x, CenterOfMassY, m_hRigidbody.centerOfMass.z);
 
         //DELETEME
         obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -45,6 +48,9 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
         //Initialize VehicleTurret
         m_hTurret = GetComponentInChildren<VehicleTurret>();
+
+        //Initialize IWeapon
+        m_hCurrentWeapon = GetComponentInChildren<IWeapon>();
 
         //Initialize Drive/Brake State Machine
         m_hEngine = new Drive(Hp, m_hWheels);
@@ -145,17 +151,20 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
     public void BeginFire()
     {
-
+        if (m_hCurrentWeapon != null)
+            m_hCurrentWeapon.OnFireButtonPressed();
     }
 
     public void EndFire()
     {
-
+        if (m_hCurrentWeapon != null)
+            m_hCurrentWeapon.OnFireButtonReleased();
     }
 
     public void MousePosition(Vector3 vMousePosition)
     {
-        m_hTurret.UpdateRotation(vMousePosition);
+        if (m_hTurret != null)
+            m_hTurret.UpdateRotation(vMousePosition);
     }
 
     #region notimplemented
@@ -259,31 +268,6 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
         public void EndBackward()
         {
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
-        }
-    }
-
-    private class BrakeSystem
-    {
-        private float m_fForwardBrake;
-        private float m_fBackwardBrake;
-        private List<Wheel> m_hWheels;
-
-        public BrakeSystem(float fForwardBrake, float fBackwardBrake, List<Wheel> hWheels)
-        {
-            m_fForwardBrake = fForwardBrake;
-            m_fBackwardBrake = fBackwardBrake;
-            m_hWheels = hWheels;
-        }
-
-        public void BeginBrake()
-        {
-            m_hWheels.Take(2).ToList().ForEach(hW => hW.Collider.brakeTorque = m_fForwardBrake);
-            m_hWheels.Skip(2).ToList().ForEach(hW => hW.Collider.brakeTorque = m_fBackwardBrake);
-        }
-
-        public void EndBrake()
-        {
-            m_hWheels.ForEach(hW => hW.Collider.brakeTorque = 0f);
         }
     }
 
