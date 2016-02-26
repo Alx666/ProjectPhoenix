@@ -158,7 +158,7 @@ public class WeaponProjectile : MonoBehaviour, IWeapon
 
                     Vector3 vDirection;
 
-                    if (m_hOwner.Spread > 0f)
+                    if (m_hOwner.Spread > 0f || this.m_hOwner.transform.root.GetComponent<ControllerPlayerHeli>() == null)
                     {
                         float fRange = UnityEngine.Random.Range(-m_hOwner.Spread, m_hOwner.Spread);
                         vDirection = Quaternion.Euler(0f, fRange, 0f) * m_hOwner.ShootLocators[j].transform.forward;
@@ -166,7 +166,10 @@ public class WeaponProjectile : MonoBehaviour, IWeapon
                     }
                     else
                     {
-                        vDirection = m_hOwner.ShootLocators[j].transform.forward;
+                            RaycastHit vHit;
+                            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out vHit);
+                            vDirection = (vHit.point - m_hOwner.ShootLocators[j].transform.position).normalized;
+                        
                     }
 
                     IBullet hBullet = GlobalFactory.GetInstance<IBullet>(m_hOwner.BulletPrefab);

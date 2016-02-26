@@ -32,6 +32,12 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
     public float RepositioningTime = 0.5f;
     private bool isRotating;
 
+    private IWeapon weaponz;
+
+    void Awake()
+    {
+        weaponz = this.GetComponent<IWeapon>();
+    }
     void Start()
     {
         m_hLegs = new Queue<IKLeg>(this.GetComponentsInChildren<IKLeg>());        
@@ -170,7 +176,10 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
 
     public void BeginFire()
     {
-
+        if (weaponz != null)
+        {
+            weaponz.OnFireButtonPressed();
+        }
     }
 
     public void BeginPanLeft()
@@ -199,7 +208,10 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
 
     public void EndFire()
     {
-
+        if (weaponz != null)
+        {
+            weaponz.OnFireButtonReleased();
+        }
     }
 
     public void EndPanLeft()

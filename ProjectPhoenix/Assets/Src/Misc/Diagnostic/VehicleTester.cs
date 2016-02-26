@@ -10,12 +10,14 @@ internal class VehicleTester : MonoBehaviour
     public GameObject Camera;
     public float CameraSpeed { get; private set; }
     public float CameraTolerance { get; private set; }
+    public float Offset { get; private set; }
 
     public void Awake()
     {
         Targets = new List<GameObject>();
 
         CameraSpeed = 10f;
+        Offset = 30f;
         CameraTolerance = 1f;
     }
 
@@ -40,7 +42,7 @@ internal class VehicleTester : MonoBehaviour
     private void UpdateCameraPosition()
     {
         Vector3 target = currentTarget.transform.position;
-        Camera.transform.position = new Vector3(target.x, Camera.transform.position.y, target.z);
+        Camera.transform.position = new Vector3(target.x, target.y + Offset, target.z);
     }
 
     private void InputUpdate()
