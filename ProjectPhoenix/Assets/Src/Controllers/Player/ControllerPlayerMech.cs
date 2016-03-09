@@ -32,6 +32,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
     public float RepositioningTime = 0.5f;
     private bool isRotating;
 
+    private bool animationDone = true;
     void Start()
     {
         m_hLegs = new Queue<IKLeg>(this.GetComponentsInChildren<IKLeg>());        
@@ -50,7 +51,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
 
         Debug.DrawRay(this.transform.position, this.transform.forward * 20, Color.red);
 
-        if (m_bMoveForward)
+        if (m_bMoveForward && animationDone)
         {
             if (switchLeg)
             {
@@ -63,11 +64,14 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
             if (!m_hLeg.IsRepositioning)
             {
                 m_hLeg.BeginRepositionFront();
-            }           
+            }
+
+            animationDone = false;
                 
         }
-        else if(m_bMoveBackward)
+        else if(m_bMoveBackward && animationDone)
         {
+
             if (!switchLeg)
             {
                 SwitchLeg(m_hLeg);
@@ -80,6 +84,8 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
             {
                 m_hLeg.BeginRepositionRear();
             }
+
+            animationDone = false;
         }
 
         if (m_vTurn.magnitude > 0.1)
@@ -115,6 +121,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
         m_hBody.velocity = Vector3.zero;
         m_hLegs.Enqueue(hLeg);
         m_hLeg = m_hLegs.Dequeue();
+        animationDone = true;
     }
 
     private void SwitchLeg(IKLeg hLeg)

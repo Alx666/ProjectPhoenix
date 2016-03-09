@@ -27,6 +27,7 @@ internal class ControllerSpiderMech : MonoBehaviour, IControllerPlayer
     private Queue<LegCouple> m_hLegs;
     private LegCouple m_hLeg;
     private List<IKLegSpider> legsList;
+    private bool animationDone = true;
 
     public float RepositioningTime = 0.5f;
 
@@ -55,7 +56,7 @@ internal class ControllerSpiderMech : MonoBehaviour, IControllerPlayer
         //BreatRoot.transform.position = vRootPos;
 
 
-        if (m_bMoveForward)
+        if (m_bMoveForward && animationDone)
         {
             if (switchLeg)
             {
@@ -71,8 +72,9 @@ internal class ControllerSpiderMech : MonoBehaviour, IControllerPlayer
                 m_hLeg.leg2.BeginRepositionFront();
             }
 
+            animationDone = false;
         }
-        else if (m_bMoveBackward)
+        else if (m_bMoveBackward && animationDone)
         {
             if (!switchLeg)
             {
@@ -87,6 +89,8 @@ internal class ControllerSpiderMech : MonoBehaviour, IControllerPlayer
                 m_hLeg.leg1.BeginRepositionRear();
                 m_hLeg.leg2.BeginRepositionRear();
             }
+
+            animationDone = false;
         }
 
         if (m_vTurn.magnitude > 0.1)
@@ -125,6 +129,7 @@ internal class ControllerSpiderMech : MonoBehaviour, IControllerPlayer
         m_hBody.velocity = Vector3.zero;
         m_hLegs.Enqueue(hLeg);
         m_hLeg = m_hLegs.Dequeue();
+        animationDone = true;
     }
 
     private void SwitchLeg(LegCouple hLeg)
