@@ -25,6 +25,35 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
     private bool done;
 
     private Quaternion baseRotation;
+<<<<<<< HEAD
+    private Quaternion targetRotation;
+
+    private Queue<IKLeg> m_hLegs;
+    private IKLeg        m_hLeg;
+    public float RepositioningTime = 0.5f;
+    private bool isRotating;
+
+    private bool animationDone = true;
+    void Start()
+    {
+        m_hLegs = new Queue<IKLeg>(this.GetComponentsInChildren<IKLeg>());        
+        m_hLeg  = m_hLegs.Dequeue();
+        
+        m_hBody = this.GetComponent<Rigidbody>();
+        baseRotation = Torso.transform.rotation;
+    }
+
+    void Update()
+    {
+        float fy = BreathExcursion * Mathf.Sin(2.0f * Mathf.PI * BreatFreq * Time.time);
+        Vector3 vRootPos = BreatRoot.transform.position;
+        vRootPos.y += fy;
+        BreatRoot.transform.position = vRootPos;
+
+        Debug.DrawRay(this.transform.position, this.transform.forward * 20, Color.red);
+
+        if (m_bMoveForward && animationDone)
+=======
     private Quaternion targetRotation;
 
     private Queue<IKLeg> m_hLegs;
@@ -57,10 +86,27 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
         Debug.DrawRay(this.transform.position, this.transform.forward * 20, Color.red);
 
         if (m_bMoveForward)
+>>>>>>> origin/master
         {
             if (switchLeg)
             {
                 SwitchLeg(m_hLeg);
+<<<<<<< HEAD
+                switchLeg = false;
+            }
+
+            m_hBody.velocity = this.transform.forward * this.MovementSpeed;
+
+            if (!m_hLeg.IsRepositioning)
+            {
+                m_hLeg.BeginRepositionFront();
+            }
+
+            animationDone = false;
+                
+        }
+        else if(m_bMoveBackward && animationDone)
+=======
                 switchLeg = false;
             }
 
@@ -73,12 +119,31 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
                 
         }
         else if(m_bMoveBackward)
+>>>>>>> origin/master
         {
+
             if (!switchLeg)
             {
                 SwitchLeg(m_hLeg);
                 switchLeg = true;
             }
+<<<<<<< HEAD
+
+            m_hBody.velocity = -this.transform.forward * this.MovementSpeed;
+
+            if (!m_hLeg.IsRepositioning)
+            {
+                m_hLeg.BeginRepositionRear();
+            }
+
+            animationDone = false;
+        }
+
+        if (m_vTurn.magnitude > 0.1)
+        {
+            isRotating = true;
+
+=======
 
             m_hBody.velocity = -this.transform.forward * this.MovementSpeed;
 
@@ -92,6 +157,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
         {
             isRotating = true;
 
+>>>>>>> origin/master
             if (!done)
             {
                 Torso.transform.localRotation = Quaternion.Euler(this.transform.forward);
@@ -105,6 +171,27 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
                 m_hLeg.BeginRepositionCenter();
             }
 
+<<<<<<< HEAD
+            baseRotation = Torso.transform.rotation;
+            targetRotation = Torso.transform.rotation;
+        }
+        else
+        {
+            m_hBody.angularVelocity = Vector3.zero;
+            isRotating = false;
+            done = false;
+        }
+    }
+
+    public void EndReposition(IKLeg hLeg)
+    {
+        m_hBody.velocity = Vector3.zero;
+        m_hLegs.Enqueue(hLeg);
+        m_hLeg = m_hLegs.Dequeue();
+        animationDone = true;
+    }
+
+=======
             baseRotation = Torso.transform.rotation;
             targetRotation = Torso.transform.rotation;
         }
@@ -123,6 +210,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
         m_hLeg = m_hLegs.Dequeue();
     }
 
+>>>>>>> origin/master
     private void SwitchLeg(IKLeg hLeg)
     {
         m_hLegs.Enqueue(hLeg);
