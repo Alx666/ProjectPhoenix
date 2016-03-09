@@ -7,20 +7,20 @@ using System.Linq;
 [RequireComponent(typeof(Rigidbody))]
 internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
 {
-    public float        MovementSpeed     = 3f;
-    public float        TurnSpeed         = 0.3f;
-    public float        StepDistance      = 2f;
-    public GameObject   Torso;
-    public GameObject   BreatRoot;
-    public float        BreathExcursion   = 0.003f;
-    public float        BreatFreq         = 0.2f;
+    public float MovementSpeed = 3f;
+    public float TurnSpeed = 0.3f;
+    public float StepDistance = 2f;
+    public GameObject Torso;
+    public GameObject BreatRoot;
+    public float BreathExcursion = 0.003f;
+    public float BreatFreq = 0.2f;
     public float RotationSpeed = 5f;
 
-    private Rigidbody   m_hBody;    
-    private Vector3     m_vTurn;
-    private Vector3     m_vTorsoDirection;
-    private bool        m_bMoveForward;
-    private bool        m_bMoveBackward;
+    private Rigidbody m_hBody;
+    private Vector3 m_vTurn;
+    private Vector3 m_vTorsoDirection;
+    private bool m_bMoveForward;
+    private bool m_bMoveBackward;
     private bool switchLeg;
     private bool done;
 
@@ -28,21 +28,16 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
     private Quaternion targetRotation;
 
     private Queue<IKLeg> m_hLegs;
-    private IKLeg        m_hLeg;
+    private IKLeg m_hLeg;
     public float RepositioningTime = 0.5f;
     private bool isRotating;
 
-    private IWeapon weaponz;
-
-    void Awake()
-    {
-        weaponz = this.GetComponent<IWeapon>();
-    }
+    private bool animationDone = true;
     void Start()
     {
-        m_hLegs = new Queue<IKLeg>(this.GetComponentsInChildren<IKLeg>());        
-        m_hLeg  = m_hLegs.Dequeue();
-        
+        m_hLegs = new Queue<IKLeg>(this.GetComponentsInChildren<IKLeg>());
+        m_hLeg = m_hLegs.Dequeue();
+
         m_hBody = this.GetComponent<Rigidbody>();
         baseRotation = Torso.transform.rotation;
     }
@@ -56,7 +51,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
 
         Debug.DrawRay(this.transform.position, this.transform.forward * 20, Color.red);
 
-        if (m_bMoveForward)
+        if (m_bMoveForward && animationDone)
         {
             if (switchLeg)
             {
@@ -69,11 +64,14 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
             if (!m_hLeg.IsRepositioning)
             {
                 m_hLeg.BeginRepositionFront();
-            }           
-                
+            }
+
+            animationDone = false;
+
         }
-        else if(m_bMoveBackward)
+        else if (m_bMoveBackward && animationDone)
         {
+
             if (!switchLeg)
             {
                 SwitchLeg(m_hLeg);
@@ -86,6 +84,8 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
             {
                 m_hLeg.BeginRepositionRear();
             }
+
+            animationDone = false;
         }
 
         if (m_vTurn.magnitude > 0.1)
@@ -121,6 +121,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
         m_hBody.velocity = Vector3.zero;
         m_hLegs.Enqueue(hLeg);
         m_hLeg = m_hLegs.Dequeue();
+        animationDone = true;
     }
 
     private void SwitchLeg(IKLeg hLeg)
@@ -132,7 +133,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
 
     public void BeginForward()
     {
-        m_bMoveForward  = true;
+        m_bMoveForward = true;
     }
     public void EndForward()
     {
@@ -176,10 +177,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
 
     public void BeginFire()
     {
-        if (weaponz != null)
-        {
-            weaponz.OnFireButtonPressed();
-        }
+
     }
 
     public void BeginPanLeft()
@@ -208,10 +206,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
 
     public void EndFire()
     {
-        if (weaponz != null)
-        {
-            weaponz.OnFireButtonReleased();
-        }
+
     }
 
     public void EndPanLeft()
@@ -231,7 +226,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
 
     }
 
-    
+
 
     //Turn the torso in the direction of mouse position
     public void MousePosition(Vector3 vMousePosition)
@@ -241,7 +236,7 @@ internal class ControllerPlayerMech : MonoBehaviour, IControllerPlayer
             Plane vPlane = new Plane(Vector3.up, this.gameObject.transform.position);
             float fRes;
             Ray vRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        
+
             if (vPlane.Raycast(vRay, out fRes))
             {
                 Vector3 target = vRay.GetPoint(fRes);
