@@ -323,7 +323,7 @@ Transform:
   m_GameObject: {fileID: 146600}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 2}
   m_Children: []
   m_Father: {fileID: 458300}
   m_RootOrder: 1
@@ -400,7 +400,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 104024}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: .0599999987, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 474716}
@@ -759,10 +759,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 100000, guid: dad65925df464a64985ee2ef54c46de9, type: 2}
-  ShootLocator: {fileID: 146600}
+  BulletPrefab: {fileID: 149850, guid: 380d428858fec08488c8ee3be63c0658, type: 2}
+  Muzzle: {fileID: 116794, guid: 35465e0799cfd6d4ca7712b826c38210, type: 2}
+  ShootLocators:
+  - {fileID: 146600}
   Spread: 0
-  BulletDelay: .300000012
+  BulletDelay: .100000001
   Force: 80
   BarrageDelay: .300000012
   Barrage: 1
@@ -780,6 +782,7 @@ MonoBehaviour:
   AxeY: {fileID: 413698}
   AxeX: {fileID: 458300}
   RotationSpeed: 15
+  BulletLocator: {fileID: 146600}
 --- !u!114 &11498168
 MonoBehaviour:
   m_ObjectHideFlags: 1
