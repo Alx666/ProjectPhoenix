@@ -26,7 +26,7 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
 
     void Awake()
     {
-        this.Weapon = this.GetComponent<WeaponProjectile>();     
+        this.Weapon = this.GetComponent<IWeapon>();     
     }
 	void Start ()
     {
@@ -212,7 +212,7 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
 
         public IState OnStateUpdate()
         {
-            owner.Weapon.OnFireButtonPressed();
+            owner.Weapon.Press();
             ////Y axes
             Vector3 vDirection = Target.transform.position - Yrot.transform.position;
             Yrot.transform.localRotation = Quaternion.RotateTowards(Yrot.transform.localRotation, Quaternion.LookRotation(vDirection), owner.RotationSpeed);
@@ -230,7 +230,7 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
 
             if (!(Vector3.Distance(owner.gameObject.transform.position, owner.target.transform.position) <= owner.LightRadius))
             {
-                owner.Weapon.OnFireButtonReleased();
+                owner.Weapon.Release();
                 Idle.OnStateEnter();
                 return Idle;
             }

@@ -148,13 +148,13 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
     public void BeginFire()
     {
         if (m_hCurrentWeapon != null)
-            m_hCurrentWeapon.OnFireButtonPressed();
+            m_hCurrentWeapon.Press();
     }
 
     public void EndFire()
     {
         if (m_hCurrentWeapon != null)
-            m_hCurrentWeapon.OnFireButtonReleased();
+            m_hCurrentWeapon.Release();
     }
 
     public void MousePosition(Vector3 vMousePosition)

@@ -2,7 +2,6 @@
 using System.Collections;
 
 
-
 [RequireComponent(typeof(LineRenderer))]
 public class WeaponLaser : MonoBehaviour, IWeapon
 {
@@ -63,27 +62,27 @@ public class WeaponLaser : MonoBehaviour, IWeapon
             HitEffect.transform.position = vHit.point;
             
             
-            IDamageable hDamageable = vHit.collider.gameObject.GetComponent<IDamageable>();
+            //IDamageable hDamageable = vHit.collider.gameObject.GetComponent<IDamageable>();
 
-            if (hDamageable != null)
-            {
+            //if (hDamageable != null)
+            //{
                 
-                //lerptime for laser color lerp
-                m_fCurrentLerpTime += Time.deltaTime;
+            //    //lerptime for laser color lerp
+            //    m_fCurrentLerpTime += Time.deltaTime;
 
-                if (m_fCurrentLerpTime > TargetLerpTime)
-                    m_fCurrentLerpTime = TargetLerpTime;
+            //    if (m_fCurrentLerpTime > TargetLerpTime)
+            //        m_fCurrentLerpTime = TargetLerpTime;
 
-                float fPerc = m_fCurrentLerpTime / TargetLerpTime;
+            //    float fPerc = m_fCurrentLerpTime / TargetLerpTime;
 
-                //lerp smoothing
-                //perc = perc * perc * perc * (perc * (6f * perc - 15f) + 10f);
-                //color lerp
-                m_hRenderer.SetColors(Color.Lerp(StartColorWeak, StartColorStrong, fPerc), Color.Lerp(EndColorWeak, EndColorStrong, fPerc));
+            //    //lerp smoothing
+            //    //perc = perc * perc * perc * (perc * (6f * perc - 15f) + 10f);
+            //    //color lerp
+            //    m_hRenderer.SetColors(Color.Lerp(StartColorWeak, StartColorStrong, fPerc), Color.Lerp(EndColorWeak, EndColorStrong, fPerc));
 
 
-                hDamageable.Damage(DPS * Time.deltaTime);                                                
-            }
+            //    hDamageable.Damage(DPS * Time.deltaTime);                                                
+            //}
 
             
         }
@@ -102,7 +101,7 @@ public class WeaponLaser : MonoBehaviour, IWeapon
 
 
 
-    public void OnFireButtonPressed()
+    public void Press()
     {
         m_bFire = true;
         StartEffect.SetActive(true);
@@ -110,7 +109,7 @@ public class WeaponLaser : MonoBehaviour, IWeapon
     }
 
 
-    public void OnFireButtonReleased()
+    public void Release()
     {
         m_bFire = false;
         m_hRenderer.enabled = false;

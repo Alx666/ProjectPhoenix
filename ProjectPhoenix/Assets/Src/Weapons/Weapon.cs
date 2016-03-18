@@ -2,20 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class WeaponProjectile : MonoBehaviour, IWeapon
+public class Weapon : MonoBehaviour
 {
     public GameObject BulletPrefab;
-    public AudioSource FireSFX;
-    public GameObject Muzzle;
     public List<GameObject> ShootLocators;
 
     [Range(0f, 90f)]
     public float Spread = 0f;
 
     [Range(0f, 3f)]
-    public float BulletDelay = 0.3f;
-
-    public float Force = 50f;
+    public float BulletDelay = 0.3f;    
 
     [Range(0.01f, 3f)]
     public float BarrageDelay = 0.3f;
@@ -64,21 +60,17 @@ public class WeaponProjectile : MonoBehaviour, IWeapon
         m_hStateMachine = hLast;
     }
 
-    void Start()
-    {
-    }
-
-    void FixedUpdate()
+    void Update()
     {
         m_hStateMachine = m_hStateMachine.Update();
     }
 
-    public void OnFireButtonReleased()
+    public void Press()
     {
         m_hTrigger.OnButtonReleased();
     }
 
-    public void OnFireButtonPressed()
+    public void Release()
     {
         m_hTrigger.OnButtonPressed();
     }
@@ -88,11 +80,6 @@ public class WeaponProjectile : MonoBehaviour, IWeapon
         get { return m_hStateMachine != m_hTrigger; }
     }
 
-
-    public void OnUpdate()
-    {
-
-    }
 
     #region Internal State Machine
 
@@ -131,18 +118,18 @@ public class WeaponProjectile : MonoBehaviour, IWeapon
 
     private class WeaponShoot : IWeaponState
     {
-        private WeaponProjectile m_hOwner;
+        private Weapon m_hOwner;
         private int m_iShootCount;
 
         public IWeaponState Next { get; set; }
 
 
-        public WeaponShoot(WeaponProjectile hWeap) : this(hWeap, 1)
+        public WeaponShoot(Weapon hWeap) : this(hWeap, 1)
         {
             m_hOwner = hWeap;
         }
 
-        public WeaponShoot(WeaponProjectile hWeap, int iCount)
+        public WeaponShoot(Weapon hWeap, int iCount)
         {
             m_hOwner = hWeap;
             m_iShootCount = iCount;
@@ -158,27 +145,24 @@ public class WeaponProjectile : MonoBehaviour, IWeapon
 
                     Vector3 vDirection;
 
-                    if (m_hOwner.Spread > 0f || this.m_hOwner.transform.root.GetComponent<ControllerPlayerHeli>() == null)
+                    if (m_hOwner.Spread > 0f)
                     {
                         float fRange = UnityEngine.Random.Range(-m_hOwner.Spread, m_hOwner.Spread);
-                        vDirection = Quaternion.Euler(0f, fRange, 0f) * m_hOwner.ShootLocators[j].transform.forward;
+                        vDirection = Quaternion.Euler(fRange, fRange, fRange) * m_hOwner.ShootLocators[j].transform.forward;
                         vDirection.Normalize();
                     }
                     else
                     {
-                            RaycastHit vHit;
-                            Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out vHit);
-                            vDirection = (vHit.point - m_hOwner.ShootLocators[j].transform.position).normalized;
-                        
+                        RaycastHit vHit;
+                        Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out vHit);
+                        vDirection = (vHit.point - m_hOwner.ShootLocators[j].transform.position).normalized;                        
                     }
 
                     IBullet hBullet = GlobalFactory.GetInstance<IBullet>(m_hOwner.BulletPrefab);
-                    hBullet.Shoot(vPosition, vDirection, m_hOwner.Force, ForceMode.VelocityChange);
-                    GameObject.Instantiate(m_hOwner.Muzzle, vPosition, m_hOwner.ShootLocators[j].transform.rotation);
-
-                    m_hOwner.FireSFX.Play();
+                    hBullet.Shoot(vPosition, vDirection);                    
                 }              
             }
+
             return Next;
         }
     }
