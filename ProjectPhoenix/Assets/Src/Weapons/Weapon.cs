@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class Weapon : MonoBehaviour
 {
@@ -155,7 +156,9 @@ public class Weapon : MonoBehaviour
                     {
                         RaycastHit vHit;
                         Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out vHit);
-                        vDirection = (vHit.point - m_hOwner.ShootLocators[j].transform.position).normalized;                        
+                        vDirection = (vHit.point - m_hOwner.ShootLocators[j].transform.position).normalized;
+
+                        throw new NotImplementedException("rimuovere la dipendenza da Camera e Input");
                     }
 
                     IBullet hBullet = GlobalFactory.GetInstance<IBullet>(m_hOwner.BulletPrefab);

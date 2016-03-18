@@ -494,9 +494,7 @@ GameObject:
   - 92: {fileID: 1146408102}
   - 124: {fileID: 1146408101}
   - 81: {fileID: 1146408100}
-  - 114: {fileID: 1146408107}
   - 114: {fileID: 1146408106}
-  - 114: {fileID: 1146408105}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -571,26 +569,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &1146408105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1146408099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 149850, guid: 380d428858fec08488c8ee3be63c0658, type: 2}
-  FireSFX: {fileID: 0}
-  Muzzle: {fileID: 0}
-  ShootLocators: []
-  Spread: 0
-  BulletDelay: 0.3
-  Force: 50
-  BarrageDelay: 0.3
-  Barrage: 1
 --- !u!114 &1146408106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -602,26 +580,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce21d5d2e46262a4d8626e94d11518cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1146408107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1146408099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 0}
-  FireSFX: {fileID: 0}
-  Muzzle: {fileID: 0}
-  ShootLocators: []
-  Spread: 0
-  BulletDelay: 0.3
-  Force: 50
-  BarrageDelay: 0.3
-  Barrage: 1
 --- !u!1 &1417584342
 GameObject:
   m_ObjectHideFlags: 0
