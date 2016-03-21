@@ -70,12 +70,12 @@ public class Weapon : MonoBehaviour, IWeapon
 
     public void Press()
     {
-        m_hTrigger.OnButtonReleased();
+        m_hTrigger.OnButtonPressed();
     }
 
     public void Release()
     {
-        m_hTrigger.OnButtonPressed();
+        m_hTrigger.OnButtonReleased();
     }
 
     public bool IsFiring
