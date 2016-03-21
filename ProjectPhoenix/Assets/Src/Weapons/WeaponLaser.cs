@@ -28,6 +28,8 @@ public class WeaponLaser : MonoBehaviour, IWeapon
 
     private int m_iLayerMask;
 
+    public Vector3 Direction { get; set; }
+
     void Awake()
     {
         m_hRenderer = this.GetComponent<LineRenderer>();

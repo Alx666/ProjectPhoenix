@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class Weapon : MonoBehaviour
+public class Weapon : MonoBehaviour, IWeapon
 {
     public GameObject BulletPrefab;
     public List<GameObject> ShootLocators;
@@ -22,6 +22,8 @@ public class Weapon : MonoBehaviour
     private Pool m_hPool;
     private IWeaponState m_hStateMachine;
     private WeaponReady m_hTrigger;
+
+    public Vector3 Direction { get; set; }
 
     void Awake()
     {
@@ -144,21 +146,15 @@ public class Weapon : MonoBehaviour
                 {
                     Vector3 vPosition = m_hOwner.ShootLocators[j].transform.position;
 
-                    Vector3 vDirection;
+                    Vector3 vDirection = m_hOwner.Direction;
 
                     if (m_hOwner.Spread > 0f)
                     {
                         float fRange = UnityEngine.Random.Range(-m_hOwner.Spread, m_hOwner.Spread);
                         vDirection = Quaternion.Euler(fRange, fRange, fRange) * m_hOwner.ShootLocators[j].transform.forward;
                         vDirection.Normalize();
-                    }
-                    else
-                    {
-                        RaycastHit vHit;
-                        Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out vHit);
-                        vDirection = (vHit.point - m_hOwner.ShootLocators[j].transform.position).normalized;
 
-                        throw new NotImplementedException("rimuovere la dipendenza da Camera e Input");
+                        throw new NotImplementedException();
                     }
 
                     IBullet hBullet = GlobalFactory.GetInstance<IBullet>(m_hOwner.BulletPrefab);
