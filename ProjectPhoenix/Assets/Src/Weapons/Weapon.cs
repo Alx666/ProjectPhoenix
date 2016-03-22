@@ -150,11 +150,12 @@ public class Weapon : MonoBehaviour, IWeapon
 
                     if (m_hOwner.Spread > 0f)
                     {
-                        float fRange = UnityEngine.Random.Range(-m_hOwner.Spread, m_hOwner.Spread);
-                        vDirection = Quaternion.Euler(fRange, fRange, fRange) * m_hOwner.ShootLocators[j].transform.forward;
-                        vDirection.Normalize();
+                        float fRangeX = UnityEngine.Random.Range(-m_hOwner.Spread, m_hOwner.Spread);
+                        float fRangeY = UnityEngine.Random.Range(-m_hOwner.Spread, m_hOwner.Spread);
+                        float fRangeZ = UnityEngine.Random.Range(-m_hOwner.Spread, m_hOwner.Spread);
 
-                        throw new NotImplementedException();
+                        vDirection = Quaternion.Euler(fRangeX, fRangeY, fRangeZ) * vDirection;
+                        vDirection.Normalize();                        
                     }
 
                     IBullet hBullet = GlobalFactory.GetInstance<IBullet>(m_hOwner.BulletPrefab);
