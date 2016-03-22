@@ -36,13 +36,7 @@ public class BulletPhysics : MonoBehaviour, IBullet, IPoolable
         {
             hHit.Damage(Damage);
         }
-        else
-        {
-
-        }
-
-        this.m_hRigidBody.velocity = Vector3.zero;
-
+        
         GlobalFactory.Recycle(this.gameObject);
     }
 
@@ -62,11 +56,13 @@ public class BulletPhysics : MonoBehaviour, IBullet, IPoolable
     public void Enable()
     {
         this.gameObject.SetActive(true);
+        
     }
 
     public void Disable()
     {
         this.gameObject.SetActive(false);
+        this.m_hRigidBody.velocity = Vector3.zero;
     }
 
     #endregion
