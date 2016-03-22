@@ -771,13 +771,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 149850, guid: 380d428858fec08488c8ee3be63c0658, type: 2}
+  BulletPrefab: {fileID: 166996, guid: f3791f63b84dd8445bb6dea3a6d41a17, type: 2}
   ShootLocators:
   - {fileID: 1821744603}
   Spread: 0
   BulletDelay: 0.001
   BarrageDelay: 0.3
-  Barrage: 10
+  Barrage: 1
 --- !u!114 &1146408106
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -858,6 +858,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxDistance: 50
   Force: 20
+  Damage: 0
 --- !u!4 &1194016127
 Transform:
   m_ObjectHideFlags: 0
@@ -928,6 +929,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxDistance: 50
   Force: 20
+  Damage: 0
 --- !u!4 &1405288408
 Transform:
   m_ObjectHideFlags: 0

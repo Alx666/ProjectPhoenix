@@ -12,7 +12,12 @@ public class Test_Damageable:MonoBehaviour, IDamageable
 		
 	}
 
-	public void Damage( float fDmg )
+    public void Damage(object damage)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Damage( float fDmg )
 	{
 		this.fHp -= fDmg;
 		if ( this.fHp <= 0f )
