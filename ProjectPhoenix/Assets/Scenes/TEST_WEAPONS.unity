@@ -595,13 +595,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 163644, guid: 696c6fbd421805849afd3456194fbd8a, type: 2}
+  BulletPrefab: {fileID: 100002, guid: efcc3e9acd8ae0c4fa91307ee78f6f83, type: 2}
   ShootLocators:
   - {fileID: 1821744603}
-  - {fileID: 1631034232}
-  Spread: 1
+  ShootsAlternate: 0
+  Spread: 2
   BulletDelay: 0.1
-  BarrageDelay: 0.01
+  BarrageDelay: 0.5
   Barrage: 1
 --- !u!114 &1146408106
 MonoBehaviour:
