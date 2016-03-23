@@ -14,14 +14,19 @@ public class BulletPhysics : MonoBehaviour, IBullet, IPoolable
 
     private Rigidbody m_hRigidBody;
     private Vector3 m_vShootPosition;
+    private ParticlesController m_hParticlesController;
 
     void Awake()
     {
         m_hRigidBody = this.GetComponent<Rigidbody>();
+        m_hParticlesController = this.GetComponentInChildren<ParticlesController>();
     }
 
     public void Shoot(Vector3 vPosition, Vector3 vDirection)
     {
+        if(m_hParticlesController!= null)
+            m_hParticlesController.PlayMuzzleVfx(vPosition, vDirection);
+
         this.gameObject.transform.position = vPosition;
         this.gameObject.transform.forward  = vDirection;
         m_hRigidBody.AddForce(this.gameObject.transform.forward * Force, ForceMode.VelocityChange);
@@ -31,6 +36,9 @@ public class BulletPhysics : MonoBehaviour, IBullet, IPoolable
     void OnTriggerEnter(Collider collider)
     {
         IDamageable hHit = collider.gameObject.GetComponent<IDamageable>();
+
+        //bool bSide = ParticlesController.CheckIsSide(normal); come prendo la normale da una trigger collision?
+        //ToDo: play collision vfx
 
         if (hHit != null)
         {

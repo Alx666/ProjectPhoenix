@@ -6,6 +6,8 @@ using System.Linq;
 
 public class ParticleVfx : MonoBehaviour, IVisualEffect, IPoolable
 {
+    //ToDo: gestione suoni
+
     public float Duration;
 
     public Pool Pool { get; set; }
@@ -26,7 +28,7 @@ public class ParticleVfx : MonoBehaviour, IVisualEffect, IPoolable
         else
             this.gameObject.transform.forward = vDirection;
 
-        this.gameObject.transform.localScale = this.gameObject.transform.localScale * scaleCoef;
+        m_hParticle.ForEach(hP => hP.startSize = hP.startSize * scaleCoef);
 
         StartCoroutine(Wait(Duration));
         m_hParticle.ForEach(hP => hP.Play());

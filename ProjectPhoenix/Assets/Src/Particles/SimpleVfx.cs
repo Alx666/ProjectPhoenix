@@ -4,6 +4,8 @@ using System;
 
 public class SimpleVfx : MonoBehaviour, IVisualEffect, IPoolable
 {
+    //ToDo: gestione suoni
+
     public float Duration;
 
     public Pool Pool { get; set; }

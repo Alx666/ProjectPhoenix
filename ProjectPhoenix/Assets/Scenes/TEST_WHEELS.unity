@@ -897,14 +897,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 163644, guid: 696c6fbd421805849afd3456194fbd8a, type: 2}
-  FireSFX: {fileID: 0}
-  Muzzle: {fileID: 116794, guid: 35465e0799cfd6d4ca7712b826c38210, type: 2}
   ShootLocators:
   - {fileID: 1581458800}
   - {fileID: 1403994387}
   Spread: 0
   BulletDelay: 0.3
-  Force: 50
   BarrageDelay: 0.3
   Barrage: 1
 --- !u!1 &294340904
@@ -2458,7 +2455,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 422600, guid: 4630fc07f363a2249b1c6b14e67c92d0, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4630fc07f363a2249b1c6b14e67c92d0, type: 2}
@@ -6862,7 +6859,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 464304, guid: 93faadea30c7c0f49b43b16fd5b2a914, type: 2}
       propertyPath: m_LocalPosition.y
-      value: .0599999987
+      value: 0.06
       objectReference: {fileID: 0}
     - target: {fileID: 464304, guid: 93faadea30c7c0f49b43b16fd5b2a914, type: 2}
       propertyPath: m_LocalPosition.z

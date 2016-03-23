@@ -9,16 +9,24 @@ using System;
 public class BulletRaycast : MonoBehaviour, IBullet, IPoolable
 {
     public float MaxDistance = 50f;
-    public float Speed       = 1f;
-    public float Damage      = 10f;
+    public float Speed = 1f;
+    public float Damage = 10f;
 
     private float m_fTotalDistance;
+    private ParticlesController m_hParticlesController;
 
-    
+    void Awake()
+    {
+        m_hParticlesController = this.GetComponentInChildren<ParticlesController>();
+    }
+
     public void Shoot(Vector3 vPosition, Vector3 vDirection)
     {
-        this.gameObject.transform.position  = vPosition;
-        this.gameObject.transform.forward   = vDirection;
+        if (m_hParticlesController != null)
+            m_hParticlesController.PlayMuzzleVfx(vPosition, vDirection);
+
+        this.gameObject.transform.position = vPosition;
+        this.gameObject.transform.forward = vDirection;
     }
 
     void Update()
@@ -34,16 +42,16 @@ public class BulletRaycast : MonoBehaviour, IBullet, IPoolable
             if (hHit != null)
             {
                 hHit.Damage(Damage);
-
-                //Todo: parcicle hit
+                if (m_hParticlesController != null)
+                    m_hParticlesController.PlayHitVfx(vRaycast.point, vRaycast.normal);
             }
             else
             {
-                //Todo: particle miss
+                if (m_hParticlesController != null)
+                    m_hParticlesController.PlayMissVfx(vRaycast.point, vRaycast.normal);
             }
 
             GlobalFactory.Recycle(this.gameObject);
-
         }
         else
         {

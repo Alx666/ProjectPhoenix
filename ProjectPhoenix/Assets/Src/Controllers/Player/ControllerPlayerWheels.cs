@@ -6,14 +6,12 @@ using System;
 
 internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
 {
-    [SerializeField]
-    internal float Hp = 100f;
-    [SerializeField]
-    internal float SteerAngle = 30f;
-    [SerializeField]
-    internal float MaxSpeed = 50f;
-    [SerializeField] [Range(0f, 1f)]
-    internal float CenterOfMassY = 0.6f;
+
+    public float Hp = 100f;
+    public float SteerAngle = 30f;
+    public float MaxSpeed = 50f;
+    [Range(0f, 1f)]
+    public float CenterOfMassY = 0.6f;
 
     private List<Wheel> m_hWheels;
     private List<FakeWheel> m_hFakeWheels;
