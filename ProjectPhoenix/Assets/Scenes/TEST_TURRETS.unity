@@ -262,11 +262,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 541074113}
   m_LocalRotation: {x: 0.31981543, y: 0.38516688, z: -0.14431863, w: 0.85354364}
-  m_LocalPosition: {x: -28.8, y: 4.38, z: -20.3}
+  m_LocalPosition: {x: -28.8, y: 32, z: -21.05}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 714778546}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
 --- !u!1 &602715652
 GameObject:
   m_ObjectHideFlags: 0
@@ -342,34 +342,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 12
---- !u!1 &714778545
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 714778546}
-  m_Layer: 0
-  m_Name: Camera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &714778546
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 714778545}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 27.62, z: -0.75}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 541074118}
-  m_Father: {fileID: 0}
-  m_RootOrder: 15
 --- !u!1 &923327408
 GameObject:
   m_ObjectHideFlags: 0
@@ -519,6 +491,10 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1c697a87d663bc34196ab7e0d71141fd, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1075242073 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 195174, guid: 1c697a87d663bc34196ab7e0d71141fd, type: 2}
+  m_PrefabInternal: {fileID: 1075242072}
 --- !u!1001 &1167566435
 Prefab:
   m_ObjectHideFlags: 0
@@ -627,12 +603,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 0}
-  FireSFX: {fileID: 0}
-  Muzzle: {fileID: 0}
   ShootLocators: []
   Spread: 0
   BulletDelay: 0.3
-  Force: 50
   BarrageDelay: 0.3
   Barrage: 1
 --- !u!1 &1211442510
@@ -662,7 +635,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac91b501bdf6a3f4a81ae2cd3f10acf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 714778545}
+  camera: {fileID: 541074117}
+  Offset: {x: -20, y: 20, z: -20}
+  MaxOffset: 60
+  MinOffset: 30
+  InputReceivers:
+  - {fileID: 1209595218}
+  - {fileID: 1075242073}
+  - {fileID: 2033218914}
 --- !u!4 &1211442512
 Transform:
   m_ObjectHideFlags: 0
@@ -1049,3 +1029,7 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b32cfe1167b861a469a3ce0ae4c00308, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &2033218914 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 120030, guid: b32cfe1167b861a469a3ce0ae4c00308, type: 2}
+  m_PrefabInternal: {fileID: 2033218913}

@@ -4,86 +4,62 @@ using UnityEngine;
 
 internal class VehicleTester : MonoBehaviour
 {
-    private List<GameObject> Targets;
-    private GameObject currentTarget;
+    public Camera camera;
+    public Vector3 Offset;
+    public float MaxOffset;
+    public float MinOffset;
 
-    public GameObject Camera;
-    public float CameraSpeed { get; private set; }
-    public float CameraTolerance { get; private set; }
-    public float Offset { get; private set; }
+    CustomCamera MyCamera;
+    Rigidbody rB;
+    bool LogWritten;
 
-    public void Awake()
+    [SerializeField]
+    internal List<GameObject> InputReceivers;
+
+    void Awake()
     {
-        Targets = new List<GameObject>();
+        InputReceivers.ForEach(hGO => hGO.GetComponent<InputProviderPCStd>().enabled = false);
+        InputReceivers.First().GetComponent<InputProviderPCStd>().enabled = true;
 
-        CameraSpeed = 10f;
-        Offset = 30f;
-        CameraTolerance = 1f;
+
+        LogWritten = true;
     }
 
-    public void Start()
+    void Update()
     {
-        Targets = FindObjectsOfType<GameObject>().Where(GO => GO.GetComponent<IControllerPlayer>() != null).ToList();
-
-        if (Targets[0] != null)
+        if (Input.GetMouseButtonDown(0))
         {
-            Targets.ForEach(GO => GO.GetComponent<InputProviderPCStd>().enabled = false);
-            Targets[0].GetComponent<InputProviderPCStd>().enabled = true;
-            currentTarget = Targets[0];
-        }
-    }
+            RaycastHit hit;
 
-    public void Update()
-    {
-        InputUpdate();
-        UpdateCameraPosition();
-    }
-
-    private void UpdateCameraPosition()
-    {
-        Vector3 target = currentTarget.transform.position;
-        Camera.transform.position = new Vector3(target.x, target.y + Offset, target.z);
-    }
-
-    private void InputUpdate()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            if (Targets[0] != null)
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity))
             {
-                Targets.ForEach(GO => GO.GetComponent<InputProviderPCStd>().enabled = false);
-                Targets[0].GetComponent<InputProviderPCStd>().enabled = true;
-                currentTarget = Targets[0];
+                InputProviderPCStd provider = hit.collider.transform.root.GetComponent<InputProviderPCStd>();
+                if (provider && InputReceivers.Contains(provider.gameObject))
+                {
+                    Debug.Log(hit.transform.root.gameObject.name + " Selected!");
+
+                    InputReceivers.Where(hGO => hGO != provider.gameObject).ToList().ForEach(hGO => hGO.GetComponent<InputProviderPCStd>().enabled = false);
+                    provider.enabled = true;
+
+                    MyCamera = new CustomCamera(camera, provider.GetComponentInParent<Rigidbody>(), Offset);
+                }
             }
         }
+    }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+    void LateUpdate()
+    {
+        try
         {
-            if (Targets[1] != null)
-            {
-                Targets.ForEach(GO => GO.GetComponent<InputProviderPCStd>().enabled = false);
-                Targets[1].GetComponent<InputProviderPCStd>().enabled = true;
-                currentTarget = Targets[1];
-            }
+            MyCamera.ZoomOnTarget(MinOffset, MaxOffset);
+            //MyCamera.AimHelper(Input.mousePosition, KeyCode.Mouse1);
         }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        catch
         {
-            if (Targets[2] != null)
+            if (LogWritten == true)
             {
-                Targets.ForEach(GO => GO.GetComponent<InputProviderPCStd>().enabled = false);
-                Targets[2].GetComponent<InputProviderPCStd>().enabled = true;
-                currentTarget = Targets[2];
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            if (Targets[3] != null)
-            {
-                Targets.ForEach(GO => GO.GetComponent<InputProviderPCStd>().enabled = false);
-                Targets[3].GetComponent<InputProviderPCStd>().enabled = true;
-                currentTarget = Targets[3];
+                Debug.Log("No Player Selected");
+                LogWritten = false;
             }
         }
     }

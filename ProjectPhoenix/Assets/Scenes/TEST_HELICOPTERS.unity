@@ -482,14 +482,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 149850, guid: 380d428858fec08488c8ee3be63c0658, type: 2}
-  FireSFX: {fileID: 198592156}
-  Muzzle: {fileID: 143398, guid: 1ac571d5d951fef408c1a9135767f71d, type: 2}
   ShootLocators:
   - {fileID: 329489048}
   - {fileID: 2018833947}
   Spread: 0
   BulletDelay: 0.01
-  Force: 100
   BarrageDelay: 0.01
   Barrage: 1
 --- !u!1 &612969840
@@ -539,8 +536,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 163644, guid: 696c6fbd421805849afd3456194fbd8a, type: 2}
-  FireSFX: {fileID: 1958270512}
-  Muzzle: {fileID: 143398, guid: 1ac571d5d951fef408c1a9135767f71d, type: 2}
   ShootLocators:
   - {fileID: 2014707214}
   - {fileID: 1504359888}
@@ -548,7 +543,6 @@ MonoBehaviour:
   - {fileID: 223358501}
   Spread: 0
   BulletDelay: 0.01
-  Force: 50
   BarrageDelay: 0.1
   Barrage: 1
 --- !u!1 &811905317
@@ -632,11 +626,11 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 811905317}
   m_LocalRotation: {x: 0.32662866, y: 0.2468989, z: -0.08881517, w: 0.9080014}
-  m_LocalPosition: {x: -26.1, y: 10, z: -30.9}
+  m_LocalPosition: {x: -37.760002, y: 34.2, z: -30.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2134130140}
-  m_RootOrder: 0
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
 --- !u!1 &831456324
 GameObject:
   m_ObjectHideFlags: 0
@@ -664,7 +658,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac91b501bdf6a3f4a81ae2cd3f10acf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Camera: {fileID: 2134130139}
+  camera: {fileID: 811905321}
+  Offset: {x: -20, y: 25, z: -20}
+  MaxOffset: 50
+  MinOffset: 25
+  InputReceivers:
+  - {fileID: 702824115}
+  - {fileID: 476860330}
+  - {fileID: 1275592404}
+  - {fileID: 1041564543}
 --- !u!4 &831456326
 Transform:
   m_ObjectHideFlags: 0
@@ -826,8 +828,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 149850, guid: 380d428858fec08488c8ee3be63c0658, type: 2}
-  FireSFX: {fileID: 886941428}
-  Muzzle: {fileID: 116794, guid: 35465e0799cfd6d4ca7712b826c38210, type: 2}
   ShootLocators:
   - {fileID: 1616891435}
   - {fileID: 2130475283}
@@ -835,7 +835,6 @@ MonoBehaviour:
   - {fileID: 2105879153}
   Spread: 0
   BulletDelay: 0.1
-  Force: 50
   BarrageDelay: 0.3
   Barrage: 1
 --- !u!1 &1076157832
@@ -919,14 +918,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 149850, guid: 380d428858fec08488c8ee3be63c0658, type: 2}
-  FireSFX: {fileID: 470057781}
-  Muzzle: {fileID: 116794, guid: 35465e0799cfd6d4ca7712b826c38210, type: 2}
   ShootLocators:
   - {fileID: 215171485}
   - {fileID: 916117010}
   Spread: 0
   BulletDelay: 0.01
-  Force: 50
   BarrageDelay: 0.01
   Barrage: 1
 --- !u!1 &1504359888
@@ -1475,34 +1471,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1041564547}
   m_RootOrder: 3
---- !u!1 &2134130139
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 2134130140}
-  m_Layer: 0
-  m_Name: Camera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2134130140
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2134130139}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.66, y: 24.2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 811905322}
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
 --- !u!1 &2134809584
 GameObject:
   m_ObjectHideFlags: 0
