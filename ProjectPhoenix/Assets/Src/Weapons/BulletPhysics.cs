@@ -37,8 +37,7 @@ public class BulletPhysics : MonoBehaviour, IBullet, IPoolable
     {
         IDamageable hHit = collider.gameObject.GetComponent<IDamageable>();
 
-        //bool bSide = ParticlesController.CheckIsSide(normal); come prendo la normale da una trigger collision?
-        //ToDo: play collision vfx
+        //ToDo: play collision vfx  come prendo la normale da una trigger collision?
 
         if (hHit != null)
         {
