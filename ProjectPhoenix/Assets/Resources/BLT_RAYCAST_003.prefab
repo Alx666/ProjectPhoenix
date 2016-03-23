@@ -11,6 +11,7 @@ GameObject:
   - 198: {fileID: 19800000}
   - 199: {fileID: 19900000}
   - 114: {fileID: 11439796}
+  - 114: {fileID: 11441826}
   m_Layer: 0
   m_Name: BLT_RAYCAST_003
   m_TagString: Untagged
@@ -74,6 +75,30 @@ MonoBehaviour:
   MaxDistance: 100
   Speed: 150
   Damage: 40
+--- !u!114 &11441826
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc3418799ed191d46af65cdce2777bbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MuzzleVfxs:
+  - {fileID: 100004, guid: b4423127acb2b3c418e7b9809ec5f555, type: 2}
+  HitVfxs:
+  - {fileID: 161326, guid: ed468c1c696ccc64fb8a387e074bcce6, type: 2}
+  SideHitVfxs:
+  - {fileID: 117920, guid: 72955ea87842bb04d8bef85be568c657, type: 2}
+  MissVfxs:
+  - {fileID: 152976, guid: c64b892919436cd4e9635772dd3e432c, type: 2}
+  SideMissVfxs:
+  - {fileID: 160746, guid: 015c20e8e771ca746809ccfe7879ade5, type: 2}
+  MuzzleScaleCoef: 0.5
+  HitScaleCoef: 1
+  MissScaleCoef: 1
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
