@@ -2,11 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 
 public class Weapon : MonoBehaviour, IWeapon
 {
     public GameObject BulletPrefab;
     public List<GameObject> ShootLocators;
+    public bool ShootsAlternate;
 
     [Range(0f, 90f)]
     public float Spread = 0f;
@@ -140,11 +142,26 @@ public class Weapon : MonoBehaviour, IWeapon
 
         public IWeaponState Update()
         {
+            List<GameObject> hLocators;
+
+            if (m_hOwner.ShootsAlternate)
+            {
+                hLocators = new List<GameObject>();
+                GameObject hElement = m_hOwner.ShootLocators.First();
+                hLocators.Add(hElement);
+                m_hOwner.ShootLocators.RemoveAt(0);
+                m_hOwner.ShootLocators.Add(hElement);
+            }
+            else
+            {
+                hLocators = new List<GameObject>(m_hOwner.ShootLocators);
+            }
+
             for (int i = 0; i < m_iShootCount; i++)
             {
-                for (int j = 0; j < m_hOwner.ShootLocators.Count; j++)
+                for (int j = 0; j < hLocators.Count; j++)
                 {
-                    Vector3 vPosition = m_hOwner.ShootLocators[j].transform.position;
+                    Vector3 vPosition = hLocators[j].transform.position;
 
                     Vector3 vDirection = m_hOwner.Direction;
 
