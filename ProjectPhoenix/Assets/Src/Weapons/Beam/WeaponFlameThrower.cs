@@ -2,23 +2,24 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 [RequireComponent(typeof(ParticleSystem))]
 public class WeaponFlameThrower : MonoBehaviour, IBeam
 {
-    private ParticleSystem m_hParticleSystem;
+    private List<ParticleSystem> m_hParticleSystems;
     void Awake()
     {
-        m_hParticleSystem = this.GetComponent<ParticleSystem>();
+       m_hParticleSystems = this.GetComponentsInChildren<ParticleSystem>().ToList();
     }
 
     public void Enable()
     {
-        m_hParticleSystem.Play();
+        m_hParticleSystems.ForEach(hP => hP.Play());
     }
 
     public void Disable()
     {
-        m_hParticleSystem.Stop();
+        m_hParticleSystems.ForEach(hP => hP.Stop());
     }
 }

@@ -36,7 +36,7 @@ public class WeaponLaser : MonoBehaviour, IBeam
     float beamLength;               // Current beam length
     float initialBeamOffset;        // Initial UV offset 
 
-
+    private bool bDone;
     void Awake()
     {
         m_hLineRenderer = this.GetComponent<LineRenderer>();
@@ -49,13 +49,200 @@ public class WeaponLaser : MonoBehaviour, IBeam
         initialBeamOffset = UnityEngine.Random.Range(0f, 5f);
     }
 
+    void OnSpawned()
+    {
+        // Start animation sequence if beam frames array has more than 2 elements
+        if (BeamFrames.Length > 1)
+            Animate();
+
+        // Start oscillation sequence
+        if (Oscillate && Points > 0)
+            OscillateTimerID = TimeUtils.time.AddTimer(OscillateTime, OnOscillate);
+        
+        // Play audio
+        //if (F3DAudioController.instance)
+        //    F3DAudioController.instance.LightningGunLoop(transform.position, transform);
+    }
+
+    // OnDespawned called by pool manager 
+    void OnDespawned()
+    {
+        // Reset frame counter
+        frameNo = 0;
+
+        // Clear frame animation timer
+        if (FrameTimerID != -1)
+        {
+            TimeUtils.time.RemoveTimer(FrameTimerID);
+            FrameTimerID = -1;
+        }
+
+        // Clear oscillation timer
+        if (OscillateTimerID != -1)
+        {
+            TimeUtils.time.RemoveTimer(OscillateTimerID);
+            OscillateTimerID = -1;
+        }
+
+        //// Play audio
+        //if (F3DAudioController.instance)
+        //    F3DAudioController.instance.LightningGunClose(transform.position);
+    }
+
+    // Generate random noise numbers based on amplitude
+    float GetRandomNoise()
+    {
+        return UnityEngine.Random.Range(-Amplitude, Amplitude);
+    }
+
+    // Advance texture frame
+    void OnFrameStep()
+    {
+        // Randomize frame counter
+        if (RandomizeFrames)
+            frameNo = UnityEngine.Random.Range(0, BeamFrames.Length);
+
+        // Set current texture frame based on frame counter
+        m_hLineRenderer.material.mainTexture = BeamFrames[frameNo];
+        frameNo++;
+
+        // Reset frame counter
+        if (frameNo == BeamFrames.Length)
+            frameNo = 0;
+    }
+
+    // Oscillate beam
+    void OnOscillate()
+    {
+        // Calculate number of points based on beam length and default number of points
+        int points = (int)((beamLength / 10f) * Points);
+
+        // Update line rendered segments in case number of points less than 2
+        if (points < 2)
+        {
+            m_hLineRenderer.SetVertexCount(2);
+            m_hLineRenderer.SetPosition(0, Vector3.zero);
+            m_hLineRenderer.SetPosition(1, new Vector3(0, 0, beamLength));
+        }
+        // Update line renderer segments
+        else
+        {
+            // Update number of points for line renderer
+            m_hLineRenderer.SetVertexCount(points);
+            // Set zero point manually
+            m_hLineRenderer.SetPosition(0, Vector3.zero);
+
+            // Update each point with random noise based on amplitude
+            for (int i = 1; i < points - 1; i++)
+                m_hLineRenderer.SetPosition(i, new Vector3(GetRandomNoise(), GetRandomNoise(), (beamLength / (points - 1)) * i));
+
+            // Set last point manually 
+            m_hLineRenderer.SetPosition(points - 1, new Vector3(0f, 0f, beamLength));
+        }
+    }
+
+    // Initialize frame animation
+    void Animate()
+    {
+        // Set current frame
+        frameNo = 0;
+        m_hLineRenderer.material.mainTexture = BeamFrames[frameNo];
+
+        // Add timer 
+        FrameTimerID = TimeUtils.time.AddTimer(FrameStep, OnFrameStep);
+
+        frameNo = 1;
+    }
+
+    void Raycast()
+    {
+        // Prepare structure and create ray
+        hitPoint = new RaycastHit();
+        Ray ray = new Ray(transform.position, transform.forward);
+
+        // Calculate default beam proportion multiplier based on default scale and maximum length
+        float propMult = MaxBeamLength * (beamScale / 10f);
+
+        // Raycast
+        if (Physics.Raycast(ray, out hitPoint, MaxBeamLength, layerMask))
+        {
+            // Get current beam length
+            beamLength = Vector3.Distance(transform.position, hitPoint.point);
+
+            // Update line renderer
+            if (!Oscillate)
+                m_hLineRenderer.SetPosition(1, new Vector3(0f, 0f, beamLength));
+
+            // Calculate default beam proportion multiplier based on default scale and current length
+            propMult = beamLength * (beamScale / 10f);
+
+            // Apply hit force to rigidbody
+            //ApplyForce(0.1f);
+
+            // Adjust impact effect position
+            if (rayImpact)
+            {
+                rayImpact.GetComponent<ParticleSystem>().Play();
+                rayImpact.position = hitPoint.point - transform.forward * 0.5f;
+            }
+        }
+
+        // Nothing was hit
+        else
+        {
+            // Set beam to maximum length
+            beamLength = MaxBeamLength;
+
+            // Update beam length
+            if (!Oscillate)
+                m_hLineRenderer.SetPosition(1, new Vector3(0f, 0f, beamLength));
+
+            // Adjust impact effect position
+            if (rayImpact)
+            {
+                rayImpact.GetComponent<ParticleSystem>().Play();
+                rayImpact.position = transform.position + transform.forward * beamLength;
+            }
+        }
+
+        // Adjust muzzle position
+        if (rayMuzzle)
+        {
+            rayMuzzle.GetComponent<ParticleSystem>().Play();
+            rayMuzzle.position = transform.position + transform.forward * 0.1f;
+        }
+
+        // Set beam scaling according to its length
+        m_hLineRenderer.material.SetTextureScale("_MainTex", new Vector2(propMult, 1f));
+    }
+
     public void Enable()
     {
         m_hLineRenderer.enabled = true;
+
+        if (!bDone)
+        {
+            OnSpawned();
+            bDone = true;
+        }
+
+        if (AnimateUV)
+            m_hLineRenderer.material.SetTextureOffset("_MainTex", new Vector2(Time.time * UVTime + initialBeamOffset, 0f));
+
+        Raycast();
     }
 
     public void Disable()
     {
         m_hLineRenderer.enabled = false;
+
+        rayImpact.GetComponent<ParticleSystem>().Stop();
+        rayMuzzle.GetComponent<ParticleSystem>().Stop();
+
+        if (bDone)
+        {
+            OnDespawned();
+            bDone = false;
+        }
     }
 }

@@ -85,56 +85,5 @@ public class WeaponBeam : MonoBehaviour, IWeapon
     private void Fire()
     {
         ShootLocators.ForEach(hS => hS.transform.forward = Direction);
-
-        //RaycastHit vHit;
-        //Ray vRay = new Ray(ShootLocators, Direction);
-
-        //if (Physics.Raycast(vRay, out vHit))
-        //{
-
-
-        //}
-        //    RaycastHit vHit;
-        //    Ray vRay = new Ray(ShootLocator.transform.position, Direction);
-
-        //    if (Physics.Raycast(vRay, out vHit))
-        //    {
-        //        m_hRenderer.SetPosition(0, ShootLocator.transform.position);
-        //        m_hRenderer.SetPosition(1, vHit.point);
-
-        //        //HitEffect.transform.position = vHit.point;
-
-
-        //        //IDamageable hDamageable = vHit.collider.gameObject.GetComponent<IDamageable>();
-
-        //        //if (hDamageable != null)
-        //        //{
-
-        //        //    //lerptime for laser color lerp
-        //        //    m_fCurrentLerpTime += Time.deltaTime;
-
-        //        //    if (m_fCurrentLerpTime > TargetLerpTime)
-        //        //        m_fCurrentLerpTime = TargetLerpTime;
-
-        //        //    float fPerc = m_fCurrentLerpTime / TargetLerpTime;
-
-        //        //    //lerp smoothing
-        //        //    //perc = perc * perc * perc * (perc * (6f * perc - 15f) + 10f);
-        //        //    //color lerp
-        //        //    m_hRenderer.SetColors(Color.Lerp(StartColorWeak, StartColorStrong, fPerc), Color.Lerp(EndColorWeak, EndColorStrong, fPerc));
-
-
-        //        //    hDamageable.Damage(DPS * Time.deltaTime);                                                
-        //        //}
-
-
-        //    }
-        //    else
-        //    {
-        //        Vector3 vAway = ShootLocator.transform.position + Direction * 500f;
-        //        HitEffect.transform.position = vAway;
-        //        m_hRenderer.SetPosition(0, ShootLocator.transform.position);
-        //        m_hRenderer.SetPosition(1, vAway);
-        //    }
     }
 }
