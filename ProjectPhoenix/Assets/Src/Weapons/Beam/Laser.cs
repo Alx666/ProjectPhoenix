@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 [RequireComponent(typeof(LineRenderer))]
-public class WeaponLaser : MonoBehaviour, IBeam
+public class Laser : MonoBehaviour, IBeam
 {
     public LayerMask layerMask;
 

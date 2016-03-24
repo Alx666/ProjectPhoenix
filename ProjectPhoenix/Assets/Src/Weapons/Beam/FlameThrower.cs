@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 [RequireComponent(typeof(ParticleSystem))]
-public class WeaponFlameThrower : MonoBehaviour, IBeam
+public class FlameThrower : MonoBehaviour, IBeam
 {
     private List<ParticleSystem> m_hParticleSystems;
     void Awake()
