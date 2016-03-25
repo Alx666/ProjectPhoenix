@@ -35,9 +35,9 @@ public class TEST_CAMERA_WEAPON : MonoBehaviour
 
         m_hCurrent.Direction = vRay.direction;
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
             m_hCurrent.Press();
-        else
+        if(Input.GetMouseButtonUp(0))
             m_hCurrent.Release();
     }
 }

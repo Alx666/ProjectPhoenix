@@ -4,17 +4,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-[RequireComponent(typeof(ParticleSystem))]
+
 public class FlameThrower : MonoBehaviour, IBeam
 {
     private List<ParticleSystem> m_hParticleSystems;
     void Awake()
     {
-       m_hParticleSystems = this.GetComponentsInChildren<ParticleSystem>().ToList();
+        Debug.Log("Awake ft");
+        m_hParticleSystems = this.GetComponentsInChildren<ParticleSystem>().ToList();
     }
 
-    public void Enable()
+    public void Enable(Vector3 vPos, Vector3 vDir)
     {
+        this.gameObject.transform.position = vPos;
+        this.gameObject.transform.forward = vDir;
         m_hParticleSystems.ForEach(hP => hP.Play());
     }
 

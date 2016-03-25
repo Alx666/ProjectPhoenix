@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 [RequireComponent(typeof(LineRenderer))]
-public class Laser : MonoBehaviour, IBeam
+public class  Laser : MonoBehaviour, IBeam
 {
     public LayerMask layerMask;
 
@@ -216,8 +216,11 @@ public class Laser : MonoBehaviour, IBeam
         m_hLineRenderer.material.SetTextureScale("_MainTex", new Vector2(propMult, 1f));
     }
 
-    public void Enable()
+    public void Enable(Vector3 vPos, Vector3 vDir)
     {
+        this.gameObject.transform.position = vPos;
+        this.gameObject.transform.forward = vDir;
+
         m_hLineRenderer.enabled = true;
 
         if (!bDone)

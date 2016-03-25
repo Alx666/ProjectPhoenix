@@ -10,8 +10,9 @@ public class WeaponBeam : MonoBehaviour, IWeapon
     public float Cooldown = 2f;
 
     public List<GameObject> ShootLocators;
-    private IBeam m_hBeam;
+    public GameObject Beam;
 
+    private IBeam m_hBeam;
     public Vector3 Direction { get; set; }
 
     private bool m_bFire;
@@ -23,7 +24,8 @@ public class WeaponBeam : MonoBehaviour, IWeapon
 
     void Awake()
     {
-        m_hBeam = this.GetComponentInChildren<IBeam>();
+        GameObject tmp = Instantiate(Beam);
+        m_hBeam = tmp.GetComponent<IBeam>();
         durationTime = ActiveTime;
     }
 
@@ -68,7 +70,7 @@ public class WeaponBeam : MonoBehaviour, IWeapon
             return;
         }
         else
-            m_hBeam.Enable();
+            m_hBeam.Enable(ShootLocators.First().transform.position, Direction);
     }
 
     public void Press()
