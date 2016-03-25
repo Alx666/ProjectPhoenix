@@ -12,9 +12,11 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
     public float LightRadius = 50f;
     public float RotationSpeed = 10f;
 
-
+    private float AngleShot;
+    private Weapon m_hWeapon;
+    float force;
     private List<GameObject> PlayerList;
-
+    private IWeapon Weapon;
     private float tolerance = 1f;   //Gli dò 1 grado come angolo di tolleranza
 
     public IState CurrentState { get; set; }
@@ -23,21 +25,9 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
   
     void Awake()
     {
-        //Initizializazione stati
-        IdleState   stateIdle   = new IdleState(this);
-        PatrolState statepatrol = new PatrolState(this);
-        AttackState stateAttack = new AttackState(this);
-        //Idle
-        stateIdle.Patrol = statepatrol;
-        stateIdle.Attack = stateAttack;
-        //Patrol
-        statepatrol.Idle    = stateIdle;
-        statepatrol.Attack  = stateAttack;
-        //Attack
-        stateAttack.Idle    = stateIdle;
-
-        CurrentState = stateIdle;
-        CurrentState.OnStateEnter();
+        this.Weapon = this.GetComponent<IWeapon>();
+        this.m_hWeapon = this.GetComponent<Weapon>();
+        force = m_hWeapon.BulletPrefab.GetComponent<BulletPhysics>().Force;
     }
     void Start()
     {
@@ -166,6 +156,7 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
 
         private float xAngle;
         private float yAngle;
+            Vector3 velocity;
 
 
        public IState Idle { get; internal set; }
@@ -191,19 +182,28 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
             Yrot.transform.localRotation = Quaternion.RotateTowards(Yrot.transform.localRotation, Quaternion.LookRotation(vDirection), owner.RotationSpeed);
             Yrot.transform.localRotation = Quaternion.Euler(0f, Yrot.transform.localRotation.eulerAngles.y, 0f);
 
+            ///////////////////vecchia implementazone
+            //float Distance = Vector3.Distance(XRot.transform.position, Target.transform.position);
+            //float anglex = XRot.transform.rotation.x;
+            //anglex = owner.ClampAngle(anglex-Distance, owner.maxRange, owner.minRange);
+            //XRot.transform.localRotation = Quaternion.Slerp(XRot.transform.localRotation, Quaternion.Euler(angolo, 0f, 0f), owner.RotationSpeed);
 
+            /////////////////2° metodo
+            float gravty = Physics.gravity.y;
+            float angolo = XRot.transform.rotation.x;
             float Distance = Vector3.Distance(XRot.transform.position, Target.transform.position);
-        
-            float Distance2 = XRot.transform.position.z - Target.transform.position.z;
-         
-            float anglex = XRot.transform.rotation.x;
+            float ASIN = Mathf.Clamp01((gravty * Distance) / Mathf.Pow(owner.force, 2f));
+            owner.AngleShot = (1f / 2f) * Mathf.Asin( ASIN);
+            angolo = (angolo+ owner.AngleShot);
+            XRot.transform.localRotation =Quaternion.Slerp(XRot.transform.localRotation, Quaternion.Euler(angolo, 0f,0f), owner.RotationSpeed);
+            ////////////////
 
-            anglex = owner.ClampAngle(anglex-Distance, owner.maxRange, owner.minRange);
-            XRot.transform.localRotation =Quaternion.Slerp(XRot.transform.localRotation, Quaternion.Euler(anglex,0f,0f), owner.RotationSpeed);
+            owner.Weapon.Press();
 
             if (!(Vector3.Distance(owner.gameObject.transform.position, owner.Target.transform.position) <= owner.LightRadius))
             {
                 Idle.OnStateEnter();
+                owner.Weapon.Release();
                 return Idle;
             }
             return this;

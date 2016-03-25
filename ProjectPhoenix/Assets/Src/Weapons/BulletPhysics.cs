@@ -15,11 +15,13 @@ public class BulletPhysics : MonoBehaviour, IBullet, IPoolable
     private Rigidbody m_hRigidBody;
     private Vector3 m_vShootPosition;
     private ParticlesController m_hParticlesController;
+    private SphereCollider m_hAOE ;
 
     void Awake()
     {
         m_hRigidBody = this.GetComponent<Rigidbody>();
         m_hParticlesController = this.GetComponentInChildren<ParticlesController>();
+        m_hAOE = this.GetComponent<SphereCollider>();
     }
 
     public void Shoot(Vector3 vPosition, Vector3 vDirection)
@@ -35,10 +37,17 @@ public class BulletPhysics : MonoBehaviour, IBullet, IPoolable
 
     void OnTriggerEnter(Collider collider)
     {
+
+        //1/2 arcsin()
+        //Attivo AOE
+        this.m_hAOE.enabled = true;
+        //
+
         IDamageable hHit = collider.gameObject.GetComponent<IDamageable>();
 
         //ToDo: play collision vfx  come prendo la normale da una trigger collision?
-
+        
+        //// non controllo piu se colpisco un Idamagable ma se colpisce(qualsiasi cosa) rilascia un AOE Che danneggia chi è in area
         if (hHit != null)
         {
             hHit.Damage(Damage);
