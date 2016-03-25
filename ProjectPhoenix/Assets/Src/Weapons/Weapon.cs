@@ -155,7 +155,8 @@ public class Weapon : MonoBehaviour, IWeapon
                     {
                         Vector3 vPosition = m_hOwner.m_hOwner.ShootLocators[j].transform.position;
 
-                        Vector3 vDirection = m_hOwner.m_hOwner.Direction;
+                        // Vector3 vDirection = m_hOwner.m_hOwner.Direction;
+                            Vector3 vDirection = m_hOwner.m_hOwner.ShootLocators[j].transform.forward;// sistemato perche altrimenti seguiva la direction del oggetto principale
 
                         if (m_hOwner.m_hOwner.Spread > 0f)
                         {

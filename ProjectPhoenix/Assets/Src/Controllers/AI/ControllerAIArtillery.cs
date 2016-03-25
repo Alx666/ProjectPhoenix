@@ -183,18 +183,18 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
             Yrot.transform.localRotation = Quaternion.Euler(0f, Yrot.transform.localRotation.eulerAngles.y, 0f);
 
             ///////////////////vecchia implementazone
-            //float Distance = Vector3.Distance(XRot.transform.position, Target.transform.position);
-            //float anglex = XRot.transform.rotation.x;
-            //anglex = owner.ClampAngle(anglex-Distance, owner.maxRange, owner.minRange);
+            float Distance = Vector3.Distance(XRot.transform.position, Target.transform.position);
+            float anglex = XRot.transform.rotation.x;
+            anglex = owner.ClampAngle(anglex-Distance, owner.maxRange, owner.minRange);
             //XRot.transform.localRotation = Quaternion.Slerp(XRot.transform.localRotation, Quaternion.Euler(angolo, 0f, 0f), owner.RotationSpeed);
 
             /////////////////2° metodo
             float gravty = Physics.gravity.y;
             float angolo = XRot.transform.rotation.x;
-            float Distance = Vector3.Distance(XRot.transform.position, Target.transform.position);
+            // float Distance = Vector3.Distance(XRot.transform.position, Target.transform.position);
             float ASIN = Mathf.Clamp01((gravty * Distance) / Mathf.Pow(owner.force, 2f));
             owner.AngleShot = (1f / 2f) * Mathf.Asin( ASIN);
-            angolo = (angolo+ owner.AngleShot);
+            angolo = (anglex + owner.AngleShot);
             XRot.transform.localRotation =Quaternion.Slerp(XRot.transform.localRotation, Quaternion.Euler(angolo, 0f,0f), owner.RotationSpeed);
             ////////////////
 

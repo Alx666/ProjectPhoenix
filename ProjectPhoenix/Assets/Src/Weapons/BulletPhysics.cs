@@ -31,7 +31,7 @@ public class BulletPhysics : MonoBehaviour, IBullet, IPoolable
 
         this.gameObject.transform.position = vPosition;
         this.gameObject.transform.forward  = vDirection;
-        m_hRigidBody.AddForce(this.gameObject.transform.forward * Force, ForceMode.VelocityChange);
+        m_hRigidBody.AddForce(this.gameObject.transform.forward * Force, ForceMode.Impulse);
         m_vShootPosition = this.transform.position;
     }
 
