@@ -12,67 +12,41 @@ public class WeaponBeam : MonoBehaviour, IWeapon
     public List<GameObject> ShootLocators;
     public GameObject Beam;
 
+    private Fire m_hFire;
+    private WeaponOff m_hWeaponOff;
+    private WeaponOn m_hWeaponOn;
+    private StartRecharging m_hStartRecharging;
+    private Recharging m_hRecharging;
+
     private IBeam m_hBeam;
-    public Vector3 Direction { get; set; }
 
     private bool m_bFire;
-    private float durationTime;
+    private float m_fDurationTime;
     private bool m_bRecharging;
     private bool m_bCompleteDischarge;
-
+    private IRecharge m_hCurrent;
     public bool IsFiring { get { return m_bFire; } }
+    public Vector3 Direction { get; set; }
 
     void Awake()
     {
         GameObject tmp = Instantiate(Beam);
         m_hBeam = tmp.GetComponent<IBeam>();
-        durationTime = ActiveTime;
+        m_fDurationTime = ActiveTime;
+
+        m_hWeaponOff = new WeaponOff(this);
+        m_hWeaponOn = new WeaponOn(this);
+        m_hFire = new Fire(this);
+        m_hStartRecharging = new StartRecharging(this);
+        m_hRecharging = new Recharging(this);
+
+        m_hCurrent = m_hWeaponOff;
     }
 
     void Update()
     {
-        Recharge();
-        Fire();
+        m_hCurrent.Action();
     }
-
-    private void Recharge()
-    {
-        if (m_bFire && durationTime > 0f && !m_bCompleteDischarge)
-        {
-            m_bRecharging = false;
-            durationTime -= Time.deltaTime;
-        }
-
-        if (durationTime < 0.0f)
-        {
-            m_bCompleteDischarge = true;
-            m_hBeam.Disable();
-            m_bRecharging = true;
-        }
-
-        if (m_bRecharging)
-        {
-            if (durationTime < ActiveTime)
-            {
-                durationTime += Cooldown * Time.deltaTime;
-                return;
-            }
-            else
-            {
-                m_bCompleteDischarge = false;
-                m_bRecharging = false;
-            }
-        }
-
-        if (!m_bFire)
-        {
-            m_bRecharging = true;
-            return;
-        }
-        else
-            m_hBeam.Enable(ShootLocators.First().transform.position, Direction);
-    }
-
     public void Press()
     {
         m_bFire = true;
@@ -84,8 +58,108 @@ public class WeaponBeam : MonoBehaviour, IWeapon
         m_bFire = false;
     }
 
-    private void Fire()
+    #region StateMachine
+
+    private interface IRecharge
     {
-        ShootLocators.ForEach(hS => hS.transform.forward = Direction);
+        void Action();
     }
+
+    private class Fire : IRecharge
+    {
+        WeaponBeam m_hWB;
+        public Fire(WeaponBeam wB)
+        {
+            m_hWB = wB;
+        }
+
+        public void Action()
+        {
+            if (m_hWB.m_bFire && m_hWB.m_fDurationTime > 0f && !m_hWB.m_bCompleteDischarge)
+            {
+                m_hWB.ShootLocators.ForEach(hS => hS.transform.forward = m_hWB.Direction);
+                m_hWB.m_hBeam.Enable(m_hWB.ShootLocators.First().transform.position, m_hWB.Direction);
+                m_hWB.m_bRecharging = false;
+                m_hWB.m_fDurationTime -= Time.deltaTime;
+            }
+            else
+                m_hWB.m_hCurrent = m_hWB.m_hStartRecharging;
+        }
+    }
+
+    private class StartRecharging : IRecharge
+    {
+        WeaponBeam m_hWB;
+        public StartRecharging(WeaponBeam wB)
+        {
+            m_hWB = wB;
+        }
+        public void Action()
+        {
+            if (m_hWB.m_fDurationTime < 0.0f)
+                m_hWB.m_bCompleteDischarge = true;
+
+            m_hWB.m_bRecharging = true;
+            m_hWB.m_hBeam.Disable();
+            m_hWB.m_hCurrent = m_hWB.m_hRecharging;
+        }
+    }
+
+    private class Recharging : IRecharge
+    {
+        WeaponBeam m_hWB;
+        public Recharging(WeaponBeam wB)
+        {
+            m_hWB = wB;
+        }
+        public void Action()
+        {
+            if (m_hWB.m_fDurationTime < m_hWB.ActiveTime)
+            {
+                m_hWB.m_fDurationTime += m_hWB.Cooldown * Time.deltaTime;
+                return;
+            }
+            else
+            {
+                m_hWB.m_bCompleteDischarge = false;
+                m_hWB.m_bRecharging = false;
+                m_hWB.m_hCurrent = m_hWB.m_hWeaponOff;
+            }
+        }
+    }
+
+    private class WeaponOff : IRecharge
+    {
+        WeaponBeam m_hWB;
+        public WeaponOff(WeaponBeam wB)
+        {
+            m_hWB = wB;
+        }
+        public void Action()
+        {
+            if (!m_hWB.m_bFire)
+            {
+                m_hWB.m_bRecharging = true;
+                return;
+            }
+            else
+                m_hWB.m_hCurrent = m_hWB.m_hWeaponOn;
+        }
+    }
+
+    private class WeaponOn : IRecharge
+    {
+        WeaponBeam m_hWB;
+        public WeaponOn(WeaponBeam wB)
+        {
+            m_hWB = wB;
+        }
+        public void Action()
+        {
+            m_hWB.m_hCurrent = m_hWB.m_hFire;
+        }
+    }
+
+    #endregion
+
 }
