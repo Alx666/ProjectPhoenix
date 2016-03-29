@@ -1,7 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Weapon : MonoBehaviour, IWeapon
 {
@@ -9,7 +7,6 @@ public class Weapon : MonoBehaviour, IWeapon
     public List<GameObject> ShootLocators;
 
     public bool IsShootAlternate;
-    private Queue<GameObject> alternateLocators;
 
     [Range(0f, 90f)]
     public float Spread = 0f;
@@ -28,7 +25,7 @@ public class Weapon : MonoBehaviour, IWeapon
 
     public Vector3 Direction { get; set; }
 
-    void Awake()
+    private void Awake()
     {
         m_hPool = GlobalFactory.GetPool(BulletPrefab);
 
@@ -38,8 +35,6 @@ public class Weapon : MonoBehaviour, IWeapon
 
         //N Wait And Shoot for Barrage Implemenation
         IWeaponState hLast = m_hTrigger;
-
-        alternateLocators = new Queue<GameObject>(this.ShootLocators);
 
         if (BulletDelay > 0f)
         {
@@ -52,7 +47,6 @@ public class Weapon : MonoBehaviour, IWeapon
                 hShoot.Next = hWait;
                 hLast = hWait;
             }
-
         }
         else
         {
@@ -62,13 +56,14 @@ public class Weapon : MonoBehaviour, IWeapon
             hShoot.Next = hWait;
             hLast = hWait;
         }
+        WeaponShoot.InitializeQueueLocators(ShootLocators);     //Similar to a static ctor, but can pass parameter
 
         (hLast as WeaponWait).Delay = BarrageDelay;
         hLast.Next = m_hTrigger;
         m_hStateMachine = hLast;
     }
 
-    void Update()
+    private void Update()
     {
         m_hStateMachine = m_hStateMachine.Update();
     }
@@ -88,12 +83,12 @@ public class Weapon : MonoBehaviour, IWeapon
         get { return m_hStateMachine != m_hTrigger; }
     }
 
-
     #region Internal State Machine
 
     private interface IWeaponState
     {
         IWeaponState Update();
+
         IWeaponState Next { get; set; }
     }
 
@@ -109,6 +104,7 @@ public class Weapon : MonoBehaviour, IWeapon
             Delay = fDelay;
             m_fElapsedTime = Delay;
         }
+
         public IWeaponState Update()
         {
             if (m_fElapsedTime <= 0f)
@@ -124,93 +120,88 @@ public class Weapon : MonoBehaviour, IWeapon
         }
     }
 
-
-
     private class WeaponShoot : IWeaponState
     {
+        private static Queue<GameObject> m_hLocators;
+
         private Weapon m_hOwner;
         private int m_iShootCount;
         private IShootStrategy m_hShootStrategy;
 
         public IWeaponState Next { get; set; }
 
-        #region IShootStrategy 
+        #region IShootStrategy
+
         private interface IShootStrategy
         {
             void Shoot();
         }
 
+        private void InstantiateBullet(int index)
+        {
+            GameObject hNextLocator = m_hLocators.Dequeue();
+
+            Vector3 vPosition = m_hOwner.ShootLocators[index].transform.position;
+            Vector3 vDirection = m_hOwner.ShootLocators[index].transform.forward;// sistemato perche altrimenti seguiva la direction del oggetto principale
+
+            if (m_hOwner.Spread > 0f)
+            {
+                float fRangeX = UnityEngine.Random.Range(-m_hOwner.Spread, m_hOwner.Spread);
+                float fRangeY = UnityEngine.Random.Range(-m_hOwner.Spread, m_hOwner.Spread);
+                float fRangeZ = UnityEngine.Random.Range(-m_hOwner.Spread, m_hOwner.Spread);
+
+                vDirection = Quaternion.Euler(fRangeX, fRangeY, fRangeZ) * vDirection;
+                vDirection.Normalize();
+            }
+
+            IBullet hBullet = GlobalFactory.GetInstance<IBullet>(m_hOwner.BulletPrefab);
+            hBullet.Shoot(vPosition, vDirection);
+
+            m_hLocators.Enqueue(hNextLocator);
+
+        }
+
         private class ShootSimultaneous : IShootStrategy
         {
-            WeaponShoot m_hOwner;
+            private WeaponShoot m_hOwner;
+
             public ShootSimultaneous(WeaponShoot owner)
             {
                 m_hOwner = owner;
             }
+
             public void Shoot()
             {
                 for (int i = 0; i < m_hOwner.m_iShootCount; i++)
                 {
-                    for (int j = 0; j < m_hOwner.m_hOwner.ShootLocators.Count; j++)
+                    for (int j = 0; j < WeaponShoot.m_hLocators.Count; j++)
                     {
-                        Vector3 vPosition = m_hOwner.m_hOwner.ShootLocators[j].transform.position;
-
-                        // Vector3 vDirection = m_hOwner.m_hOwner.Direction;
-                            Vector3 vDirection = m_hOwner.m_hOwner.ShootLocators[j].transform.forward;// sistemato perche altrimenti seguiva la direction del oggetto principale
-
-                        if (m_hOwner.m_hOwner.Spread > 0f)
-                        {
-                            float fRangeX = UnityEngine.Random.Range(-m_hOwner.m_hOwner.Spread, m_hOwner.m_hOwner.Spread);
-                            float fRangeY = UnityEngine.Random.Range(-m_hOwner.m_hOwner.Spread, m_hOwner.m_hOwner.Spread);
-                            float fRangeZ = UnityEngine.Random.Range(-m_hOwner.m_hOwner.Spread, m_hOwner.m_hOwner.Spread);
-
-                            vDirection = Quaternion.Euler(fRangeX, fRangeY, fRangeZ) * vDirection;
-                            vDirection.Normalize();
-                        }
-
-                        IBullet hBullet = GlobalFactory.GetInstance<IBullet>(m_hOwner.m_hOwner.BulletPrefab);
-                        hBullet.Shoot(vPosition, vDirection);
+                        m_hOwner.InstantiateBullet(j);
                     }
                 }
             }
         }
+
         private class ShootAlternate : IShootStrategy
         {
-            WeaponShoot m_hOwner;
-            GameObject hNextLocator;
+            private WeaponShoot m_hOwner;
+
             public ShootAlternate(WeaponShoot owner)
             {
                 m_hOwner = owner;
             }
+
             public void Shoot()
             {
                 for (int i = 0; i < m_hOwner.m_iShootCount; i++)
                 {
-                    hNextLocator = m_hOwner.m_hOwner.alternateLocators.Dequeue();
-
-                    Vector3 vPosition = hNextLocator.transform.position;
-
-                    Vector3 vDirection = m_hOwner.m_hOwner.Direction;
-
-                    if (m_hOwner.m_hOwner.Spread > 0f)
-                    {
-                        float fRangeX = UnityEngine.Random.Range(-m_hOwner.m_hOwner.Spread, m_hOwner.m_hOwner.Spread);
-                        float fRangeY = UnityEngine.Random.Range(-m_hOwner.m_hOwner.Spread, m_hOwner.m_hOwner.Spread);
-                        float fRangeZ = UnityEngine.Random.Range(-m_hOwner.m_hOwner.Spread, m_hOwner.m_hOwner.Spread);
-
-                        vDirection = Quaternion.Euler(fRangeX, fRangeY, fRangeZ) * vDirection;
-                        vDirection.Normalize();
-                    }
-
-                    IBullet hBullet = GlobalFactory.GetInstance<IBullet>(m_hOwner.m_hOwner.BulletPrefab);
-                    hBullet.Shoot(vPosition, vDirection);
-
-                    m_hOwner.m_hOwner.alternateLocators.Enqueue(hNextLocator);
+                    m_hOwner.InstantiateBullet(i);
                 }
             }
         }
 
-        #endregion
+        #endregion IShootStrategy
+
         public WeaponShoot(Weapon hWeap, bool bShootAlternate) : this(hWeap, 1, bShootAlternate)
         {
         }
@@ -235,6 +226,11 @@ public class Weapon : MonoBehaviour, IWeapon
             m_hShootStrategy.Shoot();
             return Next;
         }
+
+        internal static void InitializeQueueLocators(List<GameObject> shootLocators)
+        {
+            m_hLocators = new Queue<GameObject>(shootLocators);
+        }
     }
 
     private class WeaponReady : IWeaponState
@@ -242,7 +238,6 @@ public class Weapon : MonoBehaviour, IWeapon
         public bool m_bFire;
 
         public IWeaponState Next { get; set; }
-
 
         public IWeaponState Update()
         {
@@ -267,6 +262,5 @@ public class Weapon : MonoBehaviour, IWeapon
         }
     }
 
-    #endregion
+    #endregion Internal State Machine
 }
-
