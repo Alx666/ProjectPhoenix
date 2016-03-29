@@ -5,7 +5,7 @@ using System;
 [RequireComponent(typeof(LineRenderer))]
 public class  Laser : MonoBehaviour, IBeam
 {
-    public LayerMask layerMask;
+    public float DPS;
 
     public Texture[] BeamFrames;    // Animation frame sequence
     public float FrameStep;         // Animation time
@@ -164,8 +164,13 @@ public class  Laser : MonoBehaviour, IBeam
         float propMult = MaxBeamLength * (beamScale / 10f);
 
         // Raycast
-        if (Physics.Raycast(ray, out hitPoint, MaxBeamLength, layerMask))
+        if (Physics.Raycast(ray, out hitPoint, MaxBeamLength))
         {
+            IDamageable hHit = hitPoint.collider.GetComponent<IDamageable>();
+
+            if (hHit != null)
+                hHit.Damage(DPS * Time.deltaTime);
+
             // Get current beam length
             beamLength = Vector3.Distance(transform.position, hitPoint.point);
 

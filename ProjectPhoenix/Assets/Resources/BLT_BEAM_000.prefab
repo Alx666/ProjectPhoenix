@@ -354,9 +354,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc13821ba59aa6d468bdf08c00f1de65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
+  DPS: 50
   BeamFrames: []
   FrameStep: 0
   RandomizeFrames: 0
@@ -12230,7 +12228,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: DPS
+      value: 50
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 142000}

@@ -24,12 +24,15 @@ public class FlameThrower : MonoBehaviour, IBeam
         m_hParticleSystems.ForEach(hP => hP.Play());
 
         RaycastHit m_hHitPoint = new RaycastHit();
-        Ray ray = new Ray(transform.position, transform.forward);
+        Ray vRay = new Ray(transform.position, transform.forward);
 
-        if(Physics.Raycast(ray, out m_hHitPoint, MaxFireLength))
+        if(Physics.Raycast(vRay, out m_hHitPoint, MaxFireLength))
         {
-            Debug.Log("Obj Hit");
+            IDamageable hHit = m_hHitPoint.collider.GetComponent<IDamageable>();
             FlammableObject m_hFlamObj = m_hHitPoint.collider.GetComponent<FlammableObject>();
+            
+            if(hHit != null)
+                hHit.Damage(DPS * Time.deltaTime);
 
             if (m_hFlamObj != null)
                 m_hFlamObj.SetOnFire();

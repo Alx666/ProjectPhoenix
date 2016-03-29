@@ -161,6 +161,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 698cb2e92ef08904ab513a405d138ef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxFireLength: 10
+  DPS: 50
+  DoT: 10
 --- !u!198 &19827106
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -3623,6 +3626,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: CollisionModule.m_Bounce.scalar
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: DPS
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: DoT
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: MaxFireLength
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
