@@ -3,12 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-[RequireComponent(typeof(IWeapon))]
+
 public class TEST_CAMERA_WEAPON : MonoBehaviour
 {
+    public GameObject TurretHub;
+    public GameObject TurretGuns;
+
     private List<IWeapon>   m_hWeapons;
     private IWeapon         m_hCurrent;
 
+    
 
     void Awake()
     {
@@ -18,8 +22,25 @@ public class TEST_CAMERA_WEAPON : MonoBehaviour
 
     void Update()
     {
-
         Ray vRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit vHit;
+        if (Physics.Raycast(vRay, out vHit))
+        {
+            Vector3 vDirecton = vHit.point - this.transform.position;
+            vDirecton.y = 0;
+            vDirecton.Normalize();
+            TurretHub.transform.forward = vDirecton;
+
+            //Vector3 vHeght = vHit.point - TurretGuns.transform.position;
+            //vHeght.x = 0;
+            //vHeght.z = 0;
+            //vHeght.Normalize();
+
+            TurretGuns.transform.LookAt(vHit.point);
+        }
+
+        
         
         for (int i = 48; i < 58; i++)
         {
