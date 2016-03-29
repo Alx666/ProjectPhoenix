@@ -7,10 +7,13 @@ using System.Linq;
 
 public class FlameThrower : MonoBehaviour, IBeam
 {
+    public float MaxFireLength;
+    public float DPS;
+    public float DoT;
+
     private List<ParticleSystem> m_hParticleSystems;
     void Awake()
     {
-        Debug.Log("Awake ft");
         m_hParticleSystems = this.GetComponentsInChildren<ParticleSystem>().ToList();
     }
 
@@ -19,6 +22,18 @@ public class FlameThrower : MonoBehaviour, IBeam
         this.gameObject.transform.position = vPos;
         this.gameObject.transform.forward = vDir;
         m_hParticleSystems.ForEach(hP => hP.Play());
+
+        RaycastHit m_hHitPoint = new RaycastHit();
+        Ray ray = new Ray(transform.position, transform.forward);
+
+        if(Physics.Raycast(ray, out m_hHitPoint, MaxFireLength))
+        {
+            Debug.Log("Obj Hit");
+            FlammableObject m_hFlamObj = m_hHitPoint.collider.GetComponent<FlammableObject>();
+
+            if (m_hFlamObj != null)
+                m_hFlamObj.SetOnFire();
+        }
     }
 
     public void Disable()

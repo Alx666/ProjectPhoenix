@@ -161,5 +161,4 @@ public class WeaponBeam : MonoBehaviour, IWeapon
     }
 
     #endregion
-
 }
