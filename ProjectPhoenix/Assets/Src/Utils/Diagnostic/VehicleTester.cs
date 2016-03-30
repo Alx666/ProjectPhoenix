@@ -52,7 +52,7 @@ internal class VehicleTester : MonoBehaviour
         try
         {
             MyCamera.ZoomOnTarget(MinOffset, MaxOffset);
-            //MyCamera.AimHelper(Input.mousePosition, KeyCode.Mouse1);
+            MyCamera.AimHelper(Input.mousePosition, KeyCode.Mouse1);
         }
         catch
         {

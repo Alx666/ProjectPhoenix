@@ -37,9 +37,9 @@ public class CustomCamera
     public void AimHelper(Vector3 targetAimed, KeyCode key)
     {
         Vector3 distanceFromTarget;
-        Vector3 newTarget;
+        RaycastHit ray;
 
-        if (!cameraPositionIsSaved)
+        if (!cameraPositionIsSaved && Input.GetKey(key))
         {
             savedCameraPosition = Camera.transform.position;
             cameraPositionIsSaved = true;
@@ -47,11 +47,11 @@ public class CustomCamera
 
         if (Input.GetKey(key))
         {
-            newTarget = targetAimed;
-
-            distanceFromTarget = rB.transform.position - newTarget;
-
-            Camera.transform.position = new Vector3((Offset.x + distanceFromTarget.normalized.x * (distanceFromTarget.magnitude / 10)), Offset.y, (Offset.z + distanceFromTarget.normalized.z * (distanceFromTarget.magnitude / 10)));
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out ray))
+            {
+                distanceFromTarget = ray.point - rB.transform.position;
+                Camera.transform.position = Offset + distanceFromTarget;
+            }
         }
 
         if (Input.GetKeyUp(key))
