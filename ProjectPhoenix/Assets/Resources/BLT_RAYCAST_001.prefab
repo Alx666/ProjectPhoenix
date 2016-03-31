@@ -34,17 +34,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &149624
+--- !u!1 &128790
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 450110}
-  - 114: {fileID: 11466200}
+  - 4: {fileID: 487754}
+  - 114: {fileID: 11406986}
   m_Layer: 0
-  m_Name: VFX_PARTCONFIG_000
+  m_Name: VFX_PARTCONFIG_001
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,7 +65,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &164348
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,7 +174,7 @@ Transform:
   - {fileID: 477540}
   - {fileID: 486130}
   - {fileID: 433644}
-  - {fileID: 450110}
+  - {fileID: 487754}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &433644
@@ -189,18 +189,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 418430}
   m_RootOrder: 5
---- !u!4 &450110
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 149624}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7194245, y: 0.7194245, z: 0.7194245}
-  m_Children: []
-  m_Father: {fileID: 418430}
-  m_RootOrder: 6
 --- !u!4 &477540
 Transform:
   m_ObjectHideFlags: 1
@@ -237,6 +225,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 418430}
   m_RootOrder: 4
+--- !u!4 &487754
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 128790}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 418430}
+  m_RootOrder: 6
 --- !u!23 &2306384
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -303,12 +303,12 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 110478}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &11466200
+--- !u!114 &11406986
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 149624}
+  m_GameObject: {fileID: 128790}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc3418799ed191d46af65cdce2777bbd, type: 3}
@@ -317,6 +317,7 @@ MonoBehaviour:
   MuzzleVfxs:
   - {fileID: 143398, guid: 1ac571d5d951fef408c1a9135767f71d, type: 2}
   - {fileID: 116794, guid: 35465e0799cfd6d4ca7712b826c38210, type: 2}
+  - {fileID: 100004, guid: b4423127acb2b3c418e7b9809ec5f555, type: 2}
   HitVfxs:
   - {fileID: 161326, guid: ed468c1c696ccc64fb8a387e074bcce6, type: 2}
   - {fileID: 117920, guid: 72955ea87842bb04d8bef85be568c657, type: 2}
@@ -331,7 +332,7 @@ MonoBehaviour:
   - {fileID: 152886, guid: a9b4dbdda6777ca44b7fe5f3f364219b, type: 2}
   - {fileID: 145564, guid: 58e6f1e415fab9947a4c2ccdcf6a1a12, type: 2}
   SideMissVfxs:
-  - {fileID: 110440, guid: 9542e1a2a91beb74c89b42ffc489cb4a, type: 2}
+  - {fileID: 129642, guid: 71cd5a0be63e16943977e4f1fdaf60cb, type: 2}
   MuzzleScaleCoef: 1
   HitScaleCoef: 1
   MissScaleCoef: 1

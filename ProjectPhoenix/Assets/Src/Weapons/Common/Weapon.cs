@@ -258,6 +258,7 @@ public class Weapon : MonoBehaviour, IWeapon
             m_hLocators = new Queue<GameObject>(shootLocators);
         }
     }
+
     #endregion
 
 
