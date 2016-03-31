@@ -49,6 +49,7 @@ public class TEST_CAMERA_WEAPON : MonoBehaviour
                 int iIndex = i - 48;
                 if (m_hWeapons.Count > iIndex)
                 {
+                    m_hCurrent.Release();
                     m_hCurrent = m_hWeapons[iIndex];
                 }
             }
