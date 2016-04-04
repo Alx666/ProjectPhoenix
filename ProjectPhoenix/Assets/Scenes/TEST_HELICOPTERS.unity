@@ -485,6 +485,7 @@ MonoBehaviour:
   ShootLocators:
   - {fileID: 329489048}
   - {fileID: 2018833947}
+  Mode: 0
   Spread: 0
   BulletDelay: 0.01
   BarrageDelay: 0.01
@@ -541,6 +542,7 @@ MonoBehaviour:
   - {fileID: 1504359888}
   - {fileID: 2134809584}
   - {fileID: 223358501}
+  Mode: 0
   Spread: 0
   BulletDelay: 0.01
   BarrageDelay: 0.1
@@ -557,6 +559,7 @@ GameObject:
   - 92: {fileID: 811905320}
   - 124: {fileID: 811905319}
   - 81: {fileID: 811905318}
+  - 114: {fileID: 811905323}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -631,6 +634,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 8
+--- !u!114 &811905323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 811905317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87e6072d64ca0df4ab60cd6e8f9bcecb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Target: {fileID: 702824115}
+  Offset: {x: -20, y: 20, z: -20}
+  MinOffset: 20
+  MaxOffset: 40
+  StateChanger: 324
 --- !u!1 &831456324
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,10 +677,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac91b501bdf6a3f4a81ae2cd3f10acf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 811905321}
-  Offset: {x: -20, y: 25, z: -20}
-  MaxOffset: 50
-  MinOffset: 25
   InputReceivers:
   - {fileID: 702824115}
   - {fileID: 476860330}
@@ -833,6 +848,7 @@ MonoBehaviour:
   - {fileID: 2130475283}
   - {fileID: 612969840}
   - {fileID: 2105879153}
+  Mode: 0
   Spread: 0
   BulletDelay: 0.1
   BarrageDelay: 0.3
@@ -921,6 +937,7 @@ MonoBehaviour:
   ShootLocators:
   - {fileID: 215171485}
   - {fileID: 916117010}
+  Mode: 0
   Spread: 0
   BulletDelay: 0.01
   BarrageDelay: 0.01

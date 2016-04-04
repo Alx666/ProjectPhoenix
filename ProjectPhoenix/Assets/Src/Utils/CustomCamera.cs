@@ -6,6 +6,7 @@ public class CustomCamera : MonoBehaviour
     public GameObject Target;
     public Vector3 Offset;
     public float MinOffset;
+    public float MaxOffset;
     public KeyCode StateChanger;
 
     ICameraState current;
@@ -17,7 +18,6 @@ public class CustomCamera : MonoBehaviour
     {
         stdCamera = new StandardCamera(this);
         aimCamera = new AimCamera(this);
-        StateChanger = KeyCode.Mouse1;
         rB = Target.GetComponentInParent<Rigidbody>();
 
         if (Offset.y != MinOffset)
@@ -52,22 +52,30 @@ public class CustomCamera : MonoBehaviour
         Rigidbody rB;
         Vector3 Offset;
         float MinOffset;
+        float MaxOffset;
+        float yOffsetVar;
+        float targetMaxSpeed;
 
         public StandardCamera(CustomCamera MyCamera)
         {
             camera = MyCamera;
             rB = MyCamera.Target.GetComponentInParent<Rigidbody>();
             MinOffset = MyCamera.MinOffset;
+            MaxOffset = MyCamera.MaxOffset;
             Offset = camera.Offset;
         }
 
         public void CalculateOffset()
-        {            
-            Offset = new Vector3(Offset.x, Mathf.Lerp(Offset.y, rB.velocity.magnitude, Time.deltaTime), Offset.z);
+        {
+            Offset.y = Mathf.Lerp(Offset.y, (MaxOffset / MinOffset) * rB.velocity.magnitude, Time.deltaTime);
 
             if (Offset.y < MinOffset)
             {
-                Offset = new Vector3(Offset.x, MinOffset, Offset.z);
+                Offset.y = MinOffset;
+            }
+            if (Offset.y > MaxOffset)
+            {
+                Offset.y = MaxOffset;
             }
 
             camera.Offset = Offset;
@@ -97,7 +105,6 @@ public class CustomCamera : MonoBehaviour
         public void CalculateOffset()
         {
             Vector3 distanceFromTarget;
-            RaycastHit ray;
 
             if (!offsetIsSaved && Input.GetKey(key))
             {
@@ -107,16 +114,14 @@ public class CustomCamera : MonoBehaviour
 
             if (Input.GetKey(key))
             {
+                RaycastHit ray;
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out ray))
                 {
-                    distanceFromTarget = new Vector3(ray.point.x - target.position.x, 0f, ray.point.z - target.position.z);
-                    //Offset = new Vector3(Mathf.LerpAngle(savedOffset.x, distanceFromTarget.x, Time.deltaTime), savedOffset.y, Mathf.LerpAngle(savedOffset.z, distanceFromTarget.z, Time.deltaTime));
-                    Offset.x = savedOffset.x + Mathf.LerpAngle(savedOffset.x, distanceFromTarget.x, Time.deltaTime);
-                    Offset.z = savedOffset.z + Mathf.LerpAngle(savedOffset.z, distanceFromTarget.z, Time.deltaTime);
+                    distanceFromTarget = ray.point - target.position;
+                    Offset = distanceFromTarget.normalized * Mathf.LerpAngle(0f, distanceFromTarget.magnitude, Time.deltaTime);
                     Offset.y = savedOffset.y;
                 }
             }
-
             if (Input.GetKeyUp(key))
             {
                 Offset = savedOffset;
@@ -125,5 +130,7 @@ public class CustomCamera : MonoBehaviour
 
             camera.Offset = Offset;
         }
+
     }
 }
+
