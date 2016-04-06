@@ -1,10 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
+using System.Linq;
+using System;
 /// <summary>
 /// Handles physics based bullets (OnCollisionEnter)
 /// artillery shoots, granades, etc...
 /// </summary>
+/// 
 [RequireComponent(typeof(Rigidbody))]
 public class BulletPhysics : MonoBehaviour, IBullet, IPoolable
 {
@@ -12,16 +15,21 @@ public class BulletPhysics : MonoBehaviour, IBullet, IPoolable
     public float Force;
     public float Damage;
 
-    private Rigidbody m_hRigidBody;
-    private Vector3 m_vShootPosition;
+    private Rigidbody           m_hRigidBody;
+    private Vector3             m_vShootPosition;
     private ParticlesController m_hParticlesController;
-    private SphereCollider m_hAOE ;
+    private SphereCollider[]    lIST_m_hAOE ;
+    private SphereCollider      m_hAOE;
+    private Explosion           Expl;
+
 
     void Awake()
     {
-        m_hRigidBody = this.GetComponent<Rigidbody>();
+        m_hRigidBody           = this.GetComponent<Rigidbody>();
         m_hParticlesController = this.GetComponentInChildren<ParticlesController>();
-        m_hAOE = this.GetComponent<SphereCollider>();
+        lIST_m_hAOE            = this.GetComponents<SphereCollider>().ToArray();
+        m_hAOE                 = this.GetComponentInChildren<SphereCollider>();
+        Expl                   = this.GetComponentInChildren<Explosion>();
     }
 
     public void Shoot(Vector3 vPosition, Vector3 vDirection)
@@ -31,29 +39,53 @@ public class BulletPhysics : MonoBehaviour, IBullet, IPoolable
 
         this.gameObject.transform.position = vPosition;
         this.gameObject.transform.forward  = vDirection;
+
         m_hRigidBody.AddForce(this.gameObject.transform.forward * Force, ForceMode.Impulse);
-        m_vShootPosition = this.transform.position;
+
+        m_vShootPosition = vPosition;
     }
+
 
     void OnTriggerEnter(Collider collider)
     {
+       Debug.Log("Ho Colliso");
 
-        //1/2 arcsin()
+
+        float m_hDamage = this.Damage;
         //Attivo AOE
-        this.m_hAOE.enabled = true;
-        //
+       // this.Expl.ExendExpolsion();
 
-        IDamageable hHit = collider.gameObject.GetComponent<IDamageable>();
+        m_hDamage = AoeDamage(Expl.target.transform.position, collider.transform.position);
 
-        //ToDo: play collision vfx  come prendo la normale da una trigger collision?
-        
-        //// non controllo piu se colpisco un Idamagable ma se colpisce(qualsiasi cosa) rilascia un AOE Che danneggia chi è in area
-        if (hHit != null)
+        IDamageable m_hHit;
+        if (collider.gameObject.GetComponent<IDamageable>() != null || Expl.target.GetComponent<IDamageable>() != null)
         {
-            hHit.Damage(Damage);
+            if (collider.gameObject.GetComponent<IDamageable>() != null)
+
+                m_hHit = collider.gameObject.GetComponent<IDamageable>();
+            else
+                m_hHit = Expl.target.GetComponent<IDamageable>();
+            
+                m_hHit.Damage(m_hDamage);
         }
-        
-        GlobalFactory.Recycle(this.gameObject);
+
+        Explosion();
+    }
+
+    private float AoeDamage(Vector3 targetPosition, Vector3 position)
+    {
+        if (targetPosition!= Vector3.zero)
+        {
+
+        float Raggio           =  m_hAOE.radius;
+        float distanceToImpact = targetPosition.z + Raggio - position.z;
+        float m_fDamage        = -(this.Damage * (Raggio-distanceToImpact)) / targetPosition.z;
+        return Damage - m_fDamage;
+        }
+
+        Debug.Log(Damage);
+        return Damage;
+       
     }
 
     void Update()
@@ -72,14 +104,22 @@ public class BulletPhysics : MonoBehaviour, IBullet, IPoolable
     public void Enable()
     {
         this.gameObject.SetActive(true);
-        
     }
 
     public void Disable()
     {
+        this.m_hRigidBody.velocity  = Vector3.zero;
+        this.transform.position     = Vector3.zero;
+        this.transform.rotation     = Quaternion.identity;
         this.gameObject.SetActive(false);
-        this.m_hRigidBody.velocity = Vector3.zero;
     }
 
     #endregion
+
+    protected void Explosion()
+    {
+        
+        this.m_hParticlesController.PlayHitVfx(this.transform.position, this.transform.up);
+        GlobalFactory.Recycle(this.gameObject);
+    }
 }

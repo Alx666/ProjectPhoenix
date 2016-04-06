@@ -165,8 +165,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 372054624}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: -0.37347746, y: 0.30332294, z: -0.13068448, w: -0.8668514}
+  m_LocalPosition: {x: 28.646088, y: 35.959915, z: -18.265419}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -188,7 +188,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 411894, guid: fdca70bbf2254064aafaf036f936a9f2, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 16.67
+      value: 35.57
       objectReference: {fileID: 0}
     - target: {fileID: 411894, guid: fdca70bbf2254064aafaf036f936a9f2, type: 2}
       propertyPath: m_LocalRotation.x
@@ -267,6 +267,18 @@ Prefab:
     - target: {fileID: 429012, guid: 6c576b01d8f0dd84da5f5b9babc90744, type: 2}
       propertyPath: m_LocalPosition.y
       value: 0.70000005
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480638, guid: 6c576b01d8f0dd84da5f5b9babc90744, type: 2}
+      propertyPath: BarrageDelay
+      value: 1.38
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480638, guid: 6c576b01d8f0dd84da5f5b9babc90744, type: 2}
+      propertyPath: BulletDelay
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11480638, guid: 6c576b01d8f0dd84da5f5b9babc90744, type: 2}
+      propertyPath: Spread
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11441732, guid: 6c576b01d8f0dd84da5f5b9babc90744, type: 2}
