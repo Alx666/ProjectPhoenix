@@ -100,10 +100,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a85df4623d7bd99438c7bcfd98846a31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hp: 300
+  Hp: 500
   SteerAngle: 30
-  MaxSpeed: 60
+  MaxSpeed: 100
+  CurrentSpeed: 
   CenterOfMassY: 0.6
+  StoppingDistance: 5
+  DownForce: 10
 --- !u!1 &511078379
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,7 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7511c64900fa74a48841c94d8345cff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 148519540}
+  Target: {fileID: 860637402}
   POI: {fileID: 2013324224}
 --- !u!1001 &860637401
 Prefab:
@@ -217,7 +220,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 479316, guid: 514f7ca7bd8286e4cb516c7fb91e5aa6, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 5
+      value: 2.21
       objectReference: {fileID: 0}
     - target: {fileID: 479316, guid: 514f7ca7bd8286e4cb516c7fb91e5aa6, type: 2}
       propertyPath: m_LocalPosition.z
@@ -277,7 +280,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 116616, guid: 514f7ca7bd8286e4cb516c7fb91e5aa6, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11450166, guid: 514f7ca7bd8286e4cb516c7fb91e5aa6, type: 2}
@@ -302,7 +305,10 @@ MonoBehaviour:
   Hp: 500
   SteerAngle: 30
   MaxSpeed: 100
+  CurrentSpeed: 
   CenterOfMassY: 0.6
+  StoppingDistance: 7
+  DownForce: 5
 --- !u!1 &1506650943
 GameObject:
   m_ObjectHideFlags: 0
@@ -386,7 +392,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 477250, guid: 1c697a87d663bc34196ab7e0d71141fd, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 5
+      value: 2.28
       objectReference: {fileID: 0}
     - target: {fileID: 477250, guid: 1c697a87d663bc34196ab7e0d71141fd, type: 2}
       propertyPath: m_LocalPosition.z
@@ -411,6 +417,10 @@ Prefab:
     - target: {fileID: 477250, guid: 1c697a87d663bc34196ab7e0d71141fd, type: 2}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 195174, guid: 1c697a87d663bc34196ab7e0d71141fd, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 11462180, guid: 1c697a87d663bc34196ab7e0d71141fd, type: 2}

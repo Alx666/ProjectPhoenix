@@ -24,8 +24,9 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
     private bool m_hBackward = false;
     private float sign;
 
-    private GameObject obj;
     public float vel;
+
+    public float DownForce = 10f;
 
     void Awake()
     {
@@ -38,11 +39,11 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
         m_hRigidbody.centerOfMass = new Vector3(m_hRigidbody.centerOfMass.x, CenterOfMassY, m_hRigidbody.centerOfMass.z);
 
-        //DELETEME
-        obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        obj.GetComponent<Collider>().enabled = false;
-        obj.transform.parent = this.transform;
-        obj.transform.localPosition = m_hRigidbody.centerOfMass;
+        ////DELETEME
+        //obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        //obj.GetComponent<Collider>().enabled = false;
+        //obj.transform.parent = this.transform;
+        //obj.transform.localPosition = m_hRigidbody.centerOfMass;
 
         //Initialize VehicleTurret
         m_hTurret = GetComponentInChildren<VehicleTurret>();
@@ -63,6 +64,13 @@ internal class ControllerPlayerTracks : MonoBehaviour, IControllerPlayer
 
         if (m_hRigidbody.velocity.magnitude > 0f && m_hRigidbody.velocity.magnitude < 1f)
             m_hRigidbody.velocity = Vector3.zero;
+
+
+    }
+
+    void FixedUpdate()
+    {
+        m_hRigidbody.AddForce(-this.transform.up * DownForce * m_hRigidbody.velocity.magnitude);
     }
 
     public void BeginForward()
