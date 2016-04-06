@@ -6,17 +6,17 @@ using System.Linq;
 
 public class ParticleVfx : MonoBehaviour, IVisualEffect, IPoolable
 {
-    //ToDo: gestione suoni
-
-    public float Duration;
+    public float Duration = 2f;
 
     public Pool Pool { get; set; }
 
     private List<ParticleSystem> m_hParticle;
+    private AudioSource m_hAudioSource;
 
     void Awake()
     {
         m_hParticle = this.GetComponentsInChildren<ParticleSystem>().ToList();
+        m_hAudioSource = this.GetComponent<AudioSource>();
     }
 
     public void PlayEffect(Vector3 vPosition, Vector3 vDirection, float scaleCoef, bool isSide)
@@ -30,8 +30,10 @@ public class ParticleVfx : MonoBehaviour, IVisualEffect, IPoolable
 
         m_hParticle.ForEach(hP => hP.startSize = hP.startSize * scaleCoef);
 
-        StartCoroutine(Wait(Duration));
         m_hParticle.ForEach(hP => hP.Play());
+        m_hAudioSource.Play();
+
+        StartCoroutine(Wait(Duration));
     }
 
     IEnumerator Wait(float duration)
@@ -42,12 +44,14 @@ public class ParticleVfx : MonoBehaviour, IVisualEffect, IPoolable
 
     public void Enable()
     {
-        this.gameObject.SetActive(true);
+        m_hAudioSource.time = 0f;
         m_hParticle.ForEach(hP => hP.time = 0f);
+        this.gameObject.SetActive(true);
     }
 
     public void Disable()
     {
+        m_hAudioSource.Stop();
         m_hParticle.ForEach(hP => hP.Stop());
         this.gameObject.SetActive(false);
     }
