@@ -4,26 +4,29 @@ using System.Collections;
 public class CustomCamera : MonoBehaviour
 {
     public GameObject Target;
-    public Vector3 Offset;
     public float MinOffset;
     public float MaxOffset;
     public KeyCode StateChanger;
 
+    [Range(0, 1)]
+    public float AimOffset;
+
     ICameraState current;
-    Rigidbody rB;
     StandardCamera stdCamera;
     AimCamera aimCamera;
+    Vector3 Offset;
+    static Vector3 startingOffset;
 
     void Awake()
     {
         stdCamera = new StandardCamera(this);
         aimCamera = new AimCamera(this);
-        rB = Target.GetComponentInParent<Rigidbody>();
+    }
 
-        if (Offset.y != MinOffset)
-        {
-            Offset.y = MinOffset;
-        }
+    void Start()
+    {
+        InitialOffset();
+        startingOffset = Offset;
     }
 
     void Update()
@@ -39,7 +42,22 @@ public class CustomCamera : MonoBehaviour
     {
         current.CalculateOffset();
 
-        this.transform.position = rB.transform.position + Offset;
+        this.transform.position = Target.GetComponent<Rigidbody>().transform.position + Offset;
+        Debug.DrawLine(this.transform.position, this.transform.forward * 20f, Color.red);
+    }
+
+    Vector3 InitialOffset()
+    {
+        RaycastHit ray;
+
+        if (Physics.Raycast(this.transform.position, this.transform.forward, out ray))
+        {
+            Offset = this.transform.position - ray.point;
+        }
+
+        Offset = Offset.normalized * MinOffset;
+
+        return Offset;
     }
 
     interface ICameraState
@@ -49,88 +67,87 @@ public class CustomCamera : MonoBehaviour
     class StandardCamera : ICameraState
     {
         CustomCamera camera;
-        Rigidbody rB;
-        Vector3 Offset;
-        float MinOffset;
-        float MaxOffset;
-        float yOffsetVar;
-        float targetMaxSpeed;
 
         public StandardCamera(CustomCamera MyCamera)
         {
             camera = MyCamera;
-            rB = MyCamera.Target.GetComponentInParent<Rigidbody>();
-            MinOffset = MyCamera.MinOffset;
-            MaxOffset = MyCamera.MaxOffset;
-            Offset = camera.Offset;
         }
 
         public void CalculateOffset()
         {
-            Offset.y = Mathf.Lerp(Offset.y, (MaxOffset / MinOffset) * rB.velocity.magnitude, Time.deltaTime);
-
-            if (Offset.y < MinOffset)
-            {
-                Offset.y = MinOffset;
-            }
-            if (Offset.y > MaxOffset)
-            {
-                Offset.y = MaxOffset;
-            }
-
-            camera.Offset = Offset;
+            camera.Offset.y = Mathf.Clamp(Mathf.Lerp(camera.Offset.y, (camera.MaxOffset / camera.MinOffset) * camera.Target.GetComponentInParent<Rigidbody>().velocity.magnitude, Time.deltaTime), camera.MinOffset, camera.MaxOffset);
+            camera.Offset.x = (camera.Offset.y * startingOffset.x) / startingOffset.y;
+            camera.Offset.z = (camera.Offset.y * startingOffset.z) / startingOffset.y;
         }
     }
 
     class AimCamera : ICameraState
     {
         CustomCamera camera;
-        Transform target;
-        Rigidbody rB;
-        KeyCode key;
-
-        Vector3 Offset;
-        bool offsetIsSaved;
-        Vector3 savedOffset;
+        Vector3 TargetAim;
+        CustomCamera savedCamera;
+        bool cameraIsSaved;
+        
 
         public AimCamera(CustomCamera MyCamera)
         {
             camera = MyCamera;
-            rB = MyCamera.Target.GetComponentInParent<Rigidbody>();
-            target = MyCamera.Target.GetComponentInParent<Transform>();
-            key = MyCamera.StateChanger;
-            Offset = camera.Offset;
         }
 
         public void CalculateOffset()
         {
-            Vector3 distanceFromTarget;
-
-            if (!offsetIsSaved && Input.GetKey(key))
+            if (Input.GetKey(camera.StateChanger))
             {
-                savedOffset = Offset;
-                offsetIsSaved = true;
-            }
-
-            if (Input.GetKey(key))
-            {
-                RaycastHit ray;
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out ray))
+                if (!cameraIsSaved)
                 {
-                    distanceFromTarget = ray.point - target.position;
-                    Offset = distanceFromTarget.normalized * Mathf.LerpAngle(0f, distanceFromTarget.magnitude, Time.deltaTime);
-                    Offset.y = savedOffset.y;
+                    savedCamera = camera;
+                    cameraIsSaved = true;
                 }
-            }
-            if (Input.GetKeyUp(key))
-            {
-                Offset = savedOffset;
-                offsetIsSaved = false;
-            }
 
-            camera.Offset = Offset;
+
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit vHit;
+
+                if (Physics.Raycast(ray, out vHit))
+                {
+                    //camera.Offset = startingOffset;
+                    //distanceFromTarget = new Vector3(vHit.point.x, camera.Target.transform.position.y, vHit.point.z);//new Ray(camera.Target.transform.position, camera.AimOffset * (vHit.point - camera.Target.transform.position));
+                    //TargetAim.x = ((vHit.point.x - camera.Offset.x) * camera.AimOffset) - savedOffset.x;
+                    //TargetAim.z = ((vHit.point.z - camera.Offset.z) * camera.AimOffset) - savedOffset.z;
+                    camera.Offset.x = savedCamera.Offset.x + ((vHit.point.x - (camera.Target.transform.position.x - savedCamera.Target.transform.position.x)) * camera.AimOffset) * Time.deltaTime;
+                    camera.Offset.z = savedCamera.Offset.z + ((vHit.point.z - (camera.Target.transform.position.z - savedCamera.Target.transform.position.z)) * camera.AimOffset) * Time.deltaTime;
+                    camera.Offset = savedCamera.Offset;
+
+                    cameraIsSaved = false;
+                    //Debug.DrawRay(camera.Target.transform.position * camera.AimOffset, distanceFromTarget, Color.red);
+                    //Debug.DrawRay(ray.origin, ray.direction * vHit.distance, Color.blue);
+                    //
+                }
+
+
+
+
+                //    //distanceFromTarget = ray.point - target.position;
+                //    //Offset = distanceFromTarget.normalized * Mathf.LerpAngle(0f, distanceFromTarget.magnitude, Time.deltaTime);
+                //    //Offset.y = savedOffset.y;
+                //    //-------------------------------------------------------------
+                //    //mousePos.z = 10F;
+                //    //Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                //    //player2.transform.position = worldPos;
+
+
+                //    //Vector3 mid = player2.transform.position - player1.transform.position;
+                //    //middlePoint = player1.transform.position + 0.5f * mid;
+
+                //    //this.transform.position = new Vector3(middlePoint.x, 0, -10);
+            }
+            //if (Input.GetKeyUp(camera.StateChanger))
+            //{
+            //    camera.Offset = savedOffset;
+            //    offsetIsSaved = false;
+            //}
         }
-
     }
 }
 
