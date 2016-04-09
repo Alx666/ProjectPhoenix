@@ -26,6 +26,8 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
     private bool m_hBackward = false;
     private bool m_hRight = false;
     private bool m_hLeft = false;
+    public bool isGrounded = false;
+
 
     public float DownForce = 10f;
 
@@ -77,18 +79,18 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
         m_hWheels.ForEach(hW => hW.OnUpdate());
         m_hFakeWheels.ForEach(hfw => hfw.OnUpdate(m_hWheels.Last().Collider));
 
+    }
+
+    void FixedUpdate()
+    {
+        m_hRigidbody.AddForce(-this.transform.up * DownForce * m_hRigidbody.velocity.magnitude);
+
         m_hRigidbody.velocity = Vector3.ClampMagnitude(m_hRigidbody.velocity, MaxSpeed / 3.6f);
 
         if (m_hRigidbody.velocity.magnitude > 0f && m_hRigidbody.velocity.magnitude < 1f)
             m_hRigidbody.velocity = Vector3.zero;
 
         CurrentSpeed = (m_hRigidbody.velocity.magnitude * 3.6f).ToString();
-
-    }
-
-    void FixedUpdate()
-    {
-            m_hRigidbody.AddForce(-this.transform.up * DownForce * m_hRigidbody.velocity.magnitude);
     }
 
     #region IControllerAI
@@ -181,7 +183,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
 
 
-            if (!(angle > 0f && angle < owner.SteerAngle))
+            if (!(angle > 0f && angle < owner.SteerAngle * 0.5f))
             {
                 if (dot >= 0f)
                     owner.BeginTurnRight();
@@ -225,18 +227,17 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
             //ONAIR ?
             RaycastHit vHit;
-            if (!(Physics.Raycast(new Ray(owner.transform.position, -owner.transform.up), out vHit, 3f)))
+            Vector3 vPosition = owner.transform.position;
+            vPosition.y += 0.5f;
+            if (!(Physics.Raycast(new Ray(vPosition, -owner.transform.up), out vHit, 1f)))
             {
-                Debug.Log("NOT RAYCAST!");
                 owner.EndForward();
-                owner.m_hRigidbody.velocity = Vector3.zero;
 
                 Wait.OnStateEnter();
                 return Wait;
             }
             else
             {
-                Debug.Log("RAYCAST!");
             }
 
             return this;
@@ -247,7 +248,6 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
     private class StateWait : IState
     {
         private Test_ControllerAIWheelTracks owner;
-        private bool isGrounded;
         float waitTime;
 
         public IState Idle { get; internal set; }
@@ -261,25 +261,28 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
         {
             Debug.Log("WAIT");
 
-            waitTime = 1f;
+            waitTime = 0.5f;
         }
 
         public IState Update()
         {
 
-            if (!isGrounded)
+            if (!owner.isGrounded)
             {
                 RaycastHit vHit;
-                if (Physics.Raycast(new Ray(owner.transform.position, -owner.transform.up), out vHit, 3f))
+                Vector3 vPosition = owner.transform.position;
+                vPosition.y += 0.5f;
+                if (Physics.Raycast(new Ray(vPosition, -owner.transform.up), out vHit, 1f))
                 {
-                    isGrounded = true;
+                    owner.isGrounded = true;
                 }
             }
             else
             {
-                waitTime = Mathf.Clamp(waitTime - Time.deltaTime, 0f, 1f);
+                waitTime = Mathf.Clamp(waitTime - Time.deltaTime, 0f, waitTime);
                 if (waitTime == 0f)
                 {
+                    owner.isGrounded = false;
                     Idle.OnStateEnter();
                     return Idle;
                 }
