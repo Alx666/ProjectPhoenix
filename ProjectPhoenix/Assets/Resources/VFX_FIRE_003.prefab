@@ -193,7 +193,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: deb31dbb1a26c054891a4186c584a5d0, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -269,7 +269,7 @@ Light:
   m_Type: 2
   m_Color: {r: 1, g: 0.82941175, b: 0.5735294, a: 1}
   m_Intensity: 1.58
-  m_Range: 250
+  m_Range: 25
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -302,7 +302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f372bbc5e6064f947a316f4eef98a75f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Duration: 0.05
+  MuzzleDuration: 0.02
+  SoundDuration: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

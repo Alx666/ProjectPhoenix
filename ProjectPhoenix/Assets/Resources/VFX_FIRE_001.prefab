@@ -193,7 +193,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: b3325a8b2aa1db6408262e058666a0e2, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -302,7 +302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f372bbc5e6064f947a316f4eef98a75f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Duration: 0.05
+  MuzzleDuration: 0.02
+  SoundDuration: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

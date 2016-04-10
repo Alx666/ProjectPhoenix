@@ -43,9 +43,24 @@ GameObject:
   m_Component:
   - 4: {fileID: 403836}
   - 114: {fileID: 11451490}
-  - 114: {fileID: 11426118}
   m_Layer: 0
   m_Name: BLT_RAYCAST_005
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &164528
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 482358}
+  - 114: {fileID: 11498002}
+  m_Layer: 0
+  m_Name: VFX_PARTCONFIG_005
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -127,12 +142,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 148604}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.222285, y: 2.64, z: -6.6528897}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 418980}
   - {fileID: 426640}
   - {fileID: 412848}
+  - {fileID: 482358}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &412848
@@ -210,6 +226,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 412848}
   m_RootOrder: 1
+--- !u!4 &482358
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 164528}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 403836}
+  m_RootOrder: 3
 --- !u!23 &2329946
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -289,30 +317,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ParticleScale: 2
   ScaleGameobject: 1
---- !u!114 &11426118
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 148604}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc3418799ed191d46af65cdce2777bbd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MuzzleVfxs:
-  - {fileID: 100004, guid: eca39ba733233ae4898019a73aaf3b58, type: 2}
-  HitVfxs:
-  - {fileID: 140056, guid: b7e15ff58f5210f4c92150570952c622, type: 2}
-  SideHitVfxs:
-  - {fileID: 199902, guid: 176d07c92c4de8e45aaa85861933ead7, type: 2}
-  MissVfxs:
-  - {fileID: 137848, guid: 594811fcdc3200b4f818633bdb50acc6, type: 2}
-  SideMissVfxs:
-  - {fileID: 190172, guid: 1734a1e081eec904cb32494292e4df13, type: 2}
-  MuzzleScaleCoef: 0.8
-  HitScaleCoef: 1
-  MissScaleCoef: 1
 --- !u!114 &11451490
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -327,6 +331,36 @@ MonoBehaviour:
   MaxDistance: 200
   Speed: 150
   Damage: 50
+--- !u!114 &11498002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 164528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc3418799ed191d46af65cdce2777bbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MuzzleVfxs:
+  - {fileID: 179716, guid: 47676c828a7abac489ff080f212772d3, type: 2}
+  HitVfxs:
+  - {fileID: 161326, guid: ed468c1c696ccc64fb8a387e074bcce6, type: 2}
+  - {fileID: 117920, guid: 72955ea87842bb04d8bef85be568c657, type: 2}
+  - {fileID: 152976, guid: c64b892919436cd4e9635772dd3e432c, type: 2}
+  - {fileID: 160746, guid: 015c20e8e771ca746809ccfe7879ade5, type: 2}
+  SideHitVfxs:
+  - {fileID: 137848, guid: 594811fcdc3200b4f818633bdb50acc6, type: 2}
+  - {fileID: 190172, guid: 1734a1e081eec904cb32494292e4df13, type: 2}
+  MissVfxs:
+  - {fileID: 141400, guid: a5fbd8bc7bc8f7d45886ed6f1cf257f1, type: 2}
+  - {fileID: 178564, guid: 11e59a7c7ea05fc4096b6e5f5edb5bea, type: 2}
+  SideMissVfxs:
+  - {fileID: 141400, guid: a5fbd8bc7bc8f7d45886ed6f1cf257f1, type: 2}
+  - {fileID: 178564, guid: 11e59a7c7ea05fc4096b6e5f5edb5bea, type: 2}
+  MuzzleScaleCoef: 1
+  HitScaleCoef: 1
+  MissScaleCoef: 1
 --- !u!198 &19802726
 ParticleSystem:
   m_ObjectHideFlags: 1

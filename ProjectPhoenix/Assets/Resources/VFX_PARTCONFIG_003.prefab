@@ -1,46 +1,46 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &106100
+--- !u!1 &123726
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 453432}
-  - 114: {fileID: 11448498}
+  - 4: {fileID: 420768}
+  - 114: {fileID: 11403612}
   m_Layer: 0
-  m_Name: VFX_PARTCONFIG_000
+  m_Name: VFX_PARTCONFIG_003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &453432
+--- !u!4 &420768
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 106100}
+  m_GameObject: {fileID: 123726}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11448498
+--- !u!114 &11403612
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 106100}
+  m_GameObject: {fileID: 123726}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cc3418799ed191d46af65cdce2777bbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   MuzzleVfxs:
-  - {fileID: 143398, guid: 1ac571d5d951fef408c1a9135767f71d, type: 2}
+  - {fileID: 100004, guid: eca39ba733233ae4898019a73aaf3b58, type: 2}
   HitVfxs:
   - {fileID: 161326, guid: ed468c1c696ccc64fb8a387e074bcce6, type: 2}
   - {fileID: 117920, guid: 72955ea87842bb04d8bef85be568c657, type: 2}
@@ -67,5 +67,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 106100}
+  m_RootGameObject: {fileID: 123726}
   m_IsPrefabParent: 1
