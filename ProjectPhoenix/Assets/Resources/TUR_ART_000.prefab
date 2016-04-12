@@ -48,21 +48,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &119092
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 477500}
-  m_Layer: 0
-  m_Name: Locator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &144762
 GameObject:
   m_ObjectHideFlags: 0
@@ -73,7 +58,6 @@ GameObject:
   - 4: {fileID: 489108}
   - 114: {fileID: 11498284}
   - 114: {fileID: 11480638}
-  - 114: {fileID: 11441732}
   m_Layer: 0
   m_Name: TUR_ART_000
   m_TagString: Untagged
@@ -143,7 +127,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 498494}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!4 &412746
 Transform:
   m_ObjectHideFlags: 1
@@ -155,7 +139,7 @@ Transform:
   m_LocalScale: {x: 0.025399998, y: 0.025400002, z: 0.025400002}
   m_Children: []
   m_Father: {fileID: 498494}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!4 &459896
 Transform:
   m_ObjectHideFlags: 1
@@ -181,18 +165,6 @@ Transform:
   m_LocalScale: {x: 0.025399996, y: 0.025400002, z: 0.025400002}
   m_Children: []
   m_Father: {fileID: 489108}
-  m_RootOrder: 0
---- !u!4 &477500
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 119092}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.254, z: 6.058}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 498494}
   m_RootOrder: 0
 --- !u!4 &489108
 Transform:
@@ -230,7 +202,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.70000005, z: -0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 477500}
   - {fileID: 408596}
   - {fileID: 412746}
   m_Father: {fileID: 459896}
@@ -370,25 +341,6 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 1
   m_Mesh: {fileID: 4300000, guid: f37dbd6570cdb41f8977a23d253b0068, type: 3}
---- !u!114 &11441732
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 144762}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 166996, guid: f3791f63b84dd8445bb6dea3a6d41a17, type: 2}
-  ShootLocators:
-  - {fileID: 119092}
-  IsShootAlternate: 0
-  Spread: 0
-  BulletDelay: 0.3
-  BarrageDelay: 0.3
-  Barrage: 1
 --- !u!114 &11480638
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -403,10 +355,10 @@ MonoBehaviour:
   BulletPrefab: {fileID: 166996, guid: f3791f63b84dd8445bb6dea3a6d41a17, type: 2}
   ShootLocators:
   - {fileID: 109480}
-  IsShootAlternate: 0
+  Mode: 0
   Spread: 0
-  BulletDelay: 0.3
-  BarrageDelay: 0.3
+  BulletDelay: 3
+  BarrageDelay: 1.38
   Barrage: 1
 --- !u!114 &11498284
 MonoBehaviour:
@@ -421,10 +373,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AxeYrot: {fileID: 176656}
   AxeXrot: {fileID: 104152}
+  Hp: 100
   minRange: -50
   maxRange: 0
   LightRadius: 50
   RotationSpeed: 10
+  Mode: 0
   DEBUG_STATE: 
 --- !u!1001 &100100000
 Prefab:

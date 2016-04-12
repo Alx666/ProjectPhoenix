@@ -3,39 +3,42 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-public class ControllerAIArtillery : MonoBehaviour, IControllerAI
+public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
 {
-
 ///////////<Inspector>/////////////////
-    public GameObject   AxeYrot;
-    public GameObject   AxeXrot;
-    public float        minRange;
-    public float        maxRange;
-    public float        LightRadius     = 50f;
-    public float        RotationSpeed   = 10f;
-    public bool         Mode;
-    ///////////////////////////////////
+  
+    public GameObject AxeYrot;
+    public GameObject AxeXrot;
+    public float Hp;
+    public float minRange;
+    public float maxRange;
+    [Range(0f, 100f)]
+    public float LightRadius;
+    [Range(0f, 50f)]
+    public float RotationSpeed;
+    public bool  Mode;
+///////////////////////////////////
     private Weapon           m_hWeapon;
     private float            m_fForce;
+    private float            tolerance=+1;
     private List<GameObject> PlayerList;
     //private float            m_fTolerance = 1f;   //Gli dò 1 grado come angolo di tolleranza
     private BulletPhysics    m_rBullet;
-/// ///////////////////////////////////
+//////////////////////////////////////
     public IState CurrentState { get; set; }
-
     public string DEBUG_STATE;
   
     void Awake()
-    {
-        
+    {       
         this.m_hWeapon      = this.GetComponent<Weapon>();
-        m_fForce            = m_hWeapon.BulletPrefab.GetComponent<BulletPhysics>().Force;
-        
+        m_fForce            = m_hWeapon.BulletPrefab.GetComponent<BulletPhysics>().Force;   
     }
     void Start()
     {
         PlayerList  = FindObjectsOfType<GameObject>().Where(GO => GO.GetComponent<IControllerPlayer>() != null).ToList();
         this.Target = this.SetTarget();
+
+
         ///<StateMachine>
         IdleState   stateIdle   = new IdleState(this);
         PatrolState statepatrol = new PatrolState(this);
@@ -108,7 +111,10 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
         public IState Idle { get; internal set; }
         public IState Attack { get; internal set; }
 
-        float yAngle;
+        float     yAngle;
+        float     xAngle;
+        float     min;
+        float     max;
         Transform yRot;
         Transform xRot;
 
@@ -120,22 +126,51 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
 
             yRot = this.owner.AxeYrot.transform;
             xRot = this.owner.AxeXrot.transform;
+
+            min = this.owner.minRange;
+            max = this.owner.maxRange;
         }
 
         public void OnStateEnter()
         {         //Calcolo l'angolo di rotazione
-            yAngle    =  UnityEngine.Random.Range(-180f, 180f);
-            yAngle   +=  yRot.transform.localRotation.eulerAngles.y;
-            vRotation =  Quaternion.Euler(0, yAngle, 0) * yRot.transform.forward;
+            yAngle = UnityEngine.Random.Range(-180f, 180f);
+
+            xAngle = UnityEngine.Random.Range(min, max);
         }
 
         public IState OnStateUpdate()
         {
-            Quaternion newPosition       = Quaternion.LookRotation(vRotation);
-            yRot.transform.localRotation = Quaternion.Slerp(yRot.transform.localRotation, Quaternion.LookRotation(vRotation), owner.RotationSpeed * Time.deltaTime);
+            //Yaxis
+            float currentYAngle = yRot.transform.localRotation.eulerAngles.y;
+            yRot.transform.localRotation = Quaternion.Slerp(yRot.transform.localRotation, Quaternion.Euler(0, yAngle, 0), owner.RotationSpeed * Time.deltaTime);
 
-            if (Mathf.Approximately ( yRot.transform.localEulerAngles.y , newPosition.eulerAngles.y ))    //True:Se L'angolazione è la stessa
+            if (currentYAngle > 180f)
+            {
+                currentYAngle = currentYAngle - 360f;
+            }
+
+
+            //Xaxis
+            float currentxAngle = xRot.transform.localRotation.eulerAngles.x;
+            xRot.transform.localRotation = Quaternion.Slerp(xRot.transform.localRotation, Quaternion.Euler(xAngle, 0, 0), owner.RotationSpeed * Time.deltaTime);
+
+
+            if (currentxAngle > 0)
+            {
+                currentxAngle = currentxAngle - 360;
+            }
+            if (currentxAngle < 0)
+            {
+                currentxAngle = currentxAngle + 360;
+            }
+
+            //TOIDLE
+            if (currentYAngle >= yAngle - owner.tolerance && currentYAngle <= yAngle + owner.tolerance)
+            {
+                Idle.OnStateEnter();
                 return Idle;
+            }
+
 
             if ((Vector3.Distance(owner.gameObject.transform.position, owner.Target.transform.position) <= owner.LightRadius))//True:Se la distanza è minore
             {
@@ -167,7 +202,6 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
         {
             this.Target = owner.target.transform;
             owner.m_hWeapon.Press();
-            Debug.Log("MI PREPARO ALL'ATTACCO!");
         }
 
         public IState OnStateUpdate()
@@ -201,22 +235,26 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
     {
         return PlayerList.OrderBy(go => Vector3.Distance(go.transform.position, this.transform.position)).First();
     }
-    internal float Aim(float v, float g, float x, float y, bool traj)
+    internal bool Aim(double v, double g, double x, double y, out float angle)
     {
-        Debug.Log("Calcolo del'angolo di tiro");
-        float speedsqrt  = Mathf.Pow(v, 2);
-        float speedsqrt4 = Mathf.Pow(v, 4);
-        float ValoreProvisorio = g * (g * Mathf.Pow(x, 2) + (2 * y * speedsqrt));
-        float sqrt = Mathf.Sqrt(speedsqrt4 - ValoreProvisorio);
-              sqrt = traj ? sqrt : -sqrt;
+         angle = 0;
 
-        float numerator = speedsqrt + sqrt;
-        float argument  = numerator / (g * x) ;
-        float angle     = (Mathf.Rad2Deg * Mathf.Atan(argument));
+        double v2  = Math.Pow(v, 2);
+        double v4  = Math.Pow(v, 4);
+        double gpart = g * (g * Math.Pow(x, 2) + (2 * y * v2));
+        double sqrt = Math.Sqrt(v4 - gpart);
+        //    sqrt = traj ? sqrt : -sqrt;
+        if (double.IsNaN(sqrt))
+            return false;
 
-        return angle;
+        double numerator = v2 + sqrt;
+        double argument  = numerator / (g * x) ;
+         angle     =-(float) (Mathf.Rad2Deg * Math.Atan(argument));
+
+        return true;
     }
     #endregion
+
     #region IAITurret
     private GameObject target;
     
@@ -233,6 +271,8 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
             target = value;
         }
     }
+
+
     //Inutilizzati perche inutili
     public void Idle()
     {
@@ -255,12 +295,25 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI
         Vector3 Distancea               = this.transform.position - target.transform.position;
         float gravity                   = Mathf.Abs( Physics.gravity.y);
         float Velocity_Bullet           = m_rBullet.Force;
-        float m_fAngle                  = Aim(Velocity_Bullet, gravity, Distance,Mathf.Abs( Distancea.y), Mode);
-        Quaternion ANGLE                = Quaternion.Euler(m_fAngle, 0f, 0f);
-        Quaternion Rotationx            = Quaternion.Slerp(AxeXrot.transform.localRotation,ANGLE, RotationSpeed);
-        AxeXrot.transform.localRotation = Rotationx;
+        float m_fAngle = 0;
+        Aim(Velocity_Bullet, gravity, Distance,Mathf.Abs( Distancea.y),out m_fAngle);
+        AxeXrot.transform.localRotation = Quaternion.AngleAxis(m_fAngle,Vector3.right);
+        //Quaternion Rotationx            = Quaternion.Slerp(AxeXrot.transform.localRotation,ANGLE, RotationSpeed);
+        //AxeXrot.transform.localRotation = Rotationx;
         ////////////////
     }
+
+    public void Damage(float fDmg)
+    {
+        this.Hp -= fDmg;
+    }
+
+    public void Damage(object damage)
+    {
+       
+    }
+
+
     #endregion
 
 }

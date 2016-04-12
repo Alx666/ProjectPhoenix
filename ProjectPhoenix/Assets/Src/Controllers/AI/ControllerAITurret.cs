@@ -7,27 +7,29 @@ using System.Linq;
 //        Clampare le x delle torrette
 public class ControllerAITurret : MonoBehaviour, IControllerAI
 {
+ /////////////////////////////////////////
     public GameObject AxeYrot;
     public GameObject AxeXrot;
-    public float  minRange;
-    public float  maxRange;
-    public float  LightRadius   = 50f;
-    public float  RotationSpeed = 10f;
-
-    private List<GameObject> PlayerList;
-    public IWeapon Weapon;
-
+    public float      minRange;
+    public float      maxRange;
+    [Range(0f,100f)]
+    public float  LightRadius;
+    [Range(0f,50f)]
+    public float  RotationSpeed;
+///////////////////////////////////////////////////////////
+    private  Weapon Weapon;
     private float tolerance   = 1f;   //Gli dò 1 grado come angolo di tolleranza
-
+    private List<GameObject> PlayerList;
+///////////////////////////////////////////////////
     public IState CurrentState { get; set; }
-
     public string DEBUG_STATE;
     public string Debug_Target;
 
     void Awake()
     {
-        this.Weapon = this.GetComponent<IWeapon>();     
+        this.Weapon = this.GetComponent<Weapon>();     
     }
+
 	void Start ()
     {
         PlayerList  = FindObjectsOfType<GameObject>().Where(GO => GO.GetComponent<IControllerPlayer>() != null).ToList();
@@ -40,7 +42,7 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
         stateIdle.Patrol = statepatrol;
         stateIdle.Attack = stateAttack;
         //Patrol
-        statepatrol.Idle = stateIdle;
+        statepatrol.Idle   = stateIdle;
         statepatrol.Attack = stateAttack;
         //Attack
         stateAttack.Idle = stateIdle;
@@ -68,8 +70,8 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
     #region FMS
     public interface IState
     {
-        void OnStateEnter();
-        IState OnStateUpdate();
+        void    OnStateEnter();
+        IState  OnStateUpdate();
     }
 
     class IdleState : IState
@@ -208,25 +210,12 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
         public void OnStateEnter()
         {
             this.Target = owner.target.transform;
+            owner.Weapon.Press();
         }
 
         public IState OnStateUpdate()
         {
-            owner.Weapon.Press();
-            ////Y axes
-            Vector3 vDirection = Target.transform.position - Yrot.transform.position;
-            Yrot.transform.localRotation = Quaternion.RotateTowards(Yrot.transform.localRotation, Quaternion.LookRotation(vDirection), owner.RotationSpeed);
-            Yrot.transform.localRotation = Quaternion.Euler(0f, Yrot.transform.localRotation.eulerAngles.y, 0f);
-
-            //X axes
-            vDirection = Target.transform.position - XRot.transform.position;
-            XRot.transform.localRotation = Quaternion.RotateTowards(XRot.transform.localRotation, Quaternion.LookRotation(vDirection), owner.RotationSpeed);
-            Vector3 clampVector = XRot.transform.localEulerAngles;
-            float anglex = clampVector.x;
-            anglex= owner.ClampAngle(anglex,owner.maxRange, owner.minRange);
-     
-            XRot.transform.localRotation = Quaternion.Euler(anglex, 0f, 0f);
-
+            owner.Attack();
 
             if (!(Vector3.Distance(owner.gameObject.transform.position, owner.target.transform.position) <= owner.LightRadius))
             {
@@ -275,6 +264,21 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
     }
     public void Attack()
     {
+        ////Y axes
+        Vector3 vDirection = Target.transform.position - AxeYrot.transform.position;
+        AxeYrot.transform.localRotation = Quaternion.RotateTowards(AxeYrot.transform.localRotation, Quaternion.LookRotation(vDirection),RotationSpeed);
+        AxeYrot.transform.localRotation = Quaternion.Euler(0f, AxeYrot.transform.localRotation.eulerAngles.y, 0f);
+
+        //X axes
+        vDirection = Target.transform.position - AxeXrot.transform.position;
+        AxeXrot.transform.localRotation = Quaternion.RotateTowards(AxeXrot.transform.localRotation, Quaternion.LookRotation(vDirection), RotationSpeed);
+        Vector3 clampVector = AxeXrot.transform.localEulerAngles;
+        float anglex = clampVector.x;
+        anglex = ClampAngle(anglex,maxRange,minRange);
+
+        AxeXrot.transform.localRotation = Quaternion.Euler(anglex, 0f, 0f);
+
+
     }
     #endregion
 }
