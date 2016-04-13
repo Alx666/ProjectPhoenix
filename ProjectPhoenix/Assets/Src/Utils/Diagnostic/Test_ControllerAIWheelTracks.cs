@@ -26,12 +26,17 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
     private bool m_hBackward = false;
     private bool m_hRight = false;
     private bool m_hLeft = false;
-    public bool isGrounded = false;
+    public string DEBUG_CurrentState = string.Empty;
 
 
     public float DownForce = 10f;
 
     //DEVE ESSERE UTILIZZATO QUESTO PER LA FSM!!!
+    StateIdle idle                      ;
+    StatePatrol patrol                  ;
+    StateOnAir onAir                    ;
+    StateWait wait;
+
     private IState currentState;
 
     void Awake()
@@ -59,13 +64,15 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
 
         //FSM
-        StateIdle idle      = new StateIdle(this);
-        StatePatrol patrol  = new StatePatrol(this);
-        StateWait wait      = new StateWait(this);
+        idle      = new StateIdle(this);
+        patrol  = new StatePatrol(this);
+        onAir    = new StateOnAir(this);
+        wait      = new StateWait(this);
 
         idle.Patrol         = patrol;
         patrol.Idle         = idle;
-        patrol.Wait         = wait;
+        patrol.OnAir        = onAir;
+        onAir.Wait          = wait;
         wait.Idle           = idle;
 
         currentState        = idle;
@@ -75,6 +82,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
     void Update()
     {
         currentState = currentState.Update();
+        DEBUG_CurrentState = currentState.ToString();
 
         m_hWheels.ForEach(hW => hW.OnUpdate());
         m_hFakeWheels.ForEach(hfw => hfw.OnUpdate(m_hWheels.Last().Collider));
@@ -110,10 +118,14 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
     public void Idle()
     {
+        idle.OnStateEnter();
+        currentState = idle;
     }
 
     public void Patrol()
     {
+        patrol.OnStateEnter();
+        currentState = patrol;
     }
 
     public void Attack()
@@ -140,7 +152,6 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
         public void OnStateEnter()
         {
-            Debug.Log("IDLE");
         }
 
         public IState Update()
@@ -153,13 +164,18 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
             return this;
         }
+        public override string ToString()
+        {
+            return "IDLE";
+        }
     }
     private class StatePatrol : IState
     {
         private Test_ControllerAIWheelTracks owner;
-        public IState Wait;
-
         public IState Idle { get; internal set; }
+        public IState OnAir { get; internal set; }
+
+
 
         public StatePatrol(Test_ControllerAIWheelTracks owner)
         {
@@ -168,7 +184,6 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
         public void OnStateEnter()
         {
-            Debug.Log("PATROL");
         }
 
         public IState Update()
@@ -180,10 +195,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             float angle = Vector3.Angle(owner.transform.forward, vDistance);
             float dot =(Mathf.Clamp(Vector3.Dot(owner.transform.right, vDistance), -1f, 1f));
 
-
-
-
-            if (!(angle > 0f && angle < owner.SteerAngle * 0.5f))
+            if (!(angle > 0f && angle < owner.SteerAngle * 0.5))
             {
                 if (dot >= 0f)
                     owner.BeginTurnRight();
@@ -224,7 +236,6 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
                    
             }
 
-
             //ONAIR ?
             RaycastHit vHit;
             Vector3 vPosition = owner.transform.position;
@@ -233,18 +244,51 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             {
                 owner.EndForward();
 
-                Wait.OnStateEnter();
-                return Wait;
-            }
-            else
-            {
+                OnAir.OnStateEnter();
+                return OnAir;
             }
 
             return this;
         }
+
+        public override string ToString()
+        {
+            return "PATROL";
+        }
     }
+    private class StateOnAir : IState
+    {
+        private Test_ControllerAIWheelTracks owner;
+        public IState Wait { get; internal set; }
+
+        public StateOnAir(Test_ControllerAIWheelTracks owner)
+        {
+            this.owner = owner;
+        }
 
 
+        public void OnStateEnter()
+        {
+        }
+
+        public IState Update()
+        {
+            RaycastHit vHit;
+            Vector3 vPosition = owner.transform.position;
+            vPosition.y += 0.5f;
+            if (Physics.Raycast(new Ray(vPosition, -owner.transform.up), out vHit, 1f))
+            {
+                Wait.OnStateEnter();
+                return Wait;
+            }
+            
+            return this;
+        }
+        public override string ToString()
+        {
+            return "ONAIR";
+        }
+    }
     private class StateWait : IState
     {
         private Test_ControllerAIWheelTracks owner;
@@ -259,36 +303,39 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
         public void OnStateEnter()
         {
-            Debug.Log("WAIT");
 
             waitTime = 0.5f;
         }
 
         public IState Update()
         {
-
-            if (!owner.isGrounded)
+            waitTime = Mathf.Clamp(waitTime - Time.deltaTime, 0f, waitTime);
+            if (waitTime == 0f)
             {
-                RaycastHit vHit;
-                Vector3 vPosition = owner.transform.position;
-                vPosition.y += 0.5f;
-                if (Physics.Raycast(new Ray(vPosition, -owner.transform.up), out vHit, 1f))
-                {
-                    owner.isGrounded = true;
-                }
-            }
-            else
-            {
-                waitTime = Mathf.Clamp(waitTime - Time.deltaTime, 0f, waitTime);
-                if (waitTime == 0f)
-                {
-                    owner.isGrounded = false;
-                    Idle.OnStateEnter();
-                    return Idle;
-                }
+                Idle.OnStateEnter();
+                return Idle;
             }
 
             return this;
+        }
+        public override string ToString()
+        {
+            return "WAIT";
+        }
+    }
+    private class StateAttack : IState
+    {
+        public void OnStateEnter()
+        {
+        }
+
+        public IState Update()
+        {
+            return this;
+        }
+        public override string ToString()
+        {
+            return "ATTACK";
         }
     }
     #endregion
