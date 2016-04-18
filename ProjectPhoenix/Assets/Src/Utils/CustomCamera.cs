@@ -124,11 +124,12 @@ public class CustomCamera : MonoBehaviour
         public LerpCamera(CustomCamera MyCamera)
         {
             camera = MyCamera;
-            lerpOffset = camera.stdCamera.stdOffset;
+            lerpOffset = camera.Offset;
         }
 
         public void CalculateOffset()
         {
+            lerpOffset = camera.stdCamera.stdOffset;
             camera.Offset = new Vector3(Mathf.Lerp(camera.Offset.x, lerpOffset.x, Time.deltaTime), camera.Offset.y, Mathf.Lerp(camera.Offset.z, lerpOffset.z, Time.deltaTime));
         }
     }
