@@ -10,6 +10,7 @@ public class CustomCamera : MonoBehaviour
 
     [Range(0, 1)]
     public float DistanceFromTarget;
+    public float MaxDistance;
 
 
     ICameraState current;
@@ -110,7 +111,11 @@ public class CustomCamera : MonoBehaviour
                 if (Physics.Raycast(ray, out vHit))
                 {
                     aimOffset = camera.Offset + (camera.DistanceFromTarget * (vHit.point - camera.Target.transform.position));
-                    camera.Offset = new Vector3(Mathf.Lerp(camera.Offset.x, aimOffset.x, Time.deltaTime), camera.Offset.y, Mathf.Lerp(camera.Offset.z, aimOffset.z, Time.deltaTime));
+
+                    if ((camera.DistanceFromTarget * (vHit.point - camera.Target.transform.position)).magnitude < camera.MaxDistance)
+                    {
+                        camera.Offset = new Vector3(Mathf.Lerp(camera.Offset.x, aimOffset.x, Time.deltaTime), camera.Offset.y, Mathf.Lerp(camera.Offset.z, aimOffset.z, Time.deltaTime));
+                    }
                 }
             }
         }
