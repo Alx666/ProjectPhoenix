@@ -110,7 +110,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
     private void FixedUpdate()
     {
         if (currentState != overTurned)
-            m_hRigidbody.AddForce((-this.transform.up * DownForce * m_hRigidbody.velocity.magnitude) + Vector3.down);
+            m_hRigidbody.AddForce((-this.transform.up * DownForce * m_hRigidbody.velocity.magnitude) + -this.transform.up);
 
         m_hRigidbody.velocity = Vector3.ClampMagnitude(m_hRigidbody.velocity, MaxSpeed / 3.6f);
 
@@ -175,9 +175,6 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
         public void OnStateEnter()
         {
-            if(owner.Target == null)
-                owner.m_hRigidbody.velocity = Vector3.zero;
-
             owner.EndForward();
         }
 
@@ -236,7 +233,9 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             //FORWARD
             owner.BeginForward();
             float distance = Vector3.Distance(owner.transform.position, vDestination);
-            if (distance > 0f && distance < owner.StoppingDistance)
+
+            float sign = Mathf.Sign(Vector3.Dot(this.owner.transform.forward, this.owner.m_hRigidbody.velocity));
+            if (distance > 0f && distance < owner.StoppingDistance && sign > 0f)
             {
                 owner.EndForward();
                 owner.BeginBackward();
@@ -629,9 +628,12 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             {
                 ai.Patrol();
             }
-            if (this.Target != null && this.currentState != idle)
+            else
             {
-                ai.Idle();
+                if(this.currentState != idle)
+                {
+                    ai.Idle();
+                }
             }
         }
     }
@@ -641,15 +643,11 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
         IControllerAI ai = other.GetComponent<IControllerAI>();
         if (ai != null)
         {
-            //StartCoroutine(TurnAIToPatrol(3.0f, ai));
-
-            this.Patrol();
-            ai.Patrol();
-
+            StartCoroutine(TurnOtherToPatrol(3.0f, ai));
         }
     }
 
-    IEnumerator TurnAIToPatrol(float time, IControllerAI ai)
+    IEnumerator TurnOtherToPatrol(float time, IControllerAI ai)
     {
         yield return new WaitForSeconds(time);
         ai.Patrol();
