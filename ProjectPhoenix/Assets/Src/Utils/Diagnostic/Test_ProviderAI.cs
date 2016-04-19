@@ -1,14 +1,16 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class Test_ProviderAI : MonoBehaviour
 {
-    public GameObject Target;
+    public List<GameObject> Targets;
     public GameObject POI;
-    private IControllerAI target;
+    private List<IControllerAI> targets;
 
     void Start()
     {
-        target = Target.GetComponent<IControllerAI>();
+        targets = new List<IControllerAI>();
+        Targets.ForEach(hT => targets.Add(hT.GetComponent<IControllerAI>()));
     }
     void Update()
     {
@@ -21,7 +23,11 @@ public class Test_ProviderAI : MonoBehaviour
                 //vPosition.x = 0f;
                 //vPosition.y = 0.51f;
                 POI.transform.position = vPosition;
-                target.Target = POI;
+                targets.ForEach(hT => 
+                {
+                    hT.Target = POI;
+                    hT.Patrol();
+                });
             }
         }
         
