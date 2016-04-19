@@ -110,7 +110,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
     private void FixedUpdate()
     {
         if (currentState != overTurned)
-            m_hRigidbody.AddForce(-this.transform.up * DownForce * m_hRigidbody.velocity.magnitude);
+            m_hRigidbody.AddForce((-this.transform.up * DownForce * m_hRigidbody.velocity.magnitude) + Vector3.down);
 
         m_hRigidbody.velocity = Vector3.ClampMagnitude(m_hRigidbody.velocity, MaxSpeed / 3.6f);
 
@@ -175,7 +175,10 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
         public void OnStateEnter()
         {
-            this.owner.m_hRigidbody.velocity = Vector3.zero;
+            if(owner.Target == null)
+                owner.m_hRigidbody.velocity = Vector3.zero;
+
+            owner.EndForward();
         }
 
         public IState Update()
@@ -188,7 +191,6 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             return "IDLE";
         }
     }
-
     private class StatePatrol : IState
     {
         private Test_ControllerAIWheelTracks owner;
@@ -609,49 +611,48 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
     #region Monobehaviours
 
-    //public void OnTriggerEnter(Collider other)
-    //{
-    //    IControllerAI ai = other.GetComponent<IControllerAI>();
-    //    if (ai != null && this.currentState != idle)
-    //    {
-    //        ai.Idle();
-    //    }
-    //}
+    public void OnTriggerEnter(Collider other)
+    {
+        IControllerAI ai = other.GetComponent<IControllerAI>();
+        if (ai != null && this.currentState != idle)
+        {
+            ai.Idle();
+        }
+    }
 
-    //public void OnTriggerStay(Collider other)
-    //{
-    //    IControllerAI ai = other.GetComponent<IControllerAI>();
-    //    if (ai != null)
-    //    {
-    //        if (this.currentState == patrol)
-    //        {
-    //            ai.Idle();
-    //        }
-    //        else if (this.Target == null)
-    //        {
-    //            ai.Patrol();
-    //        }
-    //        else if(ai.Target == null)
-    //        {
-    //            this.Patrol();
-    //        }
-    //    }
-    //}
+    public void OnTriggerStay(Collider other)
+    {
+        IControllerAI ai = other.GetComponent<IControllerAI>();
+        if (ai != null)
+        {
+            if (this.Target == null)
+            {
+                ai.Patrol();
+            }
+            if (this.Target != null && this.currentState != idle)
+            {
+                ai.Idle();
+            }
+        }
+    }
 
-    //public void OnTriggerExit(Collider other)
-    //{
-    //    IControllerAI ai = other.GetComponent<IControllerAI>();
-    //    if (ai != null)
-    //    {
-    //        StartCoroutine(TurnAIToPatrol(3.0f, ai));
-    //        this.Patrol();
-    //    }
-    //}
+    public void OnTriggerExit(Collider other)
+    {
+        IControllerAI ai = other.GetComponent<IControllerAI>();
+        if (ai != null)
+        {
+            //StartCoroutine(TurnAIToPatrol(3.0f, ai));
 
-    //IEnumerator TurnAIToPatrol(float time, IControllerAI ai)
-    //{
-    //    yield return new WaitForSeconds(time);
-    //    ai.Patrol();
-    //}
+            this.Patrol();
+            ai.Patrol();
+
+        }
+    }
+
+    IEnumerator TurnAIToPatrol(float time, IControllerAI ai)
+    {
+        yield return new WaitForSeconds(time);
+        ai.Patrol();
+    }
     #endregion Monobehaviours
 }
