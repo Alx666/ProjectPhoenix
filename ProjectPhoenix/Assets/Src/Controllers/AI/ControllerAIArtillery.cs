@@ -17,14 +17,15 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
     public float LightRadius;
     [Range(0f, 50f)]
     public float RotationSpeed;
+    public float m_fTolerance = 1f;   //Gli dò 1 grado come angolo di tolleranza
  
 
 ///////////////////////////////////
     private Weapon           m_hWeapon;
    
     private float            tolerance=+0.5f;
+
     private List<GameObject> PlayerList;
-    //private float            m_fTolerance = 1f;   //Gli dò 1 grado come angolo di tolleranza
     private BulletPhysics    m_hBullet;
 //////////////////////////////////////
     public IState CurrentState { get; set; }
@@ -166,7 +167,6 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
         }
     }
 
-
     class AimState : IState
     {
         public PatrolState Patrol { get; internal set; }
@@ -204,9 +204,7 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
 
                     Owner.AxeXrot.transform.localRotation = Quaternion.AngleAxis(m_fAngle, Vector3.right);
 
-            float Parallel = Vector3.Dot(Owner.m_hWeapon.ShootLocators[0].transform.forward, Owner.target.transform.forward);
-
-            if ( Parallel <= -0.97f) 
+            if ( Owner.OnLine(Owner.m_hWeapon.ShootLocators[0].transform, Owner.target.transform) <= Owner.m_fTolerance) 
             {
                 Debug.Log("Bersaglio agganciato");
                 Debug.Log("sto per attaccare");
@@ -223,6 +221,27 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
 
             return this;
         }
+    }
+
+    private float OnLine(Transform transform1, Transform transform2)
+    {
+
+        //Locator
+        Vector3 VecLoc = transform1.forward;
+        VecLoc.y = 0;
+        VecLoc = VecLoc.normalized;
+
+        //TargetLoc
+        Vector3 Tar2d = transform2.position;
+        Tar2d.y = 0;
+        Tar2d = Tar2d.normalized;
+        //position locator
+        Vector3 This2d = transform1.position;
+        This2d.y = 0;
+        Vector3 Distance2d = (This2d - Tar2d).normalized;
+        float OnLine = Vector3.Angle(VecLoc, Distance2d);
+
+        return OnLine;
     }
 
     class AttackState : IState
@@ -265,9 +284,7 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
                 return patrol;
             }
 
-            float Parallel = Vector3.Dot(Owner.m_hWeapon.ShootLocators[0].transform.forward, Owner.target.transform.forward);
-            Debug.Log(Parallel);
-            if ( Parallel >-0.97f)
+            if (!(Owner.OnLine(Owner.m_hWeapon.ShootLocators[0].transform, Owner.target.transform) <= Owner.m_fTolerance))
             {
                 Owner.m_hWeapon.Release();
 
@@ -320,7 +337,6 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
     #region IAITurret
     private GameObject target;
     
-
     public GameObject Target
     {
         get
