@@ -3,8 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-//To Do: INSERIRE LO SCRIPT GIUSTO ALLA TORRETTA GIUSTA
-//        Clampare le x delle torrette
+
 public class ControllerAITurret : MonoBehaviour, IControllerAI
 {
  /////////////////////////////////////////
