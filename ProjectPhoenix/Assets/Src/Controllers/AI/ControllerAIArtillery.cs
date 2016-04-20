@@ -223,27 +223,6 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
         }
     }
 
-    private float OnLine(Transform transform1, Transform transform2)
-    {
-
-        //Locator
-        Vector3 VecLoc = transform1.forward;
-        VecLoc.y = 0;
-        VecLoc = VecLoc.normalized;
-
-        //TargetLoc
-        Vector3 Tar2d = transform2.position;
-        Tar2d.y = 0;
-        Tar2d = Tar2d.normalized;
-        //position locator
-        Vector3 This2d = transform1.position;
-        This2d.y = 0;
-        Vector3 Distance2d = (This2d - Tar2d).normalized;
-        float OnLine = Vector3.Angle(VecLoc, Distance2d);
-
-        return OnLine;
-    }
-
     class AttackState : IState
     {
         private ControllerAIArtillery Owner;
@@ -331,6 +310,26 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
         angle     = -(float)(Mathf.Rad2Deg * Math.Atan(argument));
 
         return true;
+    }
+    internal float OnLine(Transform transform1, Transform transform2)
+    {
+
+        //Locator
+        Vector3 VecLoc = transform1.forward;
+        VecLoc.y = 0;
+        VecLoc = VecLoc.normalized;
+
+        //TargetLoc
+        Vector3 Tar2d = transform2.position;
+        Tar2d.y = 0;
+        Tar2d = Tar2d.normalized;
+        //position locator
+        Vector3 This2d = transform1.position;
+        This2d.y = 0;
+        Vector3 Distance2d = (This2d - Tar2d).normalized;
+        float OnLine = Vector3.Angle(VecLoc, Distance2d);
+
+        return OnLine;
     }
     #endregion
 
