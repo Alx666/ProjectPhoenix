@@ -110,7 +110,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
     private void FixedUpdate()
     {
         if (currentState != overTurned)
-            m_hRigidbody.AddForce((-this.transform.up * DownForce * m_hRigidbody.velocity.magnitude) + -this.transform.up);
+            m_hRigidbody.AddForce((-this.transform.up * DownForce * m_hRigidbody.velocity.magnitude));
 
         m_hRigidbody.velocity = Vector3.ClampMagnitude(m_hRigidbody.velocity, MaxSpeed / 3.6f);
 
@@ -180,6 +180,28 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
         public IState Update()
         {
+
+            if(owner.m_hRigidbody.velocity.magnitude > 1f)
+            {
+                float sign = Mathf.Sign(Vector3.Dot(this.owner.transform.forward, this.owner.m_hRigidbody.velocity));
+                if (sign > 0f)
+                {
+                    owner.EndForward();
+                    owner.BeginBackward();
+                }
+                else
+                {
+                    owner.EndBackward();
+                    owner.BeginForward();
+                }
+            }
+            else
+            {
+                owner.EndBackward();
+                owner.EndForward();
+            }
+            
+
             return this;
         }
 
@@ -188,6 +210,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             return "IDLE";
         }
     }
+
     private class StatePatrol : IState
     {
         private Test_ControllerAIWheelTracks owner;
@@ -240,7 +263,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
                 owner.EndForward();
                 owner.BeginBackward();
 
-                if (owner.m_hRigidbody.velocity.magnitude > 0f && owner.m_hRigidbody.velocity.magnitude < 5f)
+                if (owner.m_hRigidbody.velocity.magnitude < 1f)
                 {
                     owner.EndBackward();
 
@@ -259,8 +282,8 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             //ONAIR ?
             RaycastHit vHit;
             Vector3 vPosition = owner.transform.position;
-            vPosition.y += 0.5f;
-            if (!(Physics.Raycast(new Ray(vPosition, -owner.transform.up), out vHit, 2f)))
+            vPosition.y += 1f;
+            if (!(Physics.Raycast(new Ray(vPosition, -owner.transform.up), out vHit, 4f)))
             {
                 owner.EndForward();
 
@@ -276,6 +299,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             return "PATROL";
         }
     }
+
     private class StateOnAir : IState
     {
         private Test_ControllerAIWheelTracks owner;
@@ -294,8 +318,8 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
         {
             RaycastHit vHit;
             Vector3 vPosition = owner.transform.position;
-            vPosition.y += 0.5f;
-            if (Physics.Raycast(new Ray(vPosition, -owner.transform.up), out vHit, 2f))
+            vPosition.y += 1f;
+            if (Physics.Raycast(new Ray(vPosition, -owner.transform.up), out vHit, 4f))
             {
                 Wait.OnStateEnter();
                 return Wait;
@@ -309,6 +333,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             return "ONAIR";
         }
     }
+
     private class StateWait : IState
     {
         private Test_ControllerAIWheelTracks owner;
@@ -343,6 +368,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             return "WAIT";
         }
     }
+
     private class StateOverTurned : IState
     {
         private Test_ControllerAIWheelTracks owner;
@@ -374,6 +400,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             return "OVERTURNED";
         }
     }
+
     private class StateAttack : IState
     {
         public void OnStateEnter()
@@ -630,7 +657,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             }
             else
             {
-                if(this.currentState != idle)
+                if (this.currentState != idle)
                 {
                     ai.Idle();
                 }
@@ -643,14 +670,15 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
         IControllerAI ai = other.GetComponent<IControllerAI>();
         if (ai != null)
         {
-            StartCoroutine(TurnOtherToPatrol(3.0f, ai));
+            StartCoroutine(TurnOtherToPatrol(1.0f, ai));
         }
     }
 
-    IEnumerator TurnOtherToPatrol(float time, IControllerAI ai)
+    private IEnumerator TurnOtherToPatrol(float time, IControllerAI ai)
     {
         yield return new WaitForSeconds(time);
         ai.Patrol();
     }
+
     #endregion Monobehaviours
 }

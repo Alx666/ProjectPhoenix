@@ -182,7 +182,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 161908, guid: a00533306c3bfe94c9b3ef3af73aa2c3, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5400794, guid: a00533306c3bfe94c9b3ef3af73aa2c3, type: 2}
       propertyPath: m_Mass
@@ -267,7 +267,7 @@ MonoBehaviour:
   CenterOfMassY: 0.6
   StoppingDistance: 20
   DEBUG_CurrentState: 
-  DownForce: 10
+  DownForce: 20
   target: {fileID: 0}
 --- !u!135 &389673892
 SphereCollider:
@@ -382,6 +382,7 @@ MonoBehaviour:
   Targets:
   - {fileID: 1432631239}
   - {fileID: 389673890}
+  - {fileID: 1272289973}
   POI: {fileID: 2013324224}
 --- !u!1 &1272289973 stripped
 GameObject:
@@ -403,9 +404,9 @@ MonoBehaviour:
   MaxSpeed: 100
   CurrentSpeed: 0
   CenterOfMassY: 0.6
-  StoppingDistance: 10
+  StoppingDistance: 20
   DEBUG_CurrentState: 
-  DownForce: 10
+  DownForce: 20
   target: {fileID: 0}
 --- !u!135 &1272289975
 SphereCollider:
@@ -441,7 +442,7 @@ MonoBehaviour:
   CenterOfMassY: 0.6
   StoppingDistance: 20
   DEBUG_CurrentState: 
-  DownForce: 10
+  DownForce: 20
   target: {fileID: 0}
 --- !u!135 &1432631241
 SphereCollider:
