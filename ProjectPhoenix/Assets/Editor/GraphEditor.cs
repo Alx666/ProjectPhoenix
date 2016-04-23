@@ -5,6 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Graph;
 using System.IO;
+using System.Xml.Serialization;
 
 [CustomEditor(typeof(GraphTemp))]
 public class GraphEditor : Editor
@@ -17,6 +18,28 @@ public class GraphEditor : Editor
     void OnEnable()
     {
         m_hTarget = this.target as GraphTemp; //get a reference to the target component
+    }
+
+    //Metodi per il LoadFile
+    private void AddNode(Node<POI> hNode)
+    {
+        Node hNew = ScriptableObject.CreateInstance(typeof(Node)) as Node;
+
+        hNew.Label = hNew.SetNodeId();
+        hNew.Label = hNode.m_iId.ToString();
+        hNew.nodetype = hNode.value.Type;
+        hNew.Position = hNode.value.Position;
+
+        m_hTarget.Nodes.Add(hNew);
+    }
+
+    private void AddLink(Node<POI> hNode, Node<POI> hNeighbour)
+    {
+        IEnumerable<Node> hNodes = m_hTarget.Nodes.Where(x => x.Label == hNode.m_iId.ToString() || x.Label == hNeighbour.m_iId.ToString());
+
+        Node a = hNodes.First();
+        Node b = hNodes.Last();
+        a.Successors.Add(b);
     }
 
     //This is method is called by the unity editor when it need to draw the inspector
@@ -93,9 +116,6 @@ public class GraphEditor : Editor
                 a.Successors.Add(b);
                 b.Successors.Add(a);
             }
-
-
-
             Label0 = string.Empty;
             Label1 = string.Empty;
         }
@@ -130,10 +150,10 @@ public class GraphEditor : Editor
         {
             Graph<POI> graph = new Graph<POI>();
             m_hTarget.Nodes.ForEach(hN =>
-           {
-               POI p = new POI(hN.Position, hN.nodetype);
-               graph.Add(new Node<POI>(p, int.Parse(hN.GetID())));
-           });
+            {
+                POI p = new POI(hN.Position, hN.nodetype);
+                graph.Add(new Node<POI>(p, int.Parse(hN.GetID())));
+            });
 
             m_hTarget.Nodes.ForEach(hN =>
             {
@@ -143,20 +163,42 @@ public class GraphEditor : Editor
                 });
             });
 
-            using(StreamWriter hS = new StreamWriter("Graph.txt"))
+            using (StreamWriter hS = new StreamWriter("Graph.txt"))
             {
                 graph.m_hNodes.ForEach(hN =>
                 {
-                    hS.Write(hN.m_iId  + " => ");
+                    hS.WriteLine("n/" + hN.value.Position.x + ", " + hN.value.Position.y + ", " + hN.value.Position.z + "/" + hN.value.Type + "/" + hN.m_iId);
+                });
+
+                graph.m_hNodes.ForEach(hN =>
+                {
                     hN.neighbours.ForEach(hNeigh =>
                     {
-                        hS.Write(hNeigh.Node.m_iId + ", ");
+                        hS.Write("l/" + hN.m_iId);
+                        hS.WriteLine("/" + hNeigh.Node.m_iId + "/" + hNeigh.Distance);
                     });
-                    hS.WriteLine();
                 });
             }
-
         }
+
+        if (GUILayout.Button("Load"))
+        {
+            Graph<POI> m_hGraph = GraphParser.Instance.Parse("Graph.txt");
+
+            m_hGraph.m_hNodes.ForEach(hN =>
+            {
+                this.AddNode(hN);
+            });
+
+            m_hGraph.m_hNodes.ForEach(hN =>
+            {
+                hN.neighbours.ForEach(hNeigh =>
+                {
+                    this.AddLink(hN, hNeigh.Node);
+                });
+            });
+        }
+
         SceneView.RepaintAll();
     }
 

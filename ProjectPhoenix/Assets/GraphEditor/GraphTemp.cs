@@ -13,8 +13,6 @@ public class GraphTemp : MonoBehaviour
 	}
 }
 
-
-[Serializable]
 public class Node : ScriptableObject
 {
     private static int s_iIndex;
@@ -48,7 +46,7 @@ public class Node : ScriptableObject
     public bool FoldOutOpen { get; set; }
 }
 
-public enum NodeType { 
+public enum NodeType{ 
 	Road,
 	Building,
 	Turret,
