@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Graph;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,7 +15,10 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
     public float CenterOfMassY = 0.6f;
 
     public float StoppingDistance = 5f;
+    public float DownForce = 10f;
 
+    private Graph<POI> graph;
+    
     private List<Collider> colliders;
     private SphereCollider sphereCollider;
     private List<Wheel> m_hWheels;
@@ -27,13 +31,12 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
     private bool m_hBackward = false;
     private bool m_hRight = false;
     private bool m_hLeft = false;
+
     public string DEBUG_CurrentState = string.Empty;
 
-    public float DownForce = 10f;
 
     //DEVE ESSERE UTILIZZATO QUESTO PER LA FSM!!!
     private StateIdle idle;
-
     private StatePatrol patrol;
     private StateOnAir onAir;
     private StateWait wait;
@@ -89,7 +92,10 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
         currentState = idle;
         currentState.OnStateEnter();
     }
-
+    private void Start()
+    {
+        graph = GraphParser.Instance.Parse("Graph.txt");
+    }
     private void Update()
     {
         currentState = currentState.Update();
@@ -217,6 +223,10 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
         public StateIdle Idle { get; internal set; }
         public StateOnAir OnAir { get; internal set; }
 
+        bool pathComputed;
+        Queue<Node<POI>> pois;
+        private POI poi;
+
         public StatePatrol(Test_ControllerAIWheelTracks owner)
         {
             this.owner = owner;
@@ -224,6 +234,26 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
         public void OnStateEnter()
         {
+            if (!pathComputed)
+            {
+                Node<POI> nearestAI = owner.graph.m_hNodes.OrderBy(hN => Vector3.Distance(hN.value.Position, owner.transform.position)).First();
+                Node<POI> nearestPlayer = owner.graph.m_hNodes.OrderBy(hN => Vector3.Distance(hN.value.Position, owner.Target.transform.position)).First();
+
+                pois = new Queue<Node<POI>>(owner.graph.Dijkstra(nearestPlayer, nearestAI));
+                pathComputed = true;
+            }
+            
+
+            //GET POI FROM QUEUE
+            if (pois.Count > 0)
+            {
+                poi = pois.Dequeue().value;
+                Debug.Log("DEQUEUED");
+            }
+            else
+            {
+                poi = null;
+            }
         }
 
         public IState Update()
@@ -232,7 +262,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
                 return Idle;
 
             //STEERING
-            Vector3 vDestination = owner.Target.transform.position;
+            Vector3 vDestination = poi.Position;
             Vector3 vDistance = vDestination - owner.transform.position;
 
             float angle = Vector3.Angle(owner.transform.forward, vDistance);
@@ -260,23 +290,32 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             float sign = Mathf.Sign(Vector3.Dot(this.owner.transform.forward, this.owner.m_hRigidbody.velocity));
             if (distance > 0f && distance < owner.StoppingDistance && sign > 0f)
             {
-                owner.EndForward();
-                owner.BeginBackward();
-
-                if (owner.m_hRigidbody.velocity.magnitude < 1f)
+                if (pois.Count > 0)
                 {
-                    owner.EndBackward();
-
-                    owner.target = null;
-
-                    if (owner.m_hRight)
-                        owner.EndTurnRight();
-                    else if (owner.m_hLeft)
-                        owner.EndTurnLeft();
-
-                    Idle.OnStateEnter();
-                    return Idle;
+                    this.OnStateEnter();
+                    return this;
                 }
+                else
+                {
+                    owner.EndForward();
+                    owner.BeginBackward();
+
+                    if (owner.m_hRigidbody.velocity.magnitude < 1f)
+                    {
+                        owner.EndBackward();
+
+                        owner.target = null;
+
+                        if (owner.m_hRight)
+                            owner.EndTurnRight();
+                        else if (owner.m_hLeft)
+                            owner.EndTurnLeft();
+
+                        Idle.OnStateEnter();
+                        return Idle;
+                    }
+                }
+                  
             }
 
             //ONAIR ?

@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Test_ProviderAI : MonoBehaviour
 {
+    public GameObject testplayer;
     public List<GameObject> Targets;
-    public GameObject POI;
     private List<IControllerAI> targets;
 
     void Start()
@@ -14,21 +14,10 @@ public class Test_ProviderAI : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            RaycastHit hit;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit))
-            {
-                Vector3 vPosition = hit.point;
-                //vPosition.x = 0f;
-                //vPosition.y = 0.51f;
-                POI.transform.position = vPosition;
-                targets.ForEach(hT => 
-                {
-                    hT.Target = POI;
-                    hT.Patrol();
-                });
-            }
+            targets.ForEach(hT => hT.Target = testplayer);
+            targets.ForEach(hT => hT.Patrol());
         }
         
     }

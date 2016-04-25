@@ -5,7 +5,7 @@ using System.IO;
 using System;
 using System.Collections.Generic;
 
-public class GraphParser : MonoBehaviour
+public class GraphParser
 {
     public static GraphParser Instance { get; private set; }
 
