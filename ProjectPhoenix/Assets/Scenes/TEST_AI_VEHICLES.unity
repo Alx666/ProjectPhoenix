@@ -85,24 +85,6 @@ NavMeshSettings:
     cellSize: 0.16666667
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &140986031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Node
-  Label: 30
-  Successors:
-  - {fileID: 525375615}
-  - {fileID: 1166689607}
-  - {fileID: 525375615}
-  - {fileID: 1166689607}
-  nodetype: 0
 --- !u!1 &143894563
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,28 +403,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 511078379}
-  m_LocalRotation: {x: 0.47185698, y: -0.0026443787, z: 0.0014158897, w: 0.88167006}
-  m_LocalPosition: {x: 177, y: 122.71, z: 75.26436}
+  m_LocalRotation: {x: -0.70710677, y: -5.8207655e-10, z: 1.7462297e-10, w: -0.7071068}
+  m_LocalPosition: {x: 249.55252, y: 456.477, z: 252.95886}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &525375615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Node
-  Label: 31
-  Successors:
-  - {fileID: 1519672109}
-  - {fileID: 1519672109}
-  nodetype: 0
 --- !u!1 &668804233
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,13 +436,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e065e4eb9f606443a08927825f9f01e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Nodes:
-  - {fileID: 140986031}
-  - {fileID: 525375615}
-  - {fileID: 1519672109}
-  - {fileID: 1699308317}
-  - {fileID: 1166689607}
-  - {fileID: 1032786393}
+  Nodes: []
 --- !u!4 &668804235
 Transform:
   m_ObjectHideFlags: 0
@@ -506,7 +466,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 436318, guid: 9d3de3687dd6abd4687a9d324d31be56, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 398
+      value: 176
       objectReference: {fileID: 0}
     - target: {fileID: 436318, guid: 9d3de3687dd6abd4687a9d324d31be56, type: 2}
       propertyPath: m_LocalRotation.x
@@ -526,7 +486,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 436318, guid: 9d3de3687dd6abd4687a9d324d31be56, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 177080, guid: 9d3de3687dd6abd4687a9d324d31be56, type: 2}
       propertyPath: m_IsActive
@@ -561,36 +521,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 20
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1032786393
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Node
-  Label: 35
-  Successors: []
-  nodetype: 0
---- !u!114 &1166689607
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Node
-  Label: 34
-  Successors:
-  - {fileID: 1032786393}
-  - {fileID: 1032786393}
-  nodetype: 0
 --- !u!1 &1272289973 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 161908, guid: a00533306c3bfe94c9b3ef3af73aa2c3, type: 2}
@@ -733,40 +663,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
---- !u!114 &1519672109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Node
-  Label: 32
-  Successors:
-  - {fileID: 1699308317}
-  - {fileID: 1699308317}
-  nodetype: 0
---- !u!114 &1699308317
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Node
-  Label: 33
-  Successors:
-  - {fileID: 1166689607}
-  - {fileID: 1032786393}
-  - {fileID: 1166689607}
-  - {fileID: 1032786393}
-  nodetype: 0
 --- !u!1 &1897725165
 GameObject:
   m_ObjectHideFlags: 0

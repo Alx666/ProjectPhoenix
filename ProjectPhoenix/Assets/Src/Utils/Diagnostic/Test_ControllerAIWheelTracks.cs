@@ -239,7 +239,9 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
                 Node<POI> nearestAI = owner.graph.m_hNodes.OrderBy(hN => Vector3.Distance(hN.value.Position, owner.transform.position)).First();
                 Node<POI> nearestPlayer = owner.graph.m_hNodes.OrderBy(hN => Vector3.Distance(hN.value.Position, owner.Target.transform.position)).First();
 
-                pois = new Queue<Node<POI>>(owner.graph.Dijkstra(nearestPlayer, nearestAI));
+                List<Node<POI>> roads = owner.graph.m_hNodes.Where(hN => hN.value.Type == NodeType.Road).ToList();
+
+                pois = new Queue<Node<POI>>(owner.graph.Dijkstra(nearestPlayer, nearestAI, roads));
                 pathComputed = true;
             }
             
