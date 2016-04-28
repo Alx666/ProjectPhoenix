@@ -3,8 +3,9 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using UnityEngine.Networking;
 
-internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
+internal class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 {
 
     public float Hp = 100f;
@@ -48,8 +49,25 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
         m_hEngine = new Drive(Hp, m_hWheels);
     }
 
+    void Start()
+    {
+        if (!this.isLocalPlayer)
+        {
+            GameObject.Destroy(this.GetComponent<InputProviderPCStd>());
+            GameObject.Destroy(this);
+        }
+        else
+        {
+            CustomCamera hCamera = GameObject.FindObjectOfType<CustomCamera>();
+            hCamera.Target = this.gameObject;
+        }
+    }
+
     void Update()
     {
+        if (!this.isLocalPlayer)
+            return;
+
         m_hWheels.ForEach(hW => hW.OnUpdate());
         m_hFakeWheels.ForEach(hfw => hfw.OnUpdate(m_hWheels.Last().Collider));
 
