@@ -13,7 +13,7 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
     public float maxAngleRotation;
     public float minAngleRotation;
 
-    [Range(0f, 100f)]
+    [Range(0f, 500f)]
     public float LightRadius;
     [Range(0f, 50f)]
     public float RotationSpeed;

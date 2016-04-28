@@ -63,6 +63,7 @@ public class GraphEditor : Editor
 			EditorGUILayout.EndHorizontal();
             hNode.Position = EditorGUILayout.Vector3Field("", hNode.Position);
         }
+
         EditorGUILayout.Separator();
 		EditorGUILayout.BeginHorizontal();
 

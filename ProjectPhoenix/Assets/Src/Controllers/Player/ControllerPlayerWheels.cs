@@ -33,7 +33,7 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
         //Initialize effective wheels
         List<Transform> gfxPos = this.GetComponentsInChildren<Transform>().Where(hT => hT.GetComponent<WheelCollider>() == null).ToList();
         this.GetComponentsInChildren<WheelCollider>().ToList().ForEach(hW => m_hWheels.Add(new Wheel(hW, gfxPos.OrderBy(hP => Vector3.Distance(hP.position, hW.transform.position)).First().gameObject)));
-        m_hWheels = m_hWheels.OrderByDescending(hW => hW.Collider.transform.position.z).ToList();
+        m_hWheels = m_hWheels.OrderByDescending(hW => hW.Collider.transform.localPosition.z).ToList();
 
         //Initialize extra wheels
         m_hFakeWheels = GetComponentsInChildren<FakeWheel>().ToList();
