@@ -30,12 +30,12 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
 //////////////////////////////////////
     public IState CurrentState { get; set; }
     public string DEBUG_STATE;
-  
+   
     void Awake()
-    {       
+    {
         this.m_hWeapon      = this.GetComponent<Weapon>();
         m_hBullet           = m_hWeapon.BulletPrefab.GetComponent<BulletPhysics>();
-
+       
         ///<StateMachine>
         IdleState   stateIdle       = new IdleState(this);
         PatrolState statepatrol     = new PatrolState(this);
@@ -44,7 +44,7 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
         //Idle
        
         //Patrol
-      
+  
         statepatrol.Attack  = stateAttack;
         statepatrol.Aim     = stateAim;
     
@@ -183,6 +183,7 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
         public void OnStateEnter()
         {
             this.Target = Owner.target.transform;
+            Debug.Log("aim");
         }
 
         public IState OnStateUpdate()
@@ -200,8 +201,7 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
             float   gravity         = Mathf.Abs(Physics.gravity.y);
             float   Velocity_Bullet = Owner.m_hBullet.Force;
             float   m_fAngle = 0;
-            bool    aim = Owner.aimAngle(Velocity_Bullet, gravity, Distance,Distancea.y, out m_fAngle);
-
+            bool    aim =Utility.aimAngle(Velocity_Bullet, gravity, Distance,Distancea.y, out m_fAngle);
                     Owner.AxeXrot.transform.localRotation = Quaternion.AngleAxis(m_fAngle, Vector3.right);
 
             if ( Owner.OnLine(Owner.m_hWeapon.ShootLocators[0].transform, Owner.target.transform) <= Owner.m_fTolerance) 
@@ -250,9 +250,8 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
                 timer = UnityEngine.Random.Range(1f, 3f);
                 Owner.m_hWeapon.Press();
             }
-            else
+              else
                 Owner.m_hWeapon.Release();
-
             timer = Mathf.Clamp(timer - Time.deltaTime, 0f, timer);
            
 
@@ -266,11 +265,11 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
             if (!(Owner.OnLine(Owner.m_hWeapon.ShootLocators[0].transform, Owner.target.transform) <= Owner.m_fTolerance))
             {
                 Owner.m_hWeapon.Release();
-
                 Aim.OnStateEnter();
                 return Aim;
             }
 
+            
             return this;
         }
     }
@@ -292,24 +291,6 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
     internal GameObject SetTarget()
     {
         return PlayerList.OrderBy(go => Vector3.Distance(go.transform.position, this.transform.position)).First();
-    }
-    internal bool aimAngle(double v, double g, double x, double y, out float angle)
-    {
-         angle = 0;
-
-        double v2  = Math.Pow(v, 2);
-        double v4  = Math.Pow(v, 4);
-        double gpart = g * (g * Math.Pow(x, 2) + (2 * y * v2));
-        double sqrt = Math.Sqrt(v4 - gpart);
-        //    sqrt = traj ? sqrt : -sqrt;
-        if (double.IsNaN(sqrt))
-            return false;
-
-        double numerator = v2 - sqrt;
-        double argument  = numerator / (g * x) ;
-        angle     = -(float)(Mathf.Rad2Deg * Math.Atan(argument));
-
-        return true;
     }
     internal float OnLine(Transform transform1, Transform transform2)
     {

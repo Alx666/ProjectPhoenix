@@ -15,11 +15,12 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
     public float  LightRadius;
     [Range(0f,50f)]
     public float  RotationSpeed;
+    public float  tolerance;  
 ///////////////////////////////////////////////////////////
     internal  Weapon Weapon;
-    public    float tolerance;   //Gli dò 1 grado come angolo di tolleranza
     private   List<GameObject> PlayerList;
-///////////////////////////////////////////////////
+   
+    ///////////////////////////////////////////////////
     public IState CurrentState { get; set; }
     public string DEBUG_STATE;
     public string Debug_Target;
@@ -141,7 +142,7 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
             float currentxAngle = xRot.transform.localRotation.eulerAngles.x;
             xRot.transform.localRotation = Quaternion.Slerp(xRot.transform.localRotation, Quaternion.Euler(xAngle, 0, 0), owner.RotationSpeed * Time.deltaTime);
 
-            currentxAngle = owner.ClampAngle(currentxAngle, max, min);
+            currentxAngle = Utility.ClampAngle(currentxAngle, max, min);
 
          
             if (currentYAngle >= yAngle - owner.tolerance && currentYAngle <= yAngle + owner.tolerance ||
@@ -191,7 +192,7 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
             Owner.AxeXrot.transform.localRotation = Quaternion.RotateTowards(Owner.AxeXrot.transform.localRotation, Quaternion.LookRotation(vDirection), Owner.RotationSpeed);
             Vector3 clampVector = Owner.AxeXrot.transform.localEulerAngles;
             float anglex = clampVector.x;
-            anglex = Owner.ClampAngle(anglex, Owner.maxRange, Owner.minRange);
+            anglex = Utility.ClampAngle(anglex, Owner.maxRange, Owner.minRange);
 
             Owner.AxeXrot.transform.localRotation = Quaternion.Euler(anglex, 0f, 0f);
 
@@ -268,18 +269,6 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
 
     #endregion
     #region IAITurret
-    internal float  ClampAngle(float angle,float max,float min)
-    {
-        if (angle < 90 || angle > 270)
-            {       // if angle in the critic region...
-                if (angle > 180) angle -= 360;  // convert all angles to -180..+180
-                if (max > 180) max -= 360;
-                if (min > 180) min -= 360;
-            }
-            angle = Mathf.Clamp(angle, min, max);
-            if (angle < 0) angle += 360;  // if angle negative, convert to 0..360
-            return angle;
-        }
     internal float OnLine(Transform transform1, Transform transform2)
     {
 
