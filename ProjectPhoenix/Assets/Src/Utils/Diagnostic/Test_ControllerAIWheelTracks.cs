@@ -236,12 +236,14 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
         {
             if (!pathComputed)
             {
-                Node<POI> nearestAI = owner.graph.m_hNodes.OrderBy(hN => Vector3.Distance(hN.value.Position, owner.transform.position)).First();
-                Node<POI> nearestPlayer = owner.graph.m_hNodes.OrderBy(hN => Vector3.Distance(hN.value.Position, owner.Target.transform.position)).First();
-
                 List<Node<POI>> roads = owner.graph.m_hNodes.Where(hN => hN.value.Type == NodeType.Road).ToList();
 
-                pois = new Queue<Node<POI>>(owner.graph.Dijkstra(nearestPlayer, nearestAI, roads));
+                Node<POI> nearestAI = roads.OrderBy(hN => Vector3.Distance(hN.value.Position, owner.transform.position)).First();
+                Node<POI> nearestPlayer = roads.OrderBy(hN => Vector3.Distance(hN.value.Position, owner.Target.transform.position)).First();
+
+                List<Node<POI>> list = owner.graph.Dijkstra(nearestAI, nearestPlayer, roads);
+
+                pois = new Queue<Node<POI>>(list);
                 pathComputed = true;
             }
             
@@ -250,7 +252,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             if (pois.Count > 0)
             {
                 poi = pois.Dequeue().value;
-                Debug.Log("DEQUEUED");
+                Debug.Log(this.owner.gameObject.name + "DEQUEUED");
             }
             else
             {
@@ -260,7 +262,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
         public IState Update()
         {
-            if (owner.Target == null)
+            if (owner.Target == null || poi == null )
                 return Idle;
 
             //STEERING
