@@ -3,8 +3,9 @@ using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using UnityEngine.Networking;
 
-internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
+internal class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 {
 
     public float Hp = 100f;
@@ -33,7 +34,7 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
         //Initialize effective wheels
         List<Transform> gfxPos = this.GetComponentsInChildren<Transform>().Where(hT => hT.GetComponent<WheelCollider>() == null).ToList();
         this.GetComponentsInChildren<WheelCollider>().ToList().ForEach(hW => m_hWheels.Add(new Wheel(hW, gfxPos.OrderBy(hP => Vector3.Distance(hP.position, hW.transform.position)).First().gameObject)));
-        m_hWheels = m_hWheels.OrderByDescending(hW => hW.Collider.transform.position.z).ToList();
+        m_hWheels = m_hWheels.OrderByDescending(hW => hW.Collider.transform.localPosition.z).ToList();
 
         //Initialize extra wheels
         m_hFakeWheels = GetComponentsInChildren<FakeWheel>().ToList();
@@ -48,8 +49,25 @@ internal class ControllerPlayerWheels : MonoBehaviour, IControllerPlayer
         m_hEngine = new Drive(Hp, m_hWheels);
     }
 
+    void Start()
+    {
+        if (!this.isLocalPlayer)
+        {
+            GameObject.Destroy(this.GetComponent<InputProviderPCStd>());
+            GameObject.Destroy(this);
+        }
+        else
+        {
+            CustomCamera hCamera = GameObject.FindObjectOfType<CustomCamera>();
+            hCamera.Target = this.gameObject;
+        }
+    }
+
     void Update()
     {
+        if (!this.isLocalPlayer)
+            return;
+
         m_hWheels.ForEach(hW => hW.OnUpdate());
         m_hFakeWheels.ForEach(hfw => hfw.OnUpdate(m_hWheels.Last().Collider));
 

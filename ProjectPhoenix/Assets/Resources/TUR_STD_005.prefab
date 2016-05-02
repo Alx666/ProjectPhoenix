@@ -54,8 +54,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 422360}
-  - 114: {fileID: 11414936}
   - 114: {fileID: 11422550}
+  - 114: {fileID: 11444630}
   m_Layer: 0
   m_Name: TUR_STD_005
   m_TagString: Untagged
@@ -472,25 +472,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &11414936
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 123502}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7540d1f295ae9304b9ce2337a04a995a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  AxeYrot: {fileID: 112312}
-  AxeXrot: {fileID: 124864}
-  minRange: -45
-  maxRange: 0
-  LightRadius: 50
-  RotationSpeed: 15
-  DEBUG_STATE: 
-  Debug_Target: 
 --- !u!114 &11422550
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -503,16 +484,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 163644, guid: 696c6fbd421805849afd3456194fbd8a, type: 2}
-  FireSFX: {fileID: 8226092}
-  Muzzle: {fileID: 143398, guid: 1ac571d5d951fef408c1a9135767f71d, type: 2}
   ShootLocators:
   - {fileID: 138642}
   - {fileID: 102824}
+  Mode: 0
   Spread: 0
   BulletDelay: 0.1
-  Force: 50
   BarrageDelay: 0.1
   Barrage: 1
+--- !u!114 &11444630
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 123502}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0bf99ae884b2454c9aede7751a9c78a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AxeYrot: {fileID: 112312}
+  AxeXrot: {fileID: 124864}
+  minRange: -50
+  maxRange: 0
+  LightRadius: 100
+  RotationSpeed: 10
+  DEBUG_STATE: 
+  Debug_Target: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

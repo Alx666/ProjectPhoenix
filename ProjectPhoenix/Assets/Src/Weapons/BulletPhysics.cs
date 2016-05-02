@@ -18,12 +18,13 @@ public class BulletPhysics : MonoBehaviour, IPoolable, IBullet
     [Range(0f, 100f)]
     public float Force;
     public float MaxRadius;
+    public float ForceExolosion;
 
     private ParticlesController m_hParticlesController;
     private Rigidbody m_hRigidBody;
     private Vector3 m_vShootPosition;
     private GameObject target;
-    public bool IsCollided = false;
+    
     public GameObject Target { get { return target; } set { target = value; } }
 
     /// /////////////////////////////////////////////
@@ -53,7 +54,7 @@ public class BulletPhysics : MonoBehaviour, IPoolable, IBullet
         this.gameObject.transform.position = vPosition;
         this.gameObject.transform.forward = vDirection;
 
-        m_hRigidBody.AddForce(this.gameObject.transform.forward * Force, ForceMode.Impulse);
+        m_hRigidBody.AddForce(this.gameObject.transform.forward * Force, ForceMode.VelocityChange);
 
         m_vShootPosition = vPosition;
     }
@@ -64,16 +65,22 @@ public class BulletPhysics : MonoBehaviour, IPoolable, IBullet
 
         Collider[] obj = Physics.OverlapSphere(collider.transform.position, MaxRadius);
 
-        for (int i = 0; i < obj.Length; i++)
+
+        foreach (var Col in obj)
         {
-            if (obj[i].gameObject.GetComponent<IDamageable>() != null && !this)
+            if (Col.GetComponent<IDamageable>() != null && !this)
             {
-                
+
                 IDamageable h_Hit = collider.gameObject.GetComponent<IDamageable>();
 
-             this.Damage= AoeDamage(obj[i].transform.position, collider.transform.position);
+                this.Damage = AoeDamage(Col.transform.position, collider.transform.position);
 
                 h_Hit.Damage(this.Damage);
+            }
+            if (Col.GetComponent<Rigidbody>() != null && !this)
+            {
+
+            Col.GetComponent<Rigidbody>().AddExplosionForce(ForceExolosion, collider.transform.position, MaxRadius, 1);
             }
         }
 
@@ -94,7 +101,7 @@ public class BulletPhysics : MonoBehaviour, IPoolable, IBullet
         this.m_hRigidBody.velocity = Vector3.zero;
         this.transform.position = Vector3.zero;
         this.transform.rotation = Quaternion.identity;
-        this.IsCollided = false;
+       
         this.gameObject.SetActive(false);
     }
 

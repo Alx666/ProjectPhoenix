@@ -1,21 +1,26 @@
-﻿using UnityEngine;
+﻿using Graph;
 using System.Collections;
-using System.Linq;
 using System.Collections.Generic;
-using System;
+using System.Linq;
+using UnityEngine;
 
 internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 {
-
     public float Hp = 100f;
     public float SteerAngle = 30f;
     public float MaxSpeed = 50f;
     public string CurrentSpeed = string.Empty;
+
     [Range(0f, 1f)]
     public float CenterOfMassY = 0.6f;
 
     public float StoppingDistance = 5f;
+    public float DownForce = 10f;
 
+    private Graph<POI> graph;
+    
+    private List<Collider> colliders;
+    private SphereCollider sphereCollider;
     private List<Wheel> m_hWheels;
     private List<FakeWheel> m_hFakeWheels;
     private Rigidbody m_hRigidbody;
@@ -26,21 +31,28 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
     private bool m_hBackward = false;
     private bool m_hRight = false;
     private bool m_hLeft = false;
+
     public string DEBUG_CurrentState = string.Empty;
 
 
-    public float DownForce = 10f;
-
     //DEVE ESSERE UTILIZZATO QUESTO PER LA FSM!!!
-    StateIdle idle                      ;
-    StatePatrol patrol                  ;
-    StateOnAir onAir                    ;
-    StateWait wait;
+    private StateIdle idle;
+    private StatePatrol patrol;
+    private StateOnAir onAir;
+    private StateWait wait;
+    private StateOverTurned overTurned;
 
     private IState currentState;
 
-    void Awake()
+    private void Awake()
     {
+        sphereCollider = this.GetComponent<SphereCollider>();
+
+        colliders = GetComponents<Collider>().ToList();
+        colliders = GetComponentsInChildren<Collider>().ToList();
+
+        colliders.ForEach(hC => Physics.IgnoreCollision(sphereCollider, hC));
+
         m_hWheels = new List<Wheel>();
         m_hRigidbody = this.GetComponent<Rigidbody>();
         m_hRigidbody.centerOfMass = new Vector3(m_hRigidbody.centerOfMass.x, CenterOfMassY, m_hRigidbody.centerOfMass.z);
@@ -62,24 +74,29 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
         //Initialize Drive/Brake System
         m_hEngine = new Drive(Hp, m_hWheels);
 
-
         //FSM
-        idle      = new StateIdle(this);
-        patrol  = new StatePatrol(this);
-        onAir    = new StateOnAir(this);
-        wait      = new StateWait(this);
+        idle = new StateIdle(this);
+        patrol = new StatePatrol(this);
+        onAir = new StateOnAir(this);
+        wait = new StateWait(this);
+        overTurned = new StateOverTurned(this);
 
-        idle.Patrol         = patrol;
-        patrol.Idle         = idle;
-        patrol.OnAir        = onAir;
-        onAir.Wait          = wait;
-        wait.Idle           = idle;
+        patrol.Idle = idle;
+        patrol.OnAir = onAir;
+        onAir.Wait = wait;
+        wait.Patrol = patrol;
 
-        currentState        = idle;
+        //from Any State:
+        overTurned.Wait = wait;
+
+        currentState = idle;
         currentState.OnStateEnter();
     }
-
-    void Update()
+    private void Start()
+    {
+        graph = GraphParser.Instance.Parse("Graph.txt");
+    }
+    private void Update()
     {
         currentState = currentState.Update();
         DEBUG_CurrentState = currentState.ToString();
@@ -87,11 +104,19 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
         m_hWheels.ForEach(hW => hW.OnUpdate());
         m_hFakeWheels.ForEach(hfw => hfw.OnUpdate(m_hWheels.Last().Collider));
 
+        //ANYSTATE => TO OVERTURNED
+        float cos = Vector3.Dot(Vector3.up, this.transform.up);
+        if (cos >= -1.0f && cos <= 0f)
+        {
+            overTurned.OnStateEnter();
+            currentState = overTurned;
+        }
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        m_hRigidbody.AddForce(-this.transform.up * DownForce * m_hRigidbody.velocity.magnitude);
+        if (currentState != overTurned)
+            m_hRigidbody.AddForce((-this.transform.up * DownForce * m_hRigidbody.velocity.magnitude));
 
         m_hRigidbody.velocity = Vector3.ClampMagnitude(m_hRigidbody.velocity, MaxSpeed / 3.6f);
 
@@ -102,7 +127,9 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
     }
 
     #region IControllerAI
-    private GameObject target;
+
+    public GameObject target;
+
     public GameObject Target
     {
         get
@@ -131,19 +158,21 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
     public void Attack()
     {
     }
-    #endregion  //Inutile!
+
+    #endregion IControllerAI
 
     #region FSM
+
     public interface IState
     {
         void OnStateEnter();
+
         IState Update();
     }
 
     private class StateIdle : IState
     {
         private Test_ControllerAIWheelTracks owner;
-        public IState Patrol { get; internal set; }
 
         public StateIdle(Test_ControllerAIWheelTracks owner)
         {
@@ -152,30 +181,51 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
         public void OnStateEnter()
         {
+            owner.EndForward();
         }
 
         public IState Update()
         {
-            if(owner.Target != null)
+
+            if(owner.m_hRigidbody.velocity.magnitude > 1f)
             {
-                Patrol.OnStateEnter();
-                return Patrol;
+                float sign = Mathf.Sign(Vector3.Dot(this.owner.transform.forward, this.owner.m_hRigidbody.velocity));
+                if (sign > 0f)
+                {
+                    owner.EndForward();
+                    owner.BeginBackward();
+                }
+                else
+                {
+                    owner.EndBackward();
+                    owner.BeginForward();
+                }
             }
+            else
+            {
+                owner.EndBackward();
+                owner.EndForward();
+            }
+            
 
             return this;
         }
+
         public override string ToString()
         {
             return "IDLE";
         }
     }
+
     private class StatePatrol : IState
     {
         private Test_ControllerAIWheelTracks owner;
-        public IState Idle { get; internal set; }
-        public IState OnAir { get; internal set; }
+        public StateIdle Idle { get; internal set; }
+        public StateOnAir OnAir { get; internal set; }
 
-
+        bool pathComputed;
+        Queue<Node<POI>> pois;
+        private POI poi;
 
         public StatePatrol(Test_ControllerAIWheelTracks owner)
         {
@@ -184,16 +234,43 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
         public void OnStateEnter()
         {
+            if (!pathComputed)
+            {
+                List<Node<POI>> roads = owner.graph.m_hNodes.Where(hN => hN.value.Type == NodeType.Road).ToList();
+
+                Node<POI> nearestAI = roads.OrderBy(hN => Vector3.Distance(hN.value.Position, owner.transform.position)).First();
+                Node<POI> nearestPlayer = roads.OrderBy(hN => Vector3.Distance(hN.value.Position, owner.Target.transform.position)).First();
+
+                List<Node<POI>> list = owner.graph.Dijkstra(nearestAI, nearestPlayer, roads);
+
+                pois = new Queue<Node<POI>>(list);
+                pathComputed = true;
+            }
+            
+
+            //GET POI FROM QUEUE
+            if (pois.Count > 0)
+            {
+                poi = pois.Dequeue().value;
+                Debug.Log(this.owner.gameObject.name + "DEQUEUED");
+            }
+            else
+            {
+                poi = null;
+            }
         }
 
         public IState Update()
         {
+            if (owner.Target == null || poi == null )
+                return Idle;
+
             //STEERING
-            Vector3 vDestination = owner.Target.transform.position;
+            Vector3 vDestination = poi.Position;
             Vector3 vDistance = vDestination - owner.transform.position;
 
             float angle = Vector3.Angle(owner.transform.forward, vDistance);
-            float dot =(Mathf.Clamp(Vector3.Dot(owner.transform.right, vDistance), -1f, 1f));
+            float dot = (Mathf.Clamp(Vector3.Dot(owner.transform.right, vDistance), -1f, 1f));
 
             if (!(angle > 0f && angle < owner.SteerAngle * 0.5))
             {
@@ -213,34 +290,43 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             //FORWARD
             owner.BeginForward();
             float distance = Vector3.Distance(owner.transform.position, vDestination);
-            if(distance > 0f && distance < owner.StoppingDistance)
+
+            float sign = Mathf.Sign(Vector3.Dot(this.owner.transform.forward, this.owner.m_hRigidbody.velocity));
+            if (distance > 0f && distance < owner.StoppingDistance && sign > 0f)
             {
-                owner.EndForward();
-                owner.BeginBackward();
-
-                if (owner.m_hRigidbody.velocity.magnitude > 0f && owner.m_hRigidbody.velocity.magnitude < 1f)
+                if (pois.Count > 0)
                 {
-                    owner.EndBackward();
-
-                    owner.target = null;    //DELETE!!!
-
-                    //codice ripetuto!s
-                    if (owner.m_hRight)
-                        owner.EndTurnRight();
-                    else if (owner.m_hLeft)
-                        owner.EndTurnLeft();
-
-                    Idle.OnStateEnter();
-                    return Idle;
+                    this.OnStateEnter();
+                    return this;
                 }
-                   
+                else
+                {
+                    owner.EndForward();
+                    owner.BeginBackward();
+
+                    if (owner.m_hRigidbody.velocity.magnitude < 1f)
+                    {
+                        owner.EndBackward();
+
+                        owner.target = null;
+
+                        if (owner.m_hRight)
+                            owner.EndTurnRight();
+                        else if (owner.m_hLeft)
+                            owner.EndTurnLeft();
+
+                        Idle.OnStateEnter();
+                        return Idle;
+                    }
+                }
+                  
             }
 
             //ONAIR ?
             RaycastHit vHit;
             Vector3 vPosition = owner.transform.position;
-            vPosition.y += 0.5f;
-            if (!(Physics.Raycast(new Ray(vPosition, -owner.transform.up), out vHit, 1f)))
+            vPosition.y += 1f;
+            if (!(Physics.Raycast(new Ray(vPosition, -owner.transform.up), out vHit, 4f)))
             {
                 owner.EndForward();
 
@@ -256,16 +342,16 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             return "PATROL";
         }
     }
+
     private class StateOnAir : IState
     {
         private Test_ControllerAIWheelTracks owner;
-        public IState Wait { get; internal set; }
+        public StateWait Wait { get; internal set; }
 
         public StateOnAir(Test_ControllerAIWheelTracks owner)
         {
             this.owner = owner;
         }
-
 
         public void OnStateEnter()
         {
@@ -275,26 +361,28 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
         {
             RaycastHit vHit;
             Vector3 vPosition = owner.transform.position;
-            vPosition.y += 0.5f;
-            if (Physics.Raycast(new Ray(vPosition, -owner.transform.up), out vHit, 1f))
+            vPosition.y += 1f;
+            if (Physics.Raycast(new Ray(vPosition, -owner.transform.up), out vHit, 4f))
             {
                 Wait.OnStateEnter();
                 return Wait;
             }
-            
+
             return this;
         }
+
         public override string ToString()
         {
             return "ONAIR";
         }
     }
+
     private class StateWait : IState
     {
         private Test_ControllerAIWheelTracks owner;
-        float waitTime;
+        private float waitTime;
 
-        public IState Idle { get; internal set; }
+        public StatePatrol Patrol { get; internal set; }
 
         public StateWait(Test_ControllerAIWheelTracks owner)
         {
@@ -303,7 +391,6 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
         public void OnStateEnter()
         {
-
             waitTime = 0.5f;
         }
 
@@ -312,17 +399,51 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             waitTime = Mathf.Clamp(waitTime - Time.deltaTime, 0f, waitTime);
             if (waitTime == 0f)
             {
-                Idle.OnStateEnter();
-                return Idle;
+                Patrol.OnStateEnter();
+                return Patrol;
             }
 
             return this;
         }
+
         public override string ToString()
         {
             return "WAIT";
         }
     }
+
+    private class StateOverTurned : IState
+    {
+        private Test_ControllerAIWheelTracks owner;
+        internal StateWait Wait;
+
+        public StateOverTurned(Test_ControllerAIWheelTracks owner)
+        {
+            this.owner = owner;
+        }
+
+        public void OnStateEnter()
+        {
+        }
+
+        public IState Update()
+        {
+            RaycastHit vHit;
+            Vector3 vPosition = owner.transform.position;
+            if (Physics.Raycast(new Ray(vPosition, Vector3.down), out vHit, 2.5f))
+            {
+                Wait.OnStateEnter();
+                return Wait;
+            }
+            return this;
+        }
+
+        public override string ToString()
+        {
+            return "OVERTURNED";
+        }
+    }
+
     private class StateAttack : IState
     {
         public void OnStateEnter()
@@ -333,12 +454,14 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
         {
             return this;
         }
+
         public override string ToString()
         {
             return "ATTACK";
         }
     }
-    #endregion
+
+    #endregion FSM
 
     #region IControllerPlayer
 
@@ -438,51 +561,43 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
     public void MousePosition(Vector3 vMousePosition)
     {
-        if(m_hTurret != null)
+        if (m_hTurret != null)
             m_hTurret.UpdateRotation(vMousePosition);
     }
 
     public void BeginUp()
     {
-
     }
 
     public void EndUp()
     {
-
     }
 
     public void BeginDown()
     {
-
     }
 
     public void EndDown()
     {
-
     }
 
     public void BeginPanLeft()
     {
-
     }
 
     public void EndPanLeft()
     {
-
     }
 
     public void BeginPanRight()
     {
-
     }
 
     public void EndPanRight()
     {
-
     }
 
-    #endregion
+    #endregion IControllerPlayer
 
     #region Drive system
 
@@ -496,14 +611,17 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             m_fHp = fHp;
             m_hWheels = hWheels;
         }
+
         public void BeginRotate()
         {
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = m_fHp * 0.25f);
         }
+
         public void EndRotate()
         {
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
         }
+
         public void BeginAccelerate()
         {
             //AWD
@@ -527,7 +645,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
         }
     }
 
-    #endregion
+    #endregion Drive system
 
     #region Wheel
 
@@ -558,7 +676,52 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
         }
     }
 
-    #endregion
+    #endregion Wheel
+
+    #region Monobehaviours
+
+    public void OnTriggerEnter(Collider other)
+    {
+        IControllerAI ai = other.GetComponent<IControllerAI>();
+        if (ai != null && this.currentState != idle)
+        {
+            ai.Idle();
+        }
+    }
+
+    public void OnTriggerStay(Collider other)
+    {
+        IControllerAI ai = other.GetComponent<IControllerAI>();
+        if (ai != null)
+        {
+            if (this.Target == null)
+            {
+                ai.Patrol();
+            }
+            else
+            {
+                if (this.currentState != idle)
+                {
+                    ai.Idle();
+                }
+            }
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        IControllerAI ai = other.GetComponent<IControllerAI>();
+        if (ai != null)
+        {
+            StartCoroutine(TurnOtherToPatrol(1.0f, ai));
+        }
+    }
+
+    private IEnumerator TurnOtherToPatrol(float time, IControllerAI ai)
+    {
+        yield return new WaitForSeconds(time);
+        ai.Patrol();
+    }
+
+    #endregion Monobehaviours
 }
-
-

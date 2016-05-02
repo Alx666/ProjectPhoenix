@@ -11,9 +11,9 @@ GameObject:
   - 33: {fileID: 3376926}
   - 135: {fileID: 13567756}
   - 23: {fileID: 2306306}
-  - 114: {fileID: 11415138}
   - 54: {fileID: 5488746}
   - 114: {fileID: 11410206}
+  - 114: {fileID: 11486966}
   m_Layer: 0
   m_Name: BLT_PHYSICS_000
   m_TagString: Untagged
@@ -105,7 +105,7 @@ MonoBehaviour:
   MuzzleScaleCoef: 0.25
   HitScaleCoef: 1
   MissScaleCoef: 1
---- !u!114 &11415138
+--- !u!114 &11486966
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -113,13 +113,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 166996}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f070fba87ad6c8e4fa39d42c90c2bfe4, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d7abf42a11f0cc4bb45d448b4b23899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 50
-  Force: 100
+  Force: 30
   MaxRadius: 50
-  IsCollided: 0
+  ForceExolosion: 50
 --- !u!135 &13567756
 SphereCollider:
   m_ObjectHideFlags: 1
