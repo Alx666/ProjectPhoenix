@@ -14,7 +14,6 @@ public class CustomCamera : MonoBehaviour
     ICameraState current;
     StandardCamera stdCamera;
     AimCamera aimCamera;
-    LerpCamera lerpCamera;
     Vector3 Offset;
     static Vector3 startingOffset;
 
@@ -25,16 +24,12 @@ public class CustomCamera : MonoBehaviour
 
         stdCamera = new StandardCamera(this);
         aimCamera = new AimCamera(this);
-        lerpCamera = new LerpCamera(this);
     }
 
     void Update()
     {
         if (!Input.GetKey(StateChanger))
             current = stdCamera;
-
-        if (Offset.x != stdCamera.stdOffset.x || Offset.z != stdCamera.stdOffset.z)
-            current = lerpCamera;   
 
         if (Input.GetKey(StateChanger))
             current = aimCamera;     
@@ -83,7 +78,7 @@ public class CustomCamera : MonoBehaviour
             stdOffset.y = Mathf.Clamp(Mathf.Lerp(stdOffset.y, (camera.MaxOffset / camera.MinOffset) * camera.Target.GetComponentInParent<Rigidbody>().velocity.magnitude, Time.deltaTime), camera.MinOffset, camera.MaxOffset);
             stdOffset.x = (stdOffset.y * startingOffset.x) / startingOffset.y;
             stdOffset.z = (stdOffset.y * startingOffset.z) / startingOffset.y;
-            camera.Offset = stdOffset;
+            camera.Offset = new Vector3(Mathf.Lerp(camera.Offset.x, stdOffset.x, Time.deltaTime), Mathf.Lerp(camera.Offset.y, stdOffset.y, Time.deltaTime), Mathf.Lerp(camera.Offset.z, stdOffset.z, Time.deltaTime));
         }
     }
 
