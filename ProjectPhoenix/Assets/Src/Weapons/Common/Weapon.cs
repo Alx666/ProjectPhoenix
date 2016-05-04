@@ -7,6 +7,8 @@ public class Weapon : MonoBehaviour, IWeapon
 {
     public GameObject BulletPrefab;
     public List<GameObject> ShootLocators;
+    private Queue<GameObject> QueueLocators;
+
 
     public ShootMode Mode;
 
@@ -29,6 +31,8 @@ public class Weapon : MonoBehaviour, IWeapon
 
     private void Awake()
     {
+        QueueLocators = new Queue<GameObject>(ShootLocators);
+
         m_hPool = GlobalFactory.GetPool(BulletPrefab);
 
         //Automatic State Machine Composition
@@ -58,7 +62,6 @@ public class Weapon : MonoBehaviour, IWeapon
             hShoot.Next = hWait;
             hLast = hWait;
         }
-        WeaponShoot.InitializeQueueLocators(ShootLocators);
 
 
         (hLast as WeaponWait).Delay = BarrageDelay;
@@ -128,8 +131,6 @@ public class Weapon : MonoBehaviour, IWeapon
     #region WeaponShoot
     private class WeaponShoot : IWeaponState
     {
-        private static Queue<GameObject> m_hLocators;
-
         private Weapon m_hOwner;
         private int m_iShootCount;
         private IShootStrategy m_hShootStrategy;
@@ -173,7 +174,7 @@ public class Weapon : MonoBehaviour, IWeapon
             {
                 for (int i = 0; i < m_hOwner.m_iShootCount; i++)
                 {
-                    for (int j = 0; j < WeaponShoot.m_hLocators.Count; j++)
+                    for (int j = 0; j < m_hOwner.m_hOwner.QueueLocators.Count; j++)
                     {
                         m_hOwner.InstantiateBullet(j);
                     }
@@ -210,7 +211,7 @@ public class Weapon : MonoBehaviour, IWeapon
         #region CommonToShootModes
         private void InstantiateBullet(int index)
         {
-            GameObject hNextLocator = m_hLocators.Dequeue();
+            GameObject hNextLocator = m_hOwner.QueueLocators.Dequeue();
 
             Vector3 vPosition   = hNextLocator.transform.position;
             Vector3 vDirection  = hNextLocator.transform.forward;// sistemato perche altrimenti seguiva la direction del oggetto principale
@@ -228,7 +229,7 @@ public class Weapon : MonoBehaviour, IWeapon
             IBullet hBullet = GlobalFactory.GetInstance<IBullet>(m_hOwner.BulletPrefab);
             hBullet.Shoot(vPosition, vDirection);
 
-            m_hLocators.Enqueue(hNextLocator);
+            m_hOwner.QueueLocators.Enqueue(hNextLocator);
 
         }
         #endregion IShootStrategy
@@ -252,11 +253,7 @@ public class Weapon : MonoBehaviour, IWeapon
             m_hShootStrategy.Shoot();
             return Next;
         }
-
-        internal static void InitializeQueueLocators(List<GameObject> shootLocators)
-        {
-            m_hLocators = new Queue<GameObject>(shootLocators);
-        }
+        
     }
 
     #endregion
