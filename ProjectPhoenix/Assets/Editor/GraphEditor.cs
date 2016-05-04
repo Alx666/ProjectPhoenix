@@ -14,7 +14,6 @@ public class GraphEditor : Editor
     private string Label0 = string.Empty;
     private string Label1 = string.Empty;
 	private string Label2 = string.Empty;
-	private GUIStyle _guiStyle = new GUIStyle( GUI.skin.label ) { fixedWidth = 250 };
 
     void OnEnable()
     {
@@ -46,6 +45,10 @@ public class GraphEditor : Editor
 	//This is method is called by the unity editor when it need to draw the inspector
 	public override void OnInspectorGUI()
 	{
+		if ( Application.isPlaying )
+		{
+			return;
+		}
 		EditorGUILayout.Separator();
 		EditorGUILayout.BeginVertical( EditorStyles.objectFieldThumb, GUILayout.MinWidth(252), GUILayout.MaxWidth(252));
 		EditorGUILayout.BeginHorizontal();
@@ -198,7 +201,11 @@ public class GraphEditor : Editor
 	}
     void OnSceneGUI()
     {
-        for (int i = 0; i < m_hTarget.Nodes.Count; i++)
+		if ( Application.isPlaying )
+		{
+			return;
+		}
+		for (int i = 0; i < m_hTarget.Nodes.Count; i++)
         {
             Node hCurrent = m_hTarget.Nodes[i];
 
@@ -226,7 +233,11 @@ public class GraphEditor : Editor
 
     private void OnGUI()
     {
-        int iWidth = SceneView.lastActiveSceneView.camera.pixelWidth;
+		if ( Application.isPlaying )
+		{
+			return;
+		}
+		int iWidth = SceneView.lastActiveSceneView.camera.pixelWidth;
         int iHeight = SceneView.lastActiveSceneView.camera.pixelHeight;
 
         Rect cameraRect = new Rect(0f, 0f, iWidth, iHeight);
