@@ -5,7 +5,6 @@ using System.Collections;
 public class CustomCameraV2 : MonoBehaviour
 {
     private Vector3     m_vPlayerOffset;
-    private Vector3     m_vOffset;    
     private Vector3     m_vDestination;
     private GameObject  m_hTarget;
     private Camera      m_hCamera;
@@ -59,9 +58,7 @@ public class CustomCameraV2 : MonoBehaviour
 
        
         if (m_hTargetRb != null)
-        {
             m_vDestination -= m_hTargetRb.velocity.magnitude * this.transform.forward * VelocityZoomCoeff;
-        }
 
         this.transform.position = Vector3.Slerp(this.transform.position, m_vDestination, LerpSpeed * Time.deltaTime);
     }
