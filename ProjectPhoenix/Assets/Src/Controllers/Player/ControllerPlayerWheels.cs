@@ -56,11 +56,6 @@ internal class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
             GameObject.Destroy(this.GetComponent<InputProviderPCStd>());
             GameObject.Destroy(this);
         }
-        else
-        {
-            CustomCamera hCamera = GameObject.FindObjectOfType<CustomCamera>();
-            hCamera.Target = this.gameObject;
-        }
     }
 
     void Update()
