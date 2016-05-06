@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 
-public class Weapon : MonoBehaviour, IWeapon
+public class Weapon : NetworkBehaviour, IWeapon
 {
     public GameObject BulletPrefab;
     public List<GameObject> ShootLocators;
@@ -26,6 +27,7 @@ public class Weapon : MonoBehaviour, IWeapon
     private Pool m_hPool;
     private IWeaponState m_hStateMachine;
     private WeaponReady m_hTrigger;
+    public bool IsReady { get; private set; }
 
     public Vector3 Direction { get; set; }
 
@@ -72,6 +74,7 @@ public class Weapon : MonoBehaviour, IWeapon
     private void Update()
     {
         m_hStateMachine = m_hStateMachine.Update();
+        IsReady = m_hStateMachine as WeaponReady != null;
     }
 
     public void Press()

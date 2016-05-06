@@ -5,6 +5,9 @@ using System.Linq;
 
 public class MeshDisassembler : MonoBehaviour
 {
+    public float MinExplosionForce;
+    public float MaxExplosionForce;
+
 	private bool                                    isAssembled;
     private Vector3                                 lastPosition;
 	private List<GameObject>                        targets;
@@ -78,13 +81,9 @@ public class MeshDisassembler : MonoBehaviour
 			AssemblerInfo info      = targetsInfo[hT];
             hT.transform.parent     = null;
 
-			MeshCollider collider   = info.generatedCollider;
-            if (collider != null )
-			{
-                collider.enabled = true;
-			}
-
-            Vector3 explosionForce = UnityEngine.Random.Range(30f, 100f) * UnityEngine.Random.onUnitSphere;
+			info.generatedCollider.enabled = true;
+            
+            Vector3 explosionForce = UnityEngine.Random.Range(MinExplosionForce, MaxExplosionForce) * UnityEngine.Random.onUnitSphere;
             if ( !info.hasInitialRigidbody )
 			{
                 hT.AddComponent<Rigidbody>().velocity = explosionForce;
