@@ -56,8 +56,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 489108}
-  - 114: {fileID: 11498284}
-  - 114: {fileID: 11480638}
+  - 114: {fileID: 11469564}
+  - 114: {fileID: 11483846}
+  - 114: {fileID: 11445412}
   m_Layer: 0
   m_Name: TUR_ART_000
   m_TagString: Untagged
@@ -341,7 +342,7 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 1
   m_Mesh: {fileID: 4300000, guid: f37dbd6570cdb41f8977a23d253b0068, type: 3}
---- !u!114 &11480638
+--- !u!114 &11445412
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -357,10 +358,10 @@ MonoBehaviour:
   - {fileID: 109480}
   Mode: 0
   Spread: 0
-  BulletDelay: 3
-  BarrageDelay: 1.38
+  BulletDelay: 0.3
+  BarrageDelay: 0.3
   Barrage: 1
---- !u!114 &11498284
+--- !u!114 &11469564
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -368,17 +369,53 @@ MonoBehaviour:
   m_GameObject: {fileID: 144762}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9024c4ae265e93540bcd5e950bdee142, type: 3}
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 108
+    i1: 87
+    i2: 107
+    i3: 1
+    i4: 216
+    i5: 240
+    i6: 221
+    i7: 132
+    i8: 218
+    i9: 95
+    i10: 91
+    i11: 155
+    i12: 171
+    i13: 201
+    i14: 7
+    i15: 68
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &11483846
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 144762}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dd887e694cd45e4dad19af3bb812ef8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   AxeYrot: {fileID: 176656}
   AxeXrot: {fileID: 104152}
-  Hp: 100
-  maxAngleRotation: 50
-  minAngleRotation: 0
-  LightRadius: 100
-  RotationSpeed: 5
-  DEBUG_STATE: 
+  ShootLocator: {fileID: 109480}
+  DetectionRange: 50
+  BulletForce: 10
+  AnimationParams:
+    AnimationSpeed: 0.1
+    AnimationTime: 2
+    AnimationRangeX: 45
+    AnimationRangeY: 180
+  AimMode: 1
+  Trajectory: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

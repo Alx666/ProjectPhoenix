@@ -62,7 +62,6 @@ public class ControllerAIArtillery : MonoBehaviour, IControllerAI,IDamageable
         CurrentState.OnStateEnter();
 
     }
-
     void Start()
     {
         PlayerList  = FindObjectsOfType<GameObject>().Where(GO => GO.GetComponent<IControllerPlayer>() != null).ToList();

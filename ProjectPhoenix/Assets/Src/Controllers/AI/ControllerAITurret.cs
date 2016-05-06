@@ -6,6 +6,7 @@ using System.Linq;
 
 public class ControllerAITurret : MonoBehaviour, IControllerAI
 {
+
  /////////////////////////////////////////
     public GameObject AxeYrot;
     public GameObject AxeXrot;
@@ -271,7 +272,7 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
     #region IAITurret
     internal float OnLine(Transform transform1, Transform transform2)
     {
-
+//deve tornare un valore tra 0 e 1
         //Locator
         Vector3 VecLoc = transform1.forward;
         VecLoc.y = 0;
@@ -286,7 +287,7 @@ public class ControllerAITurret : MonoBehaviour, IControllerAI
         This2d.y = 0;
         Vector3 Distance2d = (This2d - Tar2d).normalized;
         float OnLine = Vector3.Angle(VecLoc, Distance2d);
-
+        Debug.Log(OnLine);
         return OnLine;
     }
     private  GameObject target;
