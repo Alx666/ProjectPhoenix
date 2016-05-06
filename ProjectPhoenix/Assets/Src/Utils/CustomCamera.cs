@@ -14,7 +14,6 @@ public class CustomCamera : MonoBehaviour
     ICameraState current;
     StandardCamera stdCamera;
     AimCamera aimCamera;
-    LerpCamera lerpCamera;
     Vector3 Offset;
     static Vector3 startingOffset;
 
@@ -25,16 +24,12 @@ public class CustomCamera : MonoBehaviour
 
         stdCamera = new StandardCamera(this);
         aimCamera = new AimCamera(this);
-        lerpCamera = new LerpCamera(this);
     }
 
     void Update()
     {
         if (!Input.GetKey(StateChanger))
             current = stdCamera;
-
-        if (Offset.x != stdCamera.stdOffset.x || Offset.z != stdCamera.stdOffset.z)
-            current = lerpCamera;   
 
         if (Input.GetKey(StateChanger))
             current = aimCamera;     
@@ -83,52 +78,37 @@ public class CustomCamera : MonoBehaviour
             stdOffset.y = Mathf.Clamp(Mathf.Lerp(stdOffset.y, (camera.MaxOffset / camera.MinOffset) * camera.Target.GetComponentInParent<Rigidbody>().velocity.magnitude, Time.deltaTime), camera.MinOffset, camera.MaxOffset);
             stdOffset.x = (stdOffset.y * startingOffset.x) / startingOffset.y;
             stdOffset.z = (stdOffset.y * startingOffset.z) / startingOffset.y;
-            camera.Offset = stdOffset;
+            camera.Offset = new Vector3(Mathf.Lerp(camera.Offset.x, stdOffset.x, Time.deltaTime), Mathf.Lerp(camera.Offset.y, stdOffset.y, Time.deltaTime), Mathf.Lerp(camera.Offset.z, stdOffset.z, Time.deltaTime));
         }
     }
 
     class AimCamera : ICameraState
     {
         CustomCamera camera;      
-        Vector3 screenNewTarget;
+        Vector3 screenAimTarget;
         internal Vector3 aimOffset;
+        float screenDistance;
+        float prop;
 
         public AimCamera(CustomCamera MyCamera)
         {
             camera = MyCamera;
             aimOffset = camera.Offset;
+            screenDistance = Mathf.Pow((Mathf.Pow(Screen.width, 2f) + Mathf.Pow(Screen.height, 2f)), 0.5f) / 2;
         }
 
         public void CalculateOffset()
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            prop = camera.stdCamera.stdOffset.magnitude / screenDistance;
 
-            RaycastHit vHit;
+            screenAimTarget.x = (Screen.width / 2 - Input.mousePosition.x) * camera.DistanceFromTarget;
+            screenAimTarget.z = (Screen.height / 2 - Input.mousePosition.y) * camera.DistanceFromTarget;
 
-            if (Physics.Raycast(ray, out vHit))
-            {
-                aimOffset.x = Mathf.Lerp(camera.stdCamera.stdOffset.x, camera.Offset.x, Time.deltaTime) + (camera.DistanceFromTarget * (vHit.point.x - camera.Target.transform.position.x));
-                aimOffset.z = Mathf.Lerp(camera.stdCamera.stdOffset.z, camera.Offset.z, Time.deltaTime) + (camera.DistanceFromTarget * (vHit.point.z - camera.Target.transform.position.z));
-                camera.Offset = new Vector3(Mathf.Lerp(camera.Offset.x, aimOffset.x, Time.deltaTime), camera.Offset.y, Mathf.Lerp(camera.Offset.z, aimOffset.z, Time.deltaTime));
-            }
-        }
-    }
+            aimOffset.x = camera.stdCamera.stdOffset.x - (prop * screenAimTarget.x);
+            aimOffset.z = camera.stdCamera.stdOffset.z - (prop * screenAimTarget.z);
 
-    class LerpCamera : ICameraState
-    {
-        CustomCamera camera;
-
-        public LerpCamera(CustomCamera MyCamera)
-        {
-            camera = MyCamera;
-        }
-
-        public void CalculateOffset()
-        {
-            camera.Offset.x = Mathf.Lerp(camera.Offset.x, camera.stdCamera.stdOffset.x, Time.deltaTime);
-            camera.Offset.y = Mathf.Lerp(camera.Offset.y, camera.stdCamera.stdOffset.y, Time.deltaTime);
-            camera.Offset.z = Mathf.Lerp(camera.Offset.z, camera.stdCamera.stdOffset.z, Time.deltaTime);
-
+            camera.Offset = new Vector3(Mathf.Lerp(camera.Offset.x, aimOffset.x, Time.deltaTime), camera.Offset.y, Mathf.Lerp(camera.Offset.z, aimOffset.z, Time.deltaTime));
+            
         }
     }
 }

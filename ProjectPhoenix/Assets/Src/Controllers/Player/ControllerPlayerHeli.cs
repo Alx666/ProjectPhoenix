@@ -21,12 +21,15 @@ internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
     float strafeForce;
     float currentForwardSlope;
     float currentStrafeSlope;
+    private IWeapon m_hCurrentWeapon;
+
     void Awake()
     {
         this.heliRigidbody = GetComponent<Rigidbody>();
         this.mass = heliRigidbody.mass;
         this.isGrounded = true;
         this.playerPlane = new Plane(Vector3.up, this.transform.position);
+        m_hCurrentWeapon = GetComponentInChildren<IWeapon>();
 
     }
     void FixedUpdate()
@@ -88,7 +91,14 @@ internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
 
     public void BeginFire()
     {
-        
+        if (m_hCurrentWeapon != null)
+            m_hCurrentWeapon.Press();
+    }
+
+    public void EndFire()
+    {
+        if (m_hCurrentWeapon != null)
+            m_hCurrentWeapon.Release();
     }
 
     public void BeginForward()
@@ -99,20 +109,20 @@ internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
 
     public void BeginPanLeft()
     {
-        this.strafeForce = -1f;
     }
 
     public void BeginPanRight()
     {
-        this.strafeForce = 1f;
     }
 
     public void BeginTurnLeft()
     {
+        this.strafeForce = -1f;
     }
 
     public void BeginTurnRight()
     {
+        this.strafeForce = 1f;
     }
 
     public void BeginUp()
@@ -130,11 +140,6 @@ internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
     {
     }
 
-    public void EndFire()
-    {
-        
-    }
-
     public void EndForward()
     {
         this.forwardForce = 0f;
@@ -142,20 +147,20 @@ internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
 
     public void EndPanLeft()
     {
-        this.strafeForce = 0f;
     }
 
     public void EndPanRight()
     {
-        this.strafeForce = 0f;
     }
 
     public void EndTurnLeft()
     {
+        this.strafeForce = 0f;
     }
 
     public void EndTurnRight()
     {
+        this.strafeForce = 0f;
     }
 
     public void EndUp()
