@@ -3,11 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using UnityEngine.Networking;
+
 
 [RequireComponent(typeof(Rigidbody))]
-public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
+
+public class BulletPhysics : MonoBehaviour, IPoolable, IBullet
 {
+    //viene lanciata e all esplosione fa danni ad area
+    //opsioni possibili:
+    //1) 1 solo sphere collider che si allarga e si ristringe 
+    //2) 2 sphere collider uno trigger e l'altro no il primo riguardante l'esposione mentre il secondo della proiettile fisico
+
     public float Damage;
     [Range(0f, 100f)]
     public float Force;
@@ -18,6 +24,8 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
     private Rigidbody m_hRigidBody;
     private Vector3 m_vShootPosition;
     private GameObject target;
+    
+    public GameObject Target { get { return target; } set { target = value; } }
 
     /// /////////////////////////////////////////////
   
@@ -26,6 +34,16 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
         m_hRigidBody = this.GetComponent<Rigidbody>();
         m_hParticlesController = this.GetComponentInChildren<ParticlesController>();
 
+    }
+
+    void Start()
+    {
+
+    }
+
+    void Update()
+    {
+        
     }
 
     public void Shoot(Vector3 vPosition, Vector3 vDirection)
@@ -40,6 +58,7 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
 
         m_vShootPosition = vPosition;
     }
+
 
     void OnCollisionEnter(Collision collider)
     {
@@ -71,15 +90,7 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
     private void Explosion()
     {
         this.m_hParticlesController.PlayHitVfx(this.transform.position, this.transform.up);
-
-        if (this.Pool != null)
-        {
-            GlobalFactory.Recycle(this.gameObject);
-        }
-        else
-        {
-            GameObject.Destroy(this.gameObject);
-        }
+        GlobalFactory.Recycle(this.gameObject);
     }
 
     #region IPoolable

@@ -139,7 +139,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 420418}
   - 114: {fileID: 11418022}
-  - 114: {fileID: 11471462}
+  - 114: {fileID: 11487678}
   m_Layer: 0
   m_Name: TUR_STD_001
   m_TagString: Untagged
@@ -483,16 +483,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 148604, guid: 89ecc12460d67b94daa4ea8b60133047, type: 2}
+  BulletPrefab: {fileID: 163644, guid: 696c6fbd421805849afd3456194fbd8a, type: 2}
   ShootLocators:
-  - {fileID: 184360}
   - {fileID: 123128}
+  - {fileID: 184360}
   Mode: 0
   Spread: 0
-  BulletDelay: 0.3
-  BarrageDelay: 0.3
+  BulletDelay: 0.1
+  BarrageDelay: 0.1
   Barrage: 1
---- !u!114 &11471462
+--- !u!114 &11487678
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -500,14 +500,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 184908}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f11359cd0905aff4b9921e2c41c39147, type: 3}
+  m_Script: {fileID: 11500000, guid: c0bf99ae884b2454c9aede7751a9c78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   AxeYrot: {fileID: 115022}
   AxeXrot: {fileID: 174988}
   minRange: -50
   maxRange: 0
-  LightRadius: 50
+  LightRadius: 100
   RotationSpeed: 10
   DEBUG_STATE: 
   Debug_Target: 

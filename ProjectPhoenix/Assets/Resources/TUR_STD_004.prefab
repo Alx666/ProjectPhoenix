@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 484092}
   - 114: {fileID: 11480468}
-  - 114: {fileID: 11451748}
+  - 114: {fileID: 11407712}
   m_Layer: 0
   m_Name: TUR_STD_004
   m_TagString: Untagged
@@ -680,7 +680,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &11451748
+--- !u!114 &11407712
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -688,14 +688,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 106420}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f11359cd0905aff4b9921e2c41c39147, type: 3}
+  m_Script: {fileID: 11500000, guid: c0bf99ae884b2454c9aede7751a9c78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   AxeYrot: {fileID: 117578}
   AxeXrot: {fileID: 131582}
   minRange: -50
   maxRange: 0
-  LightRadius: 50
+  LightRadius: 100
   RotationSpeed: 10
   DEBUG_STATE: 
   Debug_Target: 
@@ -716,8 +716,8 @@ MonoBehaviour:
   - {fileID: 126774}
   Mode: 0
   Spread: 0
-  BulletDelay: 0.3
-  BarrageDelay: 0.3
+  BulletDelay: 0.1
+  BarrageDelay: 0.1
   Barrage: 1
 --- !u!1001 &100100000
 Prefab:

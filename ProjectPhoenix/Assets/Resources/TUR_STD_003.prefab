@@ -55,8 +55,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 410226}
   - 114: {fileID: 11415924}
-  - 114: {fileID: 11483856}
-  - 114: {fileID: 11433082}
+  - 114: {fileID: 11499312}
   m_Layer: 0
   m_Name: TUR_STD_003
   m_TagString: Untagged
@@ -244,7 +243,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 122536}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 42.1, y: 0, z: 1.4}
+  m_LocalPosition: {x: -20, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 449350}
@@ -669,10 +668,10 @@ MonoBehaviour:
   - {fileID: 158300}
   Mode: 0
   Spread: 0
-  BulletDelay: 0.3
-  BarrageDelay: 0.3
+  BulletDelay: 0.1
+  BarrageDelay: 0.1
   Barrage: 1
---- !u!114 &11433082
+--- !u!114 &11499312
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -680,53 +679,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 122536}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dd887e694cd45e4dad19af3bb812ef8, type: 3}
+  m_Script: {fileID: 11500000, guid: c0bf99ae884b2454c9aede7751a9c78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   AxeYrot: {fileID: 121848}
   AxeXrot: {fileID: 197410}
-  ShootLocator: {fileID: 158300}
-  DetectionRange: 50
-  BulletForce: 10
-  AnimationParams:
-    AnimationSpeed: 2
-    AnimationTime: 2
-    AnimationRangeX: 45
-    AnimationRangeY: 180
-  AimMode: 2
-  Trajectory: 1
---- !u!114 &11483856
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 122536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 244
-    i1: 186
-    i2: 239
-    i3: 248
-    i4: 155
-    i5: 13
-    i6: 148
-    i7: 148
-    i8: 59
-    i9: 4
-    i10: 114
-    i11: 23
-    i12: 8
-    i13: 16
-    i14: 240
-    i15: 83
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  minRange: -50
+  maxRange: 0
+  LightRadius: 100
+  RotationSpeed: 10
+  DEBUG_STATE: 
+  Debug_Target: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
