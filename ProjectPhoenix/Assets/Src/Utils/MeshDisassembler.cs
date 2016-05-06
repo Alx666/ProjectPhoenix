@@ -10,13 +10,15 @@ public class MeshDisassembler : MonoBehaviour
 
 	private bool                                    isAssembled;
     private Vector3                                 lastPosition;
+    private new Rigidbody                           rigidbody;
 	private List<GameObject>                        targets;
     private Dictionary<GameObject, AssemblerInfo>   targetsInfo;
     private List<Collider>                          remainingColliders;
 	void Awake()
 	{
 		isAssembled                 = true;
-		targetsInfo	                = new Dictionary<GameObject, AssemblerInfo>();
+        rigidbody                   = this.GetComponent<Rigidbody>();
+        targetsInfo	                = new Dictionary<GameObject, AssemblerInfo>();
 		targets		                = this.GetComponentsInChildren<Transform>().Select(hT => hT.gameObject).Where(GO => GO.GetComponent<MeshRenderer>() != null ).ToList();
         remainingColliders          = this.GetComponentsInChildren<Transform>().Where(hT => hT.GetComponent<MeshRenderer>() == null).Select(GO => GO.GetComponent<Collider>()).Where(hC => hC != null && hC as WheelCollider == null).ToList();
 
@@ -60,13 +62,11 @@ public class MeshDisassembler : MonoBehaviour
 		{
 			if ( isAssembled )
 			{
-                lastPosition = this.transform.position;
                 Disassemble();
 				isAssembled = false;
 			}
 			else
 			{
-                this.transform.position = lastPosition;
 				Reassemble();
 				isAssembled = true;
 			}
@@ -76,7 +76,9 @@ public class MeshDisassembler : MonoBehaviour
 
 	public void Disassemble()
 	{
-		targets.ForEach( hT =>
+        lastPosition = this.transform.position;
+
+        targets.ForEach( hT =>
 		{
 			AssemblerInfo info      = targetsInfo[hT];
             hT.transform.parent     = null;
@@ -100,6 +102,8 @@ public class MeshDisassembler : MonoBehaviour
 
 	void Reassemble()
 	{
+        this.transform.position = lastPosition;
+
         targets.ForEach(hT =>
         {
             AssemblerInfo info          = targetsInfo[hT];
@@ -122,7 +126,7 @@ public class MeshDisassembler : MonoBehaviour
 
         });
 
-        remainingColliders.ForEach(hC => hC.enabled = true);
+        remainingColliders.ForEach(hC   => hC.enabled = true);
 
     }
 
