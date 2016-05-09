@@ -61,21 +61,17 @@ public class MeshDisassembler : MonoBehaviour
 		if ( Input.GetKeyDown(KeyCode.Space ))
 		{
 			if ( isAssembled )
-			{
                 Disassemble();
-				isAssembled = false;
-			}
 			else
-			{
 				Reassemble();
-				isAssembled = true;
-			}
 		}
 	
 	}
 
 	public void Disassemble()
 	{
+        isAssembled = false;
+
         lastPosition = this.transform.position;
 
         targets.ForEach( hT =>
@@ -102,6 +98,8 @@ public class MeshDisassembler : MonoBehaviour
 
 	void Reassemble()
 	{
+        isAssembled = true;
+
         this.transform.position = lastPosition;
 
         targets.ForEach(hT =>
