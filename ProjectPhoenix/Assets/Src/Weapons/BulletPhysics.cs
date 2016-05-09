@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System;
 
 [RequireComponent(typeof(Rigidbody))]
 
-public class BulletPhysics : MonoBehaviour, IPoolable, IBullet
+public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
 {
     //viene lanciata e all esplosione fa danni ad area
     //opsioni possibili:
