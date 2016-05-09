@@ -11,7 +11,7 @@ internal class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
     public float Hp = 100f;
     public float SteerAngle = 30f;
     public float MaxSpeed = 50f;
-    [Range(0f, 1f)]
+    [Range(-1f, 1f)]
     public float CenterOfMassY = 0.6f;
 
     private List<Wheel> m_hWheels;
@@ -29,7 +29,7 @@ internal class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
     {
         m_hWheels = new List<Wheel>();
         m_hRigidbody = this.GetComponent<Rigidbody>();
-        m_hRigidbody.centerOfMass = new Vector3(m_hRigidbody.centerOfMass.x, CenterOfMassY, m_hRigidbody.centerOfMass.z);
+        m_hRigidbody.centerOfMass = new Vector3(m_hRigidbody.centerOfMass.x, m_hRigidbody.centerOfMass.y + CenterOfMassY, m_hRigidbody.centerOfMass.z);
 
         //Initialize effective wheels
         List<Transform> gfxPos = this.GetComponentsInChildren<Transform>().Where(hT => hT.GetComponent<WheelCollider>() == null).ToList();
@@ -64,12 +64,12 @@ internal class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
             return;
 
         m_hWheels.ForEach(hW => hW.OnUpdate());
-        m_hFakeWheels.ForEach(hfw => hfw.OnUpdate(m_hWheels.Last().Collider));
+        //m_hFakeWheels.ForEach(hfw => hfw.OnUpdate(m_hWheels.Last().Collider));
 
-        m_hRigidbody.velocity = Vector3.ClampMagnitude(m_hRigidbody.velocity, MaxSpeed / 3.6f);
+        //m_hRigidbody.velocity = Vector3.ClampMagnitude(m_hRigidbody.velocity, MaxSpeed / 3.6f);
 
-        if (m_hRigidbody.velocity.magnitude > 0f && m_hRigidbody.velocity.magnitude < 1f)
-            m_hRigidbody.velocity = Vector3.zero;
+        //if (m_hRigidbody.velocity.magnitude > 0f && m_hRigidbody.velocity.magnitude < 1f)
+        //    m_hRigidbody.velocity = Vector3.zero;
     }
 
     #region IControllerPlayer
