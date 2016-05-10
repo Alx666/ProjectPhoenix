@@ -11,6 +11,7 @@ GameObject:
   - 198: {fileID: 19800000}
   - 199: {fileID: 19900000}
   - 114: {fileID: 11439796}
+  - 114: {fileID: 11493726}
   m_Layer: 0
   m_Name: BLT_RAYCAST_003
   m_TagString: Untagged
@@ -103,6 +104,38 @@ MonoBehaviour:
   MaxDistance: 100
   Speed: 200
   Damage: 40
+--- !u!114 &11493726
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 233
+    i1: 64
+    i2: 43
+    i3: 103
+    i4: 156
+    i5: 54
+    i6: 88
+    i7: 212
+    i8: 59
+    i9: 62
+    i10: 253
+    i11: 232
+    i12: 10
+    i13: 12
+    i14: 226
+    i15: 85
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11493958
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -115,7 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MuzzleVfxs:
-  - {fileID: 100004, guid: b4423127acb2b3c418e7b9809ec5f555, type: 2}
+  - {fileID: 0}
   HitVfxs:
   - {fileID: 161326, guid: ed468c1c696ccc64fb8a387e074bcce6, type: 2}
   - {fileID: 117920, guid: 72955ea87842bb04d8bef85be568c657, type: 2}

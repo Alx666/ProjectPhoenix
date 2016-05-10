@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.Networking;
 
-public class BulletTracking : MonoBehaviour, IBullet, IPoolable
+public class BulletTracking : NetworkBehaviour, IBullet, IPoolable
 {
     protected GameObject target;
     protected float ElapsedTime;

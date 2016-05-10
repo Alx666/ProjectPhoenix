@@ -43,6 +43,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 418430}
   - 114: {fileID: 11478962}
+  - 114: {fileID: 11438082}
   m_Layer: 0
   m_Name: BLT_RAYCAST_001
   m_TagString: Untagged
@@ -333,6 +334,38 @@ MonoBehaviour:
   MuzzleScaleCoef: 1
   HitScaleCoef: 1
   MissScaleCoef: 1
+--- !u!114 &11438082
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 163644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 105
+    i1: 108
+    i2: 111
+    i3: 189
+    i4: 66
+    i5: 24
+    i6: 5
+    i7: 132
+    i8: 154
+    i9: 253
+    i10: 52
+    i11: 86
+    i12: 25
+    i13: 79
+    i14: 189
+    i15: 138
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11478962
 MonoBehaviour:
   m_ObjectHideFlags: 1

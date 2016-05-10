@@ -47,6 +47,7 @@ GameObject:
   - 136: {fileID: 13631194}
   - 114: {fileID: 11402266}
   - 114: {fileID: 11405992}
+  - 114: {fileID: 11404144}
   m_Layer: 0
   m_Name: BLT_SEEK_000
   m_TagString: Untagged
@@ -138,6 +139,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Duration: 5
   Force: 3
+--- !u!114 &11404144
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 197858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 224
+    i1: 90
+    i2: 19
+    i3: 41
+    i4: 95
+    i5: 124
+    i6: 113
+    i7: 196
+    i8: 123
+    i9: 49
+    i10: 182
+    i11: 207
+    i12: 5
+    i13: 30
+    i14: 227
+    i15: 231
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11405992
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -150,7 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MuzzleVfxs:
-  - {fileID: 100004, guid: b4423127acb2b3c418e7b9809ec5f555, type: 2}
+  - {fileID: 0}
   HitVfxs:
   - {fileID: 161326, guid: ed468c1c696ccc64fb8a387e074bcce6, type: 2}
   SideHitVfxs:

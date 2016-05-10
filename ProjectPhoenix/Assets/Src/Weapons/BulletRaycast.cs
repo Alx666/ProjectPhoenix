@@ -1,12 +1,13 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.Networking;
 
 
 /// <summary>
 /// Handles fast straight-line flying projectiles based on raycast logic
 /// </summary>
-public class BulletRaycast : MonoBehaviour, IBullet, IPoolable
+public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
 {
     public float MaxDistance = 50f;
     public float Speed = 1f;

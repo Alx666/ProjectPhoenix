@@ -43,6 +43,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 403836}
   - 114: {fileID: 11451490}
+  - 114: {fileID: 11420706}
   m_Layer: 0
   m_Name: BLT_RAYCAST_005
   m_TagString: Untagged
@@ -317,6 +318,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ParticleScale: 2
   ScaleGameobject: 1
+--- !u!114 &11420706
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 148604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 137
+    i1: 236
+    i2: 193
+    i3: 36
+    i4: 96
+    i5: 214
+    i6: 123
+    i7: 148
+    i8: 218
+    i9: 164
+    i10: 234
+    i11: 139
+    i12: 96
+    i13: 19
+    i14: 48
+    i15: 71
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11451490
 MonoBehaviour:
   m_ObjectHideFlags: 1

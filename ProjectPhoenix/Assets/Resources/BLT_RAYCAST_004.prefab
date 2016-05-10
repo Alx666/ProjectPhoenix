@@ -43,6 +43,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400004}
   - 114: {fileID: 11409272}
+  - 114: {fileID: 11436430}
   m_Layer: 0
   m_Name: BLT_RAYCAST_004
   m_TagString: Untagged
@@ -227,6 +228,38 @@ MonoBehaviour:
   MaxDistance: 200
   Speed: 150
   Damage: 25
+--- !u!114 &11436430
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 173
+    i1: 47
+    i2: 55
+    i3: 219
+    i4: 1
+    i5: 228
+    i6: 141
+    i7: 180
+    i8: 137
+    i9: 131
+    i10: 16
+    i11: 68
+    i12: 170
+    i13: 204
+    i14: 225
+    i15: 193
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
