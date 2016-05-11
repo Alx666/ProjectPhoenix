@@ -60,6 +60,7 @@ public class CustomCameraV2 : MonoBehaviour
         if (m_hTargetRb != null)
             m_vDestination -= m_hTargetRb.velocity.magnitude * this.transform.forward * VelocityZoomCoeff;
 
-        this.transform.position = Vector3.Slerp(this.transform.position, m_vDestination, LerpSpeed * Time.deltaTime);
+        
+        this.transform.position = Vector3.Lerp(this.transform.position, m_vDestination, LerpSpeed * Time.deltaTime);
     }
 }
