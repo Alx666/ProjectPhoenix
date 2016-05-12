@@ -1,0 +1,147 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: shot_gun_fragment_001
+  m_Shader: {fileID: 200, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: 3000
+  stringTagMap: {}
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 2800000, guid: a568c0f0bf799e84daff6e9cf055c314, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Normal
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Diffuse
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _LoopTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MaskTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BurnoutMask
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _WipeEm
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _WipeOp
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _DiffusePower
+        second: 1
+      data:
+        first:
+          name: _SpecularAdd
+        second: 0
+      data:
+        first:
+          name: _SpecularMult
+        second: 0
+      data:
+        first:
+          name: _SpecularA
+        second: 0
+      data:
+        first:
+          name: _SpecularB
+        second: 1
+      data:
+        first:
+          name: _SpecularRatio
+        second: 5.276861
+      data:
+        first:
+          name: _FresnelPower
+        second: 0
+      data:
+        first:
+          name: _FresnelMult
+        second: 0
+      data:
+        first:
+          name: _InvFade
+        second: 3
+      data:
+        first:
+          name: _Dist
+        second: 10
+      data:
+        first:
+          name: _Cut
+        second: 1
+      data:
+        first:
+          name: _FresnelExp
+        second: 0
+      data:
+        first:
+          name: _BurnOut
+        second: 0
+      data:
+        first:
+          name: _BurnUVOffset
+        second: 0
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _TintColor
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _FresnelColor
+        second: {r: 4, g: 0.7, b: 0.004, a: 1}
+      data:
+        first:
+          name: _BurnColor
+        second: {r: 4, g: 0.7, b: 0.004, a: 1}

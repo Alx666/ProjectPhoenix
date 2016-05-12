@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 169
+
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using Gaia.FullSerializer;
+
 #if UNITY_EDITOR
     using UnityEditor;
 #endif

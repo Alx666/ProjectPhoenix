@@ -1,317 +1,360 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
+using UnityEngine;
+using UnityEngine.Networking;
+using System.Collections.Generic;
 
-public class ControllerAITurret : MonoBehaviour, IControllerAI
+[RequireComponent(typeof(NetworkIdentity))]
+[RequireComponent(typeof(Weapon))]
+internal class ControllerAITurret : NetworkBehaviour
 {
- /////////////////////////////////////////
-    public GameObject AxeYrot;
-    public GameObject AxeXrot;
-    public float      minRange;
-    public float      maxRange;
-    [Range(0f,100f)]
-    public float  LightRadius;
-    [Range(0f,50f)]
-    public float  RotationSpeed;
-    public float  tolerance;  
-///////////////////////////////////////////////////////////
-    internal  Weapon Weapon;
-    private   List<GameObject> PlayerList;
-   
-    ///////////////////////////////////////////////////
-    public IState CurrentState { get; set; }
-    public string DEBUG_STATE;
-    public string Debug_Target;
+    public GameObject     AxeYrot;
+    public GameObject     AxeXrot;
+    public GameObject     ShootLocator;
+    public float          DetectionRange  = 50f;
+    public float          BulletForce;
+    public AnimInfo       AnimationParams;
+    public TurretAimMode  AimMode         = TurretAimMode.Direct;
+    public BallisticMode  Trajectory      = BallisticMode.Hi;
 
-    void Awake()
+    private Weapon        m_hWeapon;
+    private StateIdle     m_hIdle;
+    private StatePatrol   m_hPatrol;
+    private IState        m_hCurrent;
+    private GameObject    m_hTarget;
+
+    [SyncVar(hook = "OnTargetChanged")]
+    private bool          m_bHasTarget;
+
+    private void OnTargetChanged(bool b)
     {
-        this.Weapon = this.GetComponent<Weapon>();     
+        m_bHasTarget = b;
     }
 
-	void Start ()
+    private void Awake()
     {
-        PlayerList  = FindObjectsOfType<GameObject>().Where(GO => GO.GetComponent<IControllerPlayer>() != null).ToList();
-        this.Target = this.SetTarget();
-
-        IdleState   stateIdle   = new IdleState(this);
-        PatrolState statepatrol = new PatrolState(this);
-        AttackState stateAttack = new AttackState(this);
-        AimState    stateAim    = new AimState(this);
-        //Idle
-
-        //Patrol
-        statepatrol.Aim   = stateAim;
-        //aim
-        stateAim.Attack = stateAttack;
-        stateAim.Patrol = statepatrol;
-        //Attack
-        stateAttack.patrol = statepatrol;
-        stateAttack.Aim    = stateAim;
-        //Init
-        CurrentState = statepatrol;
-        CurrentState.OnStateEnter();
-
-    }
-	void Update ()
-    {
-
-        this.Target  = this.SetTarget();
-        DEBUG_STATE  = CurrentState.ToString();
-        Debug_Target = target.name.ToString();
-        CurrentState = CurrentState.OnStateUpdate();
-       
-    }
-
-    private GameObject SetTarget()
-    {
-       return PlayerList.OrderBy(go => Vector3.Distance(go.transform.position, this.transform.position)).First();
-    }
-
-    #region FMS
-    public interface IState
-    {
-        void    OnStateEnter();
-        IState  OnStateUpdate();
-    }
-
-    class IdleState : IState
-    {
-        ControllerAITurret owner;
-
-        public IdleState(ControllerAITurret owner)
+        m_hIdle             = new StateIdle(this);
+        m_hPatrol           = new StatePatrol(this);
+        switch ((int)AimMode)
         {
-            this.owner = owner;
+            case 1:
+                m_hPatrol.Next      = new StateAimBallistic(this); 
+                break;
+            case 2:
+                m_hPatrol.Next = new StateAimDirect(this); 
+                break;
         }
 
-        public void OnStateEnter()
-        {
-        }
-        public IState OnStateUpdate()
-        {
 
-            return this;
-        }
+        m_hPatrol.Next.Next = m_hPatrol;
+
+        m_hCurrent          = m_hPatrol;
+        m_hCurrent.OnStateEnter();
+
+        m_hWeapon = this.GetComponent<Weapon>();
+    }
+
+    private void Start()
+    {
+        
+    }
     
-    }
-    class PatrolState : IState
+    private void Update()
     {
-        private ControllerAITurret owner;
-
-        public AttackState Attack { get; internal set; }
-
-        public AimState Aim { get; internal set; }
-
-        float yAngle;
-        float xAngle;
-        float max;
-        float min;
-        Transform yRot;
-        Transform xRot;
-
-        public PatrolState(ControllerAITurret owner)
+        if (m_bHasTarget && m_hTarget == null)
         {
-            this.owner = owner;
+            RpcSetTarget();
+        }
 
-            yRot = this.owner.AxeYrot.transform;
-            xRot = this.owner.AxeXrot.transform;
+        m_hCurrent = m_hCurrent.Update();
+    }
 
-            max = -this.owner.maxRange; // è in  negativo perche la rotazione  verso l'alto sulle x è in negativo
-            min = this.owner.minRange;
+
+    //Serve a notificare tutte le copie di questa istanza sulle altre macchine che il bersaglio e' stato scelto
+    [ClientRpc]
+    private void RpcSetTarget()
+    {
+        CmdGetTarget(m_hTarget);
+    }
+
+    [Command]
+    private void CmdGetTarget(GameObject hTarget)
+    {
+        m_hTarget = hTarget;
+    }
+
+    #region Nested Types
+
+    internal enum TurretAimMode
+    {
+        Ballistic = 1,
+        Direct    = 2,
+    }
+
+    internal enum BallisticMode
+    {
+        Low = -1,
+        Hi  =  1,        
+    }
+
+    private interface IState
+    {
+        IState  Update();
+        IState Next { get; set; }
+        void    OnStateEnter();
+    }
+
+    private class StateIdle : IState
+    {
+        private ControllerAITurret m_hOwner;
+
+        public IState Next { get; set; }
+
+        public StateIdle(ControllerAITurret hOwner)
+        {
+            m_hOwner = hOwner;
         }
 
         public void OnStateEnter()
-        {         //Calcolo l'angolo di rotazione
-            yAngle = UnityEngine.Random.Range(-180f, 180f);
-            xAngle = UnityEngine.Random.Range(max, min);
-        }
-
-        public IState OnStateUpdate()
         {
-            //Yaxis
-            float currentYAngle = yRot.transform.localRotation.eulerAngles.y;
-            yRot.transform.localRotation = Quaternion.Slerp(yRot.transform.localRotation, Quaternion.Euler(0, yAngle, 0), owner.RotationSpeed * Time.deltaTime);
-
-            if (currentYAngle > 180f)
-            {
-                currentYAngle = currentYAngle - 360f;
-            }
-
-            //Xaxis
-            float currentxAngle = xRot.transform.localRotation.eulerAngles.x;
-            xRot.transform.localRotation = Quaternion.Slerp(xRot.transform.localRotation, Quaternion.Euler(xAngle, 0, 0), owner.RotationSpeed * Time.deltaTime);
-
-            currentxAngle = Utility.ClampAngle(currentxAngle, max, min);
-
-         
-            if (currentYAngle >= yAngle - owner.tolerance && currentYAngle <= yAngle + owner.tolerance ||
-                    currentxAngle >= xAngle - owner.tolerance && currentxAngle <= xAngle + owner.tolerance)
-            {
-                this.OnStateEnter();
-                return this;
-            }
-
-            //Aim condition
-            if ((Vector3.Distance(owner.gameObject.transform.position, owner.Target.transform.position) <= owner.LightRadius))
-            {
-                Aim.OnStateEnter();
-                return Aim;
-            }
+        }
+        public IState Update()
+        {
             return this;
         }
     }
-    class AimState : IState
+
+    private class StatePatrol : IState
     {
-        public PatrolState Patrol { get; internal set; }
-        public AttackState Attack { get; internal set; }
+        private ControllerAITurret m_hOwner;
+        private float                   m_fTime;
+        private Quaternion              m_vRotY;
+        private Quaternion              m_vRotX;
 
-        private ControllerAITurret Owner;
-        private Transform Target;
+        public IState Next { get; set; }
 
-        public AimState(ControllerAITurret owner)
+        public StatePatrol(ControllerAITurret hOwner)
         {
-            Owner = owner;
+            m_hOwner = hOwner;
         }
 
         public void OnStateEnter()
         {
-            this.Target = Owner.Target.transform;
+            m_fTime = 0f;
         }
-
-        public IState OnStateUpdate()
+        
+        public IState Update()
         {
-            ///////<YAXIS>/////////           
-            ////Y axes
-            Vector3 vDirection = Target.transform.position - Owner.AxeYrot.transform.position;
-            Owner.AxeYrot.transform.localRotation = Quaternion.RotateTowards(Owner.AxeYrot.transform.localRotation, Quaternion.LookRotation(vDirection), Owner.RotationSpeed);
-            Owner.AxeYrot.transform.localRotation = Quaternion.Euler(0f, Owner.AxeYrot.transform.localRotation.eulerAngles.y, 0f);
-
-            //X axes
-            vDirection = Target.transform.position - Owner.AxeXrot.transform.position;
-            Owner.AxeXrot.transform.localRotation = Quaternion.RotateTowards(Owner.AxeXrot.transform.localRotation, Quaternion.LookRotation(vDirection), Owner.RotationSpeed);
-            Vector3 clampVector = Owner.AxeXrot.transform.localEulerAngles;
-            float anglex = clampVector.x;
-            anglex = Utility.ClampAngle(anglex, Owner.maxRange, Owner.minRange);
-
-            Owner.AxeXrot.transform.localRotation = Quaternion.Euler(anglex, 0f, 0f);
-
-            if (Owner.OnLine(Owner.Weapon.ShootLocators[0].transform, Owner.Target.transform) <= Owner.tolerance)
-            {
-                Debug.Log("Bersaglio agganciato");
-                Debug.Log("sto per attaccare");
-
-                Attack.OnStateEnter();
-                return Attack;
-            }
-
-            if (!(Vector3.Distance(Owner.gameObject.transform.position, this.Target.position) <= Owner.LightRadius))
-            {
-                Patrol.OnStateEnter();
-                return Patrol;
-            }
-
-            return this;
-        }
-    }
-    class AttackState : IState
-    {
-        private ControllerAITurret Owner;
-        private Transform Target;
-        private float timer;
-
-        public AimState Aim { get; internal set; }
-        public PatrolState patrol { get; internal set; }
-
-        public AttackState(ControllerAITurret owner)
-        {
-            this.Owner = owner;
-        }
-
-        public void OnStateEnter()
-        {
-            this.Target = Owner.Target.transform;
-            timer = UnityEngine.Random.Range(1f, 3f);
-        }
-
-        public IState OnStateUpdate()
-        {
-
-            if (timer == 0f)
-            {
-                timer = UnityEngine.Random.Range(1f, 3f);
-                Owner.Weapon.Press();
+            //Animation Handling
+            if (m_fTime <= 0f)
+            {                
+                m_vRotY = Quaternion.Euler(0f, UnityEngine.Random.Range(-m_hOwner.AnimationParams.AnimationRangeY, m_hOwner.AnimationParams.AnimationRangeY), 0f);
+                m_vRotX = Quaternion.Euler(-UnityEngine.Random.Range(0f, m_hOwner.AnimationParams.AnimationRangeX), 0f, 0f);
+                m_fTime = m_hOwner.AnimationParams.AnimationTime;
             }
             else
-                Owner.Weapon.Release();
-
-            timer = Mathf.Clamp(timer - Time.deltaTime, 0f, timer);
-
-
-            if (!(Vector3.Distance(Owner.gameObject.transform.position, this.Target.position) <= Owner.LightRadius))
             {
-                Owner.Weapon.Release();
-                patrol.OnStateEnter();
-                return patrol;
+                m_hOwner.AxeYrot.transform.localRotation = Quaternion.Slerp(m_hOwner.AxeYrot.transform.localRotation, m_vRotY, m_hOwner.AnimationParams.AnimationSpeed);
+                m_hOwner.AxeXrot.transform.localRotation = Quaternion.Slerp(m_hOwner.AxeXrot.transform.localRotation, m_vRotX, m_hOwner.AnimationParams.AnimationSpeed);
+                m_fTime -= Time.deltaTime;
             }
 
-            if (!(Owner.OnLine(Owner.Weapon.ShootLocators[0].transform, Owner.target.transform) <= Owner.tolerance))
+            //on server scan for target
+            if (m_hOwner.isServer)
             {
-                Owner.Weapon.Release();
-                Aim.OnStateEnter();
-                return Aim;
+                float fNearest = float.MaxValue;//?da sostituire?
+                GameObject hTarget = null;
+                //for (int i = 0; i < CustomNetworkManager.Players.Count; i++)
+                //{
+                  
+                //    GameObject hCurrent = GameObject.Find("Player(Clone)");
+                //    //CustomNetworkManager.Players[i];
+                //    float fDistance = Vector3.Distance(m_hOwner.transform.position, hCurrent.transform.position);
+                //    if (fDistance < fNearest)
+                //    {
+                //        hTarget = hCurrent;
+                //        fNearest = fDistance;
+                //    }
+                //}
+
+                if (fNearest < m_hOwner.DetectionRange)
+                {
+                    m_hOwner.OnTargetChanged(true);
+                    m_hOwner.m_hTarget = hTarget;//il server setta il target
+                    m_hOwner.RpcSetTarget();//chiama il client
+                }
             }
+
+            if (m_hOwner.m_hTarget != null)
+            {
+                Next.OnStateEnter();
+                return Next;
+            }
+            else
+            {
+                return this;
+            }                                                
+        }
+    }
+
+    private class StateAimBallistic : IState
+    {
+        private ControllerAITurret m_hOwner;
+        private float m_fShootTimer;
+
+        public IState Next { get; set; }
+
+
+        public StateAimBallistic(ControllerAITurret hOwner)
+        {
+            m_hOwner = hOwner;
+        }
+
+        public void OnStateEnter()
+        {
+        }
+        public IState Update()
+        {
+            
+            if (m_hOwner.m_hTarget == null)
+            {
+                Next.OnStateEnter();
+                return Next;
+            }
+            else
+            {
+                Vector3 vDirection = m_hOwner.m_hTarget.transform.position - m_hOwner.transform.position;
+                vDirection.y = 0f;
+                vDirection.Normalize();
+
+                Quaternion vYRot = Quaternion.LookRotation(vDirection);
+                m_hOwner.AxeYrot.transform.localRotation = Quaternion.Lerp(m_hOwner.AxeYrot.transform.localRotation, vYRot, m_hOwner.AnimationParams.AnimationSpeed);
+
+                Vector3 vLocToTarget = m_hOwner.m_hTarget.transform.localPosition - m_hOwner.ShootLocator.transform.localPosition;
+
+                float fAngle;
+                if (StateAimBallistic.Aim(m_hOwner.BulletForce, Physics.gravity.y, vLocToTarget.magnitude, vLocToTarget.y, (int)m_hOwner.Trajectory, out fAngle))
+                {
+                    m_hOwner.AxeXrot.transform.localRotation = Quaternion.AngleAxis(fAngle, Vector3.right);//??
+
+                    //Fire Condition, Only Shoots On Server                    
+                    //Tmp Version
+                    if (m_hOwner.isServer && m_fShootTimer < 0f)
+                    {
+                        //TODO:da sostituire
+                        BulletPhysics hBullet = (GameObject.Instantiate(m_hOwner.m_hWeapon.BulletPrefab) as GameObject).GetComponent<BulletPhysics>();
+                        hBullet.Shoot(m_hOwner.ShootLocator.transform.position, m_hOwner.ShootLocator.transform.forward);
+                        NetworkServer.Spawn(hBullet.gameObject);
+                        m_fShootTimer = 2f;
+                    }
+                }
+                else
+                {
+                    m_hOwner.m_hTarget = null;
+                    Next.OnStateEnter();
+                    return Next;
+                }
+
+                m_fShootTimer -= Time.deltaTime;
+
+                return this;
+            }            
+        }
+
+        private static bool Aim(float fV, float fG, float fX, float fY, int iHigh, out float fAngle)
+        {
+            fAngle = 0;
+            iHigh = Math.Sign(iHigh);
+            fG = Mathf.Abs(fG);
+
+            double v2 = Math.Pow(fV, 2);
+            double v4 = Math.Pow(fV, 4);
+            double gpart = fG * (fG * Math.Pow(fX, 2) + (2 * fY * v2));
+            double sqrt = Math.Sqrt(v4 - gpart);
+            //    sqrt = traj ? sqrt : -sqrt;
+            if (double.IsNaN(sqrt))
+                return false;
+
+            double numerator = v2 + iHigh * sqrt;
+            double argument = numerator / (fG * fX);
+            fAngle = -(float)(Mathf.Rad2Deg * Math.Atan(argument));
+
+            return true;
+        }
+    }
+
+
+    private class StateAimDirect : IState
+    {
+        private ControllerAITurret Owner;
+        private float m_fShootTimer;
+        public StateAimDirect(ControllerAITurret networkTurretController)
+        {
+            this.Owner = networkTurretController;
+        }
+
+        public IState Next { get; set; }
+        public void OnStateEnter()
+        {
+           
+        }
+
+        public IState Update()
+        {
+            if (Owner.m_hTarget == null)
+            {
+                this.Next.OnStateEnter();
+                return Next;
+            }
+            else
+            {
+                Vector3 vDirection = Owner.m_hTarget.transform.position - Owner.AxeYrot.transform.position;
+                Quaternion vYRot = Quaternion.LookRotation(vDirection);
+                Owner.AxeYrot.transform.localRotation = Quaternion.Lerp(Owner.AxeYrot.transform.localRotation, vYRot, Owner.AnimationParams.AnimationSpeed);
+   
+                //X axes
+                vDirection = Owner.m_hTarget.transform.position - Owner.AxeXrot.transform.position;
+                Owner.AxeXrot.transform.localRotation = Quaternion.RotateTowards(Owner.AxeXrot.transform.localRotation, Quaternion.LookRotation(vDirection), Owner.AnimationParams.AnimationSpeed);
+                Vector3 clampVector = Owner.AxeXrot.transform.localEulerAngles;
+                float anglex = clampVector.x;
+                anglex = Utility.ClampAngle(anglex, Owner.AnimationParams.AnimationRangeX, 0);
+
+                Owner.AxeXrot.transform.localRotation = Quaternion.Euler(anglex, 0f, 0f);
+
+                if (Owner.isServer && m_fShootTimer < 0)
+                {
+                    //BulletPhysics hBullet = (GameObject.Instantiate(Owner.m_hWeapon.BulletPrefab) as GameObject).GetComponent<BulletPhysics>();
+                    //hBullet.Shoot(Owner.ShootLocator.transform.position, Owner.ShootLocator.transform.forward);
+                    //NetworkServer.Spawn(hBullet.gameObject);
+                    Debug.Log("beng");
+                    m_fShootTimer = 2f;
+                }
+
+                if (!(Vector3.Distance(Owner.gameObject.transform.position, Owner.m_hTarget.transform.position) <= Owner.DetectionRange))
+                {
+                    Owner.m_hTarget = null;
+                    Next.OnStateEnter();
+                    return Next;
+                }
+                m_fShootTimer -= Time.deltaTime;
 
             return this;
+            }
         }
+    }
+
+    [Serializable]
+    public class AnimInfo
+    {
+        public float AnimationSpeed     = 0.1f;
+        public float AnimationTime      = 2.0f;
+        public float AnimationRangeX    = 45f;
+        public float AnimationRangeY    = 180f;
     }
 
 
     #endregion
-    #region IAITurret
-    internal float OnLine(Transform transform1, Transform transform2)
-    {
 
-        //Locator
-        Vector3 VecLoc = transform1.forward;
-        VecLoc.y = 0;
-        VecLoc = VecLoc.normalized;
-
-        //TargetLoc
-        Vector3 Tar2d = transform2.position;
-        Tar2d.y = 0;
-        Tar2d = Tar2d.normalized;
-        //position locator
-        Vector3 This2d = transform1.position;
-        This2d.y = 0;
-        Vector3 Distance2d = (This2d - Tar2d).normalized;
-        float OnLine = Vector3.Angle(VecLoc, Distance2d);
-
-        return OnLine;
-    }
-    private  GameObject target;
-    public GameObject Target
-    {
-        get
-        {
-            return target;
-        }
-
-        set
-        {
-            target = value;
-        }
-    }
-    public void Idle()
-    {
-    }
-    public void Patrol()
-    {
-    }
-    public void Attack()
-    {
-       
-
-    }
-    #endregion
 }
+
+
