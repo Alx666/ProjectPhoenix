@@ -6,9 +6,6 @@ public class AIHumanoidReachPointSM : StateMachineBehaviour
     public List<Vector3> Node;
 
     Vector3 target;
-
-    //Vector3 currentDestination;
-    NavMeshAgent agent;
     Queue<Vector3> wayPoint;
     int toLookAround;
     bool firstSetting = true;
@@ -20,7 +17,6 @@ public class AIHumanoidReachPointSM : StateMachineBehaviour
         {
             this.controller = animator.GetComponent<ControllerAIHumanoid>();
 
-            this.agent = animator.GetComponent<NavMeshAgent>();
             this.wayPoint = new Queue<Vector3>();
             for (int i = 0; i < Node.Count; i++)
             {
@@ -28,28 +24,28 @@ public class AIHumanoidReachPointSM : StateMachineBehaviour
             }
             this.toLookAround = Animator.StringToHash("ToLookAround");
             this.target = wayPoint.Dequeue();
-            this.agent.SetDestination(target);
+            this.controller.agent.SetDestination(target);
             this.firstSetting = false;
         }
         else
         {
-            agent.Resume();
+            this.controller.agent.Resume();
             SetDestination();
         }
-        this.agent.speed = 0.4f;
+        this.controller.agent.speed = 0.4f;
 
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        if (controller.agent.remainingDistance <= controller.agent.stoppingDistance)
         {
             controller.Move(Vector3.zero);
             animator.SetTrigger(toLookAround);
         }
         else
         {
-            controller.Move(agent.desiredVelocity);
+            controller.Move(controller.agent.desiredVelocity);
         }
     }
 
@@ -63,6 +59,6 @@ public class AIHumanoidReachPointSM : StateMachineBehaviour
     {
         this.wayPoint.Enqueue(target);
         this.target = wayPoint.Dequeue();
-        this.agent.SetDestination(target);
+        this.controller.agent.SetDestination(target);
     }
 }
