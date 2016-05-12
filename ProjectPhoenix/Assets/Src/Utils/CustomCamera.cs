@@ -1,115 +1,66 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(Camera))]
 public class CustomCamera : MonoBehaviour
 {
-    public GameObject Target;
-    public float MinOffset;
-    public float MaxOffset;
-    public KeyCode StateChanger;
+    private Vector3     m_vPlayerOffset;
+    private Vector3     m_vDestination;
+    private GameObject  m_hTarget;
+    private Camera      m_hCamera;
+    private Rigidbody   m_hTargetRb;
 
-    [Range(0, 1)]
-    public float DistanceFromTarget;
+    [Range(0f, 1f)]
+    public float       RelativePosition = 0.3f;
 
-    ICameraState current;
-    StandardCamera stdCamera;
-    AimCamera aimCamera;
-    Vector3 Offset;
-    static Vector3 startingOffset;
+    [Range(1f, 10f)]
+    public float       LerpSpeed        = 5f;
 
-    void Start()
+    [Range(0f, 1f)]
+    public float       VelocityZoomCoeff = 10f;
+
+    private void Awake()
     {
-        InitialOffset();
-        startingOffset = Offset;
-
-        stdCamera = new StandardCamera(this);
-        aimCamera = new AimCamera(this);
+        m_hCamera = this.GetComponent<Camera>();        
     }
 
-    void Update()
+    private void Start()
     {
-        if (!Input.GetKey(StateChanger))
-            current = stdCamera;
-
-        if (Input.GetKey(StateChanger))
-            current = aimCamera;     
+        m_hTarget               = this.transform.root.gameObject;
+        m_vPlayerOffset         = this.transform.position - this.transform.root.position;
+        this.transform.parent   = null;
+        m_hTargetRb             = m_hTarget.GetComponent<Rigidbody>();
     }
 
-    void LateUpdate()
+    private void LateUpdate()
     {
-        current.CalculateOffset();
-
-        this.transform.position = Target.transform.position + Offset;
-    }
-
-    Vector3 InitialOffset()
-    {
-        RaycastHit ray;
-        Vector3 tempOffset;
-
-        if (Physics.Raycast(this.transform.position, this.transform.forward, out ray))
+        if (Input.GetMouseButton(1))
         {
-            tempOffset = this.transform.position - ray.point;
-            Offset.y = MinOffset;
-            Offset.x = (Offset.y * tempOffset.x) / tempOffset.y;
-            Offset.z = (Offset.y * tempOffset.z) / tempOffset.y;
+            Vector3 vPOnScreen = m_hCamera.WorldToScreenPoint(m_hTarget.transform.position);
+            vPOnScreen.z = 0f;
+
+            Vector3 vMOnScreen = Input.mousePosition;
+            Vector3 vDOnScreen = (vMOnScreen - vPOnScreen) * RelativePosition; //problem here
+
+            Ray vRay = m_hCamera.ScreenPointToRay(vPOnScreen + vDOnScreen);
+
+            Plane vPlane = new Plane(Vector3.up, m_hTarget.transform.position);
+            float fDist;
+            vPlane.Raycast(vRay, out fDist);
+            Vector3 vPoint = vRay.GetPoint(fDist);
+
+            m_vDestination = vPoint + m_vPlayerOffset;
+        }
+        else
+        {
+            m_vDestination = m_hTarget.transform.position + m_vPlayerOffset;
         }
 
-        return Offset;
-    }
+       
+        if (m_hTargetRb != null)
+            m_vDestination -= m_hTargetRb.velocity.magnitude * this.transform.forward * VelocityZoomCoeff;
 
-    interface ICameraState
-    {
-        void CalculateOffset();
-    }
-    class StandardCamera : ICameraState
-    {
-        CustomCamera camera;
-        internal Vector3 stdOffset;
-
-        public StandardCamera(CustomCamera MyCamera)
-        {
-            camera = MyCamera;
-            stdOffset = startingOffset;
-        }
-
-        public void CalculateOffset()
-        {
-            stdOffset.y = Mathf.Clamp(Mathf.Lerp(stdOffset.y, (camera.MaxOffset / camera.MinOffset) * camera.Target.GetComponentInParent<Rigidbody>().velocity.magnitude, Time.deltaTime), camera.MinOffset, camera.MaxOffset);
-            stdOffset.x = (stdOffset.y * startingOffset.x) / startingOffset.y;
-            stdOffset.z = (stdOffset.y * startingOffset.z) / startingOffset.y;
-            camera.Offset = new Vector3(Mathf.Lerp(camera.Offset.x, stdOffset.x, Time.deltaTime), Mathf.Lerp(camera.Offset.y, stdOffset.y, Time.deltaTime), Mathf.Lerp(camera.Offset.z, stdOffset.z, Time.deltaTime));
-        }
-    }
-
-    class AimCamera : ICameraState
-    {
-        CustomCamera camera;      
-        Vector3 screenAimTarget;
-        internal Vector3 aimOffset;
-        float screenDistance;
-        float prop;
-
-        public AimCamera(CustomCamera MyCamera)
-        {
-            camera = MyCamera;
-            aimOffset = camera.Offset;
-            screenDistance = Mathf.Pow((Mathf.Pow(Screen.width, 2f) + Mathf.Pow(Screen.height, 2f)), 0.5f) / 2;
-        }
-
-        public void CalculateOffset()
-        {
-            prop = camera.stdCamera.stdOffset.magnitude / screenDistance;
-
-            screenAimTarget.x = (Screen.width / 2 - Input.mousePosition.x) * camera.DistanceFromTarget;
-            screenAimTarget.z = (Screen.height / 2 - Input.mousePosition.y) * camera.DistanceFromTarget;
-
-            aimOffset.x = camera.stdCamera.stdOffset.x - (prop * screenAimTarget.x);
-            aimOffset.z = camera.stdCamera.stdOffset.z - (prop * screenAimTarget.z);
-
-            camera.Offset = new Vector3(Mathf.Lerp(camera.Offset.x, aimOffset.x, Time.deltaTime), camera.Offset.y, Mathf.Lerp(camera.Offset.z, aimOffset.z, Time.deltaTime));
-            
-        }
+        
+        this.transform.position = Vector3.Lerp(this.transform.position, m_vDestination, LerpSpeed * Time.deltaTime);
     }
 }
-
