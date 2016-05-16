@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
+public class ControllerAIWheel : MonoBehaviour, IControllerAI
 {
     public float Hp = 100f;
     public float SteerAngle = 30f;
@@ -13,6 +13,8 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
     [Range(0f, 1f)]
     public float CenterOfMassY = 0.6f;
+
+    public bool SyncWheels;
 
     public float StoppingDistance = 5f;
     public float DownForce = 10f;
@@ -101,8 +103,11 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
         currentState = currentState.Update();
         DEBUG_CurrentState = currentState.ToString();
 
-        m_hWheels.ForEach(hW => hW.OnUpdate());
-        m_hFakeWheels.ForEach(hfw => hfw.OnUpdate(m_hWheels.Last().Collider));
+        if (SyncWheels)
+        {
+            m_hWheels.ForEach(hW => hW.OnUpdate());
+            m_hFakeWheels.ForEach(hfw => hfw.OnUpdate(m_hWheels.Last().Collider));
+        }
 
         //ANYSTATE => TO OVERTURNED
         float cos = Vector3.Dot(Vector3.up, this.transform.up);
@@ -115,8 +120,8 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
     private void FixedUpdate()
     {
-        if (currentState != overTurned)
-            m_hRigidbody.AddForce((-this.transform.up * DownForce * m_hRigidbody.velocity.magnitude));
+        //if (currentState != overTurned)
+        //    m_hRigidbody.AddForce((-this.transform.up * DownForce * m_hRigidbody.velocity.magnitude));
 
         m_hRigidbody.velocity = Vector3.ClampMagnitude(m_hRigidbody.velocity, MaxSpeed / 3.6f);
 
@@ -124,6 +129,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
             m_hRigidbody.velocity = Vector3.zero;
 
         CurrentSpeed = (m_hRigidbody.velocity.magnitude * 3.6f).ToString();
+
     }
 
     #region IControllerAI
@@ -172,9 +178,9 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
     private class StateIdle : IState
     {
-        private Test_ControllerAIWheelTracks owner;
+        private ControllerAIWheel owner;
 
-        public StateIdle(Test_ControllerAIWheelTracks owner)
+        public StateIdle(ControllerAIWheel owner)
         {
             this.owner = owner;
         }
@@ -219,7 +225,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
     private class StatePatrol : IState
     {
-        private Test_ControllerAIWheelTracks owner;
+        private ControllerAIWheel owner;
         public StateIdle Idle { get; internal set; }
         public StateOnAir OnAir { get; internal set; }
 
@@ -227,7 +233,7 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
         Queue<Node<POI>> pois;
         private POI poi;
 
-        public StatePatrol(Test_ControllerAIWheelTracks owner)
+        public StatePatrol(ControllerAIWheel owner)
         {
             this.owner = owner;
         }
@@ -345,10 +351,10 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
     private class StateOnAir : IState
     {
-        private Test_ControllerAIWheelTracks owner;
+        private ControllerAIWheel owner;
         public StateWait Wait { get; internal set; }
 
-        public StateOnAir(Test_ControllerAIWheelTracks owner)
+        public StateOnAir(ControllerAIWheel owner)
         {
             this.owner = owner;
         }
@@ -379,12 +385,12 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
     private class StateWait : IState
     {
-        private Test_ControllerAIWheelTracks owner;
+        private ControllerAIWheel owner;
         private float waitTime;
 
         public StatePatrol Patrol { get; internal set; }
 
-        public StateWait(Test_ControllerAIWheelTracks owner)
+        public StateWait(ControllerAIWheel owner)
         {
             this.owner = owner;
         }
@@ -414,10 +420,10 @@ internal class Test_ControllerAIWheelTracks : MonoBehaviour, IControllerAI
 
     private class StateOverTurned : IState
     {
-        private Test_ControllerAIWheelTracks owner;
+        private ControllerAIWheel owner;
         internal StateWait Wait;
 
-        public StateOverTurned(Test_ControllerAIWheelTracks owner)
+        public StateOverTurned(ControllerAIWheel owner)
         {
             this.owner = owner;
         }

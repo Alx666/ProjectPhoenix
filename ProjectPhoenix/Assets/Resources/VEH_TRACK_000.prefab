@@ -477,9 +477,11 @@ GameObject:
   m_Component:
   - 4: {fileID: 477250}
   - 54: {fileID: 5442608}
-  - 114: {fileID: 11416514}
   - 114: {fileID: 11462180}
-  - 114: {fileID: 11478792}
+  - 114: {fileID: 11404586}
+  - 114: {fileID: 11410256}
+  - 114: {fileID: 11456416}
+  - 75: {fileID: 7530740}
   m_Layer: 0
   m_Name: VEH_TRACK_000
   m_TagString: Untagged
@@ -780,7 +782,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 195174}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 403516}
@@ -1591,6 +1593,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 126.4, y: 22.6, z: 92.46}
   m_Center: {x: 0, y: 16.5, z: -1.1}
+--- !u!75 &7530740
+ConstantForce:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195174}
+  m_Enabled: 1
+  m_Force: {x: 0, y: -500, z: 0}
+  m_RelativeForce: {x: 0, y: 0, z: 0}
+  m_Torque: {x: 0, y: 0, z: 0}
+  m_RelativeTorque: {x: 0, y: 0, z: 0}
 --- !u!82 &8220794
 AudioSource:
   m_ObjectHideFlags: 1
@@ -1665,7 +1678,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!114 &11416514
+--- !u!114 &11404586
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1673,14 +1686,68 @@ MonoBehaviour:
   m_GameObject: {fileID: 195174}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1367c4d36bb3d7c40a2e364b7fb34eea, type: 3}
+  m_Script: {fileID: 11500000, guid: 8224965cf0fff0647b4ebdf860a77a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Hp: 500
   SteerAngle: 30
   MaxSpeed: 100
-  CenterOfMassY: 0.6
-  vel: 0
+  CurrentSpeed: 
+  SyncGfxWheels: 0
+  OverrideCenterOfMass: 0
+  OverrideCOM: {x: 0, y: 0, z: 0}
+--- !u!114 &11410256
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 28
+    i1: 105
+    i2: 122
+    i3: 135
+    i4: 214
+    i5: 99
+    i6: 188
+    i7: 52
+    i8: 25
+    i9: 106
+    i10: 183
+    i11: 224
+    i12: 215
+    i13: 17
+    i14: 65
+    i15: 253
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
+--- !u!114 &11456416
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.07692308
+  m_SyncRotationAxis: 2
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 1
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 10
+  m_InterpolateMovement: 1
 --- !u!114 &11460122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1712,27 +1779,6 @@ MonoBehaviour:
   Up: 304
   Down: 32
   Fire: 323
---- !u!114 &11478792
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 195174}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 163644, guid: 696c6fbd421805849afd3456194fbd8a, type: 2}
-  FireSFX: {fileID: 8220794}
-  Muzzle: {fileID: 116794, guid: 35465e0799cfd6d4ca7712b826c38210, type: 2}
-  ShootLocators:
-  - {fileID: 116578}
-  Spread: 0
-  BulletDelay: 0.1
-  Force: 50
-  BarrageDelay: 0.1
-  Barrage: 1
 --- !u!114 &11480408
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1747,6 +1793,8 @@ MonoBehaviour:
   AxeY: {fileID: 494400}
   AxeX: {fileID: 468210}
   RotationSpeed: 15
+  MinAngle: -45
+  MaxAngle: 15
 --- !u!146 &14623332
 WheelCollider:
   m_ObjectHideFlags: 1

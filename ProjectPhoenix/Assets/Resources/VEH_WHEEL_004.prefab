@@ -59,11 +59,11 @@ GameObject:
   m_Component:
   - 4: {fileID: 445222}
   - 54: {fileID: 5405046}
-  - 114: {fileID: 11423708}
   - 114: {fileID: 11438808}
-  - 75: {fileID: 7552582}
-  - 114: {fileID: 11429202}
+  - 114: {fileID: 11423708}
   - 114: {fileID: 11474122}
+  - 114: {fileID: 11429202}
+  - 75: {fileID: 7547284}
   m_Layer: 0
   m_Name: VEH_WHEEL_004
   m_TagString: Untagged
@@ -367,8 +367,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 120030}
-  m_LocalRotation: {x: 0, y: -0.8265197, z: 0, w: 0.5629079}
-  m_LocalPosition: {x: 138.25, y: 4.84, z: -116.23}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 80, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 435744}
@@ -770,8 +770,8 @@ Rigidbody:
   m_GameObject: {fileID: 120030}
   serializedVersion: 2
   m_Mass: 10
-  m_Drag: 0.5
-  m_AngularDrag: 0.5
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -801,7 +801,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.2, y: 0.8, z: 1.2}
   m_Center: {x: 0, y: 0.4, z: 0}
---- !u!75 &7552582
+--- !u!75 &7547284
 ConstantForce:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -826,7 +826,10 @@ MonoBehaviour:
   Hp: 500
   SteerAngle: 30
   MaxSpeed: 100
-  CenterOfMassY: 0.6
+  CurrentSpeed: 
+  SyncGfxWheels: 1
+  OverrideCenterOfMass: 0
+  OverrideCOM: {x: 0, y: 0, z: 0}
 --- !u!114 &11429202
 MonoBehaviour:
   m_ObjectHideFlags: 1

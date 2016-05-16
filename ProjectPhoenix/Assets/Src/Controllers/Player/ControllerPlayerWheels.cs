@@ -5,14 +5,18 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.Networking;
 
-internal class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
+public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 {
 
     public float Hp = 100f;
     public float SteerAngle = 30f;
     public float MaxSpeed = 50f;
-    [Range(-1f, 1f)]
-    public float CenterOfMassY = 0.6f;
+    public string CurrentSpeed = string.Empty;
+    public bool SyncGfxWheels;
+
+    public bool OverrideCenterOfMass;
+    public Vector3 OverrideCOM;
+
 
     private List<Wheel> m_hWheels;
     private List<FakeWheel> m_hFakeWheels;
@@ -20,16 +24,17 @@ internal class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
     private Drive m_hEngine;
     private VehicleTurret m_hTurret;
     private IWeapon m_hCurrentWeapon;
+
     private bool m_hForward = false;
     private bool m_hBackward = false;
     private bool m_hRight = false;
     private bool m_hLeft = false;
 
+
     void Awake()
     {
         m_hWheels = new List<Wheel>();
         m_hRigidbody = this.GetComponent<Rigidbody>();
-        m_hRigidbody.centerOfMass = new Vector3(m_hRigidbody.centerOfMass.x, m_hRigidbody.centerOfMass.y + CenterOfMassY, m_hRigidbody.centerOfMass.z);
 
         //Initialize effective wheels
         List<Transform> gfxPos = this.GetComponentsInChildren<Transform>().Where(hT => hT.GetComponent<WheelCollider>() == null).ToList();
@@ -51,25 +56,39 @@ internal class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 
     void Start()
     {
-        if (!this.isLocalPlayer)
-        {
-            GameObject.Destroy(this.GetComponent<InputProviderPCStd>());
-            GameObject.Destroy(this);
-        }
+        //if (!this.isLocalPlayer)
+        //{
+        //    GameObject.Destroy(this.GetComponent<InputProviderPCStd>());
+        //    GameObject.Destroy(this);
+        //}
+
+        if(OverrideCenterOfMass)
+            m_hRigidbody.centerOfMass = OverrideCOM;
+
     }
 
     void Update()
     {
-        if (!this.isLocalPlayer)
-            return;
+        //if (!this.isLocalPlayer)
+        //    return;
 
-        m_hWheels.ForEach(hW => hW.OnUpdate());
-        //m_hFakeWheels.ForEach(hfw => hfw.OnUpdate(m_hWheels.Last().Collider));
+        if (SyncGfxWheels)
+        {
+            m_hWheels.ForEach(hW => hW.OnUpdate());
+            m_hFakeWheels.ForEach(hfw => hfw.OnUpdate(m_hWheels.Last().Collider));
+        }
 
-        //m_hRigidbody.velocity = Vector3.ClampMagnitude(m_hRigidbody.velocity, MaxSpeed / 3.6f);
+        Debug.Log(m_hRigidbody.centerOfMass);
+    }
 
-        //if (m_hRigidbody.velocity.magnitude > 0f && m_hRigidbody.velocity.magnitude < 1f)
-        //    m_hRigidbody.velocity = Vector3.zero;
+    public void FixedUpdate()
+    {
+        m_hRigidbody.velocity = Vector3.ClampMagnitude(m_hRigidbody.velocity, MaxSpeed / 3.6f);
+
+        if (m_hRigidbody.velocity.magnitude > 0f && m_hRigidbody.velocity.magnitude < 1f)
+            m_hRigidbody.velocity = Vector3.zero;
+
+        CurrentSpeed = (m_hRigidbody.velocity.magnitude * 3.6f).ToString();
     }
 
     #region IControllerPlayer
@@ -170,7 +189,7 @@ internal class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 
     public void MousePosition(Vector3 vMousePosition)
     {
-        if(m_hTurret != null)
+        if (m_hTurret != null)
             m_hTurret.UpdateRotation(vMousePosition);
     }
 
@@ -213,7 +232,6 @@ internal class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
     {
 
     }
-
     #endregion
 
     #region Drive system
@@ -291,6 +309,8 @@ internal class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
     }
 
     #endregion
+
+
 }
 
 

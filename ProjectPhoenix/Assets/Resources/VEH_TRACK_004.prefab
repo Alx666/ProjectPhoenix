@@ -292,8 +292,11 @@ GameObject:
   m_Component:
   - 4: {fileID: 457538}
   - 54: {fileID: 5490870}
-  - 114: {fileID: 11458082}
   - 114: {fileID: 11495294}
+  - 114: {fileID: 11436284}
+  - 114: {fileID: 11434948}
+  - 114: {fileID: 11473520}
+  - 75: {fileID: 7598248}
   m_Layer: 0
   m_Name: VEH_TRACK_004
   m_TagString: Untagged
@@ -429,7 +432,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 199250}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 80, y: 0, z: 40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 413618}
@@ -924,6 +927,67 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 1
   m_Mesh: {fileID: 4300002, guid: 90b2dc694c93cfc429587d06223949e2, type: 3}
+--- !u!75 &7598248
+ConstantForce:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 199250}
+  m_Enabled: 1
+  m_Force: {x: 0, y: -500, z: 0}
+  m_RelativeForce: {x: 0, y: 0, z: 0}
+  m_Torque: {x: 0, y: 0, z: 0}
+  m_RelativeTorque: {x: 0, y: 0, z: 0}
+--- !u!114 &11434948
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 199250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 125
+    i1: 172
+    i2: 19
+    i3: 192
+    i4: 127
+    i5: 167
+    i6: 192
+    i7: 196
+    i8: 8
+    i9: 119
+    i10: 112
+    i11: 230
+    i12: 151
+    i13: 43
+    i14: 125
+    i15: 233
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
+--- !u!114 &11436284
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 199250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8224965cf0fff0647b4ebdf860a77a0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hp: 500
+  SteerAngle: 30
+  MaxSpeed: 100
+  CurrentSpeed: 
+  SyncGfxWheels: 0
+  OverrideCenterOfMass: 0
+  OverrideCOM: {x: 0, y: 0, z: 0}
 --- !u!114 &11443158
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -935,7 +999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04477bfbde237242b8849e1f5a98027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11458082
+--- !u!114 &11473520
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -943,15 +1007,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 199250}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1367c4d36bb3d7c40a2e364b7fb34eea, type: 3}
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Brake: 1000
-  Hp: 500
-  SteerAngle: 30
-  MaxSpeed: 100
-  m_hReverse: 0
-  vel: 0
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.07692308
+  m_SyncRotationAxis: 2
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 1
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 10
+  m_InterpolateMovement: 1
 --- !u!114 &11495294
 MonoBehaviour:
   m_ObjectHideFlags: 1

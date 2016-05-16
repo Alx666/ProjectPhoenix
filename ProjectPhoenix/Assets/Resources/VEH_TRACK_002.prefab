@@ -43,8 +43,11 @@ GameObject:
   m_Component:
   - 4: {fileID: 418888}
   - 54: {fileID: 5419038}
-  - 114: {fileID: 11464146}
   - 114: {fileID: 11414492}
+  - 114: {fileID: 11411052}
+  - 114: {fileID: 11483248}
+  - 114: {fileID: 11468910}
+  - 75: {fileID: 7544222}
   m_Layer: 0
   m_Name: VEH_TRACK_002
   m_TagString: Untagged
@@ -562,7 +565,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 110012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 40, y: 0, z: 40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 469710}
@@ -1532,6 +1535,35 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 111.64963, y: 51.72846, z: 151.7244}
   m_Center: {x: -0.0000019073481, y: 10.20827, z: 49.03153}
+--- !u!75 &7544222
+ConstantForce:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 110012}
+  m_Enabled: 1
+  m_Force: {x: 0, y: -500, z: 0}
+  m_RelativeForce: {x: 0, y: 0, z: 0}
+  m_Torque: {x: 0, y: 0, z: 0}
+  m_RelativeTorque: {x: 0, y: 0, z: 0}
+--- !u!114 &11411052
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 110012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8224965cf0fff0647b4ebdf860a77a0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hp: 500
+  SteerAngle: 30
+  MaxSpeed: 100
+  CurrentSpeed: 
+  SyncGfxWheels: 0
+  OverrideCenterOfMass: 0
+  OverrideCOM: {x: 0, y: 0, z: 0}
 --- !u!114 &11414492
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1563,7 +1595,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a04477bfbde237242b8849e1f5a98027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11464146
+--- !u!114 &11468910
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1571,15 +1603,50 @@ MonoBehaviour:
   m_GameObject: {fileID: 110012}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1367c4d36bb3d7c40a2e364b7fb34eea, type: 3}
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Brake: 1000
-  Hp: 500
-  SteerAngle: 30
-  MaxSpeed: 100
-  m_hReverse: 0
-  vel: 0
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.07692308
+  m_SyncRotationAxis: 2
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 1
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 10
+  m_InterpolateMovement: 1
+--- !u!114 &11483248
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 110012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 40
+    i1: 100
+    i2: 13
+    i3: 67
+    i4: 34
+    i5: 99
+    i6: 144
+    i7: 212
+    i8: 136
+    i9: 88
+    i10: 99
+    i11: 234
+    i12: 240
+    i13: 253
+    i14: 228
+    i15: 2
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!146 &14631698
 WheelCollider:
   m_ObjectHideFlags: 1
