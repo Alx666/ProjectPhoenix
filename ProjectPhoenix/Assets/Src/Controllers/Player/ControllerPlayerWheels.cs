@@ -85,7 +85,7 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
     {
         m_hRigidbody.velocity = Vector3.ClampMagnitude(m_hRigidbody.velocity, MaxSpeed / 3.6f);
 
-        if (m_hRigidbody.velocity.magnitude > 0f && m_hRigidbody.velocity.magnitude < 1f)
+        if (m_hRigidbody.velocity.magnitude > 0f && m_hRigidbody.velocity.magnitude < 1f && m_hForward == false && m_hBackward == false)
             m_hRigidbody.velocity = Vector3.zero;
 
         CurrentSpeed = (m_hRigidbody.velocity.magnitude * 3.6f).ToString();
