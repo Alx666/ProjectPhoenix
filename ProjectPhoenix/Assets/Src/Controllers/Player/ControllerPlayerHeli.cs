@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityEngine.Networking;
 
-internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
+internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
 {
     public GameObject OwnBody;
     public float MaxHeight;
     public float MaxVelocityMagnitude;
     public float VelocityForce;
     public float VelocityRotation;
+    public GameObject rotor;
 
 
     Plane playerPlane;
@@ -21,7 +23,10 @@ internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
     float strafeForce;
     float currentForwardSlope;
     float currentStrafeSlope;
-    private IWeapon m_hCurrentWeapon;
+    float targetHeight;
+    IWeapon m_hCurrentWeapon;
+    float rotarSpeed;
+
 
     void Awake()
     {
@@ -30,8 +35,31 @@ internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
         this.isGrounded = true;
         this.playerPlane = new Plane(Vector3.up, this.transform.position);
         m_hCurrentWeapon = GetComponentInChildren<IWeapon>();
-
     }
+
+    void Start()
+    {
+        //if (!this.isLocalPlayer)
+        //{
+        //    GameObject.Destroy(this.GetComponent<InputProviderPCStd>());
+        //    GameObject.Destroy(this);
+        //}
+    }
+    void Update()
+    {
+        //if (!this.isLocalPlayer)
+        //    return;
+
+        if (!isGrounded)
+        {
+            Rotation();
+            Inclination();
+        }
+
+        if (rotor != null)
+            RotateRotor();
+    }
+
     void FixedUpdate()
     {
         LiftProcess();
@@ -40,17 +68,11 @@ internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
             Move();
         }
     }
-    void Update()
-    {
-        if (!isGrounded)
-        {
-            Rotation();
-            Inclination();
-        }
-    }
+
     private void LiftProcess()
     {
-        var upForce = 1f - Mathf.Clamp01(this.transform.position.y / MaxHeight);
+        CheckHeight();
+        var upForce = 1f - Mathf.Clamp01(this.transform.position.y / targetHeight);
         upForce = Mathf.Lerp(0f, engineForce, upForce) * mass;
         this.heliRigidbody.AddForce(Vector3.up * upForce);
     }
@@ -78,6 +100,42 @@ internal class ControllerPlayerHeli : MonoBehaviour, IControllerPlayer
             this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, VelocityRotation * Time.deltaTime);
         }
     }
+
+    //provvisorio
+    void RotateRotor()
+    {
+        if (!isGrounded)
+        {
+            rotarSpeed += Time.deltaTime * 10f;
+            if (rotarSpeed > 15f)
+                rotarSpeed = 15f;
+        }
+        else
+        {
+            rotarSpeed -= Time.deltaTime * 3f;
+            if (rotarSpeed < 0f)
+                rotarSpeed = 0f;
+        }
+
+        rotor.transform.Rotate(new Vector3(0f, rotarSpeed, 0f));
+    }
+
+    float CheckHeight()
+    {
+        Ray currentHeight = new Ray(this.transform.position, Vector3.down);
+        RaycastHit vHit;
+
+        Physics.Raycast(currentHeight, out vHit);
+
+        if (vHit.distance == MaxHeight)
+            targetHeight = vHit.distance;
+
+        else
+            targetHeight = this.transform.position.y + (MaxHeight - vHit.distance);
+
+        return targetHeight;
+    }
+
     public void BeginBackward()
     {
         this.forwardForce = -1f;
