@@ -1,43 +1,60 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Graph
 {
-    public class Graph<T>
+    public class Graph<T> : IEnumerable<T> where T : Graph<T>.Node
     {
-        public List<Node<T>> m_hNodes { get; private set; }
+        private List<T> m_hNodes;
 
         public Graph()
         {
-            m_hNodes = new List<Node<T>>();
+            m_hNodes = new List<T>();
         }
 
-        public void Add(params Node<T>[] nodes)
+        public void Add(params T[] nodes)
         {
-            foreach (Node<T> node in nodes)
+            foreach (T node in nodes)
             {
                 m_hNodes.Add(node);
             }
         }
 
-        public void RemoveNode(Node<T> node)
+        public void Remove(T hNode)
         {
-            m_hNodes.Remove(node);
-        }
-
-        public override string ToString()
-        {
-            string s = string.Empty;
-            foreach (var n in m_hNodes)
+            try
             {
-                s += n.ToString() + "\n";
+                m_hNodes.ForEach(hN => hN.Remove(hNode));
+                m_hNodes.Remove(hNode);
             }
-            return s;
+            catch(InvalidOperationException hEx)
+            {
+                throw new KeyNotFoundException("Node Not Found", hEx);
+            }
         }
 
-        public List<Node<T>> Dijkstra(Node<T> from, Node<T> to)
+        public void Remove(int iId)
         {
-            List<Node<T>> resNodes = new List<Node<T>>();
+            try
+            {
+                T hNode = m_hNodes.Where(hN => hN.Id == iId).First();
+                this.Remove(hNode);
+            }
+            catch (InvalidOperationException hEx)
+            {
+                throw new KeyNotFoundException("Node Not Found", hEx);
+            }
+            
+        }
+
+
+        #region Dijkstra
+
+        public List<T> Dijkstra(T from, T to)
+        {
+            List<T> resNodes = new List<T>();
 
             if (from == to)
             {
@@ -45,20 +62,20 @@ namespace Graph
                 return resNodes;
             }
 
-            Dictionary<Node<T>, float> dict = new Dictionary<Node<T>, float>();
-            Dictionary<Node<T>, Node<T>> preceedings = new Dictionary<Node<T>, Node<T>>();
+            Dictionary<T, float> dict = new Dictionary<T, float>();
+            Dictionary<T, T> preceedings = new Dictionary<T, T>();
 
             this.m_hNodes.ForEach(hNode => dict.Add(hNode, float.PositiveInfinity));
             dict[from] = 0f;
 
             while (dict.Count > 0)
             {
-                Node<T> node = dict.OrderBy(hN => hN.Value).First().Key;
+                T node = dict.OrderBy(hN => hN.Value).First().Key;
 
                 if (node == to)
                     break;
 
-                foreach (Node<T>.Neighbour neighbour in node.neighbours)
+                foreach (Node.Neighbour neighbour in node.Neighbours)
                 {
                     float weight;
                     if (dict.TryGetValue(neighbour.Node, out weight))
@@ -68,7 +85,7 @@ namespace Graph
                         if (alt < weight)
                         {
                             dict[neighbour.Node] = alt;
-                            Node<T> v;
+                            T v;
                             if (!preceedings.TryGetValue(neighbour.Node, out v))
                                 preceedings.Add(neighbour.Node, node);
                             else
@@ -81,7 +98,7 @@ namespace Graph
             }
 
             resNodes.Add(to);
-            Node<T> prec = preceedings[to];
+            T prec = preceedings[to];
 
             do
             {
@@ -95,9 +112,9 @@ namespace Graph
             return resNodes;
         }
 
-        public List<Node<T>> Dijkstra(Node<T> from, Node<T> to, List<Node<T>> customNodeList)
+        public List<T> Dijkstra(T from, T to, List<T> customNodeList)
         {
-            List<Node<T>> resNodes = new List<Node<T>>();
+            List<T> resNodes = new List<T>();
 
             if (from == to)
             {
@@ -105,20 +122,20 @@ namespace Graph
                 return resNodes;
             }
 
-            Dictionary<Node<T>, float> dict = new Dictionary<Node<T>, float>();
-            Dictionary<Node<T>, Node<T>> preceedings = new Dictionary<Node<T>, Node<T>>();
+            Dictionary<T, float> dict = new Dictionary<T, float>();
+            Dictionary<T, T> preceedings = new Dictionary<T, T>();
 
             customNodeList.ForEach(hNode => dict.Add(hNode, float.PositiveInfinity));
             dict[from] = 0f;
 
             while (dict.Count > 0)
             {
-                Node<T> node = dict.OrderBy(hN => hN.Value).First().Key;
+                T node = dict.OrderBy(hN => hN.Value).First().Key;
 
                 if (node == to)
                     break;
 
-                foreach (Node<T>.Neighbour neighbour in node.neighbours)
+                foreach (Node.Neighbour neighbour in node.Neighbours)
                 {
                     float weight;
                     if (dict.TryGetValue(neighbour.Node, out weight))
@@ -128,7 +145,7 @@ namespace Graph
                         if (alt < weight)
                         {
                             dict[neighbour.Node] = alt;
-                            Node<T> v;
+                            T v;
                             if (!preceedings.TryGetValue(neighbour.Node, out v))
                                 preceedings.Add(neighbour.Node, node);
                             else
@@ -141,7 +158,7 @@ namespace Graph
             }
 
             resNodes.Add(to);
-            Node<T> prec = preceedings[to];
+            T prec = preceedings[to];
 
             do
             {
@@ -154,5 +171,64 @@ namespace Graph
             resNodes.Reverse();
             return resNodes;
         }
+
+
+        #endregion
+
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return m_hNodes.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return m_hNodes.GetEnumerator();
+        }
+
+        public T this[int iIndex]
+        {
+            get { return m_hNodes[iIndex]; }
+        }
+
+
+
+        #region Nested Types
+
+        public class Node
+        {
+            public int Id { get; private set; }
+            public List<Neighbour> Neighbours;
+
+            public Node(int iId)
+            {
+                this.Id = iId;
+                Neighbours = new List<Neighbour>();
+            }
+
+            public void Link(T hNext, float distance)
+            {
+                Neighbour n = new Neighbour();
+                n.Node      = hNext;
+                n.Distance  = distance;
+
+                Neighbours.Add(n);
+            }
+
+            public void Remove(T hNode)
+            {
+                Neighbours.Remove(Neighbours.Where(hN => hN.Node == hNode).First());
+            }
+
+            public class Neighbour
+            {
+                public T        Node;
+                public float    Distance;
+            }
+        }
+
+        #endregion
+
+
     }
 }

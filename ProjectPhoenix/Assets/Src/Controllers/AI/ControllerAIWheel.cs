@@ -94,10 +94,8 @@ public class ControllerAIWheel : MonoBehaviour, IControllerAI
         currentState = idle;
         currentState.OnStateEnter();
     }
-    private void Start()
-    {
-        graph = GraphParser.Instance.Parse("Graph.txt");
-    }
+
+
     private void Update()
     {
         currentState = currentState.Update();
@@ -230,7 +228,7 @@ public class ControllerAIWheel : MonoBehaviour, IControllerAI
         public StateOnAir OnAir { get; internal set; }
 
         bool pathComputed;
-        Queue<Node<POI>> pois;
+        Queue<POI> pois;
         private POI poi;
 
         public StatePatrol(ControllerAIWheel owner)
@@ -242,14 +240,14 @@ public class ControllerAIWheel : MonoBehaviour, IControllerAI
         {
             if (!pathComputed)
             {
-                List<Node<POI>> roads = owner.graph.m_hNodes.Where(hN => hN.value.Type == NodeType.Road).ToList();
+                List<POI> roads = owner.graph.Where(hN => hN.Type == POI.NodeType.Road).ToList();
 
-                Node<POI> nearestAI = roads.OrderBy(hN => Vector3.Distance(hN.value.Position, owner.transform.position)).First();
-                Node<POI> nearestPlayer = roads.OrderBy(hN => Vector3.Distance(hN.value.Position, owner.Target.transform.position)).First();
+                POI nearestAI = roads.OrderBy(hN => Vector3.Distance(hN.Position, owner.transform.position)).First();
+                POI nearestPlayer = roads.OrderBy(hN => Vector3.Distance(hN.Position, owner.Target.transform.position)).First();
 
-                List<Node<POI>> list = owner.graph.Dijkstra(nearestAI, nearestPlayer, roads);
+                List<POI> list = owner.graph.Dijkstra(nearestAI, nearestPlayer, roads);
 
-                pois = new Queue<Node<POI>>(list);
+                pois = new Queue<POI>(list);
                 pathComputed = true;
             }
             
@@ -257,7 +255,7 @@ public class ControllerAIWheel : MonoBehaviour, IControllerAI
             //GET POI FROM QUEUE
             if (pois.Count > 0)
             {
-                poi = pois.Dequeue().value;
+                poi = pois.Dequeue();
                 Debug.Log(this.owner.gameObject.name + "DEQUEUED");
             }
             else

@@ -1,22 +1,24 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
-using System.Xml.Serialization;
-using System.Collections.Generic;
+﻿using Graph;
+using UnityEngine;
 
-public class POI
+public class POI : Graph<POI>.Node
 {
-    public Vector3 Position { get; set; }
+    private static int m_hCounter;
 
-    public NodeType Type { get; set; }
+    public Vector3  Position    { get; set; }
+    public NodeType Type        { get; set; }
     
-    public POI()
-    {
-
-    }
-    public POI(Vector3 Position, NodeType Type)
+    public POI(Vector3 Position, NodeType Type) : base(m_hCounter++)
     {
         this.Position = Position;
         this.Type = Type;
+    }
+
+    public enum NodeType
+    {
+        Road = 0,
+        Base = 1,
+        Turret = 2,
+        Building = 3,
     }
 }
