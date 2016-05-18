@@ -27,13 +27,15 @@ GameObject:
   - 114: {fileID: 11479188}
   - 114: {fileID: 11453842}
   - 114: {fileID: 11409024}
+  - 114: {fileID: 11420610}
+  - 114: {fileID: 11420360}
   m_Layer: 0
   m_Name: VEH_HELI_000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &116590
 GameObject:
   m_ObjectHideFlags: 1
@@ -226,7 +228,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 113378}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.93, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 468804}
@@ -447,16 +449,66 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 149850, guid: 380d428858fec08488c8ee3be63c0658, type: 2}
-  FireSFX: {fileID: 8252318}
-  Muzzle: {fileID: 143398, guid: 1ac571d5d951fef408c1a9135767f71d, type: 2}
   ShootLocators:
   - {fileID: 162018}
   - {fileID: 157950}
+  Mode: 0
   Spread: 0
   BulletDelay: 0.01
-  Force: 100
   BarrageDelay: 0.01
   Barrage: 1
+--- !u!114 &11420360
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 113378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.083333336
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 1
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 10
+  m_InterpolateMovement: 1
+--- !u!114 &11420610
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 113378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 37
+    i1: 7
+    i2: 227
+    i3: 29
+    i4: 128
+    i5: 210
+    i6: 177
+    i7: 20
+    i8: 219
+    i9: 194
+    i10: 185
+    i11: 42
+    i12: 61
+    i13: 217
+    i14: 229
+    i15: 212
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &11453842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -473,6 +525,7 @@ MonoBehaviour:
   MaxVelocityMagnitude: 100
   VelocityForce: 500
   VelocityRotation: 20
+  rotor: {fileID: 0}
 --- !u!114 &11479188
 MonoBehaviour:
   m_ObjectHideFlags: 1

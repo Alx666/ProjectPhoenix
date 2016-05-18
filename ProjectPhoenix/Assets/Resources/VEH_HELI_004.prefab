@@ -9,6 +9,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 445350}
   - 54: {fileID: 5480146}
+  - 114: {fileID: 11447966}
+  - 114: {fileID: 11446784}
   m_Layer: 0
   m_Name: VEH_HELI_004
   m_TagString: Untagged
@@ -211,6 +213,58 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 1
   m_Mesh: {fileID: 4300000, guid: 2a38df94b8fceba4cbe9b79829df22c8, type: 3}
+--- !u!114 &11446784
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 128610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.083333336
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 1
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 10
+  m_InterpolateMovement: 1
+--- !u!114 &11447966
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 128610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 129
+    i1: 187
+    i2: 225
+    i3: 165
+    i4: 11
+    i5: 174
+    i6: 76
+    i7: 180
+    i8: 154
+    i9: 207
+    i10: 138
+    i11: 213
+    i12: 199
+    i13: 238
+    i14: 187
+    i15: 3
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

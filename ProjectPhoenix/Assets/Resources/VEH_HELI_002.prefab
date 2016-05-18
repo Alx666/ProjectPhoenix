@@ -57,13 +57,15 @@ GameObject:
   - 114: {fileID: 11497312}
   - 114: {fileID: 11480936}
   - 114: {fileID: 11439724}
+  - 114: {fileID: 11484176}
+  - 114: {fileID: 11490890}
   m_Layer: 0
   m_Name: VEH_HELI_002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &164794
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,7 +228,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 162612}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -40, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 408518}
@@ -441,16 +443,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 149850, guid: 380d428858fec08488c8ee3be63c0658, type: 2}
-  FireSFX: {fileID: 8229254}
-  Muzzle: {fileID: 116794, guid: 35465e0799cfd6d4ca7712b826c38210, type: 2}
   ShootLocators:
   - {fileID: 180758}
   - {fileID: 179736}
   - {fileID: 132682}
   - {fileID: 145726}
+  Mode: 0
   Spread: 0
   BulletDelay: 0.1
-  Force: 50
   BarrageDelay: 0.3
   Barrage: 1
 --- !u!114 &11480936
@@ -473,6 +473,58 @@ MonoBehaviour:
   Up: 304
   Down: 32
   Fire: 323
+--- !u!114 &11484176
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 162612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 79
+    i1: 131
+    i2: 33
+    i3: 212
+    i4: 44
+    i5: 32
+    i6: 0
+    i7: 196
+    i8: 235
+    i9: 183
+    i10: 235
+    i11: 192
+    i12: 129
+    i13: 134
+    i14: 183
+    i15: 167
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
+--- !u!114 &11490890
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 162612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.083333336
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 1
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 10
+  m_InterpolateMovement: 1
 --- !u!114 &11497312
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -489,6 +541,7 @@ MonoBehaviour:
   MaxVelocityMagnitude: 100
   VelocityForce: 400
   VelocityRotation: 20
+  rotor: {fileID: 188942}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
