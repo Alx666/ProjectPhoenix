@@ -9,6 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 418430}
   - 54: {fileID: 5462092}
+  - 114: {fileID: 11422502}
+  - 114: {fileID: 11449210}
+  - 114: {fileID: 11452914}
   m_Layer: 0
   m_Name: VEH_WHEEL_009
   m_TagString: Untagged
@@ -357,7 +360,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 107848}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -91.49402, y: 77.5499, z: -188.09058}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 490474}
@@ -967,6 +970,76 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.22, y: 0.5, z: 2.73}
   m_Center: {x: 0, y: 0.22, z: 0.7}
+--- !u!114 &11422502
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 132
+    i1: 103
+    i2: 228
+    i3: 211
+    i4: 187
+    i5: 149
+    i6: 88
+    i7: 180
+    i8: 40
+    i9: 7
+    i10: 181
+    i11: 73
+    i12: 31
+    i13: 243
+    i14: 224
+    i15: 251
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &11449210
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8224965cf0fff0647b4ebdf860a77a0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hp: 100
+  SteerAngle: 30
+  MaxSpeed: 50
+  CurrentSpeed: 
+  SyncGfxWheels: 0
+  OverrideCenterOfMass: 0
+  OverrideCOM: {x: 0, y: 0, z: 0}
+--- !u!114 &11452914
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c0fa37227769844698cd538d5507b68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Forward: 119
+  Backward: 115
+  Right: 100
+  Left: 97
+  PanRight: 101
+  PanLeft: 113
+  Up: 304
+  Down: 32
+  Fire: 323
 --- !u!146 &14612696
 WheelCollider:
   m_ObjectHideFlags: 1
