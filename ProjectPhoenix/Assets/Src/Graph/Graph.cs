@@ -1,24 +1,34 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
 namespace Graph
 {
+    [Serializable]
     public class Graph<T> : IEnumerable<T> where T : Graph<T>.Node
     {
-        private List<T> m_hNodes;
+        public List<T> Nodes { get; private set; }
 
         public Graph()
         {
-            m_hNodes = new List<T>();
+            Nodes = new List<T>();
+        }
+
+        public Graph(List<T> hNodes)
+        {
+            Nodes = hNodes;
         }
 
         public void Add(params T[] nodes)
         {
             foreach (T node in nodes)
             {
-                m_hNodes.Add(node);
+                Nodes.Add(node);
             }
         }
 
@@ -26,8 +36,8 @@ namespace Graph
         {
             try
             {
-                m_hNodes.ForEach(hN => hN.Remove(hNode));
-                m_hNodes.Remove(hNode);
+                Nodes.ForEach(hN => hN.Remove(hNode));
+                Nodes.Remove(hNode);
             }
             catch(InvalidOperationException hEx)
             {
@@ -39,7 +49,7 @@ namespace Graph
         {
             try
             {
-                T hNode = m_hNodes.Where(hN => hN.Id == iId).First();
+                T hNode = Nodes.Where(hN => hN.Id == iId).First();
                 this.Remove(hNode);
             }
             catch (InvalidOperationException hEx)
@@ -49,6 +59,10 @@ namespace Graph
             
         }
 
+        public void Clear()
+        {
+            Nodes.Clear();
+        }
 
         #region Dijkstra
 
@@ -62,15 +76,15 @@ namespace Graph
                 return resNodes;
             }
 
-            Dictionary<T, float> dict = new Dictionary<T, float>();
-            Dictionary<T, T> preceedings = new Dictionary<T, T>();
+            Dictionary<Node, float> dict = new Dictionary<Node, float>();
+            Dictionary<Node, Node> preceedings = new Dictionary<Node, Node>();
 
-            this.m_hNodes.ForEach(hNode => dict.Add(hNode, float.PositiveInfinity));
+            this.Nodes.ForEach(hNode => dict.Add(hNode, float.PositiveInfinity));
             dict[from] = 0f;
 
             while (dict.Count > 0)
             {
-                T node = dict.OrderBy(hN => hN.Value).First().Key;
+                T node = dict.OrderBy(hN => hN.Value).First().Key as T;
 
                 if (node == to)
                     break;
@@ -85,7 +99,7 @@ namespace Graph
                         if (alt < weight)
                         {
                             dict[neighbour.Node] = alt;
-                            T v;
+                            Node v;
                             if (!preceedings.TryGetValue(neighbour.Node, out v))
                                 preceedings.Add(neighbour.Node, node);
                             else
@@ -98,13 +112,13 @@ namespace Graph
             }
 
             resNodes.Add(to);
-            T prec = preceedings[to];
+            T prec = preceedings[to] as T;
 
             do
             {
                 resNodes.Add(prec);
                 if (prec != from)
-                    prec = preceedings[prec];
+                    prec = preceedings[prec] as T;
             }
             while (prec != from);
 
@@ -122,15 +136,15 @@ namespace Graph
                 return resNodes;
             }
 
-            Dictionary<T, float> dict = new Dictionary<T, float>();
-            Dictionary<T, T> preceedings = new Dictionary<T, T>();
+            Dictionary<Node, float> dict = new Dictionary<Node, float>();
+            Dictionary<Node, Node> preceedings = new Dictionary<Node, Node>();
 
             customNodeList.ForEach(hNode => dict.Add(hNode, float.PositiveInfinity));
             dict[from] = 0f;
 
             while (dict.Count > 0)
             {
-                T node = dict.OrderBy(hN => hN.Value).First().Key;
+                T node = dict.OrderBy(hN => hN.Value).First().Key as T;
 
                 if (node == to)
                     break;
@@ -145,7 +159,7 @@ namespace Graph
                         if (alt < weight)
                         {
                             dict[neighbour.Node] = alt;
-                            T v;
+                            Node v;
                             if (!preceedings.TryGetValue(neighbour.Node, out v))
                                 preceedings.Add(neighbour.Node, node);
                             else
@@ -158,13 +172,13 @@ namespace Graph
             }
 
             resNodes.Add(to);
-            T prec = preceedings[to];
+            T prec = preceedings[to] as T;
 
             do
             {
                 resNodes.Add(prec);
                 if (prec != from)
-                    prec = preceedings[prec];
+                    prec = preceedings[prec] as T;
             }
             while (prec != from);
 
@@ -173,32 +187,66 @@ namespace Graph
         }
 
 
+        public static byte[] ToBinary<K>(Graph<K> hObj) where K : Graph<K>.Node
+        {
+            BinaryFormatter hSerializer = new BinaryFormatter();
+            SurrogateSelector hSelector = new SurrogateSelector();
+            hSelector.AddSurrogate(typeof(Vector3), new StreamingContext(), new Vector3Surrogate());
+            hSerializer.SurrogateSelector = hSelector;
+
+            using (MemoryStream hStream = new MemoryStream())
+            {
+                hSerializer.Serialize(hStream, hObj);
+                hStream.Flush();
+                return hStream.GetBuffer();
+            }
+        }
+
+        public static Graph<K> FromBinary<K>(byte[] hBinary) where K : Graph<K>.Node
+        {
+            BinaryFormatter hSerializer = new BinaryFormatter();
+            SurrogateSelector hSelector = new SurrogateSelector();
+            hSelector.AddSurrogate(typeof(Vector3), new StreamingContext(), new Vector3Surrogate());
+            hSerializer.SurrogateSelector = hSelector;
+
+            using (MemoryStream hStream = new MemoryStream(hBinary))
+            {
+                return hSerializer.Deserialize(hStream) as Graph<K>;
+            }
+        }
+
+
         #endregion
 
 
         public IEnumerator<T> GetEnumerator()
         {
-            return m_hNodes.GetEnumerator();
+            return Nodes.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return m_hNodes.GetEnumerator();
+            return Nodes.GetEnumerator();
         }
 
         public T this[int iIndex]
         {
-            get { return m_hNodes[iIndex]; }
+            get { return Nodes[iIndex]; }
         }
-
 
 
         #region Nested Types
 
+        [Serializable]
         public class Node
         {
-            public int Id { get; private set; }
+            public int Id { get; set; }
             public List<Neighbour> Neighbours;
+
+            public Node()
+            {
+
+            }
 
             public Node(int iId)
             {
@@ -219,11 +267,28 @@ namespace Graph
             {
                 Neighbours.Remove(Neighbours.Where(hN => hN.Node == hNode).First());
             }
-
+            
+            [Serializable]
             public class Neighbour
             {
-                public T        Node;
+                public Node     Node;
                 public float    Distance;
+            }
+        }
+
+        public class Vector3Surrogate : ISerializationSurrogate
+        {
+            public void GetObjectData(object obj, SerializationInfo info, StreamingContext context)
+            {
+                var vector = (Vector3)obj;
+                info.AddValue("x", vector.x);
+                info.AddValue("y", vector.y);
+                info.AddValue("z", vector.z);
+            }
+            public object SetObjectData(object obj, SerializationInfo info, StreamingContext context, ISurrogateSelector selector)
+            {
+                Func<string, float> get = name => (float)info.GetValue(name, typeof(float));
+                return new Vector3(get("x"), get("y"), get("z"));
             }
         }
 

@@ -1,12 +1,19 @@
 ﻿using Graph;
+using System;
 using UnityEngine;
 
+[Serializable]
 public class POI : Graph<POI>.Node
 {
     private static int m_hCounter;
 
     public Vector3  Position    { get; set; }
     public NodeType Type        { get; set; }
+
+
+    public POI()
+    {
+    }
     
     public POI(Vector3 Position, NodeType Type) : base(m_hCounter++)
     {
@@ -14,6 +21,7 @@ public class POI : Graph<POI>.Node
         this.Type = Type;
     }
 
+    [Serializable]
     public enum NodeType
     {
         Road = 0,

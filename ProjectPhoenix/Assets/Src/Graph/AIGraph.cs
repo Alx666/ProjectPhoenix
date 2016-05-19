@@ -1,22 +1,27 @@
-﻿using UnityEngine;
+﻿using Graph;
 using System.Collections;
-using Graph;
-using System;
 using System.Collections.Generic;
+using UnityEngine;
 
-public class AIGraph : MonoBehaviour, IEnumerable<POI>
+public class AIGraph : MonoBehaviour, IEnumerable<POI>, ISerializationCallbackReceiver
 {
-    public Graph<POI> m_hNodes;
+    //Serializzare questo
+    public Graph<POI> m_hGraph;
 
-   
+    [SerializeField, HideInInspector]
+    private byte[] m_hSaveData;
+
+    
+    #region Misc
+
     public void Add(POI hNode)
     {
-        m_hNodes.Add(hNode);
+        m_hGraph.Add(hNode);        
     }
 
     public void Remove(int iId)
     {
-        m_hNodes.Remove(iId);
+        m_hGraph.Remove(iId);
     }
 
     public void Link(POI hA, POI hB)
@@ -26,21 +31,42 @@ public class AIGraph : MonoBehaviour, IEnumerable<POI>
         hB.Link(hA, fDist);
     }
 
-    public IEnumerator<POI> GetEnumerator()
-    {
-        return m_hNodes.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return m_hNodes.GetEnumerator();
-    }
-
     public POI this[int iIndex]
     {
         get
         {
-            return m_hNodes[iIndex];
+            return m_hGraph[iIndex];
         }
     }
+
+    #endregion
+
+    #region IEnumerable
+
+    public IEnumerator<POI> GetEnumerator()
+    {
+        return m_hGraph.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return m_hGraph.GetEnumerator();
+    }
+
+    #endregion
+
+    #region ISerializationCallbackReceiver
+
+    public void OnBeforeSerialize()
+    {
+        m_hSaveData = Graph<POI>.ToBinary(m_hGraph);
+    }
+
+    public void OnAfterDeserialize()
+    {
+        m_hGraph = Graph<POI>.FromBinary<POI>(m_hSaveData);
+    }
+
+    #endregion 
+
 }

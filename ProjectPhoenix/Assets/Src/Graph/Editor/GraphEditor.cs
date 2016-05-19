@@ -16,30 +16,26 @@ public class GraphEditor : Editor
     private string Label1 = string.Empty;
     private string Label2 = string.Empty;
 
-    private const int NodeIDSpace   = 30;
-    private const int EnumSpace     = 70;
-    private const int LabelSize     = 59;
+    private const int NodeIDSpace = 30;
+    private const int EnumSpace = 70;
+    private const int LabelSize = 59;
+
 
     void OnEnable()
     {
-        m_hTarget = this.target as AIGraph; //get a reference to the target component
+        m_hTarget = this.target as AIGraph;
     }
 
-    
     public override void OnInspectorGUI()
     {
-        if (Application.isPlaying)        
+
+        if (Application.isPlaying)
             return;
-        
+
 
         EditorGUILayout.Separator();
 
         EditorGUILayout.BeginVertical(EditorStyles.objectFieldThumb);
-        //EditorGUILayout.BeginHorizontal();
-
-        //Aggiunta
-
-
         EditorGUILayout.BeginHorizontal();
 
         if (GUILayout.Button("Add"))
@@ -80,7 +76,7 @@ public class GraphEditor : Editor
         EditorGUILayout.BeginHorizontal();
 
         if (GUILayout.Button("Add & Connect"))
-        {            
+        {
             RaycastHit vHit;
             Ray vRay = new Ray(SceneView.lastActiveSceneView.camera.transform.position, SceneView.lastActiveSceneView.camera.transform.forward);
 
@@ -89,8 +85,8 @@ public class GraphEditor : Editor
 
             if (m_hTarget.Count() > 1)
             {
-                m_hTarget.Link(m_hTarget[m_hTarget.Count() - 2], m_hTarget.Last());                                
-            }            
+                m_hTarget.Link(m_hTarget[m_hTarget.Count() - 2], m_hTarget.Last());
+            }
         }
 
         if (GUILayout.Button("Remove"))
@@ -144,7 +140,7 @@ public class GraphEditor : Editor
 
             for (int k = 0; k < hCurrent.Neighbours.Count; k++)
             {
-                POI hPoi = hCurrent.Neighbours[k].Node;
+                POI hPoi = hCurrent.Neighbours[k].Node as POI;
 
                 //if (hPoi.Type != POI.NodeType.Road || hCurrent.Successors[k].nodetype != NodeType.Road)
                 //    m_hColor = Color.red;
