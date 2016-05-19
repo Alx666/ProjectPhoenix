@@ -71,7 +71,11 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
 
     private void LiftProcess()
     {
-        CheckHeight();
+        Ray currentHeight = new Ray(this.transform.position, Vector3.down);
+        RaycastHit vHit;
+        Physics.Raycast(currentHeight, out vHit);
+        targetHeight = this.transform.position.y + (MaxHeight - vHit.distance);
+
         var upForce = 1f - Mathf.Clamp01(this.transform.position.y / targetHeight);
         upForce = Mathf.Lerp(0f, engineForce, upForce) * mass;
         this.heliRigidbody.AddForce(Vector3.up * upForce);
@@ -118,22 +122,6 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
         }
 
         rotor.transform.Rotate(new Vector3(0f, rotarSpeed, 0f));
-    }
-
-    float CheckHeight()
-    {
-        Ray currentHeight = new Ray(this.transform.position, Vector3.down);
-        RaycastHit vHit;
-
-        Physics.Raycast(currentHeight, out vHit);
-
-        if (vHit.distance == MaxHeight)
-            targetHeight = vHit.distance;
-
-        else
-            targetHeight = this.transform.position.y + (MaxHeight - vHit.distance);
-
-        return targetHeight;
     }
 
     public void BeginBackward()
