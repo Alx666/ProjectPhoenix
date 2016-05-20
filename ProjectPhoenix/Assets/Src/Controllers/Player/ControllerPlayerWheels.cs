@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.Networking;
 
-[RequireComponent (typeof(ConstantForce))]
+[RequireComponent(typeof(ConstantForce))]
 public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 {
 
@@ -24,7 +24,7 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
     private Drive m_hEngine;
     private VehicleTurret m_hTurret;
     private ConstantForce m_hConstanForce;
-    private IWeapon m_hCurrentWeapon;
+    private Weapon m_hCurrentWeapon; //temp
     private IFlyState m_hFlyState;
     private Vector3 m_hReverseCOM;
 
@@ -52,7 +52,7 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
         m_hTurret = GetComponentInChildren<VehicleTurret>();
 
         //Initialize IWeapon
-        m_hCurrentWeapon = GetComponentInChildren<IWeapon>();
+        m_hCurrentWeapon = GetComponentInChildren<Weapon>();
 
         //Initialize Drive/Brake System
         m_hEngine = new Drive(Hp, m_hWheels);
@@ -74,15 +74,16 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 
     void Start()
     {
-        //if (!this.isLocalPlayer)
-        //{
-        //    GameObject.Destroy(this.GetComponent<InputProviderPCStd>());
-        //    GameObject.Destroy(this);
-        //}
+        if (!this.isLocalPlayer)
+        {
+            GameObject.Destroy(this.GetComponent<InputProviderPCStd>());
+            GameObject.Destroy(this);
+        }
 
         if (OverrideCenterOfMass)
             m_hRigidbody.centerOfMass = OverrideCOM;
 
+        Debug.Log(netId);
     }
 
     void Update()
@@ -197,13 +198,50 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
     public void BeginFire()
     {
         if (m_hCurrentWeapon != null)
-            m_hCurrentWeapon.Press();
+        {
+            Debug.Log(m_hCurrentWeapon.GetComponent<NetworkIdentity>().netId);
+            if (isServer)
+                RpcBeginFire();
+            else
+                CmdBeginFire();
+        }
+    }
+
+    [ClientRpc]
+    private void RpcBeginFire()
+    {
+        Debug.Log("DIOPORCO SONO DENTRO");
+        m_hCurrentWeapon.Press();
+    }
+
+    [Command]
+    private void CmdBeginFire()
+    {
+        RpcBeginFire();
     }
 
     public void EndFire()
     {
         if (m_hCurrentWeapon != null)
-            m_hCurrentWeapon.Release();
+        {
+            if (isServer)
+                RpcEndFire();
+            else
+                CmdEndFire();
+        }
+
+    }
+
+    [ClientRpc]
+    private void RpcEndFire()
+    {
+        m_hCurrentWeapon.Release();
+    }
+
+    [Command]
+    private void CmdEndFire()
+    {
+        RpcEndFire();
     }
 
     public void MousePosition(Vector3 vMousePosition)
@@ -425,7 +463,7 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
             }
             else
                 return this;
-         
+
         }
     }
 

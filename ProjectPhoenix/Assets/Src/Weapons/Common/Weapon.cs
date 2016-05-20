@@ -233,7 +233,6 @@ public class Weapon : NetworkBehaviour, IWeapon
             hBullet.Shoot(vPosition, vDirection);
 
             m_hOwner.QueueLocators.Enqueue(hNextLocator);
-
         }
         #endregion IShootStrategy
 

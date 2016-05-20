@@ -3193,7 +3193,7 @@ MonoBehaviour:
   m_PlayerPrefab: {fileID: 104024, guid: 93faadea30c7c0f49b43b16fd5b2a914, type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
-  m_OfflineScene: TEST_LOBBY
+  m_OfflineScene: Lobby_ProjectPhoenix
   m_OnlineScene: 
   m_SpawnPrefabs:
   - {fileID: 104024, guid: 93faadea30c7c0f49b43b16fd5b2a914, type: 2}
@@ -3245,8 +3245,8 @@ MonoBehaviour:
   m_LobbyPlayerPrefab: {fileID: 11487034, guid: ad727d7e1462ecc4f83c898ecc501997,
     type: 2}
   m_GamePlayerPrefab: {fileID: 104024, guid: 93faadea30c7c0f49b43b16fd5b2a914, type: 2}
-  m_LobbyScene: TEST_LOBBY
-  m_PlayScene: TEST_NETWORK_FULL_ENVIRONMENT
+  m_LobbyScene: Lobby_ProjectPhoenix
+  m_PlayScene: Game_ProjectPhoenix
   lobbySlots: []
   prematchCountdown: 3
   topPanel: {fileID: 11424994}
@@ -4340,6 +4340,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_TargetDisplay: 0

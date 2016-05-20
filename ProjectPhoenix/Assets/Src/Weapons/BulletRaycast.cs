@@ -38,13 +38,15 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
 
         if (Physics.Raycast(this.transform.position, this.transform.forward, out vRaycast, fSpace))
         {
-            IDamageable hHit = vRaycast.collider.gameObject.GetComponent<IDamageable>();
+            IDamageable hHit = vRaycast.collider.gameObject.GetComponent<IDamageable>(); //ToDo: refactoring a actor
 
             if (hHit != null)
             {
-                hHit.Damage(Damage);
                 if (m_hParticlesController != null)
                     m_hParticlesController.PlayHitVfx(vRaycast.point, vRaycast.normal);
+
+                if (isServer)
+                    hHit.Damage(Damage);//non necessita di rpc perche agisce su Hp syncVar
             }
             else
             {
@@ -64,6 +66,8 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
                 GlobalFactory.Recycle(this.gameObject);
         }
     }
+
+
 
     #region IPoolable
 
