@@ -1138,7 +1138,7 @@ MonoBehaviour:
     i14: 37
     i15: 19
   m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &11424686
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1487,7 +1487,10 @@ MonoBehaviour:
   Hp: 10000
   SteerAngle: 30
   MaxSpeed: 200
-  CenterOfMassY: -1
+  CurrentSpeed: 
+  SyncGfxWheels: 1
+  OverrideCenterOfMass: 1
+  OverrideCOM: {x: 0, y: 0.3, z: 0}
 --- !u!114 &11481916
 MonoBehaviour:
   m_ObjectHideFlags: 1

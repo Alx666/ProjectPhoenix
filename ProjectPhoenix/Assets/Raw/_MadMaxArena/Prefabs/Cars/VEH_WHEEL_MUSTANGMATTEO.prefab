@@ -1416,7 +1416,10 @@ MonoBehaviour:
   Hp: 10000
   SteerAngle: 30
   MaxSpeed: 200
-  CenterOfMassY: -1
+  CurrentSpeed: 
+  SyncGfxWheels: 0
+  OverrideCenterOfMass: 1
+  OverrideCOM: {x: 0, y: 0, z: 0}
 --- !u!114 &11471976
 MonoBehaviour:
   m_ObjectHideFlags: 1
