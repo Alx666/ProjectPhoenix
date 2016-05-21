@@ -12,6 +12,11 @@ public class AIGraph : MonoBehaviour, IEnumerable<POI>, ISerializationCallbackRe
     private byte[] m_hSaveData;
 
     
+    public byte[] GetSaveData()
+    {
+        return m_hSaveData;
+    }
+
     #region Misc
 
     public void Add(POI hNode)

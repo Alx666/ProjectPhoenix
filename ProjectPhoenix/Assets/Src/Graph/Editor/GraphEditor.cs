@@ -24,6 +24,8 @@ public class GraphEditor : Editor
     void OnEnable()
     {
         m_hTarget = this.target as AIGraph;
+        if (m_hTarget != null && m_hTarget.m_hGraph == null)
+            m_hTarget.m_hGraph = new Graph<POI>();
     }
 
     public override void OnInspectorGUI()
@@ -142,12 +144,12 @@ public class GraphEditor : Editor
             {
                 POI hPoi = hCurrent.Neighbours[k].Node as POI;
 
-                //if (hPoi.Type != POI.NodeType.Road || hCurrent.Successors[k].nodetype != NodeType.Road)
-                //    m_hColor = Color.red;
-                //else
-                //    m_hColor = Color.green;
+                if (hPoi.Type != POI.NodeType.Road || hCurrent.Type != POI.NodeType.Road)
+                    m_hColor = Color.red;
+                else
+                    m_hColor = Color.green;
 
-                DrawConnection(hCurrent, hPoi, 0.5f, Color.green);
+                DrawConnection(hCurrent, hPoi, 0.5f, m_hColor);
             }
         }
 
