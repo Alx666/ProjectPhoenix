@@ -405,6 +405,7 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
     private class GroundState : IFlyState
     {
         private ControllerPlayerWheels m_hOwner;
+        LTDescr ltd;
         public GroundState(ControllerPlayerWheels hOwner)
         {
             m_hOwner = hOwner;
@@ -415,7 +416,8 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
             if (m_hOwner.m_hRigidbody.velocity.magnitude > 0f && m_hOwner.m_hRigidbody.velocity.magnitude < 1f && m_hOwner.m_hForward == false && m_hOwner.m_hBackward == false)
                 m_hOwner.m_hRigidbody.velocity = Vector3.zero;
             m_hOwner.m_hConstanForce.enabled = false;
-            m_hOwner.m_hRigidbody.centerOfMass = m_hOwner.OverrideCOM;
+            ltd = LeanTween.value(m_hOwner.gameObject, new Vector3(m_hOwner.m_hRigidbody.centerOfMass.x, m_hOwner.m_hRigidbody.centerOfMass.y, m_hOwner.m_hRigidbody.centerOfMass.z), new Vector3(m_hOwner.OverrideCOM.x, m_hOwner.OverrideCOM.y, m_hOwner.OverrideCOM.z), 1.5f).setOnUpdateVector3(SetCenterOfMass);
+            
             m_hOwner.IsFlying = false;
         }
 
@@ -427,7 +429,15 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
                 return Next;
             }
             else
+            {
+                
                 return this;
+            }
+        }
+
+        private void SetCenterOfMass(Vector3 val)
+        {
+            m_hOwner.m_hRigidbody.centerOfMass = val;
         }
     }
 
