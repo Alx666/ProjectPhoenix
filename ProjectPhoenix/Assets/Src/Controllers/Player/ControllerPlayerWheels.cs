@@ -24,7 +24,7 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
     private Drive m_hEngine;
     private VehicleTurret m_hTurret;
     private ConstantForce m_hConstanForce;
-    private Weapon m_hCurrentWeapon; //temp
+    private IWeapon m_hCurrentWeapon;
     private IFlyState m_hFlyState;
     private Vector3 m_hReverseCOM;
 
@@ -52,7 +52,7 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
         m_hTurret = GetComponentInChildren<VehicleTurret>();
 
         //Initialize IWeapon
-        m_hCurrentWeapon = GetComponentInChildren<Weapon>();
+        m_hCurrentWeapon = GetComponentInChildren<IWeapon>();
 
         //Initialize Drive/Brake System
         m_hEngine = new Drive(Hp, m_hWheels);
@@ -75,15 +75,10 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
     void Start()
     {
         if (!this.isLocalPlayer)
-        {
             GameObject.Destroy(this.GetComponent<InputProviderPCStd>());
-            GameObject.Destroy(this);
-        }
 
         if (OverrideCenterOfMass)
             m_hRigidbody.centerOfMass = OverrideCOM;
-
-        Debug.Log(netId);
     }
 
     void Update()
@@ -199,7 +194,6 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
     {
         if (m_hCurrentWeapon != null)
         {
-            Debug.Log(m_hCurrentWeapon.GetComponent<NetworkIdentity>().netId);
             if (isServer)
                 RpcBeginFire();
             else
@@ -210,7 +204,6 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
     [ClientRpc]
     private void RpcBeginFire()
     {
-        Debug.Log("DIOPORCO SONO DENTRO");
         m_hCurrentWeapon.Press();
     }
 
@@ -229,7 +222,6 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
             else
                 CmdEndFire();
         }
-
     }
 
     [ClientRpc]
@@ -417,7 +409,7 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
                 m_hOwner.m_hRigidbody.velocity = Vector3.zero;
             m_hOwner.m_hConstanForce.enabled = false;
             ltd = LeanTween.value(m_hOwner.gameObject, new Vector3(m_hOwner.m_hRigidbody.centerOfMass.x, m_hOwner.m_hRigidbody.centerOfMass.y, m_hOwner.m_hRigidbody.centerOfMass.z), new Vector3(m_hOwner.OverrideCOM.x, m_hOwner.OverrideCOM.y, m_hOwner.OverrideCOM.z), 1.5f).setOnUpdateVector3(SetCenterOfMass);
-            
+
             m_hOwner.IsFlying = false;
         }
 
@@ -430,7 +422,7 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
             }
             else
             {
-                
+
                 return this;
             }
         }
