@@ -33,16 +33,12 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
     private List<FakeWheel> m_hFakeWheels;
     private Drive m_hEngine;
     private VehicleTurret m_hTurret;
-<<<<<<< HEAD
-    private Weapon m_hCurrentWeapon; //temp
+
     private Rigidbody m_hRigidbody;
     private ConstantForce m_hConstanForce;
 
-=======
-    private ConstantForce m_hConstanForce;
     private IWeapon m_hCurrentWeapon;
-    private IFlyState m_hFlyState;
->>>>>>> origin/master
+
     private Vector3 m_hReverseCOM;
     private Vector3 m_hOriginalCOM;
 
@@ -421,15 +417,14 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
         {
             if (m_hOwner.m_hRigidbody.velocity.magnitude > 0f && m_hOwner.m_hRigidbody.velocity.magnitude < 1f && m_hOwner.m_hForward == false && m_hOwner.m_hBackward == false)
                 m_hOwner.m_hRigidbody.velocity = Vector3.zero;
-<<<<<<< HEAD
+
             //m_hOwner.m_hConstanForce.enabled = false;
             //LeanTween.value(m_hOwner.gameObject, new Vector3(m_hOwner.m_hRigidbody.centerOfMass.x, m_hOwner.m_hRigidbody.centerOfMass.y, m_hOwner.m_hRigidbody.centerOfMass.z), new Vector3(m_hOwner.m_hRigidbody.centerOfMass.x, m_hOwner.OverrideCOM.y, m_hOwner.m_hRigidbody.centerOfMass.z), 0.5f).setOnUpdateVector3(SetCenterOfMass);
             
-=======
-            m_hOwner.m_hConstanForce.enabled = false;
-            ltd = LeanTween.value(m_hOwner.gameObject, new Vector3(m_hOwner.m_hRigidbody.centerOfMass.x, m_hOwner.m_hRigidbody.centerOfMass.y, m_hOwner.m_hRigidbody.centerOfMass.z), new Vector3(m_hOwner.OverrideCOM.x, m_hOwner.OverrideCOM.y, m_hOwner.OverrideCOM.z), 1.5f).setOnUpdateVector3(SetCenterOfMass);
 
->>>>>>> origin/master
+            m_hOwner.m_hConstanForce.enabled = false;
+            LeanTween.value(m_hOwner.gameObject, new Vector3(m_hOwner.m_hRigidbody.centerOfMass.x, m_hOwner.m_hRigidbody.centerOfMass.y, m_hOwner.m_hRigidbody.centerOfMass.z), new Vector3(m_hOwner.OverrideCOM.x, m_hOwner.OverrideCOM.y, m_hOwner.OverrideCOM.z), 1.5f).setOnUpdateVector3(SetCenterOfMass);
+
             m_hOwner.IsFlying = false;
         }
 
