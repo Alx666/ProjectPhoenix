@@ -128,6 +128,8 @@ GameObject:
   - 4: {fileID: 413698}
   - 65: {fileID: 6511630}
   - 114: {fileID: 11487026}
+  - 114: {fileID: 11484754}
+  - 114: {fileID: 11422724}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -194,7 +196,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 404060}
   - 114: {fileID: 11459298}
-  - 114: {fileID: 11423420}
   m_Layer: 0
   m_Name: WEA_SOLOGUN_000
   m_TagString: Untagged
@@ -805,38 +806,26 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 10
   m_InterpolateMovement: 1
---- !u!114 &11423420
+--- !u!114 &11422724
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 168360}
+  m_GameObject: {fileID: 145308}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 147
-    i1: 250
-    i2: 173
-    i3: 234
-    i4: 48
-    i5: 199
-    i6: 192
-    i7: 244
-    i8: 155
-    i9: 67
-    i10: 177
-    i11: 111
-    i12: 213
-    i13: 178
-    i14: 169
-    i15: 20
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &11435262
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -908,6 +897,38 @@ MonoBehaviour:
   BulletDelay: 0.3
   BarrageDelay: 0.3
   Barrage: 1
+--- !u!114 &11484754
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 145308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 147
+    i1: 250
+    i2: 173
+    i3: 234
+    i4: 48
+    i5: 199
+    i6: 192
+    i7: 244
+    i8: 155
+    i9: 67
+    i10: 177
+    i11: 111
+    i12: 213
+    i13: 178
+    i14: 169
+    i15: 20
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11487026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -935,12 +956,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8224965cf0fff0647b4ebdf860a77a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OverrideCenterOfMass: 1
+  SyncGfxWheels: 1
+  CurrentSpeed: 
   Hp: 700000
   SteerAngle: 30
   MaxSpeed: 200
-  CurrentSpeed: 
-  SyncGfxWheels: 1
-  OverrideCenterOfMass: 1
   OverrideCOM: {x: 0, y: 0, z: -0.1}
 --- !u!146 &14603554
 WheelCollider:

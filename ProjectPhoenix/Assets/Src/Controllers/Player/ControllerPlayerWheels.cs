@@ -249,7 +249,7 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 
     public void MousePosition(Vector3 vMousePosition)
     {
-        if (m_hTurret != null)
+        if (m_hTurret != null && isLocalPlayer)
             m_hTurret.UpdateRotation(vMousePosition);
     }
 

@@ -97,7 +97,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 468388}
   - 114: {fileID: 11449362}
-  - 114: {fileID: 11421040}
   m_Layer: 0
   m_Name: WEA_VULCAN_000
   m_TagString: Untagged
@@ -277,6 +276,8 @@ GameObject:
   - 4: {fileID: 414584}
   - 65: {fileID: 6591284}
   - 114: {fileID: 11408822}
+  - 114: {fileID: 11450590}
+  - 114: {fileID: 11498784}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -796,12 +797,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8224965cf0fff0647b4ebdf860a77a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OverrideCenterOfMass: 1
+  SyncGfxWheels: 1
+  CurrentSpeed: 
   Hp: 400000
   SteerAngle: 30
   MaxSpeed: 200
-  CurrentSpeed: 
-  SyncGfxWheels: 1
-  OverrideCenterOfMass: 1
   OverrideCOM: {x: 0, y: 0, z: -0.1}
 --- !u!114 &11408822
 MonoBehaviour:
@@ -819,38 +820,6 @@ MonoBehaviour:
   RotationSpeed: 15
   MinAngle: -45
   MaxAngle: 15
---- !u!114 &11421040
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 132814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 81
-    i1: 79
-    i2: 124
-    i3: 167
-    i4: 189
-    i5: 130
-    i6: 134
-    i7: 228
-    i8: 203
-    i9: 81
-    i10: 108
-    i11: 127
-    i12: 185
-    i13: 30
-    i14: 90
-    i15: 166
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &11443808
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -922,6 +891,38 @@ MonoBehaviour:
   Up: 304
   Down: 32
   Fire: 323
+--- !u!114 &11450590
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 81
+    i1: 79
+    i2: 124
+    i3: 167
+    i4: 189
+    i5: 130
+    i6: 134
+    i7: 228
+    i8: 203
+    i9: 81
+    i10: 108
+    i11: 127
+    i12: 185
+    i13: 30
+    i14: 90
+    i15: 166
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11452792
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -941,6 +942,26 @@ MonoBehaviour:
   m_MovementTheshold: 0.001
   m_SnapThreshold: 5
   m_InterpolateRotation: 10
+  m_InterpolateMovement: 1
+--- !u!114 &11498784
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
   m_InterpolateMovement: 1
 --- !u!146 &14650832
 WheelCollider:

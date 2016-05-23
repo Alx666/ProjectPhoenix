@@ -38,14 +38,14 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
 
         if (Physics.Raycast(this.transform.position, this.transform.forward, out vRaycast, fSpace))
         {
-            IDamageable hHit = vRaycast.collider.gameObject.GetComponent<IDamageable>(); //ToDo: refactoring a actor
+            Actor hHit = vRaycast.collider.gameObject.GetComponent<Actor>();
 
             if (hHit != null)
             {
                 if (m_hParticlesController != null)
                     m_hParticlesController.PlayHitVfx(vRaycast.point, vRaycast.normal);
 
-                if (isServer)
+                if (localPlayerAuthority)
                     hHit.Damage(Damage);//non necessita di rpc perche agisce su Hp syncVar
             }
             else

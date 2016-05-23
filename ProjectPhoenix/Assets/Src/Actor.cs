@@ -12,6 +12,13 @@ public class Actor : NetworkBehaviour, IDamageable
     private ArmorType Armor;
     //[SerializeField]private List<Skill> m_hSkills;
 
+    
+    void Update()
+    {
+        if (Hp <= 0)
+            Die();
+    }
+
     #region Damageable
     public void Damage(object damage)
     {
@@ -23,6 +30,11 @@ public class Actor : NetworkBehaviour, IDamageable
         Hp -= fDmg;
     }
     #endregion
+
+    public virtual void Die()
+    {
+        Destroy(this.gameObject); //temp
+    }
 }
 
 public enum ArmorType
