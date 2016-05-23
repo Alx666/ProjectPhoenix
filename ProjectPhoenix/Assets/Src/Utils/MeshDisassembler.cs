@@ -153,7 +153,7 @@ public class MeshDisassembler : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<ControllerPlayerWheels>())
+        if (collision.gameObject.GetComponent<ControllerWheels>())
             Disassemble();
     }
 

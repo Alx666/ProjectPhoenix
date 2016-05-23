@@ -6,7 +6,7 @@ using System;
 using UnityEngine.Networking;
 
 [RequireComponent(typeof(ConstantForce))]
-public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
+public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 {
 
     public bool OverrideCenterOfMass;
@@ -21,10 +21,11 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
     public Vector3 OverrideCOM;
 
 
-    private bool m_hForward = false;
-    private bool m_hBackward = false;
-    private bool m_hRight = false;
-    private bool m_hLeft = false;
+    public bool m_hForward  { get; set; }
+    public bool m_hBackward { get; set; }
+    public bool m_hRight    { get; set; }
+    public bool m_hLeft { get; set; }
+
     internal bool IsFlying = false;
 
     private IFlyState m_hFlyState;
@@ -46,6 +47,11 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 
     void Awake()
     {
+        m_hForward = false;
+        m_hBackward = false;
+        m_hRight = false;
+        m_hLeft = false;
+
         m_hWheels = new List<Wheel>();
         m_hRigidbody = this.GetComponent<Rigidbody>();
 
@@ -407,8 +413,8 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 
     private class GroundState : IFlyState
     {
-        private ControllerPlayerWheels m_hOwner;
-        public GroundState(ControllerPlayerWheels hOwner)
+        private ControllerWheels m_hOwner;
+        public GroundState(ControllerWheels hOwner)
         {
             m_hOwner = hOwner;
         }
@@ -450,8 +456,8 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 
     private class FlyState : IFlyState
     {
-        private ControllerPlayerWheels m_hOwner;
-        public FlyState(ControllerPlayerWheels hOwner)
+        private ControllerWheels m_hOwner;
+        public FlyState(ControllerWheels hOwner)
         {
             m_hOwner = hOwner;
         }
@@ -491,9 +497,9 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 
     private class TurnedState : IFlyState
     {
-        private ControllerPlayerWheels m_hOwner;
+        private ControllerWheels m_hOwner;
         private Vector3 m_vTurnOverride;
-        public TurnedState(ControllerPlayerWheels hOwner, Vector3 vTurnOverride)
+        public TurnedState(ControllerWheels hOwner, Vector3 vTurnOverride)
         {
             m_hOwner = hOwner;
             m_vTurnOverride = vTurnOverride;
