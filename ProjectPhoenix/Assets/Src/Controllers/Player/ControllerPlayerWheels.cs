@@ -9,30 +9,37 @@ using UnityEngine.Networking;
 public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 {
 
+    public bool OverrideCenterOfMass;
+    public bool SyncGfxWheels;
+
+    public string CurrentSpeed = string.Empty;
+
     public float Hp = 100f;
     public float SteerAngle = 30f;
     public float MaxSpeed = 50f;
-    public string CurrentSpeed = string.Empty;
-    public bool SyncGfxWheels;
 
-    public bool OverrideCenterOfMass;
     public Vector3 OverrideCOM;
 
-    private List<Wheel> m_hWheels;
-    private List<FakeWheel> m_hFakeWheels;
-    private Rigidbody m_hRigidbody;
-    private Drive m_hEngine;
-    private VehicleTurret m_hTurret;
-    private ConstantForce m_hConstanForce;
-    private Weapon m_hCurrentWeapon; //temp
-    private IFlyState m_hFlyState;
-    private Vector3 m_hReverseCOM;
 
     private bool m_hForward = false;
     private bool m_hBackward = false;
     private bool m_hRight = false;
     private bool m_hLeft = false;
     internal bool IsFlying = false;
+
+    private IFlyState m_hFlyState;
+
+    private List<Wheel> m_hWheels;
+    private List<FakeWheel> m_hFakeWheels;
+    private Drive m_hEngine;
+    private VehicleTurret m_hTurret;
+    private Weapon m_hCurrentWeapon; //temp
+    private Rigidbody m_hRigidbody;
+    private ConstantForce m_hConstanForce;
+
+    private Vector3 m_hReverseCOM;
+    private Vector3 m_hOriginalCOM;
+
 
 
     void Awake()
@@ -59,6 +66,8 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 
         m_hConstanForce = this.GetComponent<ConstantForce>();
         m_hReverseCOM = new Vector3(0.0f, -2.0f, 0.0f);
+
+        m_hOriginalCOM = m_hRigidbody.centerOfMass;
 
 
         GroundState hGroundState = new GroundState(this);
@@ -309,23 +318,23 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 
         public void OnUpdate(bool IsCarflying)
         {
-            if (IsCarflying)
-            {
-                m_fMotorTorqueMultiplier = 0f;
-                if (m_hWheels.TrueForAll(hW => hW.Collider.rpm > 100f))
-                {
-                    m_hWheels.ForEach(hW => hW.Collider.brakeTorque = m_fHp);
-                }
-                else
-                {
-                    m_hWheels.ForEach(hW => hW.Collider.brakeTorque = 0f);
-                }
-            }
-            else
-            {
-                m_hWheels.ForEach(hW => hW.Collider.brakeTorque = 0f);
-                m_fMotorTorqueMultiplier = 0.25f;
-            }
+            //if (IsCarflying)
+            //{
+            //    m_fMotorTorqueMultiplier = 0f;
+            //    if (m_hWheels.TrueForAll(hW => hW.Collider.rpm > 200f))
+            //    {
+            //        m_hWheels.ForEach(hW => hW.Collider.brakeTorque = m_fHp);
+            //    }
+            //    else
+            //    {
+            //        m_hWheels.ForEach(hW => hW.Collider.brakeTorque = 0f);
+            //    }
+            //}
+            //else
+            //{
+            //    m_hWheels.ForEach(hW => hW.Collider.brakeTorque = 0f);
+            //    m_fMotorTorqueMultiplier = 0.25f;
+            //}
         }
 
         public void BeginAccelerate()
@@ -405,7 +414,6 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
     private class GroundState : IFlyState
     {
         private ControllerPlayerWheels m_hOwner;
-        LTDescr ltd;
         public GroundState(ControllerPlayerWheels hOwner)
         {
             m_hOwner = hOwner;
@@ -415,8 +423,8 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
         {
             if (m_hOwner.m_hRigidbody.velocity.magnitude > 0f && m_hOwner.m_hRigidbody.velocity.magnitude < 1f && m_hOwner.m_hForward == false && m_hOwner.m_hBackward == false)
                 m_hOwner.m_hRigidbody.velocity = Vector3.zero;
-            m_hOwner.m_hConstanForce.enabled = false;
-            ltd = LeanTween.value(m_hOwner.gameObject, new Vector3(m_hOwner.m_hRigidbody.centerOfMass.x, m_hOwner.m_hRigidbody.centerOfMass.y, m_hOwner.m_hRigidbody.centerOfMass.z), new Vector3(m_hOwner.OverrideCOM.x, m_hOwner.OverrideCOM.y, m_hOwner.OverrideCOM.z), 1.5f).setOnUpdateVector3(SetCenterOfMass);
+            //m_hOwner.m_hConstanForce.enabled = false;
+            //LeanTween.value(m_hOwner.gameObject, new Vector3(m_hOwner.m_hRigidbody.centerOfMass.x, m_hOwner.m_hRigidbody.centerOfMass.y, m_hOwner.m_hRigidbody.centerOfMass.z), new Vector3(m_hOwner.m_hRigidbody.centerOfMass.x, m_hOwner.OverrideCOM.y, m_hOwner.m_hRigidbody.centerOfMass.z), 0.5f).setOnUpdateVector3(SetCenterOfMass);
             
             m_hOwner.IsFlying = false;
         }
@@ -454,7 +462,7 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 
         public void OnEnter()
         {
-            m_hOwner.m_hRigidbody.ResetCenterOfMass();
+            //LeanTween.value(m_hOwner.gameObject, new Vector3(m_hOwner.m_hRigidbody.centerOfMass.x, m_hOwner.m_hRigidbody.centerOfMass.y, m_hOwner.m_hRigidbody.centerOfMass.z), new Vector3(m_hOwner.m_hRigidbody.centerOfMass.x, m_hOwner.m_hOriginalCOM.y, m_hOwner.m_hRigidbody.centerOfMass.z), 0.5f).setOnUpdateVector3(SetCenterOfMass);
             m_hOwner.m_hConstanForce.enabled = true;
             m_hOwner.IsFlying = true;
         }
@@ -475,6 +483,11 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
                 return this;
 
         }
+
+        private void SetCenterOfMass(Vector3 val)
+        {
+            m_hOwner.m_hRigidbody.centerOfMass = val;
+        }
     }
 
     private class TurnedState : IFlyState
@@ -491,7 +504,7 @@ public class ControllerPlayerWheels : NetworkBehaviour, IControllerPlayer
 
         public void OnEnter()
         {
-            m_hOwner.m_hRigidbody.centerOfMass = m_vTurnOverride;
+            //m_hOwner.m_hRigidbody.centerOfMass = m_vTurnOverride;
         }
 
         public IFlyState Update()
