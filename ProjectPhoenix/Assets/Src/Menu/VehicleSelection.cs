@@ -17,7 +17,7 @@ public class VehicleSelection : MonoBehaviour
     private LinkedList<GameObject>      m_hList;
     private Dictionary<GameObject, string> m_hCarNames;
     private bool m_bEnable;
-    private const float m_fTweenTime = 1.0f;
+    private const float m_fTweenTime = 0.5f;
     private const float m_fRotationSpeed = 20.0f;
 
     void Awake()
