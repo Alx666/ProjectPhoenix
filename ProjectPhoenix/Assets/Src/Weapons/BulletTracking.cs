@@ -16,7 +16,7 @@ public class BulletTracking : NetworkBehaviour, IBullet, IPoolable
     public float Duration = 0f;
     [Range(1f, 5f)]
     public float Force = 2f;
-    public void Shoot(Vector3 vPosition, Vector3 vDirection)
+    public void Shoot(Vector3 vPosition, Vector3 vDirection, Vector3 vWDirection)
     {
         this.gameObject.transform.position = vPosition;
         RaycastHit vRaycast;

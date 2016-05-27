@@ -230,7 +230,7 @@ public class Weapon : MonoBehaviour, IWeapon
             }
 
             IBullet hBullet = GlobalFactory.GetInstance<IBullet>(m_hOwner.BulletPrefab);
-            hBullet.Shoot(vPosition, vDirection);
+            hBullet.Shoot(vPosition, vDirection, m_hOwner.transform.forward);
 
             m_hOwner.QueueLocators.Enqueue(hNextLocator);
         }

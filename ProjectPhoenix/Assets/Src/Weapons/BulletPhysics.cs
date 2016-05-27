@@ -47,7 +47,7 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
         
     }
 
-    public void Shoot(Vector3 vPosition, Vector3 vDirection)
+    public void Shoot(Vector3 vPosition, Vector3 vDirection, Vector3 vWDirection)
     {
         if (m_hParticlesController != null)
             m_hParticlesController.PlayMuzzleVfx(vPosition, vDirection);

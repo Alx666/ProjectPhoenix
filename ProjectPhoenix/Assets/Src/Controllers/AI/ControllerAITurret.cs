@@ -243,7 +243,7 @@ internal class ControllerAITurret : NetworkBehaviour
                     {
                         //TODO:da sostituire
                         BulletPhysics hBullet = (GameObject.Instantiate(m_hOwner.m_hWeapon.BulletPrefab) as GameObject).GetComponent<BulletPhysics>();
-                        hBullet.Shoot(m_hOwner.ShootLocator.transform.position, m_hOwner.ShootLocator.transform.forward);
+                        hBullet.Shoot(m_hOwner.ShootLocator.transform.position, m_hOwner.ShootLocator.transform.forward, m_hOwner.AxeXrot.transform.forward);
                         NetworkServer.Spawn(hBullet.gameObject);
                         m_fShootTimer = 2f;
                     }

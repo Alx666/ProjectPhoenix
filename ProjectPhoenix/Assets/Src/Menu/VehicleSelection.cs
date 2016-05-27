@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 
 public class VehicleSelection : MonoBehaviour
 {
@@ -24,13 +26,22 @@ public class VehicleSelection : MonoBehaviour
     {
         m_hList = new LinkedList<GameObject>();
         m_hCarNames = new Dictionary<GameObject, string>();
-        Vehicles.ForEach(hV => 
+        Vehicles.ForEach(hV =>
         {
             GameObject hNew = GameObject.Instantiate(hV, SpawnPosition.position, Quaternion.identity) as GameObject;
             hNew.GetComponent<VehiclePrefabMGR>().VehiclePrefab = hV;
             m_hList.AddLast(hNew);
-            m_hCarNames.Add(hNew, hNew.ToString());
+            string m_sVname = hNew.GetComponent<VehiclePrefabMGR>().VehicleName;
+            if (m_sVname != string.Empty)
+            {
+                m_hCarNames.Add(hNew, m_sVname);
+            }
+            else
+            {
+                m_hCarNames.Add(hNew, hNew.ToString());
+            }
         });
+        
     }
 
 	// Use this for initialization
