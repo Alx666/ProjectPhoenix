@@ -164,7 +164,7 @@ GameObject:
   - 114: {fileID: 11437604}
   - 75: {fileID: 7555636}
   m_Layer: 0
-  m_Name: VEH_WHEEL_006
+  m_Name: VEH_WHEEL_BUMBLEBEE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -582,12 +582,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8224965cf0fff0647b4ebdf860a77a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OverrideCenterOfMass: 0
+  SyncGfxWheels: 1
+  CurrentSpeed: 
   Hp: 500
   SteerAngle: 30
   MaxSpeed: 100
-  CurrentSpeed: 
-  SyncGfxWheels: 1
-  OverrideCenterOfMass: 0
   OverrideCOM: {x: 0, y: 0, z: 0}
 --- !u!114 &11469800
 MonoBehaviour:
@@ -603,22 +603,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 247
-    i1: 58
-    i2: 250
-    i3: 30
-    i4: 116
-    i5: 195
-    i6: 116
-    i7: 20
-    i8: 137
-    i9: 140
-    i10: 27
-    i11: 54
-    i12: 27
-    i13: 200
-    i14: 254
-    i15: 11
+    i0: 120
+    i1: 112
+    i2: 166
+    i3: 134
+    i4: 182
+    i5: 154
+    i6: 72
+    i7: 212
+    i8: 26
+    i9: 20
+    i10: 135
+    i11: 248
+    i12: 197
+    i13: 52
+    i14: 96
+    i15: 70
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
 --- !u!146 &14610872
