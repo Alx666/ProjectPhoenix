@@ -11,10 +11,10 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
     public float VelocityForce;
     public float VelocityRotation;
     public GameObject rotor;
+    public Rigidbody HeliRigidBody { get; set; }
 
 
     Plane playerPlane;
-    Rigidbody heliRigidbody;
     Vector3 mousePos;
     bool isGrounded;
     float mass;
@@ -30,8 +30,8 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
 
     void Awake()
     {
-        this.heliRigidbody = GetComponent<Rigidbody>();
-        this.mass = heliRigidbody.mass;
+        this.HeliRigidBody = GetComponent<Rigidbody>();
+        this.mass = HeliRigidBody.mass;
         this.isGrounded = true;
         this.playerPlane = new Plane(Vector3.up, this.transform.position);
         m_hCurrentWeapon = GetComponentInChildren<IWeapon>();
@@ -78,13 +78,13 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
 
         var upForce = 1f - Mathf.Clamp01(this.transform.position.y / targetHeight);
         upForce = Mathf.Lerp(0f, engineForce, upForce) * mass;
-        this.heliRigidbody.AddForce(Vector3.up * upForce);
+        this.HeliRigidBody.AddForce(Vector3.up * upForce);
     }
     private void Move()
     {
-        this.heliRigidbody.AddForce(heliRigidbody.transform.forward * VelocityForce * forwardForce);
-        this.heliRigidbody.AddForce(heliRigidbody.transform.right * VelocityForce * strafeForce);
-        this.heliRigidbody.velocity = Vector3.ClampMagnitude(this.heliRigidbody.velocity, MaxVelocityMagnitude);
+        this.HeliRigidBody.AddForce(HeliRigidBody.transform.forward * VelocityForce * forwardForce);
+        this.HeliRigidBody.AddForce(HeliRigidBody.transform.right * VelocityForce * strafeForce);
+        this.HeliRigidBody.velocity = Vector3.ClampMagnitude(this.HeliRigidBody.velocity, MaxVelocityMagnitude);
     }
     private void Inclination()
     {

@@ -77,7 +77,7 @@ public class WeaponBeam : MonoBehaviour, IWeapon
         {
             if (m_hWB.m_bFire && m_hWB.m_fDurationTime > 0f && !m_hWB.m_bCompleteDischarge)
             {
-                m_hWB.ShootLocators.ForEach(hS => hS.transform.forward = m_hWB.Direction);
+                m_hWB.ShootLocators.ForEach(hS => m_hWB.Direction = hS.transform.forward);
                 m_hWB.m_hBeam.Enable(m_hWB.ShootLocators.First().transform.position, m_hWB.Direction);
                 m_hWB.m_bRecharging = false;
                 m_hWB.m_fDurationTime -= Time.deltaTime;

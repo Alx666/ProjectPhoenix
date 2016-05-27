@@ -76,9 +76,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 497558}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!4 &484438
 Transform:
   m_ObjectHideFlags: 1
@@ -88,9 +89,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 497558}
-  m_RootOrder: 2
+  m_RootOrder: 0
 --- !u!4 &488500
 Transform:
   m_ObjectHideFlags: 1
@@ -100,9 +102,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 497558}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!4 &497558
 Transform:
   m_ObjectHideFlags: 1
@@ -112,10 +115,11 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.3, y: -0.3, z: -24.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
+  - {fileID: 484438}
   - {fileID: 423416}
   - {fileID: 488500}
-  - {fileID: 484438}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!108 &10892426
@@ -133,7 +137,7 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 1
+    m_Type: 0
     m_Resolution: -1
     m_Strength: 0.536
     m_Bias: 0.05
@@ -162,6 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 698cb2e92ef08904ab513a405d138ef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FlameLight: {fileID: 10892426}
   MaxFireLength: 10
   DPS: 50
   DoT: 10
@@ -179,22 +184,22 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 0
-    i1: 0
-    i2: 0
-    i3: 0
-    i4: 0
-    i5: 0
-    i6: 0
-    i7: 0
-    i8: 0
-    i9: 0
-    i10: 0
-    i11: 0
-    i12: 0
-    i13: 0
-    i14: 0
-    i15: 0
+    i0: 220
+    i1: 61
+    i2: 79
+    i3: 254
+    i4: 165
+    i5: 33
+    i6: 181
+    i7: 164
+    i8: 137
+    i9: 19
+    i10: 133
+    i11: 37
+    i12: 243
+    i13: 129
+    i14: 184
+    i15: 249
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 0
 --- !u!198 &19827106
