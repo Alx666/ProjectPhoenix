@@ -14,6 +14,7 @@ GameObject:
   - 75: {fileID: 7586070}
   - 114: {fileID: 11446974}
   - 114: {fileID: 11406554}
+  - 114: {fileID: 11432460}
   m_Layer: 0
   m_Name: VEH_WHEEL_RHINO
   m_TagString: Untagged
@@ -287,22 +288,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &185882
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 448988}
-  - 114: {fileID: 11491762}
-  m_Layer: 0
-  m_Name: WEA_SOLOGUN_000
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!4 &400524
 Transform:
   m_ObjectHideFlags: 1
@@ -417,18 +402,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 498120}
   m_RootOrder: 3
---- !u!4 &448988
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 185882}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 498120}
-  m_RootOrder: 7
 --- !u!4 &459644
 Transform:
   m_ObjectHideFlags: 1
@@ -490,7 +463,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 498120}
-  m_RootOrder: 8
+  m_RootOrder: 7
 --- !u!4 &489240
 Transform:
   m_ObjectHideFlags: 1
@@ -532,7 +505,6 @@ Transform:
   - {fileID: 470170}
   - {fileID: 409098}
   - {fileID: 408718}
-  - {fileID: 448988}
   - {fileID: 488748}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -917,6 +889,25 @@ MonoBehaviour:
   Up: 304
   Down: 32
   Fire: 323
+--- !u!114 &11432460
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletPrefab: {fileID: 149850, guid: 380d428858fec08488c8ee3be63c0658, type: 2}
+  ShootLocators:
+  - {fileID: 169320}
+  Mode: 0
+  Spread: 0
+  BulletDelay: 0.3
+  BarrageDelay: 0.3
+  Barrage: 1
 --- !u!114 &11446974
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -948,10 +939,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8224965cf0fff0647b4ebdf860a77a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OverrideCenterOfMass: 0
+  SyncGfxWheels: 0
+  CurrentSpeed: 
   Hp: 500
   SteerAngle: 30
   MaxSpeed: 100
-  CenterOfMassY: -0.6
+  OverrideCOM: {x: 0, y: 0, z: 0}
 --- !u!114 &11484872
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -968,25 +962,6 @@ MonoBehaviour:
   RotationSpeed: 15
   MinAngle: -45
   MaxAngle: 15
---- !u!114 &11491762
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 185882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 149850, guid: 380d428858fec08488c8ee3be63c0658, type: 2}
-  ShootLocators:
-  - {fileID: 169320}
-  Mode: 0
-  Spread: 0
-  BulletDelay: 0.3
-  BarrageDelay: 0.3
-  Barrage: 1
 --- !u!114 &11494732
 MonoBehaviour:
   m_ObjectHideFlags: 1
