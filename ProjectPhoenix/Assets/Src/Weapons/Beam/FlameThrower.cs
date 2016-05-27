@@ -7,14 +7,21 @@ using System.Linq;
 
 public class FlameThrower : MonoBehaviour, IBeam
 {
+    public Light FlameLight;
+
     public float MaxFireLength;
     public float DPS;
     public float DoT;
+
+    private float LightIntensity;
+
 
     private List<ParticleSystem> m_hParticleSystems;
     void Awake()
     {
         m_hParticleSystems = this.GetComponentsInChildren<ParticleSystem>().ToList();
+        FlameLight.enabled = false;
+        LightIntensity = FlameLight.intensity;
     }
 
     public void Enable(Vector3 vPos, Vector3 vDir)
@@ -22,6 +29,8 @@ public class FlameThrower : MonoBehaviour, IBeam
         this.gameObject.transform.position = vPos;
         this.gameObject.transform.forward = vDir;
         m_hParticleSystems.ForEach(hP => hP.Play());
+        FlameLight.enabled = true;
+        FlameLight.intensity = LightIntensity;
 
         RaycastHit m_hHitPoint = new RaycastHit();
         Ray vRay = new Ray(transform.position, transform.forward);
@@ -42,5 +51,11 @@ public class FlameThrower : MonoBehaviour, IBeam
     public void Disable()
     {
         m_hParticleSystems.ForEach(hP => hP.Stop());
+        LeanTween.value(FlameLight.gameObject, LightIntensity, 0.0f, 0.5f).setOnUpdate(TweenLightIntensity);
+    }
+
+    private void TweenLightIntensity(float val)
+    {
+        FlameLight.intensity = val;
     }
 }
