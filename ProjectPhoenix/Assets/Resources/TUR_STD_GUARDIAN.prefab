@@ -483,13 +483,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BulletPrefab: {fileID: 100004, guid: ad2f37db01e48db489831044aacce1c1, type: 2}
-  ShootLocators:
-  - {fileID: 138642}
-  - {fileID: 102824}
-  Mode: 0
+  ShootLocators: []
+  Mode: 1
   Spread: 0
-  BulletDelay: 0.1
-  BarrageDelay: 0.1
+  BulletDelay: 0.5
+  BarrageDelay: 0.01
   Barrage: 1
 --- !u!1001 &100100000
 Prefab:
