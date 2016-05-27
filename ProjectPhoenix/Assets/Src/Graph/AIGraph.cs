@@ -1,6 +1,7 @@
 ﻿using Graph;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class AIGraph : MonoBehaviour, IEnumerable<POI>, ISerializationCallbackReceiver
@@ -70,6 +71,17 @@ public class AIGraph : MonoBehaviour, IEnumerable<POI>, ISerializationCallbackRe
     public void OnAfterDeserialize()
     {
         m_hGraph = Graph<POI>.FromBinary<POI>(m_hSaveData);
+    }
+
+    public bool IsEmpty
+    {
+        get { return m_hGraph == null; }
+    }
+
+    public void Initialize()
+    {
+        m_hGraph = new Graph<POI>();
+        POI.Counter = m_hGraph.Nodes.Max(hP => hP.Id);
     }
 
     #endregion 

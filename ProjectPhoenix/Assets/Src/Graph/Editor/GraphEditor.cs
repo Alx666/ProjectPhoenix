@@ -24,8 +24,8 @@ public class GraphEditor : Editor
     void OnEnable()
     {
         m_hTarget = this.target as AIGraph;
-        if (m_hTarget != null && m_hTarget.m_hGraph == null)
-            m_hTarget.m_hGraph = new Graph<POI>();
+        if (m_hTarget.IsEmpty)
+            m_hTarget.Initialize();
     }
 
     public override void OnInspectorGUI()

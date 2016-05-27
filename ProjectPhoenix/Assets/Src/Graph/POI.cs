@@ -5,7 +5,7 @@ using UnityEngine;
 [Serializable]
 public class POI : Graph<POI>.Node
 {
-    private static int m_hCounter;
+    public static int Counter { get; set; }
 
     public Vector3  Position    { get; set; }
     public NodeType Type        { get; set; }
@@ -15,7 +15,7 @@ public class POI : Graph<POI>.Node
     {
     }
     
-    public POI(Vector3 Position, NodeType Type) : base(m_hCounter++)
+    public POI(Vector3 Position, NodeType Type) : base(Counter++)
     {
         this.Position = Position;
         this.Type = Type;
@@ -29,4 +29,6 @@ public class POI : Graph<POI>.Node
         Turret = 2,
         Building = 3,
     }
+
+
 }

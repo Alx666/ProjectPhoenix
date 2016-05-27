@@ -11,7 +11,7 @@ namespace Graph
 {
     [Serializable]
     public class Graph<T> : IEnumerable<T> where T : Graph<T>.Node
-    {
+    {      
         public List<T> Nodes { get; private set; }
 
         public Graph()
