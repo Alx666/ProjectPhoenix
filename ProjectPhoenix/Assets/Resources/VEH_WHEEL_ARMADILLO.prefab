@@ -64,6 +64,7 @@ GameObject:
   - 75: {fileID: 7598642}
   - 114: {fileID: 11452792}
   - 114: {fileID: 11443808}
+  - 114: {fileID: 11406046}
   m_Layer: 0
   m_Name: VEH_WHEEL_ARMADILLO
   m_TagString: Untagged
@@ -83,22 +84,6 @@ GameObject:
   - 23: {fileID: 2340722}
   m_Layer: 0
   m_Name: WheelFRgfx
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &132814
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 468388}
-  - 114: {fileID: 11449362}
-  m_Layer: 0
-  m_Name: WEA_VULCAN_000
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -368,7 +353,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 479316}
-  m_RootOrder: 8
+  m_RootOrder: 7
 --- !u!4 &436804
 Transform:
   m_ObjectHideFlags: 1
@@ -467,18 +452,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 479316}
   m_RootOrder: 4
---- !u!4 &468388
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 132814}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 479316}
-  m_RootOrder: 7
 --- !u!4 &477278
 Transform:
   m_ObjectHideFlags: 1
@@ -520,7 +493,6 @@ Transform:
   - {fileID: 465520}
   - {fileID: 415024}
   - {fileID: 478738}
-  - {fileID: 468388}
   - {fileID: 434898}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -876,10 +848,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8224965cf0fff0647b4ebdf860a77a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OverrideCenterOfMass: 0
+  SyncGfxWheels: 0
+  CurrentSpeed: 
   Hp: 500
   SteerAngle: 30
   MaxSpeed: 100
-  CenterOfMassY: 0.6
+  OverrideCOM: {x: 0, y: 0, z: 0}
 --- !u!114 &11404512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -894,6 +869,25 @@ MonoBehaviour:
   RelativePosition: 0.35
   LerpSpeed: 5
   VelocityZoomCoeff: 0.9
+--- !u!114 &11406046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 116616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletPrefab: {fileID: 149850, guid: 380d428858fec08488c8ee3be63c0658, type: 2}
+  ShootLocators:
+  - {fileID: 167216}
+  Mode: 0
+  Spread: 0
+  BulletDelay: 0.3
+  BarrageDelay: 0.015
+  Barrage: 1
 --- !u!114 &11408822
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -924,43 +918,24 @@ MonoBehaviour:
   m_SceneId:
     m_Value: 0
   m_AssetId:
-    i0: 81
-    i1: 79
-    i2: 124
-    i3: 167
-    i4: 189
-    i5: 130
-    i6: 134
-    i7: 228
-    i8: 203
-    i9: 81
-    i10: 108
-    i11: 127
-    i12: 185
-    i13: 30
-    i14: 90
-    i15: 166
+    i0: 141
+    i1: 213
+    i2: 130
+    i3: 94
+    i4: 46
+    i5: 211
+    i6: 154
+    i7: 180
+    i8: 9
+    i9: 16
+    i10: 238
+    i11: 197
+    i12: 166
+    i13: 111
+    i14: 93
+    i15: 37
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
---- !u!114 &11449362
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 132814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 149850, guid: 380d428858fec08488c8ee3be63c0658, type: 2}
-  ShootLocators:
-  - {fileID: 167216}
-  Mode: 0
-  Spread: 0
-  BulletDelay: 0.3
-  BarrageDelay: 0.015
-  Barrage: 1
 --- !u!114 &11450166
 MonoBehaviour:
   m_ObjectHideFlags: 1
