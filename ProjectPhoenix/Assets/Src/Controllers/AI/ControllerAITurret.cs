@@ -35,10 +35,11 @@ internal class ControllerAITurret : NetworkBehaviour
     {
         m_hIdle             = new StateIdle(this);
         m_hPatrol           = new StatePatrol(this);
+
         switch ((int)AimMode)
         {
             case 1:
-                m_hPatrol.Next      = new StateAimBallistic(this); 
+                m_hPatrol.Next = new StateAimBallistic(this); 
                 break;
             case 2:
                 m_hPatrol.Next = new StateAimDirect(this); 
@@ -54,11 +55,6 @@ internal class ControllerAITurret : NetworkBehaviour
         m_hWeapon = this.GetComponent<Weapon>();
     }
 
-    private void Start()
-    {
-        
-    }
-    
     private void Update()
     {
         if (m_bHasTarget && m_hTarget == null)
@@ -283,7 +279,6 @@ internal class ControllerAITurret : NetworkBehaviour
         }
     }
 
-
     private class StateAimDirect : IState
     {
         private ControllerAITurret Owner;
@@ -351,8 +346,6 @@ internal class ControllerAITurret : NetworkBehaviour
         public float AnimationRangeX    = 45f;
         public float AnimationRangeY    = 180f;
     }
-
-
     #endregion
 
 }
