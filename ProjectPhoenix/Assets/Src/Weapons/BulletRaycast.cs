@@ -45,7 +45,7 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
                 if (m_hParticlesController != null)
                     m_hParticlesController.PlayHitVfx(vRaycast.point, vRaycast.normal);
 
-                if (localPlayerAuthority)
+                if (isServer)
                     hHit.Damage(Damage);//non necessita di rpc perche agisce su Hp syncVar
             }
             else
@@ -53,8 +53,8 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
                 if (m_hParticlesController != null)
                     m_hParticlesController.PlayMissVfx(vRaycast.point, vRaycast.normal);
             }
-
-            GlobalFactory.Recycle(this.gameObject);
+            if(isServer)
+                GlobalFactory.Recycle(this.gameObject);
         }
         else
         {
@@ -62,7 +62,7 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
 
             m_fTotalDistance += fSpace;
 
-            if (m_fTotalDistance > MaxDistance)
+            if (m_fTotalDistance > MaxDistance && isServer)
                 GlobalFactory.Recycle(this.gameObject);
         }
     }
@@ -77,11 +77,29 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
     {
         this.gameObject.SetActive(true);
         m_fTotalDistance = 0f;
+
+        if (isServer)
+            RpcEnable();
+    }
+
+    [ClientRpc]
+    void RpcEnable()
+    {
+        Enable();
     }
 
     public void Disable()
     {
         this.gameObject.SetActive(false);
+
+        if (isServer)
+            RpcDisable();
+    }
+
+    [ClientRpc]
+    void RpcDisable()
+    {
+        Disable();
     }
 
     #endregion

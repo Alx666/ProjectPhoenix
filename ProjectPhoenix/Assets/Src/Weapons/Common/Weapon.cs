@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.Networking;
 
 
-public class Weapon : MonoBehaviour, IWeapon
+public class Weapon : NetworkBehaviour, IWeapon
 {
     public GameObject BulletPrefab;
     public List<GameObject> ShootLocators;
     private Queue<GameObject> QueueLocators;
-
+    internal delegate void SpawnBulletDelegate(object sender, ShootData e);
+    internal event SpawnBulletDelegate OnSpawnBullet;
 
     public ShootMode Mode;
 
@@ -34,7 +35,7 @@ public class Weapon : MonoBehaviour, IWeapon
     private void Awake()
     {
         QueueLocators = new Queue<GameObject>(ShootLocators);
-
+        OnSpawnBullet += Weapon_OnSpawnBullet;
         m_hPool = GlobalFactory.GetPool(BulletPrefab);
 
         //Automatic State Machine Composition
@@ -70,6 +71,34 @@ public class Weapon : MonoBehaviour, IWeapon
         hLast.Next = m_hTrigger;
         m_hStateMachine = hLast;
     }
+
+    private void Weapon_OnSpawnBullet(object sender, ShootData e)
+    {
+        RpcShoot(e.nId, e.vPos, e.vDir);
+    }
+
+    [ClientRpc]
+    private void RpcShoot(NetworkInstanceId bulletId, Vector3 pos, Vector3 dir)
+    {
+        GameObject bullet = ClientScene.FindLocalObject(bulletId);
+        IBullet bulletComp = bullet.GetComponent<IBullet>();
+        bulletComp.Shoot(pos, dir, this.transform.forward);
+    }
+
+    internal struct ShootData
+    {
+        internal NetworkInstanceId nId;
+        internal Vector3 vPos;
+        internal Vector3 vDir;
+
+        public ShootData(NetworkInstanceId bulletId, Vector3 pos, Vector3 dir)
+        {
+            nId = bulletId;
+            vPos = pos;
+            vDir = dir;
+        }
+    }
+
 
     private void Update()
     {
@@ -229,10 +258,17 @@ public class Weapon : MonoBehaviour, IWeapon
                 vDirection.Normalize();
             }
 
-            IBullet hBullet = GlobalFactory.GetInstance<IBullet>(m_hOwner.BulletPrefab);
-            hBullet.Shoot(vPosition, vDirection, m_hOwner.transform.forward);
+            if (m_hOwner.transform.root.gameObject.GetComponent<NetworkIdentity>().isServer)
+            {
+                GameObject hInstance = GlobalFactory.GetInstance(m_hOwner.BulletPrefab);
 
-            m_hOwner.QueueLocators.Enqueue(hNextLocator);
+                if (hInstance.GetComponent<NetworkIdentity>().netId.IsEmpty())
+                    NetworkServer.Spawn(hInstance);
+
+                IBullet hBullet = hInstance.GetComponent<IBullet>();
+                m_hOwner.OnSpawnBullet(this, new ShootData(hInstance.GetComponent<NetworkIdentity>().netId, vPosition, vDirection));
+            }
+                m_hOwner.QueueLocators.Enqueue(hNextLocator);
         }
         #endregion IShootStrategy
 
