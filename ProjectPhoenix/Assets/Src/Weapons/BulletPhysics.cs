@@ -20,6 +20,14 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
     public float Force;
     public float MaxRadius;
     public float ForceExolosion;
+    private Dictionary<ArmorType, float> damageRates;
+    [Range(0f, 1f)]
+    public float LightArmorDamageRate;
+    [Range(0f, 1f)]
+    public float MediumArmorDamageRate;
+    [Range(0f, 1f)]
+    public float HeavyArmorDamageRate;
+    private float m_fTotalDistance;
 
     private ParticlesController m_hParticlesController;
     private Rigidbody m_hRigidBody;
@@ -34,6 +42,10 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
     {
         m_hRigidBody = this.GetComponent<Rigidbody>();
         m_hParticlesController = this.GetComponentInChildren<ParticlesController>();
+        damageRates = new Dictionary<ArmorType, float>();
+        damageRates.Add(ArmorType.Light, LightArmorDamageRate);
+        damageRates.Add(ArmorType.Medium, MediumArmorDamageRate);
+        damageRates.Add(ArmorType.Heavy, HeavyArmorDamageRate);
 
     }
 
@@ -69,14 +81,15 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
 
         foreach (var Col in obj)
         {
-            if (Col.GetComponent<IDamageable>() != null && !this)
+            if (Col.GetComponent<Actor>() != null && !this)
             {
 
-                IDamageable h_Hit = collider.gameObject.GetComponent<IDamageable>();
+                Actor h_Hit = collider.gameObject.GetComponent<Actor>();
 
                 this.Damage = AoeDamage(Col.transform.position, collider.transform.position);
-
-                h_Hit.Damage(this.Damage);
+                ArmorType armor = h_Hit.Armor;
+                float rate = damageRates[armor];
+                h_Hit.Damage(this.Damage * rate);
             }
             if (Col.GetComponent<Rigidbody>() != null && !this)
             {

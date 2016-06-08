@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 using UnityEngine.Networking;
 
 
@@ -9,16 +10,28 @@ using UnityEngine.Networking;
 /// </summary>
 public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
 {
+    
     public float MaxDistance = 50f;
     public float Speed = 1f;
     public float Damage = 10f;
-
+    private Dictionary<ArmorType, float> damageRates;
+    [Range(0f, 1f)]
+    public float LightArmorDamageRate;
+    [Range(0f, 1f)]
+    public float MediumArmorDamageRate;
+    [Range(0f, 1f)]
+    public float HeavyArmorDamageRate;
     private float m_fTotalDistance;
     private ParticlesController m_hParticlesController;
+
 
     void Awake()
     {
         m_hParticlesController = this.GetComponentInChildren<ParticlesController>();
+        damageRates = new Dictionary<ArmorType, float>();
+        damageRates.Add(ArmorType.Light, LightArmorDamageRate);
+        damageRates.Add(ArmorType.Medium, MediumArmorDamageRate);
+        damageRates.Add(ArmorType.Heavy, HeavyArmorDamageRate);
     }
 
     public void Shoot(Vector3 vPosition, Vector3 vDirection, Vector3 vWDirection)
@@ -46,7 +59,11 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
                     m_hParticlesController.PlayHitVfx(vRaycast.point, vRaycast.normal);
 
                 if (isServer)
-                    hHit.Damage(Damage);//non necessita di rpc perche agisce su Hp syncVar
+                {
+                    ArmorType armor = hHit.Armor;
+                    float rate = damageRates[armor];
+                    hHit.Damage(Damage * rate);//non necessita di rpc perche agisce su Hp syncVar
+                }
             }
             else
             {

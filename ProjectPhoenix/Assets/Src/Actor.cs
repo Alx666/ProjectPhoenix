@@ -8,8 +8,8 @@ public class Actor : NetworkBehaviour, IDamageable
     [SyncVar]
     [SerializeField]
     private float Hp;
-    [SerializeField]
-    private ArmorType Armor;
+    
+    public ArmorType Armor;
     //[SerializeField]private List<Skill> m_hSkills;
 
     

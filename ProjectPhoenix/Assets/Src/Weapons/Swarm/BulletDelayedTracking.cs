@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -11,6 +12,14 @@ public class BulletDelayedTracking : MonoBehaviour, IBullet, IPoolable
     public float LaunchVelocity = 3f;
     public float VelocityIncrement = 10f; 
     public GameObject FireEffect;
+    public float Damage;
+    private Dictionary<ArmorType, float> damageRates;
+    [Range(0f, 1f)]
+    public float LightArmorDamageRate;
+    [Range(0f, 1f)]
+    public float MediumArmorDamageRate;
+    [Range(0f, 1f)]
+    public float HeavyArmorDamageRate;
 
     private Rigidbody m_hRigidbody;
     private Collider  m_hCollider;
@@ -30,6 +39,11 @@ public class BulletDelayedTracking : MonoBehaviour, IBullet, IPoolable
         m_hDelay.Next = hFly;
 
         m_hCurrent = m_hDelay;
+
+        damageRates = new Dictionary<ArmorType, float>();
+        damageRates.Add(ArmorType.Light, LightArmorDamageRate);
+        damageRates.Add(ArmorType.Medium, MediumArmorDamageRate);
+        damageRates.Add(ArmorType.Heavy, HeavyArmorDamageRate);
     }
 
 	void Start ()
@@ -59,8 +73,13 @@ public class BulletDelayedTracking : MonoBehaviour, IBullet, IPoolable
         if (collider.gameObject.GetComponent<BulletDelayedTracking>() != null)
             return;
 
-
+        Actor hHit = collider.gameObject.GetComponent<Actor>();
         m_hParticlesController.PlayHitVfx(this.transform.position, this.transform.up);
+
+        ArmorType armor = hHit.Armor;
+        float rate = damageRates[armor];
+        hHit.Damage(Damage * rate);
+
         GlobalFactory.Recycle(this.gameObject);
     }
 

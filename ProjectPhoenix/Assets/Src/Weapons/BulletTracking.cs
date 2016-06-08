@@ -2,11 +2,14 @@
 using System.Collections;
 using System;
 using UnityEngine.Networking;
+using System.Collections.Generic;
 
 public class BulletTracking : NetworkBehaviour, IBullet, IPoolable
 {
     protected GameObject target;
     protected float ElapsedTime;
+
+    public float Damage;
 
     ParticlesController controller;
     FollowTarget follow;
@@ -16,18 +19,43 @@ public class BulletTracking : NetworkBehaviour, IBullet, IPoolable
     public float Duration = 0f;
     [Range(1f, 5f)]
     public float Force = 2f;
+
+    private Dictionary<ArmorType, float> damageRates;
+    [Range(0f, 1f)]
+    public float LightArmorDamageRate;
+    [Range(0f, 1f)]
+    public float MediumArmorDamageRate;
+    [Range(0f, 1f)]
+    public float HeavyArmorDamageRate;
+
+    void Awake()
+    {
+        this.controller = GetComponent<ParticlesController>();
+        this.follow = new FollowTarget(this);
+        this.noTarget = new NoTarget(this);
+        this.gameObject.SetActive(false);
+
+        damageRates = new Dictionary<ArmorType, float>();
+        damageRates.Add(ArmorType.Light, LightArmorDamageRate);
+        damageRates.Add(ArmorType.Medium, MediumArmorDamageRate);
+        damageRates.Add(ArmorType.Heavy, HeavyArmorDamageRate);
+    }
+
     public void Shoot(Vector3 vPosition, Vector3 vDirection, Vector3 vWDirection)
     {
         this.gameObject.transform.position = vPosition;
         RaycastHit vRaycast;
         if (Physics.Raycast(vPosition, vDirection, out vRaycast))
         {
-            IDamageable hHit = vRaycast.collider.gameObject.GetComponent<IDamageable>();
+            Actor hHit = vRaycast.collider.gameObject.GetComponent<Actor>();
             if (hHit != null)
             {
                 this.target = vRaycast.collider.gameObject;
                 this.gameObject.transform.forward = (vRaycast.collider.gameObject.transform.position - this.transform.position).normalized;
                 this.current = follow;
+                ArmorType armor = hHit.Armor;
+                float rate = damageRates[armor];
+                hHit.Damage(Damage * rate);
                 return;
             }
         }
@@ -35,13 +63,7 @@ public class BulletTracking : NetworkBehaviour, IBullet, IPoolable
         this.gameObject.transform.forward = vDirection;
         this.current = noTarget;
     }
-    void Awake()
-    {
-        this.controller = GetComponent<ParticlesController>();
-        this.follow = new FollowTarget(this);
-        this.noTarget = new NoTarget(this);
-        this.gameObject.SetActive(false);
-    }
+
 
     public void OnTriggerEnter(Collider other)
     {
