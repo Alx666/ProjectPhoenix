@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 419572}
   - 33: {fileID: 3350946}
   - 23: {fileID: 2349734}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wheel_FL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - 4: {fileID: 449120}
   - 33: {fileID: 3380188}
   - 23: {fileID: 2350706}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wheel_BR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 435966}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: camaro1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 474750}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WeponLocator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   - 4: {fileID: 415112}
   - 33: {fileID: 3314526}
   - 23: {fileID: 2347874}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wheel_BL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 473084}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   - 4: {fileID: 425020}
   - 33: {fileID: 3393796}
   - 23: {fileID: 2314762}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - 33: {fileID: 3344756}
   - 23: {fileID: 2346060}
   - 114: {fileID: 11439628}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: torret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ GameObject:
   - 4: {fileID: 440626}
   - 33: {fileID: 3349000}
   - 23: {fileID: 2356780}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: torret_f
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -156,7 +156,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 439748}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: VEH_GUI_CAMAROGRETA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 465850}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -187,7 +187,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 433662}
   - 114: {fileID: 11477524}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: VEH_GUI_CAMAROGRETA_POS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   - 4: {fileID: 443220}
   - 33: {fileID: 3327634}
   - 23: {fileID: 2323512}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wheel_FR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -639,6 +639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VehiclePrefab: {fileID: 122454, guid: a705368dd69ed6b48b51e2262bab3333, type: 2}
+  VehicleName: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

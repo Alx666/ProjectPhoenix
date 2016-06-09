@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 441634}
   - 33: {fileID: 3376012}
   - 23: {fileID: 2340688}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: polySurface210
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - 4: {fileID: 438578}
   - 33: {fileID: 3300910}
   - 23: {fileID: 2397970}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: polySurface199
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 401642}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Coll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - 4: {fileID: 406892}
   - 33: {fileID: 3319744}
   - 23: {fileID: 2397878}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: polySurface191
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 449964}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 417818}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: wheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   - 33: {fileID: 3336430}
   - 23: {fileID: 2377150}
   - 114: {fileID: 11464380}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: polySurface339
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 488758}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Coll (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 490688}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: VEH_GUI_MUSTANGANDREA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +154,7 @@ GameObject:
   - 4: {fileID: 485360}
   - 33: {fileID: 3394134}
   - 23: {fileID: 2346452}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: polySurface338
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 450844}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WeaponLocator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -186,7 +186,7 @@ GameObject:
   - 4: {fileID: 485728}
   - 33: {fileID: 3313344}
   - 23: {fileID: 2336462}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: polySurface192
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -203,7 +203,7 @@ GameObject:
   - 4: {fileID: 457740}
   - 33: {fileID: 3376384}
   - 23: {fileID: 2345366}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: polySurface190
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ GameObject:
   - 4: {fileID: 422686}
   - 33: {fileID: 3394742}
   - 23: {fileID: 2351194}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: polySurface193
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -235,7 +235,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 457302}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 475232}
   - 114: {fileID: 11490116}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: VEH_GUI_MUSTANGANDREA_POS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +266,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 419548}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Coll (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -788,6 +788,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VehiclePrefab: {fileID: 144090, guid: c5a75c3c5a30bcd489a9e3f93abeaeac, type: 2}
+  VehicleName: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

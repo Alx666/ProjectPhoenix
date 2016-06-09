@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 456376}
   - 33: {fileID: 3315950}
   - 23: {fileID: 2387866}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mustang_Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 425998}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WeaponLocator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 432314}
   - 114: {fileID: 11490148}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: VEH_GUI_MUSTANGMATTEO_POS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +56,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 468256}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 439256}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - 4: {fileID: 426866}
   - 33: {fileID: 3335790}
   - 23: {fileID: 2394070}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wheel_post_Dx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   - 4: {fileID: 454136}
   - 33: {fileID: 3329694}
   - 23: {fileID: 2353390}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wheel_Ant_Dx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 484284}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: VEH_GUI_MUSTANGMATTEO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,7 @@ GameObject:
   - 4: {fileID: 442072}
   - 33: {fileID: 3368096}
   - 23: {fileID: 2389796}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mustang_Accessory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,7 +154,7 @@ GameObject:
   - 4: {fileID: 414700}
   - 33: {fileID: 3318006}
   - 23: {fileID: 2358114}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wheel_Post_Sx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ GameObject:
   - 4: {fileID: 416260}
   - 33: {fileID: 3368164}
   - 23: {fileID: 2362962}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mustang_Weapon_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,7 +188,7 @@ GameObject:
   - 4: {fileID: 459594}
   - 33: {fileID: 3306820}
   - 23: {fileID: 2380446}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wheel_Ant_Sx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -206,7 +206,7 @@ GameObject:
   - 33: {fileID: 3358476}
   - 23: {fileID: 2391402}
   - 114: {fileID: 11464278}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mustang_weapon_00
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -673,6 +673,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VehiclePrefab: {fileID: 155674, guid: 139b9991caf50c849b88739075835962, type: 2}
+  VehicleName: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
