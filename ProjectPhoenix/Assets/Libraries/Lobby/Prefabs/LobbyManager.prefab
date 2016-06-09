@@ -3193,13 +3193,15 @@ MonoBehaviour:
   m_PlayerPrefab: {fileID: 100676, guid: f96eaf23a2310f8439ab6f429471f89b, type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 1
-  m_OfflineScene: Lobby_ProjectPhoenix
+  m_OfflineScene: Lobby_MadMaxArena
   m_OnlineScene: 
   m_SpawnPrefabs:
   - {fileID: 100676, guid: f96eaf23a2310f8439ab6f429471f89b, type: 2}
   - {fileID: 116616, guid: 2cb1de358dd24474dbc5e8873b87139b, type: 2}
   - {fileID: 149850, guid: 380d428858fec08488c8ee3be63c0658, type: 2}
   - {fileID: 163644, guid: 696c6fbd421805849afd3456194fbd8a, type: 2}
+  - {fileID: 143454, guid: 168fc58bdc326a44fabad3f349b6206e, type: 2}
+  - {fileID: 131774, guid: bf5eb4ddabced9b40b0aa589887f7592, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -3246,7 +3248,7 @@ MonoBehaviour:
   m_LobbyPlayerPrefab: {fileID: 11487034, guid: ad727d7e1462ecc4f83c898ecc501997,
     type: 2}
   m_GamePlayerPrefab: {fileID: 100676, guid: f96eaf23a2310f8439ab6f429471f89b, type: 2}
-  m_LobbyScene: Lobby_ProjectPhoenix
+  m_LobbyScene: Lobby_MadMaxArena
   m_PlayScene: Game_ProjectPhoenix
   lobbySlots: []
   prematchCountdown: 3
@@ -3966,6 +3968,7 @@ MonoBehaviour:
   playerListContentTransform: {fileID: 22401550}
   warningDirectPlayServer: {fileID: 199766}
   addButtonRow: {fileID: 22432700}
+  _players: []
 --- !u!222 &22203258
 CanvasRenderer:
   m_ObjectHideFlags: 1

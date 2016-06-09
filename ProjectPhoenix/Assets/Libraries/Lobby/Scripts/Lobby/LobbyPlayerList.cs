@@ -13,9 +13,9 @@ namespace Prototype.NetworkLobby
         public RectTransform playerListContentTransform;
         public GameObject warningDirectPlayServer;
         public Transform addButtonRow;
+        public List<LobbyPlayer> _players = new List<LobbyPlayer>();
 
         protected VerticalLayoutGroup _layout;
-        protected List<LobbyPlayer> _players = new List<LobbyPlayer>();
 
         public void OnEnable()
         {

@@ -17,36 +17,59 @@ namespace Prototype.NetworkLobby
 
         public Button colorButton;
         public InputField nameInput;
-        public InputField typeInput;
         public Button readyButton;
         public Button waitingPlayerButton;
         public Button removePlayerButton;
 
         public GameObject localIcone;
         public GameObject remoteIcone;
+        public GameObject prefabToSpawn;
 
         //OnMyName function will be invoked on clients when server change the value of playerName
         [SyncVar(hook = "OnMyName")]
         public string playerName = "";
         [SyncVar(hook = "OnMyColor")]
         public Color playerColor = Color.white;
-        [SyncVar(hook = "OnMyType")]
-        public int playerType = 0;
 
         public Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
         public Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
 
-        static Color JoinColor = new Color(255.0f/255.0f, 0.0f, 101.0f/255.0f,1.0f);
+        static Color JoinColor = new Color(255.0f / 255.0f, 0.0f, 101.0f / 255.0f, 1.0f);
         static Color NotReadyColor = new Color(34.0f / 255.0f, 44 / 255.0f, 55.0f / 255.0f, 1.0f);
         static Color ReadyColor = new Color(0.0f, 204.0f / 255.0f, 204.0f / 255.0f, 1.0f);
         static Color TransparentColor = new Color(0, 0, 0, 0);
 
         //static Color OddRowColor = new Color(250.0f / 255.0f, 250.0f / 255.0f, 250.0f / 255.0f, 1.0f);
         //static Color EvenRowColor = new Color(180.0f / 255.0f, 180.0f / 255.0f, 180.0f / 255.0f, 1.0f);
+        private DataMenuInfo dataPlayer;
 
+        [ClientRpc]
+        void RpcSyncPrefabToSpawn(NetworkHash128 assetId)
+        {
+            prefabToSpawn = LobbyManager.s_Singleton.spawnPrefabs.Where(hS => hS.GetComponent<NetworkIdentity>().assetId.ToString() == assetId.ToString()).First();
+        }
+
+        [Command]
+        void CmdSyncPrefabToSpawn(NetworkHash128 assetId)
+        {
+            RpcSyncPrefabToSpawn(assetId);
+        }
 
         public override void OnClientEnterLobby()
         {
+
+            if(prefabToSpawn == null)
+            {
+                dataPlayer = FindObjectOfType<DataMenuInfo>();
+                prefabToSpawn = dataPlayer.SelectedPrefab;
+
+                if (isServer)
+                    RpcSyncPrefabToSpawn(prefabToSpawn.GetComponent<NetworkIdentity>().assetId);
+                else
+                    CmdSyncPrefabToSpawn(prefabToSpawn.GetComponent<NetworkIdentity>().assetId);
+            }
+
+
             base.OnClientEnterLobby();
 
             if (LobbyManager.s_Singleton != null) LobbyManager.s_Singleton.OnPlayersNumberModified(1);
@@ -66,7 +89,6 @@ namespace Prototype.NetworkLobby
             //setup the player data on UI. The value are SyncVar so the player
             //will be created with the right value currently on server
             OnMyName(playerName);
-            OnMyType(playerType);
             OnMyColor(playerColor);
         }
 
@@ -77,7 +99,7 @@ namespace Prototype.NetworkLobby
             //if we return from a game, color of text can still be the one for "Ready"
             readyButton.transform.GetChild(0).GetComponent<Text>().color = Color.white;
 
-           SetupLocalPlayer();
+            SetupLocalPlayer();
         }
 
         void ChangeReadyButtonColor(Color c)
@@ -93,7 +115,6 @@ namespace Prototype.NetworkLobby
         void SetupOtherPlayer()
         {
             nameInput.interactable = false;
-            typeInput.interactable = false;
             removePlayerButton.interactable = NetworkServer.active;
 
             ChangeReadyButtonColor(NotReadyColor);
@@ -107,7 +128,6 @@ namespace Prototype.NetworkLobby
         void SetupLocalPlayer()
         {
             nameInput.interactable = true;
-            typeInput.interactable = true;
             remoteIcone.gameObject.SetActive(false);
             localIcone.gameObject.SetActive(true);
 
@@ -123,7 +143,7 @@ namespace Prototype.NetworkLobby
 
             //have to use child count of player prefab already setup as "this.slot" is not set yet
             if (playerName == "")
-                CmdNameChanged("Player" + (LobbyPlayerList._instance.playerListContentTransform.childCount-1));
+                CmdNameChanged("Player" + (LobbyPlayerList._instance.playerListContentTransform.childCount - 1));
 
             //we switch from simple name display to name input
             colorButton.interactable = true;
@@ -131,9 +151,6 @@ namespace Prototype.NetworkLobby
 
             nameInput.onEndEdit.RemoveAllListeners();
             nameInput.onEndEdit.AddListener(OnNameChanged);
-
-            typeInput.onEndEdit.RemoveAllListeners();
-            typeInput.onEndEdit.AddListener(OnTypeChanged);
 
             colorButton.onClick.RemoveAllListeners();
             colorButton.onClick.AddListener(OnColorClicked);
@@ -186,7 +203,7 @@ namespace Prototype.NetworkLobby
         }
 
         public void OnPlayerListChanged(int idx)
-        { 
+        {
             GetComponent<Image>().color = (idx % 2 == 0) ? EvenRowColor : OddRowColor;
         }
 
@@ -202,12 +219,6 @@ namespace Prototype.NetworkLobby
         {
             playerColor = newColor;
             colorButton.GetComponent<Image>().color = newColor;
-        }
-
-        public void OnMyType(int newType)
-        {
-            playerType = newType;
-            
         }
 
         //===== UI Handler
@@ -229,11 +240,6 @@ namespace Prototype.NetworkLobby
             CmdNameChanged(str);
         }
 
-        public void OnTypeChanged(string str)
-        {
-            CmdTypeChanged(str);
-        }
-
         public void OnRemovePlayerClick()
         {
             if (isLocalPlayer)
@@ -242,7 +248,7 @@ namespace Prototype.NetworkLobby
             }
             else if (isServer)
                 LobbyManager.s_Singleton.KickPlayer(connectionToClient);
-                
+
         }
 
         public void ToggleJoinButton(bool enabled)
@@ -309,13 +315,6 @@ namespace Prototype.NetworkLobby
         public void CmdNameChanged(string name)
         {
             playerName = name;
-        }
-
-        [Command]
-        public void CmdTypeChanged(string name)
-        {
-            playerType = int.Parse(name);
-            LobbyManager.s_Singleton.currentPlayers[this.connectionToClient] = playerType;
         }
 
         //Cleanup thing when get destroy (which happen when client kick or disconnect)

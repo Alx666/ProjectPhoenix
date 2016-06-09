@@ -29,7 +29,7 @@ public class VehicleSelection : MonoBehaviour
         Vehicles.ForEach(hV =>
         {
             GameObject hNew = GameObject.Instantiate(hV, SpawnPosition.position, Quaternion.identity) as GameObject;
-            hNew.GetComponent<VehiclePrefabMGR>().VehiclePrefab = hV;
+            //hNew.GetComponent<VehiclePrefabMGR>().VehiclePrefab = hV;
             m_hList.AddLast(hNew);
             string m_sVname = hNew.GetComponent<VehiclePrefabMGR>().VehicleName;
             if (m_sVname != string.Empty)
@@ -62,6 +62,12 @@ public class VehicleSelection : MonoBehaviour
             m_hCurrent.Value.transform.Rotate(Vector3.up, -m_fRotationSpeed * Time.deltaTime);
         }
 	}
+
+    public void OnButtonStart()
+    {
+        FindObjectOfType<DataMenuInfo>().SelectedPrefab = m_hCurrent.Value.GetComponent<VehiclePrefabMGR>().VehiclePrefab;
+        SceneManager.LoadScene("Lobby_MadMaxArena");
+    }
 
     public void OnButtonNext()
     {

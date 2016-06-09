@@ -295,8 +295,8 @@ namespace Prototype.NetworkLobby
         public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, short playerControllerId)
         {
             int index = currentPlayers[conn];
-
-            GameObject _temp = (GameObject)GameObject.Instantiate(spawnPrefabs[index],
+            GameObject asd = (lobbySlots[index] as LobbyPlayer).prefabToSpawn;
+            GameObject _temp = (GameObject)GameObject.Instantiate(asd,
                                 startPositions[conn.connectionId].position,
                                 Quaternion.identity);
 

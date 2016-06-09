@@ -161,6 +161,7 @@ GameObject:
   - 114: {fileID: 11499798}
   - 114: {fileID: 11491578}
   - 114: {fileID: 11482364}
+  - 114: {fileID: 11413204}
   m_Layer: 0
   m_Name: VEH_WHEEL_MUSTANGSTEFANOV
   m_TagString: Untagged
@@ -1582,6 +1583,26 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 198656}
   m_Enabled: 1
+--- !u!114 &11413204
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 131774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &11421212
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1943,9 +1964,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 332106777f996d84cb944b2a3c887459, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelativePosition: 0.3
-  LerpSpeed: 5
-  VelocityZoomCoeff: 0.5
+  MinOffset: 20
+  MaxOffset: 40
+  StateChanger: 324
+  DistanceFromTarget: 0.3
 --- !u!114 &11499020
 MonoBehaviour:
   m_ObjectHideFlags: 1
