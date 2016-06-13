@@ -270,8 +270,10 @@ namespace Prototype.NetworkLobby
         //But OnLobbyClientConnect isn't called on hosting player. So we override the lobbyPlayer creation
         public override GameObject OnLobbyServerCreateLobbyPlayer(NetworkConnection conn, short playerControllerId)
         {
+            int id = currentPlayers.Count;
+
             if (!currentPlayers.ContainsKey(conn))
-                currentPlayers.Add(conn, 0);
+                currentPlayers.Add(conn, id);
 
             GameObject obj = Instantiate(lobbyPlayerPrefab.gameObject) as GameObject;
 

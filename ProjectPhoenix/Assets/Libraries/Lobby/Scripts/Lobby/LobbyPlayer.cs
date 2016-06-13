@@ -4,9 +4,27 @@ using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Prototype.NetworkLobby
 {
+    public static class WaitFor
+    {
+        public static IEnumerator Frames(int frameCount)
+        {
+            if (frameCount <= 0)
+            {
+                throw new ArgumentOutOfRangeException("frameCount", "Cannot wait for less that 1 frame");
+            }
+
+            while (frameCount > 0)
+            {
+                frameCount--;
+                yield return null;
+            }
+        }
+    }
+
     //Player entry in the lobby. Handle selecting color/setting name & getting ready for the game
     //Any LobbyHook can then grab it and pass those value to the game player prefab (see the Pong Example in the Samples Scenes)
     public class LobbyPlayer : NetworkLobbyPlayer
@@ -55,21 +73,10 @@ namespace Prototype.NetworkLobby
             RpcSyncPrefabToSpawn(assetId);
         }
 
-        public override void OnClientEnterLobby()
+        public IEnumerator CoroutineAction()
         {
-
-            if(prefabToSpawn == null)
-            {
-                dataPlayer = FindObjectOfType<DataMenuInfo>();
-                prefabToSpawn = dataPlayer.SelectedPrefab;
-
-                if (isServer)
-                    RpcSyncPrefabToSpawn(prefabToSpawn.GetComponent<NetworkIdentity>().assetId);
-                else
-                    CmdSyncPrefabToSpawn(prefabToSpawn.GetComponent<NetworkIdentity>().assetId);
-            }
-
-
+            yield return StartCoroutine(WaitFor.Frames(1));
+            
             base.OnClientEnterLobby();
 
             if (LobbyManager.s_Singleton != null) LobbyManager.s_Singleton.OnPlayersNumberModified(1);
@@ -79,6 +86,15 @@ namespace Prototype.NetworkLobby
 
             if (isLocalPlayer)
             {
+                dataPlayer = FindObjectOfType<DataMenuInfo>();
+                prefabToSpawn = dataPlayer.SelectedPrefab;
+                
+
+                if (isServer)
+                    RpcSyncPrefabToSpawn(prefabToSpawn.GetComponent<NetworkIdentity>().assetId);
+                else
+                    CmdSyncPrefabToSpawn(prefabToSpawn.GetComponent<NetworkIdentity>().assetId);
+
                 SetupLocalPlayer();
             }
             else
@@ -90,6 +106,11 @@ namespace Prototype.NetworkLobby
             //will be created with the right value currently on server
             OnMyName(playerName);
             OnMyColor(playerColor);
+        }
+
+        public override void OnClientEnterLobby()
+        {
+            StartCoroutine(CoroutineAction());                      
         }
 
         public override void OnStartAuthority()
