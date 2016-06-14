@@ -139,6 +139,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 426528}
   - 114: {fileID: 11408880}
+  - 114: {fileID: 11462082}
   m_Layer: 8
   m_Name: VEH_WHEEL_MUSTANGFABRIZIO_POS
   m_TagString: Untagged
@@ -585,6 +586,38 @@ MonoBehaviour:
   RotationSpeed: 15
   MinAngle: -45
   MaxAngle: 15
+--- !u!114 &11462082
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 184
+    i1: 125
+    i2: 198
+    i3: 224
+    i4: 247
+    i5: 26
+    i6: 213
+    i7: 116
+    i8: 218
+    i9: 28
+    i10: 24
+    i11: 119
+    i12: 91
+    i13: 189
+    i14: 226
+    i15: 95
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

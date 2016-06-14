@@ -49,6 +49,7 @@ public class VehicleSelection : MonoBehaviour
     {
         m_bEnable = true;
         m_hCurrent = m_hList.First;
+        m_hCurrent.Value.SetActive(true);
         m_hCurrent.Value.transform.position = CurrentPosition.position;
         m_hCurrent.Value.transform.rotation = CurrentPosition.rotation;
         CarNameText.text = m_hCarNames[m_hCurrent.Value];
@@ -76,6 +77,7 @@ public class VehicleSelection : MonoBehaviour
 
         m_hCurrent.NextOrFirst().Value.transform.position = NextPosition.position;
         m_hCurrent.NextOrFirst().Value.transform.rotation = NextPosition.rotation;
+        m_hCurrent.NextOrFirst().Value.SetActive(true);
         LeanTween.move(m_hCurrent.NextOrFirst().Value, CurrentPosition.position, m_fTweenTime).setEase(LeanTweenType.easeInOutQuad);
         LeanTween.rotate(m_hCurrent.NextOrFirst().Value, CurrentPosition.rotation.eulerAngles, m_fTweenTime).setEase(LeanTweenType.easeInOutQuad);
         LeanTween.move(m_hCurrent.Value, PreviousPosition.position, m_fTweenTime).setOnComplete(() => m_bEnable = true).setEase(LeanTweenType.easeInOutQuad);
@@ -91,6 +93,7 @@ public class VehicleSelection : MonoBehaviour
   
         m_hCurrent.PreviousOrLast().Value.transform.position = PreviousPosition.position;
         m_hCurrent.PreviousOrLast().Value.transform.rotation = PreviousPosition.rotation;
+        m_hCurrent.PreviousOrLast().Value.SetActive(true);
         LeanTween.move(m_hCurrent.PreviousOrLast().Value, CurrentPosition.position, m_fTweenTime).setEase(LeanTweenType.easeInOutQuad);
         LeanTween.rotate(m_hCurrent.PreviousOrLast().Value, CurrentPosition.rotation.eulerAngles, m_fTweenTime).setEase(LeanTweenType.easeInOutQuad);
         LeanTween.move(m_hCurrent.Value, NextPosition.position, m_fTweenTime).setOnComplete(() => m_bEnable = true).setEase(LeanTweenType.easeInOutQuad);

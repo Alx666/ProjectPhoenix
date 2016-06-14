@@ -619,6 +619,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 469106}
   - 114: {fileID: 11456528}
+  - 114: {fileID: 11447878}
   m_Layer: 8
   m_Name: VEH_GUI_CAMAROSILVIA_POS
   m_TagString: Untagged
@@ -2089,6 +2090,38 @@ MonoBehaviour:
   RotationSpeed: 15
   MinAngle: -45
   MaxAngle: 15
+--- !u!114 &11447878
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 195276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 106
+    i1: 233
+    i2: 4
+    i3: 124
+    i4: 232
+    i5: 228
+    i6: 112
+    i7: 68
+    i8: 88
+    i9: 64
+    i10: 26
+    i11: 245
+    i12: 245
+    i13: 48
+    i14: 36
+    i15: 203
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &11456528
 MonoBehaviour:
   m_ObjectHideFlags: 1

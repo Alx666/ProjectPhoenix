@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 481850}
   - 114: {fileID: 11437332}
+  - 114: {fileID: 11479126}
   m_Layer: 8
   m_Name: VEH_GUI_CAMAROGALAXY_POS
   m_TagString: Untagged
@@ -983,6 +984,38 @@ MonoBehaviour:
   RotationSpeed: 15
   MinAngle: -45
   MaxAngle: 15
+--- !u!114 &11479126
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 121
+    i1: 191
+    i2: 183
+    i3: 14
+    i4: 211
+    i5: 244
+    i6: 177
+    i7: 148
+    i8: 153
+    i9: 207
+    i10: 27
+    i11: 228
+    i12: 45
+    i13: 96
+    i14: 251
+    i15: 121
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

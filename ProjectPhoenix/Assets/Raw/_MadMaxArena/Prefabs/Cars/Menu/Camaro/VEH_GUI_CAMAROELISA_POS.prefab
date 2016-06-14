@@ -140,6 +140,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 421990}
   - 114: {fileID: 11426760}
+  - 114: {fileID: 11464644}
   m_Layer: 8
   m_Name: VEH_GUI_CAMAROELISA_POS
   m_TagString: Untagged
@@ -686,6 +687,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VehiclePrefab: {fileID: 121866, guid: 3f979dcb04d193b42bdd066cf797df08, type: 2}
   VehicleName: 
+--- !u!114 &11464644
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 30
+    i1: 82
+    i2: 126
+    i3: 16
+    i4: 23
+    i5: 49
+    i6: 66
+    i7: 52
+    i8: 136
+    i9: 23
+    i10: 192
+    i11: 47
+    i12: 3
+    i13: 159
+    i14: 167
+    i15: 104
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &11464982
 MonoBehaviour:
   m_ObjectHideFlags: 1

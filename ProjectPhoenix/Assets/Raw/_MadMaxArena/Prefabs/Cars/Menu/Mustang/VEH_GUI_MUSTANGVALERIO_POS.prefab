@@ -58,6 +58,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 447034}
   - 114: {fileID: 11466478}
+  - 114: {fileID: 11435034}
   m_Layer: 8
   m_Name: VEH_GUI_MUSTANGVALERIO_POS
   m_TagString: Untagged
@@ -1159,6 +1160,38 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 102650}
   m_Mesh: {fileID: 4300004, guid: d61d316447e9731458a193471765078d, type: 3}
+--- !u!114 &11435034
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 104202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 168
+    i1: 241
+    i2: 225
+    i3: 9
+    i4: 253
+    i5: 173
+    i6: 62
+    i7: 180
+    i8: 122
+    i9: 5
+    i10: 97
+    i11: 141
+    i12: 233
+    i13: 31
+    i14: 41
+    i15: 226
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &11466478
 MonoBehaviour:
   m_ObjectHideFlags: 1

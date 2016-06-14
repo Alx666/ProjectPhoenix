@@ -134,6 +134,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &118520
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 402150}
+  m_Layer: 0
+  m_Name: WeaponLocator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &121856
 GameObject:
   m_ObjectHideFlags: 1
@@ -161,6 +176,21 @@ GameObject:
   - 4: {fileID: 467192}
   m_Layer: 0
   m_Name: AddPieces
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &122912
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 442658}
+  m_Layer: 0
+  m_Name: WeaponLocator (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -535,7 +565,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 483756}
   m_Layer: 0
-  m_Name: WeaponLocator
+  m_Name: WeaponLocator (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -732,6 +762,7 @@ GameObject:
   - 114: {fileID: 11408100}
   - 114: {fileID: 11496846}
   - 114: {fileID: 11499954}
+  - 114: {fileID: 11423376}
   m_Layer: 0
   m_Name: VEH_WHEEL_CAMAROSILVIA
   m_TagString: Untagged
@@ -842,6 +873,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 449556}
   m_RootOrder: 6
+--- !u!4 &402150
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 118520}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.014, y: 0.174, z: 0.766}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 468902}
+  m_RootOrder: 0
 --- !u!4 &404376
 Transform:
   m_ObjectHideFlags: 1
@@ -1089,6 +1132,18 @@ Transform:
   - {fileID: 423044}
   m_Father: {fileID: 400900}
   m_RootOrder: 0
+--- !u!4 &442658
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 122912}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.136, y: -0.044, z: 0.76598907}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 468902}
+  m_RootOrder: 1
 --- !u!4 &443042
 Transform:
   m_ObjectHideFlags: 1
@@ -1260,6 +1315,8 @@ Transform:
   m_LocalPosition: {x: 0.014228445, y: 0.12874512, z: -0.031657126}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 402150}
+  - {fileID: 442658}
   - {fileID: 483756}
   m_Father: {fileID: 470026}
   m_RootOrder: 0
@@ -1362,11 +1419,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 168004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.014, y: 0.04, z: 0.708}
+  m_LocalPosition: {x: -0.19, y: -0.043999515, z: 0.76598907}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 468902}
-  m_RootOrder: 0
+  m_RootOrder: 2
 --- !u!4 &492510
 Transform:
   m_ObjectHideFlags: 1
@@ -2501,7 +2558,7 @@ MonoBehaviour:
   CurrentSpeed: 
   Hp: 10000
   SteerAngle: 30
-  MaxSpeed: 500
+  MaxSpeed: 250
   OverrideCOM: {x: 0, y: 0, z: 0}
 --- !u!114 &11412332
 MonoBehaviour:
@@ -2566,6 +2623,19 @@ MonoBehaviour:
   MaxOffset: 20
   StateChanger: 324
   DistanceFromTarget: 0.4
+--- !u!114 &11423376
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 189598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda5eb79a7065dc468412d17c2ba468f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hp: 100
+  Armor: 0
 --- !u!114 &11431056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2878,14 +2948,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 163644, guid: 696c6fbd421805849afd3456194fbd8a, type: 2}
+  BulletPrefab: {fileID: 148604, guid: c0cf99ad894d3fa4ab35643ac616d1ac, type: 2}
   ShootLocators:
+  - {fileID: 118520}
+  - {fileID: 122912}
   - {fileID: 168004}
   Mode: 1
   Spread: 0
   BulletDelay: 0.3
-  BarrageDelay: 0.3
-  Barrage: 1
+  BarrageDelay: 1
+  Barrage: 3
 --- !u!124 &12478992
 Behaviour:
   m_ObjectHideFlags: 1

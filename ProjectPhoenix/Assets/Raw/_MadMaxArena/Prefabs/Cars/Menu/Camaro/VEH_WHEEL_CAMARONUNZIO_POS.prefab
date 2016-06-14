@@ -319,6 +319,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 409784}
   - 114: {fileID: 11438514}
+  - 114: {fileID: 11457294}
   m_Layer: 8
   m_Name: VEH_WHEEL_CAMARONUNZIO_POS
   m_TagString: Untagged
@@ -985,6 +986,38 @@ MonoBehaviour:
   RotationSpeed: 15
   MinAngle: -45
   MaxAngle: 15
+--- !u!114 &11457294
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 192216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 137
+    i1: 29
+    i2: 83
+    i3: 48
+    i4: 81
+    i5: 109
+    i6: 21
+    i7: 244
+    i8: 187
+    i9: 109
+    i10: 156
+    i11: 55
+    i12: 168
+    i13: 16
+    i14: 5
+    i15: 141
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &11487708
 MonoBehaviour:
   m_ObjectHideFlags: 1

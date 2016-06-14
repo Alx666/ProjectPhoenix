@@ -151,6 +151,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 494766}
   - 114: {fileID: 11449710}
+  - 114: {fileID: 11458482}
   m_Layer: 8
   m_Name: VEH_WHEEL_CAMAROSILVIO_POS
   m_TagString: Untagged
@@ -668,6 +669,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VehiclePrefab: {fileID: 184910, guid: 5819bdedaf332fc46a5499c6ed5d31d7, type: 2}
   VehicleName: Kangaroock
+--- !u!114 &11458482
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 169638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 176
+    i1: 140
+    i2: 134
+    i3: 198
+    i4: 114
+    i5: 90
+    i6: 8
+    i7: 100
+    i8: 218
+    i9: 79
+    i10: 182
+    i11: 23
+    i12: 74
+    i13: 75
+    i14: 14
+    i15: 73
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

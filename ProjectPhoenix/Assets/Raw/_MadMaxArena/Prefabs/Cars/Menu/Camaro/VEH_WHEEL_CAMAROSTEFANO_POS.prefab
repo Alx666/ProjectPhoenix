@@ -211,6 +211,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 447134}
   - 114: {fileID: 11422616}
+  - 114: {fileID: 11446626}
   m_Layer: 8
   m_Name: VEH_WHEEL_CAMAROSTEFANO_POS
   m_TagString: Untagged
@@ -1675,6 +1676,38 @@ MonoBehaviour:
   RotationSpeed: 15
   MinAngle: -45
   MaxAngle: 15
+--- !u!114 &11446626
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 144914}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 128
+    i1: 23
+    i2: 158
+    i3: 197
+    i4: 216
+    i5: 201
+    i6: 23
+    i7: 196
+    i8: 105
+    i9: 38
+    i10: 141
+    i11: 58
+    i12: 242
+    i13: 135
+    i14: 105
+    i15: 46
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

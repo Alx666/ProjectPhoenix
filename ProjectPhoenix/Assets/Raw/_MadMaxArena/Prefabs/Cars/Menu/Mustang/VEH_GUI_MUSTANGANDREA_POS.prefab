@@ -251,6 +251,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 475232}
   - 114: {fileID: 11490116}
+  - 114: {fileID: 11498192}
   m_Layer: 8
   m_Name: VEH_GUI_MUSTANGANDREA_POS
   m_TagString: Untagged
@@ -789,6 +790,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VehiclePrefab: {fileID: 144090, guid: c5a75c3c5a30bcd489a9e3f93abeaeac, type: 2}
   VehicleName: 
+--- !u!114 &11498192
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 192832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 64
+    i1: 74
+    i2: 155
+    i3: 166
+    i4: 143
+    i5: 226
+    i6: 13
+    i7: 36
+    i8: 152
+    i9: 239
+    i10: 121
+    i11: 57
+    i12: 47
+    i13: 239
+    i14: 130
+    i15: 86
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

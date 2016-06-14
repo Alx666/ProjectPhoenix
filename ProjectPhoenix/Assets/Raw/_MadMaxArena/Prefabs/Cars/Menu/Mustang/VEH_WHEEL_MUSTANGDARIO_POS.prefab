@@ -174,6 +174,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 473770}
   - 114: {fileID: 11405426}
+  - 114: {fileID: 11446760}
   m_Layer: 8
   m_Name: VEH_WHEEL_MUSTANGDARIO_POS
   m_TagString: Untagged
@@ -690,6 +691,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VehiclePrefab: {fileID: 167298, guid: 041e28bce7cd7a64c81ed82f07a655ea, type: 2}
   VehicleName: 
+--- !u!114 &11446760
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 178924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 55
+    i1: 241
+    i2: 11
+    i3: 108
+    i4: 60
+    i5: 206
+    i6: 74
+    i7: 228
+    i8: 153
+    i9: 239
+    i10: 225
+    i11: 8
+    i12: 121
+    i13: 61
+    i14: 15
+    i15: 26
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &11477982
 MonoBehaviour:
   m_ObjectHideFlags: 1

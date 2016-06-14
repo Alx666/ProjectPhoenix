@@ -24,6 +24,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 416830}
   - 114: {fileID: 11459154}
+  - 114: {fileID: 11406404}
   m_Layer: 8
   m_Name: VEH_GUI_MUSTANGGIADA_POS
   m_TagString: Untagged
@@ -612,6 +613,38 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 186786}
   m_Mesh: {fileID: 4300008, guid: 3a429b0c3040c5b4ebe4744749134507, type: 3}
+--- !u!114 &11406404
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 114988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 136
+    i1: 240
+    i2: 215
+    i3: 37
+    i4: 186
+    i5: 243
+    i6: 146
+    i7: 84
+    i8: 123
+    i9: 4
+    i10: 222
+    i11: 231
+    i12: 136
+    i13: 248
+    i14: 25
+    i15: 241
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &11459154
 MonoBehaviour:
   m_ObjectHideFlags: 1

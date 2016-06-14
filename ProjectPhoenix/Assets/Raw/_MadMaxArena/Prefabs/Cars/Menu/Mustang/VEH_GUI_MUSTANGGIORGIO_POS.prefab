@@ -172,6 +172,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 418088}
   - 114: {fileID: 11446568}
+  - 114: {fileID: 11460046}
   m_Layer: 8
   m_Name: VEH_GUI_MUSTANGGIORGIO_POS
   m_TagString: Untagged
@@ -702,6 +703,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VehiclePrefab: {fileID: 106096, guid: cfe1729f1e4a7844a8c592c072913fa5, type: 2}
   VehicleName: Brutoos
+--- !u!114 &11460046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 154
+    i1: 21
+    i2: 138
+    i3: 45
+    i4: 12
+    i5: 242
+    i6: 247
+    i7: 212
+    i8: 185
+    i9: 202
+    i10: 91
+    i11: 93
+    i12: 136
+    i13: 146
+    i14: 46
+    i15: 126
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

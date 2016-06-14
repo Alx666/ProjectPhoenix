@@ -238,6 +238,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 491760}
   - 114: {fileID: 11446278}
+  - 114: {fileID: 11473406}
   m_Layer: 8
   m_Name: VEH_GUI_MUSTANGFLAVIO_POS
   m_TagString: Untagged
@@ -813,6 +814,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VehiclePrefab: {fileID: 138564, guid: 96b0e12f1fba8e54ea019568d4571f79, type: 2}
   VehicleName: Heatseeker
+--- !u!114 &11473406
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 196260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 117
+    i1: 119
+    i2: 88
+    i3: 188
+    i4: 142
+    i5: 233
+    i6: 6
+    i7: 52
+    i8: 91
+    i9: 214
+    i10: 213
+    i11: 227
+    i12: 15
+    i13: 228
+    i14: 65
+    i15: 80
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &11487094
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -73,6 +73,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 495654}
   - 114: {fileID: 11473558}
+  - 114: {fileID: 11456396}
   m_Layer: 8
   m_Name: VEH_GUI_MUSTANGGIANMARCO_POS
   m_TagString: Untagged
@@ -689,6 +690,38 @@ MonoBehaviour:
   RotationSpeed: 15
   MinAngle: -45
   MaxAngle: 15
+--- !u!114 &11456396
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 122736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 156
+    i1: 178
+    i2: 244
+    i3: 224
+    i4: 83
+    i5: 85
+    i6: 207
+    i7: 196
+    i8: 168
+    i9: 130
+    i10: 14
+    i11: 160
+    i12: 107
+    i13: 53
+    i14: 193
+    i15: 109
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &11473558
 MonoBehaviour:
   m_ObjectHideFlags: 1

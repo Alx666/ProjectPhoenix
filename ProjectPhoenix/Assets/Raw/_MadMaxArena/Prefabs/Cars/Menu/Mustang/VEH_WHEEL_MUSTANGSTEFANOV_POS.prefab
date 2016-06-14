@@ -370,6 +370,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 404244}
   - 114: {fileID: 11406882}
+  - 114: {fileID: 11441920}
   m_Layer: 8
   m_Name: VEH_WHEEL_MUSTANGSTEFANOV_POS
   m_TagString: Untagged
@@ -1199,6 +1200,38 @@ MonoBehaviour:
   RotationSpeed: 15
   MinAngle: -45
   MaxAngle: 15
+--- !u!114 &11441920
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 199560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 67
+    i1: 56
+    i2: 111
+    i3: 17
+    i4: 38
+    i5: 17
+    i6: 175
+    i7: 36
+    i8: 121
+    i9: 54
+    i10: 81
+    i11: 81
+    i12: 180
+    i13: 205
+    i14: 230
+    i15: 211
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

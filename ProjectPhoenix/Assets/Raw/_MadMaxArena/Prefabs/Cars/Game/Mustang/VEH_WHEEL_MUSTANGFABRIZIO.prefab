@@ -113,6 +113,7 @@ GameObject:
   - 114: {fileID: 11423056}
   - 114: {fileID: 11441848}
   - 114: {fileID: 11439744}
+  - 114: {fileID: 11408122}
   m_Layer: 0
   m_Name: VEH_WHEEL_MUSTANGFABRIZIO
   m_TagString: Untagged
@@ -1249,6 +1250,19 @@ MonoBehaviour:
   adaptionSpeed: 1.5
   tonemapper: {fileID: 4800000, guid: 003377fc2620a44939dadde6fe3f8190, type: 3}
   validRenderTextureFormat: 1
+--- !u!114 &11408122
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 123302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eda5eb79a7065dc468412d17c2ba468f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hp: 100
+  Armor: 1
 --- !u!114 &11419340
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1289,9 +1303,9 @@ MonoBehaviour:
   OverrideCenterOfMass: 1
   SyncGfxWheels: 1
   CurrentSpeed: 
-  Hp: 10000
+  Hp: 8000
   SteerAngle: 30
-  MaxSpeed: 500
+  MaxSpeed: 250
   OverrideCOM: {x: 0, y: 0, z: 0}
 --- !u!114 &11427928
 MonoBehaviour:
@@ -1440,13 +1454,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 163644, guid: 696c6fbd421805849afd3456194fbd8a, type: 2}
+  BulletPrefab: {fileID: 163644, guid: 6407bb3b5de2c6e4ab492287fe140550, type: 2}
   ShootLocators:
   - {fileID: 136596}
   Mode: 0
   Spread: 0
-  BulletDelay: 0.3
-  BarrageDelay: 0.3
+  BulletDelay: 0.7
+  BarrageDelay: 0.7
   Barrage: 1
 --- !u!114 &11441848
 MonoBehaviour:

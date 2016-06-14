@@ -122,6 +122,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 439450}
   - 114: {fileID: 11489962}
+  - 114: {fileID: 11463626}
   m_Layer: 8
   m_Name: VEH_GUI_CAMARODAVIDE_POS
   m_TagString: Untagged
@@ -2229,6 +2230,38 @@ MonoBehaviour:
   RotationSpeed: 15
   MinAngle: -45
   MaxAngle: 15
+--- !u!114 &11463626
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 114858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 180
+    i1: 118
+    i2: 250
+    i3: 254
+    i4: 3
+    i5: 183
+    i6: 238
+    i7: 212
+    i8: 59
+    i9: 87
+    i10: 226
+    i11: 214
+    i12: 247
+    i13: 253
+    i14: 50
+    i15: 125
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &11489962
 MonoBehaviour:
   m_ObjectHideFlags: 1
