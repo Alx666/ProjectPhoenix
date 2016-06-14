@@ -1867,3 +1867,129 @@ MonoBehaviour:
       m_matchingTextures: '!3'
       m_isActive: 1
     m_spawnExtensions: []
+  - m_name: MH_module_gasstation_00
+    m_instances:
+    - m_name: MH_module_gasstation_00
+      m_desktopPrefab: {fileID: 170948, guid: 95bccbe7cf5622544bef3f1751757591, type: 2}
+      m_desktopPrefabFileName: 
+      m_mobilePrefab: {fileID: 0}
+      m_mobilePrefabFileName: 
+      m_minInstances: 1
+      m_maxInstances: 1
+      m_failureRate: 0
+      m_minSpawnOffsetX: 0
+      m_maxSpawnOffsetX: 0
+      m_minSpawnOffsetY: -0.3
+      m_maxSpawnOffsetY: -0.1
+      m_minSpawnOffsetZ: 0
+      m_maxSpawnOffsetZ: 0
+      m_rotateToSlope: 1
+      m_minRotationOffsetX: 0
+      m_maxRotationOffsetX: 0
+      m_minRotationOffsetY: -180
+      m_maxRotationOffsetY: 180
+      m_minRotationOffsetZ: 0
+      m_maxRotationOffsetZ: 0
+      m_useParentScale: 1
+      m_minScale: 1
+      m_maxScale: 1
+      m_scaleByDistance:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_localBounds: 5
+      m_virginTerrain: 1
+      m_extParam: 
+    m_dna:
+      m_width: 24.23888
+      m_height: 12.771712
+      m_boundsRadius: 24.23888
+      m_seedThrow: 36.358322
+      m_minScale: 1
+      m_maxScale: 1
+      m_rndScaleInfluence: 0
+      m_extParam: 
+      m_protoIdx: 4
+    m_spawnCriteria:
+    - m_name: 
+      m_checkType: 1
+      m_virginTerrain: 1
+      m_checkHeight: 1
+      m_minHeight: 0
+      m_maxHeight: 975
+      m_heightFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkSlope: 1
+      m_minSlope: 0
+      m_maxSlope: 7.4508843
+      m_slopeFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkProximity: 0
+      m_proximityTag: 
+      m_minProximity: 0
+      m_maxProximity: 100
+      m_proximityFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 0.3
+          value: 0.2
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkTexture: 0
+      m_matchingTextures: '!3'
+      m_isActive: 1
+    m_spawnExtensions: []

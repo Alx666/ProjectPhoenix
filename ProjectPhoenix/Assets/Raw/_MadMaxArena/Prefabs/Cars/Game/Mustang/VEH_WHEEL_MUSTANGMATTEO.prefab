@@ -1172,9 +1172,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 332106777f996d84cb944b2a3c887459, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelativePosition: 0.3
-  LerpSpeed: 5
-  VelocityZoomCoeff: 0.5
+  MinOffset: 10
+  MaxOffset: 20
+  StateChanger: 324
+  DistanceFromTarget: 0.4
 --- !u!114 &11428880
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1413,12 +1414,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8224965cf0fff0647b4ebdf860a77a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OverrideCenterOfMass: 1
+  SyncGfxWheels: 1
+  CurrentSpeed: 
   Hp: 10000
   SteerAngle: 30
   MaxSpeed: 200
-  CurrentSpeed: 
-  SyncGfxWheels: 1
-  OverrideCenterOfMass: 1
   OverrideCOM: {x: 0, y: 0, z: 0}
 --- !u!114 &11471976
 MonoBehaviour:
