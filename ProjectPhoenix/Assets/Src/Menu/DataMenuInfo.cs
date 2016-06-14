@@ -9,6 +9,7 @@ public class DataMenuInfo : MonoBehaviour
 
     public void Start()
     {
+        this.transform.parent = null;
         DontDestroyOnLoad(this.gameObject);
     }
 }
