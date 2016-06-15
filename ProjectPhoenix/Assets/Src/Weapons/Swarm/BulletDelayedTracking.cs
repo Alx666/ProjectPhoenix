@@ -8,6 +8,7 @@ using System;
 [RequireComponent(typeof(ParticlesController))]
 public class BulletDelayedTracking : MonoBehaviour, IBullet, IPoolable
 {
+    public Actor Owner { get; set; }
     public float IdleTime = 1f;
     public float LaunchVelocity = 3f;
     public float VelocityIncrement = 10f; 
@@ -61,8 +62,9 @@ public class BulletDelayedTracking : MonoBehaviour, IBullet, IPoolable
         m_hCurrent.OnFixedUpdate();
     }
 
-    public void Shoot(Vector3 vPosition, Vector3 vDirection, Vector3 vWDirection)
+    public void Shoot(Vector3 vPosition, Vector3 vDirection, Vector3 vWDirection, Actor hOwner)
     {
+        Owner = hOwner;
         this.transform.position = vPosition;
         this.transform.forward = vWDirection;
         m_hRigidbody.AddForce(vDirection * LaunchVelocity, ForceMode.VelocityChange);

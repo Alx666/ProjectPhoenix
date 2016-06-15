@@ -23,7 +23,7 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
     public float HeavyArmorDamageRate;
     private float m_fTotalDistance;
     private ParticlesController m_hParticlesController;
-
+    public Actor Owner { get; set; }
 
     void Awake()
     {
@@ -34,13 +34,15 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
         damageRates.Add(ArmorType.Heavy, HeavyArmorDamageRate);
     }
 
-    public void Shoot(Vector3 vPosition, Vector3 vDirection, Vector3 vWDirection)
+    public void Shoot(Vector3 vPosition, Vector3 vDirection, Vector3 vWDirection, Actor hOwner)
     {
         if (m_hParticlesController != null)
             m_hParticlesController.PlayMuzzleVfx(vPosition, vDirection);
 
         this.gameObject.transform.position = vPosition;
         this.gameObject.transform.forward = vDirection;
+
+        Owner = hOwner;
     }
 
     void Update()
@@ -90,6 +92,8 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
 
     public Pool Pool { get; set; }
 
+    
+
     public void Enable()
     {
         this.gameObject.SetActive(true);
@@ -118,6 +122,5 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
     {
         Disable();
     }
-
     #endregion
 }

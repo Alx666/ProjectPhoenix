@@ -8,17 +8,19 @@ using System.Linq;
 public class FlameThrower : MonoBehaviour, IBeam
 {
     public Light FlameLight;
+    public Actor Owner { get; set; }
 
     public float MaxFireLength;
     public float DPS;
     public float DoT;
 
     private float LightIntensity;
-
+    
 
     private List<ParticleSystem> m_hParticleSystems;
     void Awake()
     {
+        Owner = GetComponent<Actor>();
         m_hParticleSystems = this.GetComponentsInChildren<ParticleSystem>().ToList();
         FlameLight.enabled = false;
         LightIntensity = FlameLight.intensity;

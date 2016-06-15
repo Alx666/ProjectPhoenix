@@ -11,6 +11,7 @@ public class WeaponBeam : MonoBehaviour, IWeapon
 
     public List<GameObject> ShootLocators;
     public GameObject Beam;
+    public Actor Owner { get; set; }
 
     private Fire m_hFire;
     private WeaponOff m_hWeaponOff;
@@ -30,6 +31,7 @@ public class WeaponBeam : MonoBehaviour, IWeapon
 
     void Awake()
     {
+        Owner = GetComponent<Actor>();
         GameObject tmp = Instantiate(Beam);
         m_hBeam = tmp.GetComponent<IBeam>();
         m_fDurationTime = ActiveTime;

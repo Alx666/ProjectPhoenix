@@ -6,6 +6,7 @@ using System;
 public class  Laser : MonoBehaviour, IBeam
 {
     public float DPS;
+    public Actor Owner { get; set; }
 
     public Texture[] BeamFrames;    // Animation frame sequence
     public float FrameStep;         // Animation time
@@ -39,6 +40,7 @@ public class  Laser : MonoBehaviour, IBeam
     private bool bDone;
     void Awake()
     {
+        Owner = GetComponent<Actor>();
         m_hLineRenderer = this.GetComponent<LineRenderer>();
 
         // Assign first frame texture

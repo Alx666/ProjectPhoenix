@@ -16,6 +16,7 @@ internal class ControllerAITurret : NetworkBehaviour
     public AnimInfo       AnimationParams;
     public TurretAimMode  AimMode         = TurretAimMode.Direct;
     public BallisticMode  Trajectory      = BallisticMode.Hi;
+    public Actor Owner { get; set; }
 
     private Weapon        m_hWeapon;
     private StateIdle     m_hIdle;
@@ -33,6 +34,7 @@ internal class ControllerAITurret : NetworkBehaviour
 
     private void Awake()
     {
+        Owner = GetComponent<Actor>();
         m_hIdle             = new StateIdle(this);
         m_hPatrol           = new StatePatrol(this);
 
@@ -239,7 +241,7 @@ internal class ControllerAITurret : NetworkBehaviour
                     {
                         //TODO:da sostituire
                         BulletPhysics hBullet = (GameObject.Instantiate(m_hOwner.m_hWeapon.BulletPrefab) as GameObject).GetComponent<BulletPhysics>();
-                        hBullet.Shoot(m_hOwner.ShootLocator.transform.position, m_hOwner.ShootLocator.transform.forward, m_hOwner.AxeXrot.transform.forward);
+                        hBullet.Shoot(m_hOwner.ShootLocator.transform.position, m_hOwner.ShootLocator.transform.forward, m_hOwner.AxeXrot.transform.forward, m_hOwner.Owner);
                         NetworkServer.Spawn(hBullet.gameObject);
                         m_fShootTimer = 2f;
                     }

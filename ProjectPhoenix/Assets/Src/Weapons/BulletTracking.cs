@@ -10,6 +10,7 @@ public class BulletTracking : NetworkBehaviour, IBullet, IPoolable
     protected float ElapsedTime;
 
     public float Damage;
+    public Actor Owner { get; set; }
 
     ParticlesController controller;
     FollowTarget follow;
@@ -41,8 +42,9 @@ public class BulletTracking : NetworkBehaviour, IBullet, IPoolable
         damageRates.Add(ArmorType.Heavy, HeavyArmorDamageRate);
     }
 
-    public void Shoot(Vector3 vPosition, Vector3 vDirection, Vector3 vWDirection)
+    public void Shoot(Vector3 vPosition, Vector3 vDirection, Vector3 vWDirection, Actor hOwner)
     {
+        Owner = hOwner;
         this.gameObject.transform.position = vPosition;
         RaycastHit vRaycast;
         if (Physics.Raycast(vPosition, vDirection, out vRaycast))

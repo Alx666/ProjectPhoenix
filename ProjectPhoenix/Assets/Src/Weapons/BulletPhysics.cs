@@ -14,7 +14,7 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
     //opsioni possibili:
     //1) 1 solo sphere collider che si allarga e si ristringe 
     //2) 2 sphere collider uno trigger e l'altro no il primo riguardante l'esposione mentre il secondo della proiettile fisico
-
+    public Actor Owner { get; set; }
     public float Damage;
     [Range(0f, 100f)]
     public float Force;
@@ -59,7 +59,7 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
         
     }
 
-    public void Shoot(Vector3 vPosition, Vector3 vDirection, Vector3 vWDirection)
+    public void Shoot(Vector3 vPosition, Vector3 vDirection, Vector3 vWDirection, Actor hOwner)
     {
         if (m_hParticlesController != null)
             m_hParticlesController.PlayMuzzleVfx(vPosition, vDirection);
@@ -70,6 +70,7 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
         m_hRigidBody.AddForce(this.gameObject.transform.forward * Force, ForceMode.VelocityChange);
 
         m_vShootPosition = vPosition;
+        Owner = hOwner;
     }
 
 

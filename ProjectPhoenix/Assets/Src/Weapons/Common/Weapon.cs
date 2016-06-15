@@ -25,6 +25,8 @@ public class Weapon : NetworkBehaviour, IWeapon
 
     public int Barrage = 1;
 
+    public Actor Owner { get; set; }
+
     private Pool m_hPool;
     private IWeaponState m_hStateMachine;
     private WeaponReady m_hTrigger;
@@ -34,6 +36,7 @@ public class Weapon : NetworkBehaviour, IWeapon
 
     private void Awake()
     {
+        Owner = GetComponent<Actor>();
         QueueLocators = new Queue<GameObject>(ShootLocators);
         OnSpawnBullet += Weapon_OnSpawnBullet;
         m_hPool = GlobalFactory.GetPool(BulletPrefab);
@@ -82,7 +85,7 @@ public class Weapon : NetworkBehaviour, IWeapon
     {
         GameObject bullet = ClientScene.FindLocalObject(bulletId);
         IBullet bulletComp = bullet.GetComponent<IBullet>();
-        bulletComp.Shoot(pos, dir, this.transform.forward);
+        bulletComp.Shoot(pos, dir, this.transform.forward, this.Owner);
     }
 
     internal struct ShootData

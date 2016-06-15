@@ -9,7 +9,8 @@ using UnityEngine.Networking;
 /// </summary>
 public class BulletHitscan : NetworkBehaviour, IBullet, IPoolable
 {
-    public void Shoot(Vector3 vPosition, Vector3 vDirection, Vector3 vWDirection)
+    public Actor Owner { get; set; }
+    public void Shoot(Vector3 vPosition, Vector3 vDirection, Vector3 vWDirection, Actor hOwner)
     {
         
     }
