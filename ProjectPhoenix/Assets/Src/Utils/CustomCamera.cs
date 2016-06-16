@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(Camera))]
 public class CustomCamera : MonoBehaviour
 {
+
     public float MinOffset = 20.0f;
     public float MaxOffset = 40.0f;
     public KeyCode StateChanger = KeyCode.Mouse1;
 
+
     [Range(0, 1)]
     public float DistanceFromTarget = 0.3f;
+
 
     GameObject Target;
     ICameraState current;
@@ -18,22 +22,33 @@ public class CustomCamera : MonoBehaviour
     Vector3 Offset;
     Vector3 startingOffset;
 
+
     void Awake()
     {
         Target = this.transform.root.gameObject;
-    }
 
-    void Start()
-    {
         InitialOffset();
         startingOffset = Offset;
 
         stdCamera = new StandardCamera(this);
         aimCamera = new AimCamera(this);
+        current = stdCamera;
     }
+
+
+    void Start()
+    {
+        NetworkBehaviour hNetworked = Target.GetComponent<NetworkBehaviour>();
+        if(!hNetworked.isLocalPlayer)
+        {
+            GameObject.Destroy(this.gameObject);
+        }
+    }
+
 
     void Update()
     {
+
         if (!Input.GetKey(StateChanger))
             current = stdCamera;
 
@@ -43,6 +58,7 @@ public class CustomCamera : MonoBehaviour
 
     void LateUpdate()
     {
+
         current.CalculateOffset();
 
         this.transform.parent = null;
@@ -95,9 +111,11 @@ public class CustomCamera : MonoBehaviour
 
         public AimCamera(CustomCamera MyCamera)
         {
+
             camera = MyCamera;
             aimOffset = camera.Offset;
         }
+
 
         public void CalculateOffset()
         {
@@ -116,6 +134,8 @@ public class CustomCamera : MonoBehaviour
             float fDistance;
             vPlane.Raycast(vRay, out fDistance);
             Vector3 vPoint = vRay.GetPoint(fDistance);
+
+
 
 
             aimOffset.x = camera.stdCamera.stdOffset.x + vPoint.x - camera.Target.transform.position.x;
