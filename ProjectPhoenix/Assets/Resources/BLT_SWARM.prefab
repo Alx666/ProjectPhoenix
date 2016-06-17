@@ -79,6 +79,7 @@ GameObject:
   - 54: {fileID: 5401196}
   - 65: {fileID: 6506686}
   - 114: {fileID: 11487544}
+  - 114: {fileID: 11463670}
   m_Layer: 0
   m_Name: BLT_SWARM
   m_TagString: Untagged
@@ -240,6 +241,38 @@ MonoBehaviour:
   MuzzleScaleCoef: 1
   HitScaleCoef: 1
   MissScaleCoef: 1
+--- !u!114 &11463670
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 176136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 255
+    i1: 123
+    i2: 93
+    i3: 156
+    i4: 195
+    i5: 131
+    i6: 212
+    i7: 228
+    i8: 233
+    i9: 68
+    i10: 205
+    i11: 83
+    i12: 120
+    i13: 189
+    i14: 66
+    i15: 158
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 1
 --- !u!114 &11481712
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -285,6 +318,10 @@ MonoBehaviour:
   LaunchVelocity: 10
   VelocityIncrement: 500
   FireEffect: {fileID: 134238}
+  Damage: 0
+  LightArmorDamageRate: 0
+  MediumArmorDamageRate: 0
+  HeavyArmorDamageRate: 0
 --- !u!198 &19815984
 ParticleSystem:
   m_ObjectHideFlags: 1

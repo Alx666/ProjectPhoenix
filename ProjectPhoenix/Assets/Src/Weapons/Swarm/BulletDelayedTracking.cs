@@ -49,6 +49,7 @@ public class BulletDelayedTracking : MonoBehaviour, IBullet, IPoolable
 
 	void Start ()
     {
+        m_hRigidbody.centerOfMass = new Vector3(0f, 0f, 1.3f);
     }
 	
 	// Update is called once per frame
@@ -66,8 +67,8 @@ public class BulletDelayedTracking : MonoBehaviour, IBullet, IPoolable
     {
         Owner = hOwner;
         this.transform.position = vPosition;
-        this.transform.forward = vWDirection;
-        m_hRigidbody.AddForce(vDirection * LaunchVelocity, ForceMode.VelocityChange);
+        this.transform.forward = vDirection;
+        m_hRigidbody.AddForce(vWDirection * LaunchVelocity, ForceMode.VelocityChange);
     }
 
     void OnCollisionEnter(Collision collider)
@@ -78,9 +79,14 @@ public class BulletDelayedTracking : MonoBehaviour, IBullet, IPoolable
         Actor hHit = collider.gameObject.GetComponent<Actor>();
         m_hParticlesController.PlayHitVfx(this.transform.position, this.transform.up);
 
-        ArmorType armor = hHit.Armor;
-        float rate = damageRates[armor];
-        hHit.Damage(this);
+        
+        if(hHit != null)
+        {
+            ArmorType armor = hHit.Armor;
+            float rate = damageRates[armor];
+            hHit.Damage(this);
+        }
+
 
         GlobalFactory.Recycle(this.gameObject);
     }
