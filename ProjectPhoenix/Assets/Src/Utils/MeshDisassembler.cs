@@ -1,14 +1,11 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class MeshDisassembler : MonoBehaviour
 {
-    public float MinExplosionForce = 1f;
-    public float MaxExplosionForce = 10f;
-    public float MassForeachElement = 1f;
     public bool RootColliderAlwaysOn;
+    public bool SetScriptOnChildren;
 
     private Rigidbody rootRigidbody;
     private Collider rootCollider;
@@ -19,12 +16,16 @@ public class MeshDisassembler : MonoBehaviour
     private List<Collider> remainingColliders;
     private bool isAssembled;
 
-    void Awake()
+    public float MassForeachElement = 10;
+
+    private void Awake()
     {
         isAssembled = true;
         rootRigidbody = this.GetComponent<Rigidbody>();
         targetsInfo = new Dictionary<GameObject, AssemblerInfo>();
+        targets = new List<GameObject>();
         targets = this.GetComponentsInChildren<Transform>().Select(hT => hT.gameObject).Where(GO => GO.GetComponent<MeshRenderer>() != null).ToList();
+        remainingColliders = new List<Collider>();
         remainingColliders = this.GetComponentsInChildren<Transform>().Where(hT => hT.GetComponent<MeshRenderer>() == null).Select(GO => GO.GetComponent<Collider>()).Where(hC => hC != null && hC as WheelCollider == null).ToList();
 
         rootCollider = this.GetComponent<Collider>();
@@ -55,10 +56,14 @@ public class MeshDisassembler : MonoBehaviour
        });
     }
 
-
+    //DRAIV
+    private void Start()
+    {
+        if (SetScriptOnChildren)
+            this.GetComponentsInChildren<Transform>().ToList().ForEach(hChild => hChild.gameObject.AddComponent<MeshDisassembler>());
+    }
     public void Disassemble()
     {
-
         lastPosition = this.transform.position;
 
         if (isAssembled)
@@ -67,8 +72,8 @@ public class MeshDisassembler : MonoBehaviour
            {
                AssemblerInfo info = targetsInfo[hT];
 
-           //
-           Transform parent = hT.transform.parent;
+               //
+               Transform parent = hT.transform.parent;
                Vector3 position = hT.transform.localPosition;
                Quaternion rotation = hT.transform.localRotation;
                Vector3 scale = hT.transform.localScale;
@@ -76,29 +81,22 @@ public class MeshDisassembler : MonoBehaviour
                info.originalPosition = position;
                info.originalRotation = rotation;
                info.originalScale = scale;
-           //
+               //
 
-           hT.transform.parent = null;
+               hT.transform.parent = null;
 
                info.generatedCollider.enabled = true;
-
-               Vector3 explosionForce = UnityEngine.Random.Range(MinExplosionForce, MaxExplosionForce) * UnityEngine.Random.onUnitSphere;
 
                Rigidbody hRb;
                if (!info.hasInitialRigidbody)
                {
                    hRb = hT.AddComponent<Rigidbody>();
-                   hRb.mass = MassForeachElement;
-                   hRb.velocity = explosionForce;
                }
                else
                {
                    hRb = hT.GetComponent<Rigidbody>();
-                   hRb.mass = MassForeachElement;
-                   hRb.velocity = explosionForce;
                }
            });
-
         }
         remainingColliders.ForEach(hC => hC.enabled = false);
         isAssembled = false;
@@ -106,11 +104,59 @@ public class MeshDisassembler : MonoBehaviour
         if (rootCollider != null)
             if (!RootColliderAlwaysOn)
                 rootCollider.enabled = false;
-
-
     }
 
-    void Reassemble()
+    public void Explode(float MinExplosionForce, float MaxExplosionForce)
+    {
+        lastPosition = this.transform.position;
+
+        if (isAssembled)
+        {
+            targets.ForEach(hT =>
+            {
+                AssemblerInfo info = targetsInfo[hT];
+
+                //
+                Transform parent = hT.transform.parent;
+                Vector3 position = hT.transform.localPosition;
+                Quaternion rotation = hT.transform.localRotation;
+                Vector3 scale = hT.transform.localScale;
+
+                info.originalPosition = position;
+                info.originalRotation = rotation;
+                info.originalScale = scale;
+                //
+
+                hT.transform.parent = null;
+
+                info.generatedCollider.enabled = true;
+
+                Vector3 explosionForce = UnityEngine.Random.Range(MinExplosionForce, MaxExplosionForce) * UnityEngine.Random.onUnitSphere;
+
+                Rigidbody hRb;
+                if (!info.hasInitialRigidbody)
+                {
+                    hRb = hT.AddComponent<Rigidbody>();
+                    hRb.mass = MassForeachElement;
+                    hRb.velocity = explosionForce;
+                }
+                else
+                {
+                    hRb = hT.GetComponent<Rigidbody>();
+                    hRb.mass = MassForeachElement;
+                    hRb.velocity = explosionForce;
+                }
+            });
+        }
+        remainingColliders.ForEach(hC => hC.enabled = false);
+        isAssembled = false;
+
+        if (rootCollider != null)
+            if (!RootColliderAlwaysOn)
+                rootCollider.enabled = false;
+    }
+
+    private void Reassemble()
     {
         isAssembled = true;
 
@@ -138,7 +184,6 @@ public class MeshDisassembler : MonoBehaviour
                 hRb.angularVelocity = Vector3.zero;
                 Destroy(hRb);
             }
-
         });
 
         rootRigidbody.velocity = Vector3.zero;
@@ -149,12 +194,6 @@ public class MeshDisassembler : MonoBehaviour
         if (rootCollider != null)
             if (!RootColliderAlwaysOn)
                 rootCollider.enabled = true;
-    }
-
-    public void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.GetComponent<ControllerWheels>())
-            Disassemble();
     }
 
     private struct AssemblerInfo
@@ -177,5 +216,15 @@ public class MeshDisassembler : MonoBehaviour
             this.hasInitialRigidbody = hasInitialRigidbody;
             this.hasInitialCollider = hasInitialCollider;
         }
+    }
+
+
+    //DRAIV
+    public void OnCollisionEnter(Collision collision)
+    {
+        ControllerWheels vehicle = collision.gameObject.GetComponent<ControllerWheels>();
+        if (vehicle != null && this.isAssembled)
+            Disassemble();
+
     }
 }
