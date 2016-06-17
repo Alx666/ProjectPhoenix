@@ -66,8 +66,7 @@ public class VehicleSelection : MonoBehaviour
 
     public void OnButtonStart()
     {
-        FindObjectOfType<DataMenuInfo>().SelectedPrefab = m_hCurrent.Value.GetComponent<VehiclePrefabMGR>().VehiclePrefab;
-        SceneManager.LoadScene("DRAIV_Lobby");
+        LobbyManager.Instance.GamePrefab = m_hCurrent.Value.GetComponent<VehiclePrefabMGR>().VehiclePrefab;
     }
 
     public void OnButtonNext()

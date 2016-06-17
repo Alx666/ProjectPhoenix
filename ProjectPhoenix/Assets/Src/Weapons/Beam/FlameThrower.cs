@@ -43,7 +43,7 @@ public class FlameThrower : MonoBehaviour, IBeam
             FlammableObject m_hFlamObj = m_hHitPoint.collider.GetComponent<FlammableObject>();
             
             if(hHit != null)
-                hHit.Damage(DPS * Time.deltaTime);
+                hHit.Damage(this);
 
             if (m_hFlamObj != null)
                 m_hFlamObj.SetOnFire();
@@ -59,5 +59,10 @@ public class FlameThrower : MonoBehaviour, IBeam
     private void TweenLightIntensity(float val)
     {
         FlameLight.intensity = val;
+    }
+
+    public float GetDamage(ArmorType armor)
+    {
+        throw new NotImplementedException();
     }
 }

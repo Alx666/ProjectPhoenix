@@ -80,7 +80,7 @@ public class BulletDelayedTracking : MonoBehaviour, IBullet, IPoolable
 
         ArmorType armor = hHit.Armor;
         float rate = damageRates[armor];
-        hHit.Damage(Damage * rate);
+        hHit.Damage(this);
 
         GlobalFactory.Recycle(this.gameObject);
     }
@@ -97,6 +97,11 @@ public class BulletDelayedTracking : MonoBehaviour, IBullet, IPoolable
     public void Disable()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public float GetDamage(ArmorType armor)
+    {
+        throw new NotImplementedException();
     }
 
     public Pool Pool { get; set; }

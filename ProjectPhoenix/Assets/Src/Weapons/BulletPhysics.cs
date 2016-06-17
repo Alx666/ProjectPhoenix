@@ -90,7 +90,7 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
                 this.Damage = AoeDamage(Col.transform.position, collider.transform.position);
                 ArmorType armor = h_Hit.Armor;
                 float rate = damageRates[armor];
-                h_Hit.Damage(this.Damage * rate);
+                h_Hit.Damage(this);
             }
             if (Col.GetComponent<Rigidbody>() != null && !this)
             {
@@ -142,6 +142,11 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
         Debug.Log(Damage);
         return Damage;
 
+    }
+
+    public float GetDamage(ArmorType armor)
+    {
+        throw new NotImplementedException();
     }
 }
 

@@ -57,7 +57,7 @@ public class BulletTracking : NetworkBehaviour, IBullet, IPoolable
                 this.current = follow;
                 ArmorType armor = hHit.Armor;
                 float rate = damageRates[armor];
-                hHit.Damage(Damage * rate);
+                hHit.Damage(this);
                 return;
             }
         }
@@ -65,7 +65,6 @@ public class BulletTracking : NetworkBehaviour, IBullet, IPoolable
         this.gameObject.transform.forward = vDirection;
         this.current = noTarget;
     }
-
 
     public void OnTriggerEnter(Collider other)
     {
@@ -138,6 +137,11 @@ public class BulletTracking : NetworkBehaviour, IBullet, IPoolable
     public void Enable()
     {
         this.gameObject.SetActive(true);
+    }
+
+    public float GetDamage(ArmorType armor)
+    {
+        throw new NotImplementedException();
     }
     #endregion
 }

@@ -78,8 +78,6 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
 
                 if (isServer)
                 {
-                    ArmorType armor = hHit.Armor;
-                    float rate = damageRates[armor];
                     hHit.Damage(this);//non necessita di rpc perche agisce su Hp syncVar
                 }
             }

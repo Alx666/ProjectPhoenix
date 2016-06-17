@@ -171,7 +171,7 @@ public class  Laser : MonoBehaviour, IBeam
             IDamageable hHit = hitPoint.collider.GetComponent<IDamageable>();
 
             if (hHit != null)
-                hHit.Damage(DPS * Time.deltaTime);
+                hHit.Damage(this);
 
             // Get current beam length
             beamLength = Vector3.Distance(transform.position, hitPoint.point);
@@ -254,5 +254,10 @@ public class  Laser : MonoBehaviour, IBeam
             OnDespawned();
             bDone = false;
         }
+    }
+
+    public float GetDamage(ArmorType armor)
+    {
+        throw new NotImplementedException();
     }
 }

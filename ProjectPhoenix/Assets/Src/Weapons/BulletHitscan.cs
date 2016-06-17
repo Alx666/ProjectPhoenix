@@ -40,5 +40,10 @@ public class BulletHitscan : NetworkBehaviour, IBullet, IPoolable
         throw new NotImplementedException();
     }
 
+    public float GetDamage(ArmorType armor)
+    {
+        throw new NotImplementedException();
+    }
+
     #endregion
 }
