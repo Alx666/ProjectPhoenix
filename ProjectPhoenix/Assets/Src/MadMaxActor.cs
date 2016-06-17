@@ -17,6 +17,6 @@ public class MadMaxActor : Actor
 
     public override void Die(Actor Killer)
     {
-        // Gamemanager.NotifyKill(Actor Killer, Actor Killed);
+		GameManager.Instance.WoW( Killer, this );
     }
 }

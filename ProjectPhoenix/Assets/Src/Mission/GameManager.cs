@@ -2,6 +2,8 @@
 using UnityEngine.Networking;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System;
 
 public class GameManager : NetworkBehaviour
@@ -11,6 +13,8 @@ public class GameManager : NetworkBehaviour
 
     static public GameManager Instance { get; private set; }
 
+	private Dictionary<Actor, int> scores;
+
     //private IVictoryCondition m_hVictoryCondition;
 
     void Awake()
@@ -19,6 +23,8 @@ public class GameManager : NetworkBehaviour
             Instance = this;
         else
             throw new System.Exception("Multiple Gamemanager detected in scene!");
+
+		scores = new Dictionary<Actor, int>(); //TODO: popolare lista con i player [Compito del lobby manager]
     }
 
     internal int GetHighestScore()
@@ -36,22 +42,30 @@ public class GameManager : NetworkBehaviour
 
     void Update()
     {
-        //if (m_hVictoryCondition.Check())
-        //    GameTerminated();
-    }
+		ScoreText.text = scores.ToList().Where( hP => hP.Key.isLocalPlayer ).First().Value.ToString();
+	}
 
     void GameTerminated()
     {
         //Debug.Log("Game finish");
     }
 
-	void AddScore(int value, Actor  )
+	void AddScore(int value, Actor killer )
 	{
-
+		scores[killer] += value;
 	}
 
-	void WoW( Actor killer, Actor killed )
+	public void WoW( Actor killer, Actor killed )
 	{
 		WoWText.text = killer.Name + " pwned " + killed.Name + "\n";
+		AddScore( 100, killer );
+	}
+
+	public void ShowScores()
+	{
+		if ( Input.GetKey(KeyCode.Tab) )
+		{
+			//TODO x SAMUELE: Implementare.
+		}
 	}
 }
