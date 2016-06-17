@@ -7,31 +7,25 @@ public class Actor : NetworkBehaviour, IDamageable
 {
     [SyncVar]
     [SerializeField]
-    private float Hp;
+    protected float Hp;
     
     public ArmorType Armor;
+
+    public string Name { get; set; }
+
     //[SerializeField]private List<Skill> m_hSkills;
 
-    
+
     void Update()
     {
-        if (Hp <= 0)
-            Die();
     }
-
-    #region Damageable
-    public void Damage(object damage)
+    
+    public virtual void Damage(IDamageSource hSource)
     {
-        throw new NotImplementedException();
+
     }
 
-    public void Damage(float fDmg)
-    {
-        Hp -= fDmg;
-    }
-    #endregion
-
-    public virtual void Die()
+    public virtual void Die(Actor Killer)
     {
         Destroy(this.gameObject); //temp
     }

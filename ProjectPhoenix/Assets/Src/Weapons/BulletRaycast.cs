@@ -14,7 +14,6 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
     public float MaxDistance = 50f;
     public float Speed = 1f;
     public float Damage = 10f;
-    private Dictionary<ArmorType, float> damageRates;
     [Range(0f, 1f)]
     public float LightArmorDamageRate;
     [Range(0f, 1f)]
@@ -28,10 +27,6 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
     void Awake()
     {
         m_hParticlesController = this.GetComponentInChildren<ParticlesController>();
-        damageRates = new Dictionary<ArmorType, float>();
-        damageRates.Add(ArmorType.Light, LightArmorDamageRate);
-        damageRates.Add(ArmorType.Medium, MediumArmorDamageRate);
-        damageRates.Add(ArmorType.Heavy, HeavyArmorDamageRate);
     }
 
     public void Shoot(Vector3 vPosition, Vector3 vDirection, Vector3 vWDirection, Actor hOwner)
@@ -43,6 +38,27 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
         this.gameObject.transform.forward = vDirection;
 
         Owner = hOwner;
+    }
+
+    public float GetDamage(ArmorType armor)
+    {
+        float damage = 0; 
+
+        switch (armor)
+        {
+            case ArmorType.Light:
+                damage = Damage * LightArmorDamageRate;
+                break;
+            case ArmorType.Medium:
+                damage = Damage * MediumArmorDamageRate;
+                break;
+            case ArmorType.Heavy:
+                damage = Damage * HeavyArmorDamageRate;
+                break;
+            default:
+                break;
+        }
+        return damage;
     }
 
     void Update()
@@ -64,7 +80,7 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
                 {
                     ArmorType armor = hHit.Armor;
                     float rate = damageRates[armor];
-                    hHit.Damage(Damage * rate);//non necessita di rpc perche agisce su Hp syncVar
+                    hHit.Damage(this);//non necessita di rpc perche agisce su Hp syncVar
                 }
             }
             else
@@ -85,8 +101,6 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
                 GlobalFactory.Recycle(this.gameObject);
         }
     }
-
-
 
     #region IPoolable
 
@@ -122,5 +136,6 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
     {
         Disable();
     }
+
     #endregion
 }

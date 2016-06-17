@@ -4,7 +4,8 @@ using System.Collections;
 public interface IDamageSource
 {
     Actor Owner { get; set; }
-    
+
+    float GetDamage(ArmorType armor);
 }
 
 public interface IBullet : IDamageSource
