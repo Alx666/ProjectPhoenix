@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -16,14 +17,16 @@ public class LobbyManager : NetworkLobbyManager
     public Text             NameField;
     public LobbyPlayer      LocalPlayer { get; set; }
 
-    private Dictionary<NetworkConnection, LobbyPlayer> m_hCurrentPlayers;
+    private Dictionary<NetworkConnection, LobbyPlayer> m_hCurrentLobbyPlayers;
+    private List<GameObject> m_hCurrentPlayersIntances;
 
 
     public static LobbyManager Instance { get; private set; }
 
     void Awake()
     {
-        m_hCurrentPlayers = new Dictionary<NetworkConnection, LobbyPlayer>();
+        m_hCurrentLobbyPlayers = new Dictionary<NetworkConnection, LobbyPlayer>();
+        m_hCurrentPlayersIntances = new List<GameObject>();
         GameObject.DontDestroyOnLoad(this.gameObject);
 
         if (Instance != null)
@@ -71,16 +74,17 @@ public class LobbyManager : NetworkLobbyManager
     {
         LobbyPlayer hLobbyPlayer = (GameObject.Instantiate(lobbyPlayerPrefab.gameObject) as GameObject).GetComponent<LobbyPlayer>();
         hLobbyPlayer.Username = NameField.text;
-        m_hCurrentPlayers.Add(conn, hLobbyPlayer);
-
+        m_hCurrentLobbyPlayers.Add(conn, hLobbyPlayer);
         return hLobbyPlayer.gameObject;
     }
 
     public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, short playerControllerId)
     {
-        Debug.Log(m_hCurrentPlayers[conn].Username);
-        return (GameObject)GameObject.Instantiate(m_hCurrentPlayers[conn].PrefabToSpawn, startPositions[conn.connectionId].position, Quaternion.identity);        
-    }
+        Debug.Log(m_hCurrentLobbyPlayers[conn].Username);
+        GameObject hNew = (GameObject)GameObject.Instantiate(m_hCurrentLobbyPlayers[conn].PrefabToSpawn, startPositions[conn.connectionId].position, Quaternion.identity);
+        m_hCurrentPlayersIntances.Add(hNew);
+        return hNew;
+    } 
 
     public override void OnClientConnect(NetworkConnection conn)
     {
@@ -110,8 +114,8 @@ public class LobbyManager : NetworkLobbyManager
 
     public override void OnLobbyServerPlayerRemoved(NetworkConnection conn, short playerControllerId)
     {
-        if (m_hCurrentPlayers.ContainsKey(conn))
-            m_hCurrentPlayers.Remove(conn);
+        if (m_hCurrentLobbyPlayers.ContainsKey(conn))
+            m_hCurrentLobbyPlayers.Remove(conn);
     }
 
     public override void OnLobbyServerPlayersReady()
@@ -125,6 +129,11 @@ public class LobbyManager : NetworkLobbyManager
 
         if (allready)
             ServerChangeScene(playScene);
+    }
+
+    public List<GameObject> GetPlayerInstances()
+    {
+        return m_hCurrentPlayersIntances;
     }
 
     //public IEnumerator ServerCountdownCoroutine()

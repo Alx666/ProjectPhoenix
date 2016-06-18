@@ -27,22 +27,39 @@ public class GameManager : NetworkBehaviour
         scores = new Dictionary<Actor, int>(); //TODO: popolare lista con i player [Compito del lobby manager]
     }
 
+    void Start()
+    {
+        List<GameObject> playerInstances = new List<GameObject>();
+
+        if (isServer)
+        {
+            playerInstances = new List<GameObject>(LobbyManager.Instance.GetPlayerInstances());
+            playerInstances.ForEach(hA => RpcSyncPlayer(hA.GetComponent<Actor>().netId));
+        }      
+
+        //ToDo: Rendere victory condition generica
+        //m_hVictoryCondition = new DeathMatchWinCondition(20);
+    }
+
+    [ClientRpc]
+    public void RpcSyncPlayer(NetworkInstanceId hId)
+    {
+        Actor hActor = ClientScene.FindLocalObject(hId).GetComponent<Actor>();
+        if (!scores.ContainsKey(hActor))
+            scores.Add(hActor, 0);
+        Debug.Log("ALLAH UAKBAR!");
+    }
+
+    void Update()
+    {
+        ScoreText.text = scores.ToList().Where(hP => hP.Key.isLocalPlayer).FirstOrDefault().Value.ToString();
+    }
+
     internal int GetHighestScore()
     {
         //ritorna il punteggio piu alto
         //serve implementazione del punteggio
         throw new NotImplementedException();
-    }
-
-    void Start()
-    {
-        //ToDo: Rendere victory condition generica
-        //m_hVictoryCondition = new DeathMatchWinCondition(20);
-    }
-
-    void Update()
-    {
-        ScoreText.text = scores.ToList().Where(hP => hP.Key.isLocalPlayer).First().Value.ToString();
     }
 
     void GameTerminated()
