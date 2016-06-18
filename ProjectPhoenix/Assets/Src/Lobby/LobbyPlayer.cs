@@ -19,6 +19,7 @@ public class LobbyPlayer : NetworkLobbyPlayer
     {
         base.OnStartAuthority();
         Username = LobbyManager.Instance.NameField.text;
+        CmdSendUsername(Username);
         LobbyManager.Instance.LocalPlayer = this;
         
     }
@@ -29,7 +30,7 @@ public class LobbyPlayer : NetworkLobbyPlayer
     }
 
 
-  
+    [Command]
     private void CmdSendUsername(string sName)
     {
         Username = sName;
