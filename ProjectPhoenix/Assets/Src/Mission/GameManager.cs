@@ -14,6 +14,8 @@ public class GameManager : NetworkBehaviour
     static public GameManager Instance { get; private set; }
 
     private Dictionary<Actor, int> scores;
+    private bool m_bInitialized;
+    private List<GameObject> m_hPlayerInstances;
 
     //private IVictoryCondition m_hVictoryCondition;
 
@@ -30,19 +32,8 @@ public class GameManager : NetworkBehaviour
     void Start()
     {
         GameObject.DontDestroyOnLoad(this.gameObject);
-
-        if (isServer)
-        {
-            List<GameObject> playerInstances = new List<GameObject>();
-            playerInstances = new List<GameObject>(LobbyManager.Instance.GetPlayerInstances());
-            //playerInstances.ForEach(hA => RpcSyncPlayer(hA.GetComponent<Actor>().netId));
-
-            for (int i = 0; i < playerInstances.Count; i++)
-            {
-                RpcSyncPlayer(playerInstances[i].GetComponent<Actor>().netId);
-            }
-        }
-
+        m_hPlayerInstances = new List<GameObject>();
+        m_bInitialized = false;
         //ToDo: Rendere victory condition generica
         //m_hVictoryCondition = new DeathMatchWinCondition(20);
     }
@@ -50,14 +41,21 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     public void RpcSyncPlayer(NetworkInstanceId hId)
     {
+        Debug.Log("ALLAH UAKBAR!");
         Actor hActor = ClientScene.FindLocalObject(hId).GetComponent<Actor>();
         if (!scores.ContainsKey(hActor))
             scores.Add(hActor, 0);
-        Debug.Log("ALLAH UAKBAR!");
+        m_bInitialized = true;
     }
 
     void Update()
     {
+        if (isServer && m_bInitialized)
+        {
+            m_hPlayerInstances = new List<GameObject>(LobbyManager.Instance.GetPlayerInstances());
+            m_hPlayerInstances.ForEach(hA => RpcSyncPlayer(hA.GetComponent<Actor>().netId));
+        }
+
         ScoreText.text = scores.ToList().Where(hP => hP.Key.isLocalPlayer).FirstOrDefault().Value.ToString();
         ScoreText.text = this.netId.ToString();
     }
