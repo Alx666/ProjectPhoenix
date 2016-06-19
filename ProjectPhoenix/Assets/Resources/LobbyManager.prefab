@@ -813,6 +813,7 @@ MonoBehaviour:
   m_SpawnPrefabs:
   - {fileID: 143454, guid: 168fc58bdc326a44fabad3f349b6206e, type: 2}
   - {fileID: 189598, guid: 04e1fcd7f5c910b41aff5187932e494a, type: 2}
+  - {fileID: 171344, guid: ffe5c5b8316482b4f84fa3bfbc4eb8ff, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -852,7 +853,7 @@ MonoBehaviour:
   matchMaker: {fileID: 0}
   matchName: default
   matchSize: 4
-  m_ShowLobbyGUI: 1
+  m_ShowLobbyGUI: 0
   m_MaxPlayers: 4
   m_MaxPlayersPerConnection: 1
   m_MinPlayers: 0
@@ -862,6 +863,7 @@ MonoBehaviour:
   m_LobbyScene: DRAIV_Vehicle_Selection
   m_PlayScene: DRAIV_Game
   lobbySlots: []
+  GameManagerPrefab: {fileID: 171344, guid: ffe5c5b8316482b4f84fa3bfbc4eb8ff, type: 2}
   PrematchCountdown: 5
   ObjectsToEnable:
   - {fileID: 0}
@@ -976,7 +978,6 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_TargetDisplay: 0
@@ -1175,7 +1176,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 1728, y: -40}
-  m_SizeDelta: {x: 500, y: 85}
+  m_SizeDelta: {x: 391, y: 85}
   m_Pivot: {x: 0, y: 1}
 --- !u!224 &22485964
 RectTransform:

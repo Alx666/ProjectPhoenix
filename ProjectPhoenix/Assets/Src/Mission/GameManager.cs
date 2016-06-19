@@ -29,13 +29,19 @@ public class GameManager : NetworkBehaviour
 
     void Start()
     {
-        List<GameObject> playerInstances = new List<GameObject>();
+        GameObject.DontDestroyOnLoad(this.gameObject);
 
         if (isServer)
         {
+            List<GameObject> playerInstances = new List<GameObject>();
             playerInstances = new List<GameObject>(LobbyManager.Instance.GetPlayerInstances());
-            playerInstances.ForEach(hA => RpcSyncPlayer(hA.GetComponent<Actor>().netId));
-        }      
+            //playerInstances.ForEach(hA => RpcSyncPlayer(hA.GetComponent<Actor>().netId));
+
+            for (int i = 0; i < playerInstances.Count; i++)
+            {
+                RpcSyncPlayer(playerInstances[i].GetComponent<Actor>().netId);
+            }
+        }
 
         //ToDo: Rendere victory condition generica
         //m_hVictoryCondition = new DeathMatchWinCondition(20);
@@ -53,6 +59,7 @@ public class GameManager : NetworkBehaviour
     void Update()
     {
         ScoreText.text = scores.ToList().Where(hP => hP.Key.isLocalPlayer).FirstOrDefault().Value.ToString();
+        ScoreText.text = this.netId.ToString();
     }
 
     internal int GetHighestScore()

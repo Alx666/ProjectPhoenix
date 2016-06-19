@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 public class LobbyManager : NetworkLobbyManager
 {
+    public GameObject GameManagerPrefab;
     public float            PrematchCountdown = 5.0f;
 
     public bool IsServer { get; private set; }
@@ -19,6 +20,7 @@ public class LobbyManager : NetworkLobbyManager
 
     private Dictionary<NetworkConnection, LobbyPlayer> m_hCurrentLobbyPlayers;
     private List<GameObject> m_hCurrentPlayersIntances;
+    private int m_iPlayers;
 
 
     public static LobbyManager Instance { get; private set; }
@@ -83,6 +85,14 @@ public class LobbyManager : NetworkLobbyManager
         Debug.Log(m_hCurrentLobbyPlayers[conn].Username);
         GameObject hNew = (GameObject)GameObject.Instantiate(m_hCurrentLobbyPlayers[conn].PrefabToSpawn, startPositions[conn.connectionId].position, Quaternion.identity);
         m_hCurrentPlayersIntances.Add(hNew);
+
+        m_iPlayers++;
+        if(m_iPlayers == m_hCurrentLobbyPlayers.Count)
+        {
+            GameObject hGameManager = Instantiate<GameObject>(GameManagerPrefab);
+            NetworkServer.Spawn(hGameManager);
+        }
+
         return hNew;
     } 
 
