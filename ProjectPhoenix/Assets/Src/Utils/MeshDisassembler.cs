@@ -5,7 +5,6 @@ using UnityEngine;
 public class MeshDisassembler : MonoBehaviour
 {
     public bool RootColliderAlwaysOn;
-    public bool SetScriptOnChildren;
 
     private Rigidbody rootRigidbody;
     private Collider rootCollider;
@@ -56,12 +55,6 @@ public class MeshDisassembler : MonoBehaviour
        });
     }
 
-    //DRAIV
-    private void Start()
-    {
-        if (SetScriptOnChildren)
-            this.GetComponentsInChildren<Transform>().ToList().ForEach(hChild => hChild.gameObject.AddComponent<MeshDisassembler>());
-    }
     public void Disassemble()
     {
         lastPosition = this.transform.position;
