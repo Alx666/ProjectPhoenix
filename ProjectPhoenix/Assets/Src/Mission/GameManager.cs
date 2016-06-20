@@ -14,8 +14,6 @@ public class GameManager : NetworkBehaviour
     static public GameManager Instance { get; private set; }
 
     private Dictionary<Actor, int> scores;
-    private bool m_bInitialized;
-    private List<GameObject> m_hPlayerInstances;
 
     //private IVictoryCondition m_hVictoryCondition;
 
@@ -32,8 +30,10 @@ public class GameManager : NetworkBehaviour
     void Start()
     {
         GameObject.DontDestroyOnLoad(this.gameObject);
-        m_hPlayerInstances = new List<GameObject>();
-        m_bInitialized = false;
+
+        if (isServer)
+            StartCoroutine(WaitForInitialization(2f));
+
         //ToDo: Rendere victory condition generica
         //m_hVictoryCondition = new DeathMatchWinCondition(20);
     }
@@ -41,23 +41,14 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     public void RpcSyncPlayer(NetworkInstanceId hId)
     {
-        Debug.Log("ALLAH UAKBAR!");
         Actor hActor = ClientScene.FindLocalObject(hId).GetComponent<Actor>();
         if (!scores.ContainsKey(hActor))
             scores.Add(hActor, 0);
-        m_bInitialized = true;
     }
 
     void Update()
     {
-        if (isServer && m_bInitialized)
-        {
-            m_hPlayerInstances = new List<GameObject>(LobbyManager.Instance.GetPlayerInstances());
-            m_hPlayerInstances.ForEach(hA => RpcSyncPlayer(hA.GetComponent<Actor>().netId));
-        }
-
         ScoreText.text = scores.ToList().Where(hP => hP.Key.isLocalPlayer).FirstOrDefault().Value.ToString();
-        ScoreText.text = this.netId.ToString();
     }
 
     internal int GetHighestScore()
@@ -89,5 +80,12 @@ public class GameManager : NetworkBehaviour
         {
             //TODO x SAMUELE: Implementare.
         }
+    }
+
+    IEnumerator WaitForInitialization(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        List<GameObject> m_hPlayerInstances = new List<GameObject>(LobbyManager.Instance.GetPlayerInstances());
+        m_hPlayerInstances.ForEach(hA => RpcSyncPlayer(hA.GetComponent<Actor>().netId));
     }
 }
