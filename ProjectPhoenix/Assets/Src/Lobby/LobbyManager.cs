@@ -78,8 +78,8 @@ public class LobbyManager : NetworkLobbyManager
 
     public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, short playerControllerId)
     {
-        Debug.Log(m_hCurrentLobbyPlayers[conn].Username);
         GameObject hNew = (GameObject)GameObject.Instantiate(m_hCurrentLobbyPlayers[conn].PrefabToSpawn, startPositions[conn.connectionId].position, Quaternion.identity);
+        hNew.GetComponent<Actor>().Name = m_hCurrentLobbyPlayers[conn].Username;
         m_hCurrentPlayersIntances.Add(hNew);
         return hNew;
     } 

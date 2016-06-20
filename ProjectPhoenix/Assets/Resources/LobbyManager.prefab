@@ -811,10 +811,34 @@ MonoBehaviour:
   m_OfflineScene: DRAIV_Vehicle_Selection
   m_OnlineScene: 
   m_SpawnPrefabs:
+  - {fileID: 171344, guid: ffe5c5b8316482b4f84fa3bfbc4eb8ff, type: 2}
+  - {fileID: 145222, guid: ef008fe03948f0d4999ffb30358b565b, type: 2}
+  - {fileID: 121866, guid: 3f979dcb04d193b42bdd066cf797df08, type: 2}
+  - {fileID: 129014, guid: a4ccaa8028922564e872844062a2ca87, type: 2}
+  - {fileID: 122454, guid: a705368dd69ed6b48b51e2262bab3333, type: 2}
   - {fileID: 143454, guid: 168fc58bdc326a44fabad3f349b6206e, type: 2}
   - {fileID: 189598, guid: 04e1fcd7f5c910b41aff5187932e494a, type: 2}
-  - {fileID: 171344, guid: ffe5c5b8316482b4f84fa3bfbc4eb8ff, type: 2}
-  m_CustomConfig: 0
+  - {fileID: 184910, guid: 5819bdedaf332fc46a5499c6ed5d31d7, type: 2}
+  - {fileID: 133274, guid: f7b40e89d2dea614c83c88892b0ea110, type: 2}
+  - {fileID: 160898, guid: fc0e1609ec0329b40a9298fc4ce315a8, type: 2}
+  - {fileID: 144090, guid: c5a75c3c5a30bcd489a9e3f93abeaeac, type: 2}
+  - {fileID: 149712, guid: d1c4f29e0e7bbeb4bb3376ca63440c8b, type: 2}
+  - {fileID: 167298, guid: 041e28bce7cd7a64c81ed82f07a655ea, type: 2}
+  - {fileID: 123302, guid: 3d89329403b4b2348ad9fa01e60fa7f2, type: 2}
+  - {fileID: 138564, guid: 96b0e12f1fba8e54ea019568d4571f79, type: 2}
+  - {fileID: 184660, guid: 86a5265c8a308494f998f18050e12513, type: 2}
+  - {fileID: 161894, guid: a73ef6f77b7efb34aa718a95b35a1912, type: 2}
+  - {fileID: 106096, guid: cfe1729f1e4a7844a8c592c072913fa5, type: 2}
+  - {fileID: 155674, guid: 139b9991caf50c849b88739075835962, type: 2}
+  - {fileID: 131774, guid: bf5eb4ddabced9b40b0aa589887f7592, type: 2}
+  - {fileID: 106672, guid: f450a5e6c045d6d4985ae24a8b9b2549, type: 2}
+  - {fileID: 142000, guid: b12e34c87a2330b46a2a322ec79374f9, type: 2}
+  - {fileID: 163644, guid: 6407bb3b5de2c6e4ab492287fe140550, type: 2}
+  - {fileID: 148604, guid: c0cf99ad894d3fa4ab35643ac616d1ac, type: 2}
+  - {fileID: 149850, guid: 051988ea49acba84cb0315584179fce0, type: 2}
+  - {fileID: 176136, guid: 9bf00b32f6c4d684aa7e68c0b74921bd, type: 2}
+  - {fileID: 100000, guid: c74bc7ee383205642a1d19ea4091c0de, type: 2}
+  m_CustomConfig: 1
   m_MaxConnections: 4
   m_ConnectionConfig:
     m_PacketSize: 1500
@@ -842,7 +866,7 @@ MonoBehaviour:
     m_ReactorMaximumReceivedMessages: 1024
     m_ReactorMaximumSentMessages: 1024
     m_MaxPacketSize: 2000
-  m_Channels: 
+  m_Channels: 050000000000000008000000
   m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 1
@@ -863,7 +887,6 @@ MonoBehaviour:
   m_LobbyScene: DRAIV_Vehicle_Selection
   m_PlayScene: DRAIV_Game
   lobbySlots: []
-  GameManagerPrefab: {fileID: 171344, guid: ffe5c5b8316482b4f84fa3bfbc4eb8ff, type: 2}
   PrematchCountdown: 5
   ObjectsToEnable:
   - {fileID: 0}
@@ -1173,11 +1196,11 @@ RectTransform:
   - {fileID: 22406748}
   m_Father: {fileID: 22454150}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1728, y: -40}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 730, y: 0}
   m_SizeDelta: {x: 391, y: 85}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22485964
 RectTransform:
   m_ObjectHideFlags: 1

@@ -11,7 +11,8 @@ public class Actor : NetworkBehaviour, IDamageable
     
     public ArmorType Armor;
 
-    public string Name { get; set; }
+    [SyncVar]
+    public string Name;
 
     //[SerializeField]private List<Skill> m_hSkills;
 

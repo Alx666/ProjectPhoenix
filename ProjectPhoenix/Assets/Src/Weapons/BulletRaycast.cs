@@ -69,14 +69,14 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
 
         if (Physics.Raycast(this.transform.position, this.transform.forward, out vRaycast, fSpace))
         {
-            Actor hHit = vRaycast.collider.gameObject.GetComponent<Actor>();
+            Actor hHit = vRaycast.collider.transform.root.GetComponent<Actor>();
 
             if (hHit != null)
             {
                 if (m_hParticlesController != null)
                     m_hParticlesController.PlayHitVfx(vRaycast.point, vRaycast.normal);
 
-                if (isServer)
+                if (GameManager.Instance.isServer)
                 {
                     hHit.Damage(this);//non necessita di rpc perche agisce su Hp syncVar
                 }
@@ -86,7 +86,7 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
                 if (m_hParticlesController != null)
                     m_hParticlesController.PlayMissVfx(vRaycast.point, vRaycast.normal);
             }
-            if(isServer)
+            //if(isServer)
                 GlobalFactory.Recycle(this.gameObject);
         }
         else
@@ -111,29 +111,29 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
         this.gameObject.SetActive(true);
         m_fTotalDistance = 0f;
 
-        if (isServer)
-            RpcEnable();
+        //if (isServer)
+        //    RpcEnable();
     }
 
-    [ClientRpc]
-    void RpcEnable()
-    {
-        Enable();
-    }
+    //[ClientRpc]
+    //void RpcEnable()
+    //{
+    //    Enable();
+    //}
 
     public void Disable()
     {
         this.gameObject.SetActive(false);
 
-        if (isServer)
-            RpcDisable();
+        //if (isServer)
+        //    RpcDisable();
     }
 
-    [ClientRpc]
-    void RpcDisable()
-    {
-        Disable();
-    }
+    //[ClientRpc]
+    //void RpcDisable()
+    //{
+    //    Disable();
+    //}
 
     #endregion
 }

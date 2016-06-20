@@ -218,13 +218,13 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
         }
     }
 
-    [ClientRpc]
+    [ClientRpc(channel = 2)]
     private void RpcBeginFire()
     {
         m_hCurrentWeapon.Press();
     }
 
-    [Command]
+    [Command(channel = 2)]
     private void CmdBeginFire()
     {
         RpcBeginFire();
