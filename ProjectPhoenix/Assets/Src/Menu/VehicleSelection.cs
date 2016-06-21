@@ -14,6 +14,7 @@ public class VehicleSelection : MonoBehaviour
     public Transform PreviousPosition;
     public Transform NextPosition;
     public Text CarNameText;
+    public GameObject GUIObject;
 
     private LinkedListNode<GameObject>  m_hCurrent;
     private LinkedList<GameObject>      m_hList;
@@ -67,6 +68,7 @@ public class VehicleSelection : MonoBehaviour
     public void OnButtonStart()
     {
         LobbyManager.Instance.GamePrefab = m_hCurrent.Value.GetComponent<VehiclePrefabMGR>().VehiclePrefab;
+        GUIObject.SetActive(false);
     }
 
     public void OnButtonNext()
