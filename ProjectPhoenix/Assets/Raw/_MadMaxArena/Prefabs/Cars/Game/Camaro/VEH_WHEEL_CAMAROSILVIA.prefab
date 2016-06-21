@@ -2854,8 +2854,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hp: 100
   Armor: 0
-  Slider: {fileID: 11435510}
-  ToLookCamera: {fileID: 462932}
+  Name: 
+  HpBarMode: 1
+  HPBarOffset: 4
+  HpBarLerp: 100
+  HpBarScale: 0.017
 --- !u!114 &11417632
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3422,6 +3425,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
