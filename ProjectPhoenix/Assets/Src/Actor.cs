@@ -4,8 +4,7 @@ using UnityEngine.Networking;
 using System;
 
 public class Actor : NetworkBehaviour, IDamageable
-{
-    [SyncVar]
+{        
     [SerializeField]
     protected float Hp;
     
