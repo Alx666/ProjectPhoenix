@@ -365,13 +365,13 @@ MonoBehaviour:
       m_matchingTextures: 2133
       m_isActive: 1
     m_spawnExtensions: []
-  - m_name: MudRockyAlbedoSpecular
-    m_texture: {fileID: 2800000, guid: ef5c51cfa2ce46043a41a376b560c525, type: 3}
-    m_textureFileName: MudRockyAlbedoSpecular.bmp
-    m_normal: {fileID: 2800000, guid: 58a059b07b093a745b47c2191525ddce, type: 3}
-    m_normalFileName: MudRockyNormals.bmp
-    m_sizeX: 15
-    m_sizeY: 15
+  - m_name: AIV_Soil
+    m_texture: {fileID: 2800000, guid: 76b24d9b339edee4d82daaa9a69e6c05, type: 3}
+    m_textureFileName: Rock_GuiMossyRock_2k_alb_s.psd
+    m_normal: {fileID: 2800000, guid: 1ad485543f1a62e4197fb374a14ea3bf, type: 3}
+    m_normalFileName: Rock_GuiMossyRock_2k_n.jpg
+    m_sizeX: 20
+    m_sizeY: 20
     m_offsetX: 0
     m_offsetY: 0
     m_metalic: 0
@@ -380,8 +380,8 @@ MonoBehaviour:
     - m_name: 
       m_checkType: 0
       m_virginTerrain: 0
-      m_checkHeight: 0
-      m_minHeight: 3.0378847
+      m_checkHeight: 1
+      m_minHeight: -25
       m_maxHeight: 975
       m_heightFitness:
         serializedVersion: 2
@@ -400,18 +400,23 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       m_checkSlope: 0
-      m_minSlope: 0
+      m_minSlope: 15
       m_maxSlope: 90
       m_slopeFitness:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-        - time: 1
           value: 0
+          inSlope: 18.692362
+          outSlope: 1.8503643
+          tangentMode: 1
+        - time: 0.19929403
+          value: 1.0069962
+          inSlope: 11.354733
+          outSlope: 0.047202628
+          tangentMode: 1
+        - time: 1
+          value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -444,8 +449,182 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       m_checkTexture: 0
-      m_matchingTextures: '!3'
-      m_isActive: 0
+      m_matchingTextures: 2133
+      m_isActive: 1
+    m_spawnExtensions: []
+  - m_name: AIV_SoilB
+    m_texture: {fileID: 2800000, guid: da4e0d07bbc38a04d8acda9be16fd939, type: 3}
+    m_textureFileName: Rock_GuiMossyRock_2k_alb_s.psd
+    m_normal: {fileID: 2800000, guid: 8120289c58ffff849af2533bdea204ae, type: 3}
+    m_normalFileName: Rock_GuiMossyRock_2k_n.jpg
+    m_sizeX: 15
+    m_sizeY: 15
+    m_offsetX: 0
+    m_offsetY: 0
+    m_metalic: 0
+    m_smoothness: 0
+    m_spawnCriteria:
+    - m_name: 
+      m_checkType: 0
+      m_virginTerrain: 0
+      m_checkHeight: 1
+      m_minHeight: -25
+      m_maxHeight: 975
+      m_heightFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkSlope: 0
+      m_minSlope: 15
+      m_maxSlope: 90
+      m_slopeFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 18.692362
+          outSlope: 1.8503643
+          tangentMode: 1
+        - time: 0.19929403
+          value: 1.0069962
+          inSlope: 11.354733
+          outSlope: 0.047202628
+          tangentMode: 1
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkProximity: 0
+      m_proximityTag: 
+      m_minProximity: 0
+      m_maxProximity: 100
+      m_proximityFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 0.3
+          value: 0.2
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkTexture: 0
+      m_matchingTextures: 2133
+      m_isActive: 1
+    m_spawnExtensions: []
+  - m_name: AIV_SoilC
+    m_texture: {fileID: 2800000, guid: 473a1ca05b292f545a29d2d9a90dd4d1, type: 3}
+    m_textureFileName: Rock_GuiMossyRock_2k_alb_s.psd
+    m_normal: {fileID: 2800000, guid: 553ce239fda08dc4fa08a5ed9b460eae, type: 3}
+    m_normalFileName: Rock_GuiMossyRock_2k_n.jpg
+    m_sizeX: 15
+    m_sizeY: 15
+    m_offsetX: 0
+    m_offsetY: 0
+    m_metalic: 0
+    m_smoothness: 0
+    m_spawnCriteria:
+    - m_name: 
+      m_checkType: 0
+      m_virginTerrain: 0
+      m_checkHeight: 1
+      m_minHeight: -25
+      m_maxHeight: 975
+      m_heightFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkSlope: 0
+      m_minSlope: 15
+      m_maxSlope: 90
+      m_slopeFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 18.692362
+          outSlope: 1.8503643
+          tangentMode: 1
+        - time: 0.19929403
+          value: 1.0069962
+          inSlope: 11.354733
+          outSlope: 0.047202628
+          tangentMode: 1
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkProximity: 0
+      m_proximityTag: 
+      m_minProximity: 0
+      m_maxProximity: 100
+      m_proximityFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 0.3
+          value: 0.2
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkTexture: 0
+      m_matchingTextures: 2133
+      m_isActive: 1
     m_spawnExtensions: []
   m_detailPrototypes:
   - m_name: Grass 1 Wide
@@ -1185,9 +1364,9 @@ MonoBehaviour:
     m_spawnExtensions: []
   m_treePrototypes:
   - m_name: Broadleaf_Desktop
-    m_desktopPrefab: {fileID: 100000, guid: 06eb7a42c723f1e40b16c0706c7c2951, type: 3}
+    m_desktopPrefab: {fileID: 0}
     m_desktopPrefabFileName: Broadleaf_Desktop.spm
-    m_mobilePrefab: {fileID: 100000, guid: 06eb7a42c723f1e40b16c0706c7c2951, type: 3}
+    m_mobilePrefab: {fileID: 0}
     m_mobilePrefabFileName: Broadleaf_Desktop.spm
     m_bendFactor: 0
     m_healthyColour: {r: 1, g: 1, b: 1, a: 1}
@@ -1274,9 +1453,9 @@ MonoBehaviour:
       m_isActive: 1
     m_spawnExtensions: []
   - m_name: Conifer_Desktop
-    m_desktopPrefab: {fileID: 100004, guid: 1cf6a9c75a9a70049bf0b910c0e16be2, type: 3}
+    m_desktopPrefab: {fileID: 0}
     m_desktopPrefabFileName: Conifer_Desktop.spm
-    m_mobilePrefab: {fileID: 100004, guid: 1cf6a9c75a9a70049bf0b910c0e16be2, type: 3}
+    m_mobilePrefab: {fileID: 0}
     m_mobilePrefabFileName: Conifer_Desktop.spm
     m_bendFactor: 0
     m_healthyColour: {r: 1, g: 1, b: 1, a: 1}
