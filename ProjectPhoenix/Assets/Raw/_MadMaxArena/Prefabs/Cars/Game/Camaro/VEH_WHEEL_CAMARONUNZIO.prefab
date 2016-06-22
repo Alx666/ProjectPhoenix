@@ -261,9 +261,6 @@ GameObject:
   - 114: {fileID: 11450540}
   - 114: {fileID: 11476090}
   - 114: {fileID: 11499680}
-  - 114: {fileID: 11403284}
-  - 114: {fileID: 11496124}
-  - 114: {fileID: 11409198}
   - 114: {fileID: 11414636}
   - 114: {fileID: 11472840}
   m_Layer: 0
@@ -1330,24 +1327,6 @@ MonoBehaviour:
   HPBarOffset: 4
   HpBarLerp: 100
   HpBarScale: 0.017
---- !u!114 &11403284
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75febd242c999f04d9654522a10c006b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  intensity: 0.5
-  radius: 0.2
-  blurIterations: 1
-  blurFilterDistance: 1.25
-  downsample: 0
-  rand: {fileID: 2800000, guid: a181ca8e3c62f3e4b8f183f6c586b032, type: 3}
-  aoShader: {fileID: 4800000, guid: 95616c020c5604dda96cf76afbbc0272, type: 3}
 --- !u!114 &11407798
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1423,25 +1402,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &11409198
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76b5ec6153a1d55438228df10fe66844, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distanceFog: 1
-  excludeFarPixels: 1
-  useRadialDistance: 0
-  heightFog: 1
-  height: 1
-  heightDensity: 2
-  startDistance: 0
-  fogShader: {fileID: 4800000, guid: 70d8568987ac0499f952b54c7c13e265, type: 3}
 --- !u!114 &11413278
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1459,6 +1419,7 @@ MonoBehaviour:
   Hp: 10000
   SteerAngle: 30
   MaxSpeed: 500
+  BrakeSpeed: 20
   OverrideCOM: {x: 0, y: 0, z: 0}
 --- !u!114 &11414636
 MonoBehaviour:
@@ -1662,6 +1623,7 @@ MonoBehaviour:
   MinOffset: 12
   MaxOffset: 25
   StateChanger: 324
+  AimLerpSpeed: 20
   DistanceFromTarget: 0.35
 --- !u!114 &11461150
 MonoBehaviour:
@@ -1721,7 +1683,7 @@ MonoBehaviour:
   PanRight: 101
   PanLeft: 113
   Up: 304
-  Down: 32
+  Stop: 32
   Fire: 323
 --- !u!114 &11467096
 MonoBehaviour:
@@ -1858,23 +1820,6 @@ MonoBehaviour:
   m_MovementThreshold: 0.001
   m_InterpolateRotation: 0.5
   m_InterpolateMovement: 0.5
---- !u!114 &11496124
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3309686a9fbbe6e42a182d5e0257704c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  intensity: 0.5
-  threshold: 0
-  blurSpread: 1
-  separableBlurShader: {fileID: 4800000, guid: e97c14fbb5ea04c3a902cc533d7fc5d1, type: 3}
-  contrastCompositeShader: {fileID: 4800000, guid: 273404942eede4ea1883ca1fb2942507,
-    type: 3}
 --- !u!114 &11499680
 MonoBehaviour:
   m_ObjectHideFlags: 1
