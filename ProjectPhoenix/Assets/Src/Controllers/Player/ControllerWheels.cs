@@ -211,46 +211,16 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
     {
         if (m_hCurrentWeapon != null)
         {
-            if (isServer)
-                RpcBeginFire();
-            else
-                CmdBeginFire();
+            m_hCurrentWeapon.Press();
         }
-    }
-
-    [ClientRpc(channel = 2)]
-    private void RpcBeginFire()
-    {
-        m_hCurrentWeapon.Press();
-    }
-
-    [Command(channel = 2)]
-    private void CmdBeginFire()
-    {
-        RpcBeginFire();
     }
 
     public void EndFire()
     {
         if (m_hCurrentWeapon != null)
         {
-            if (isServer)
-                RpcEndFire();
-            else
-                CmdEndFire();
+            m_hCurrentWeapon.Release();
         }
-    }
-
-    [ClientRpc]
-    private void RpcEndFire()
-    {
-        m_hCurrentWeapon.Release();
-    }
-
-    [Command]
-    private void CmdEndFire()
-    {
-        RpcEndFire();
     }
 
     public void MousePosition(Vector3 vMousePosition)

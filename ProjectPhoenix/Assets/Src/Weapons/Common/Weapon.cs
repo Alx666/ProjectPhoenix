@@ -8,7 +8,9 @@ public class Weapon : NetworkBehaviour, IWeapon
 {
     public GameObject BulletPrefab;
     public List<GameObject> ShootLocators;
+
     private Queue<GameObject> QueueLocators;
+    
 
     public ShootMode Mode;
 
@@ -73,13 +75,7 @@ public class Weapon : NetworkBehaviour, IWeapon
     }
     
 
-    [ClientRpc]
-    private void RpcShoot(NetworkInstanceId bulletId, Vector3 pos, Vector3 dir)
-    {
-        GameObject bullet = ClientScene.FindLocalObject(bulletId);
-        IBullet bulletComp = bullet.GetComponent<IBullet>();
-        bulletComp.Shoot(pos, dir, this.transform.forward, this.Owner);
-    }
+
 
    
 
@@ -142,6 +138,21 @@ public class Weapon : NetworkBehaviour, IWeapon
         }
     }
 
+    [Command]
+    private void CmdShoot(Vector3 vPos, Vector3 vDir, uint uId)
+    {
+        RpcShoot(vPos, vDir, uId);
+    }
+
+    [ClientRpc]
+    private void RpcShoot(Vector3 vPos, Vector3 vDir, uint uId)
+    {
+        if (this.netId.Value != uId)
+        {
+            GameObject hInstance = GlobalFactory.GetInstance(this.BulletPrefab);
+            hInstance.GetComponent<IBullet>().Shoot(vPos, vDir, this.transform.forward, this.GetComponent<Actor>());
+        }
+    }
 
 
     #region WeaponShoot
@@ -224,6 +235,7 @@ public class Weapon : NetworkBehaviour, IWeapon
         #endregion
 
 
+
         #region CommonToShootModes
         private void InstantiateBullet(int index)
         {
@@ -242,9 +254,11 @@ public class Weapon : NetworkBehaviour, IWeapon
                 vDirection.Normalize();
             }
 
+            //Do this on authority owner
             GameObject hInstance = GlobalFactory.GetInstance(m_hOwner.BulletPrefab);
-
             hInstance.GetComponent<IBullet>().Shoot(vPosition, vDirection, m_hOwner.transform.forward, m_hOwner.GetComponent<Actor>());
+            m_hOwner.CmdShoot(vPosition, vDirection, m_hOwner.netId.Value);
+
 
 
             //if (m_hOwner.transform.root.gameObject.GetComponent<NetworkIdentity>().isServer)
