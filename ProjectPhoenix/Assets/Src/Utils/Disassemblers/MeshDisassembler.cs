@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class MeshDisassembler : MonoBehaviour
 {
+    public Material FadeOutMaterial;
     public bool RootColliderAlwaysOn;
+    public float MassForeachElement = 10;
 
     private Rigidbody rootRigidbody;
     private Collider rootCollider;
@@ -13,21 +16,35 @@ public class MeshDisassembler : MonoBehaviour
     private List<GameObject> targets;
     private Dictionary<GameObject, AssemblerInfo> targetsInfo;
     private List<Collider> remainingColliders;
-    private bool isAssembled;
+    private List<MeshRenderer> meshRenderers;
 
-    public float MassForeachElement = 10;
+    public bool IsReady { get; private set; }
 
     private void Awake()
     {
-        isAssembled = true;
+        if (FadeOutMaterial == null)
+            throw new UnityException("Give Me the FadeOut Material!");
+        IsReady = true;
+
         rootRigidbody = this.GetComponent<Rigidbody>();
+        rootCollider = this.GetComponent<Collider>();
+
         targetsInfo = new Dictionary<GameObject, AssemblerInfo>();
         targets = new List<GameObject>();
-        targets = this.GetComponentsInChildren<Transform>().Select(hT => hT.gameObject).Where(GO => GO.GetComponent<MeshRenderer>() != null).ToList();
         remainingColliders = new List<Collider>();
+        meshRenderers = new List<MeshRenderer>();
+
+        targets = this.GetComponentsInChildren<Transform>().Select(hT => hT.gameObject).Where(GO => GO.GetComponent<MeshRenderer>() != null).ToList();
         remainingColliders = this.GetComponentsInChildren<Transform>().Where(hT => hT.GetComponent<MeshRenderer>() == null).Select(GO => GO.GetComponent<Collider>()).Where(hC => hC != null && hC as WheelCollider == null).ToList();
 
-        rootCollider = this.GetComponent<Collider>();
+        meshRenderers = targets.Select(hGO => hGO.GetComponent<MeshRenderer>()).ToList();
+        meshRenderers.ForEach(hMR =>
+        {
+            List<Material> originalMaterials = hMR.materials.ToList();
+            FadeOutMaterial.mainTexture = originalMaterials.First().mainTexture;
+            originalMaterials.Add(FadeOutMaterial);
+            hMR.materials = originalMaterials.ToArray();
+        });
 
         targets.ForEach(hT =>
        {
@@ -59,99 +76,98 @@ public class MeshDisassembler : MonoBehaviour
     {
         lastPosition = this.transform.position;
 
-        if (isAssembled)
-        {
-            targets.ForEach(hT =>
-           {
-               AssemblerInfo info = targetsInfo[hT];
+       targets.ForEach(hT =>
+       {
+           AssemblerInfo info = targetsInfo[hT];
 
                //
                Transform parent = hT.transform.parent;
-               Vector3 position = hT.transform.localPosition;
-               Quaternion rotation = hT.transform.localRotation;
-               Vector3 scale = hT.transform.localScale;
+           Vector3 position = hT.transform.localPosition;
+           Quaternion rotation = hT.transform.localRotation;
+           Vector3 scale = hT.transform.localScale;
 
-               info.originalPosition = position;
-               info.originalRotation = rotation;
-               info.originalScale = scale;
+           info.originalPosition = position;
+           info.originalRotation = rotation;
+           info.originalScale = scale;
                //
 
                hT.transform.parent = null;
 
-               info.generatedCollider.enabled = true;
+           info.generatedCollider.enabled = true;
 
-               Rigidbody hRb;
-               if (!info.hasInitialRigidbody)
-               {
-                   hRb = hT.AddComponent<Rigidbody>();
-               }
-               else
-               {
-                   hRb = hT.GetComponent<Rigidbody>();
-               }
-           });
-        }
+           Rigidbody hRb;
+           if (!info.hasInitialRigidbody)
+           {
+               hRb = hT.AddComponent<Rigidbody>();
+           }
+           else
+           {
+               hRb = hT.GetComponent<Rigidbody>();
+           }
+       });
+
         remainingColliders.ForEach(hC => hC.enabled = false);
-        isAssembled = false;
+        IsReady = false;
 
         if (rootCollider != null)
             if (!RootColliderAlwaysOn)
                 rootCollider.enabled = false;
+
+        FadeOutMeshRenderers();
     }
 
     public void Explode(float MinExplosionForce, float MaxExplosionForce)
     {
         lastPosition = this.transform.position;
 
-        if (isAssembled)
+        IsReady = false;
+        targets.ForEach(hT =>
         {
-            targets.ForEach(hT =>
-            {
-                AssemblerInfo info = targetsInfo[hT];
+            AssemblerInfo info = targetsInfo[hT];
 
                 //
                 Transform parent = hT.transform.parent;
-                Vector3 position = hT.transform.localPosition;
-                Quaternion rotation = hT.transform.localRotation;
-                Vector3 scale = hT.transform.localScale;
+            Vector3 position = hT.transform.localPosition;
+            Quaternion rotation = hT.transform.localRotation;
+            Vector3 scale = hT.transform.localScale;
 
-                info.originalPosition = position;
-                info.originalRotation = rotation;
-                info.originalScale = scale;
+            info.originalPosition = position;
+            info.originalRotation = rotation;
+            info.originalScale = scale;
                 //
 
                 hT.transform.parent = null;
 
-                info.generatedCollider.enabled = true;
+            info.generatedCollider.enabled = true;
 
-                Vector3 explosionForce = UnityEngine.Random.Range(MinExplosionForce, MaxExplosionForce) * UnityEngine.Random.onUnitSphere;
+            Vector3 explosionForce = UnityEngine.Random.Range(MinExplosionForce, MaxExplosionForce) * UnityEngine.Random.onUnitSphere;
 
-                Rigidbody hRb;
-                if (!info.hasInitialRigidbody)
-                {
-                    hRb = hT.AddComponent<Rigidbody>();
-                    hRb.mass = MassForeachElement;
-                    hRb.velocity = explosionForce;
-                }
-                else
-                {
-                    hRb = hT.GetComponent<Rigidbody>();
-                    hRb.mass = MassForeachElement;
-                    hRb.velocity = explosionForce;
-                }
-            });
-        }
+            Rigidbody hRb;
+            if (!info.hasInitialRigidbody)
+            {
+                hRb = hT.AddComponent<Rigidbody>();
+                hRb.mass = MassForeachElement;
+                hRb.velocity = explosionForce;
+            }
+            else
+            {
+                hRb = hT.GetComponent<Rigidbody>();
+                hRb.mass = MassForeachElement;
+                hRb.velocity = explosionForce;
+            }
+        });
+
         remainingColliders.ForEach(hC => hC.enabled = false);
-        isAssembled = false;
 
         if (rootCollider != null)
             if (!RootColliderAlwaysOn)
                 rootCollider.enabled = false;
+
+        FadeOutMeshRenderers();
     }
 
     private void Reassemble()
     {
-        isAssembled = true;
 
         this.transform.position = lastPosition;
 
@@ -187,6 +203,33 @@ public class MeshDisassembler : MonoBehaviour
         if (rootCollider != null)
             if (!RootColliderAlwaysOn)
                 rootCollider.enabled = true;
+
+        TurnOnMeshRenderers();
+    }
+
+    private void FadeOutMeshRenderers()
+    {
+        StartCoroutine(WaitForFadeOut(3f));
+    }
+    private void SwapMaterials()
+    {
+        meshRenderers.ForEach(hMR =>
+        {
+            Material tmp = hMR.material;
+            hMR.material = hMR.materials[hMR.materials.Length - 1];
+            hMR.materials[hMR.materials.Length - 1] = tmp;
+        });
+    }
+    private void TurnOnMeshRenderers()
+    {
+        SwapMaterials();
+        targets.ForEach(hT => LeanTween.alpha(hT, 255f, 0f));
+    }
+    private IEnumerator WaitForFadeOut(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        SwapMaterials();
+        targets.ForEach(hT => LeanTween.alpha(hT, 0f, 3f).setOnComplete(x => IsReady = true));
     }
 
     private struct AssemblerInfo
