@@ -32,8 +32,8 @@ internal class InputProviderPCStd : MonoBehaviour
         if (Input.GetKeyUp(Up))
             m_hTarget.EndUp();
 
-        if (Input.GetKeyDown(Down))
-            m_hTarget.BeginDown();
+        if (Input.GetKey(Down))
+            m_hTarget.StopVehicle();
         if (Input.GetKeyUp(Down))
             m_hTarget.EndDown();
 

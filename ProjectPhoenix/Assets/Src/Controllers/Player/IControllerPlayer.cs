@@ -18,7 +18,7 @@ internal interface IControllerPlayer
 
     void BeginUp();
     void EndUp();
-    void BeginDown();
+    void StopVehicle();
     void EndDown();
     void BeginPanLeft();
     void EndPanLeft();

@@ -239,9 +239,17 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 
     }
 
-    public void BeginDown()
+    public void StopVehicle()
     {
-
+        Vector3 currentSpeed = this.GetComponent<Rigidbody>().velocity;
+        Vector3 stop;
+        stop.x = Mathf.Lerp(0f, -currentSpeed.x, Time.deltaTime);
+        stop.y = Mathf.Lerp(0f, -currentSpeed.y, Time.deltaTime);
+        stop.z = Mathf.Lerp(0f, -currentSpeed.z, Time.deltaTime);
+        if (stop.magnitude > 0.2f)
+            this.GetComponent<Rigidbody>().AddForce(stop, ForceMode.VelocityChange);
+        else
+            this.GetComponent<Rigidbody>().AddForce(-currentSpeed, ForceMode.VelocityChange);
     }
 
     public void EndDown()

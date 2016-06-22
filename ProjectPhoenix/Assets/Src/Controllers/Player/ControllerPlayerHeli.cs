@@ -129,7 +129,7 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
         this.forwardForce = -1f;
     }
 
-    public void BeginDown()
+    public void StopVehicle()
     {
         this.isGrounded = true;
         this.engineForce = 0f;
