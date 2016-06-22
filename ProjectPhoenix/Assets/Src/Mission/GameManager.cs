@@ -11,9 +11,13 @@ public class GameManager : NetworkBehaviour
     public Text ScoreText;
     public Text WoWText;
 
+    [SerializeField]
+    public float RespawnTime { get; private set; }
+
     static public GameManager Instance { get; private set; }
 
     private Dictionary<Actor, int> scores;
+    private List<NetworkStartPosition> m_hSpawnPoints;
 
     //private IVictoryCondition m_hVictoryCondition;
 
@@ -30,6 +34,7 @@ public class GameManager : NetworkBehaviour
     void Start()
     {
         GameObject.DontDestroyOnLoad(this.gameObject);
+        m_hSpawnPoints = new List<NetworkStartPosition>(FindObjectsOfType<NetworkStartPosition>());
 
         if (isServer)
             StartCoroutine(WaitForInitialization(2f));
@@ -80,6 +85,11 @@ public class GameManager : NetworkBehaviour
         {
             //TODO x SAMUELE: Implementare.
         }
+    }
+
+    public Vector3 GetRandomSpawnPoint()
+    {
+        return m_hSpawnPoints[UnityEngine.Random.Range(0, m_hSpawnPoints.Count-1)].transform.position;
     }
 
     IEnumerator WaitForInitialization(float duration)

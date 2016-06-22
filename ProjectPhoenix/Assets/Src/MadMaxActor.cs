@@ -11,6 +11,9 @@ public class MadMaxActor : Actor
 	private Canvas HealthBar;
     private Slider m_hHpSlider;
     private RectTransform m_hSliderRectTransform;
+    private MeshDisassembler m_hDisassembler;
+    private Rigidbody m_hRigidbody;
+    private IControllerPlayer m_hController;
 
 
     [Header("Health Bar Config")]
@@ -32,6 +35,9 @@ public class MadMaxActor : Actor
         HealthBar.transform.parent  = null;
         m_hHpSlider                 = HealthBar.GetComponentInChildren<Slider>();
         m_hSliderRectTransform      = m_hHpSlider.GetComponent<RectTransform>();
+        m_hDisassembler             = GetComponent<MeshDisassembler>();
+        m_hRigidbody                = GetComponent<Rigidbody>();
+        m_hController               = GetComponent<IControllerPlayer>();
 
         if (HpBarMode == HealthBarMode.WorldSpace)
         {
@@ -64,7 +70,7 @@ public class MadMaxActor : Actor
             vHealthPosition = RectTransformUtility.WorldToScreenPoint(Camera.main, this.transform.position) + new Vector2(0.0f, HPBarOffset);
         }
 
-
+        
         Vector3 vCurrentHealthPosition = m_hSliderRectTransform.position;
         m_hSliderRectTransform.position = Vector3.Lerp(vCurrentHealthPosition, vHealthPosition, Time.deltaTime * HpBarLerp);        
     }
@@ -83,6 +89,11 @@ public class MadMaxActor : Actor
     public override void Die(Actor Killer)
     {
 		GameManager.Instance.WoW( Killer, this );
+        m_hDisassembler.Explode(10f, 20f);
+        m_hRigidbody.isKinematic = true;
+        //MonoBehaviour asd = m_hController as MonoBehaviour;
+        //asd.enabled = false; 
+        StartCoroutine(WaitForRespawn(GameManager.Instance.RespawnTime));
     }
     
     [ClientRpc]
@@ -91,6 +102,19 @@ public class MadMaxActor : Actor
         Die(ClientScene.FindLocalObject(hID).GetComponent<Actor>());
     }
 
+    private IEnumerator WaitForRespawn(float duration)
+    {
+        yield return new WaitWhile(() => m_hDisassembler.IsReady);
+        this.Respawn();
+    }
+
+    private void Respawn()
+    {
+        this.m_hRigidbody.isKinematic = false;
+        m_hDisassembler.Reassemble();
+        currentHealth = Hp;
+        this.transform.position = GameManager.Instance.GetRandomSpawnPoint();
+    }
 
     public enum HealthBarMode
     {
