@@ -210,14 +210,4 @@ public class MeshDisassembler : MonoBehaviour
             this.hasInitialCollider = hasInitialCollider;
         }
     }
-
-
-    //DRAIV
-    public void OnCollisionEnter(Collision collision)
-    {
-        ControllerWheels vehicle = collision.gameObject.GetComponent<ControllerWheels>();
-        if (vehicle != null && this.isAssembled)
-            Disassemble();
-
-    }
 }
