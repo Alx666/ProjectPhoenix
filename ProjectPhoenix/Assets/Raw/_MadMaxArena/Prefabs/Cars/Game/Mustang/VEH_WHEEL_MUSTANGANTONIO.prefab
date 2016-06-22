@@ -1922,6 +1922,7 @@ MonoBehaviour:
   Hp: 10000
   SteerAngle: 30
   MaxSpeed: 100
+  BrakeSpeed: 20
   OverrideCOM: {x: 0, y: 0, z: 0}
 --- !u!114 &11415974
 MonoBehaviour:
@@ -1975,7 +1976,7 @@ MonoBehaviour:
   PanRight: 101
   PanLeft: 113
   Up: 304
-  Down: 32
+  Stop: 32
   Fire: 323
 --- !u!114 &11449090
 MonoBehaviour:
@@ -2018,7 +2019,8 @@ MonoBehaviour:
   MinOffset: 12
   MaxOffset: 25
   StateChanger: 324
-  DistanceFromTarget: 0.4
+  AimLerpSpeed: 20
+  DistanceFromTarget: 0.35
 --- !u!114 &11457246
 MonoBehaviour:
   m_ObjectHideFlags: 1
