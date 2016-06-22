@@ -128,6 +128,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &136086
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 482032}
+  m_Layer: 0
+  m_Name: DOF_Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &137792
 GameObject:
   m_ObjectHideFlags: 1
@@ -155,21 +170,6 @@ GameObject:
   - 146: {fileID: 14658842}
   m_Layer: 0
   m_Name: WheelC_FL
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &139474
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 459118}
-  m_Layer: 0
-  m_Name: DepthOfField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -673,7 +673,7 @@ Transform:
   m_Children:
   - {fileID: 22405280}
   m_Father: {fileID: 462220}
-  m_RootOrder: 9
+  m_RootOrder: 8
 --- !u!4 &427570
 Transform:
   m_ObjectHideFlags: 1
@@ -734,18 +734,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 403132}
   m_RootOrder: 6
---- !u!4 &459118
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 139474}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 462220}
-  m_RootOrder: 7
 --- !u!4 &461824
 Transform:
   m_ObjectHideFlags: 1
@@ -776,9 +764,9 @@ Transform:
   - {fileID: 488586}
   - {fileID: 479212}
   - {fileID: 466888}
-  - {fileID: 459118}
   - {fileID: 485118}
   - {fileID: 421876}
+  - {fileID: 482032}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &466862
@@ -842,6 +830,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 410004}
   m_RootOrder: 2
+--- !u!4 &482032
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 136086}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 462220}
+  m_RootOrder: 9
 --- !u!4 &485118
 Transform:
   m_ObjectHideFlags: 1
@@ -853,7 +853,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 462220}
-  m_RootOrder: 8
+  m_RootOrder: 7
 --- !u!4 &488544
 Transform:
   m_ObjectHideFlags: 1
@@ -1900,7 +1900,7 @@ MonoBehaviour:
   focalLength: 10
   focalSize: 0.147
   aperture: 0.5
-  focalTransform: {fileID: 459118}
+  focalTransform: {fileID: 482032}
   maxBlurSize: 2
   highResolution: 0
   blurType: 0
