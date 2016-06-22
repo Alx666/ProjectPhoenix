@@ -139,15 +139,15 @@ public class Weapon : NetworkBehaviour, IWeapon
     }
 
     [Command]
-    private void CmdShoot(Vector3 vPos, Vector3 vDir, uint uId)
+    private void CmdShoot(Vector3 vPos, Vector3 vDir)
     {
-        RpcShoot(vPos, vDir, uId);
+        RpcShoot(vPos, vDir);
     }
 
     [ClientRpc]
-    private void RpcShoot(Vector3 vPos, Vector3 vDir, uint uId)
+    private void RpcShoot(Vector3 vPos, Vector3 vDir)
     {
-        if (this.netId.Value != uId)
+        if (this.isLocalPlayer)
         {
             GameObject hInstance = GlobalFactory.GetInstance(this.BulletPrefab);
             hInstance.GetComponent<IBullet>().Shoot(vPos, vDir, this.transform.forward, this.GetComponent<Actor>());
@@ -257,7 +257,7 @@ public class Weapon : NetworkBehaviour, IWeapon
             //Do this on authority owner
             GameObject hInstance = GlobalFactory.GetInstance(m_hOwner.BulletPrefab);
             hInstance.GetComponent<IBullet>().Shoot(vPosition, vDirection, m_hOwner.transform.forward, m_hOwner.GetComponent<Actor>());
-            m_hOwner.CmdShoot(vPosition, vDirection, m_hOwner.netId.Value);
+            m_hOwner.CmdShoot(vPosition, vDirection);
 
 
 
