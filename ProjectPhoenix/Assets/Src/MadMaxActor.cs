@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.Networking;
 
 public class MadMaxActor : Actor
@@ -11,9 +12,13 @@ public class MadMaxActor : Actor
 	private Canvas HealthBar;
     private Slider m_hHpSlider;
     private RectTransform m_hSliderRectTransform;
-    private MeshDisassembler m_hDisassembler;
+    //private MeshDisassembler m_hDisassembler;
     private Rigidbody m_hRigidbody;
-    private IControllerPlayer m_hController;
+    private MonoBehaviour m_hController;
+    private InputProviderPCStd m_hProvider;
+    private MonoBehaviour m_hWeapon;
+    private List<Renderer> m_hRenderers;
+    private List<Collider> m_hColliders;
 
 
     [Header("Health Bar Config")]
@@ -29,15 +34,23 @@ public class MadMaxActor : Actor
 
     void Awake()
 	{
-		currentHealth = Hp;
-        HealthBar                   = this.GetComponentInChildren<Canvas>();
-        HealthBar.name              = "HealthBar_" + this.gameObject.name;
-        HealthBar.transform.parent  = null;
-        m_hHpSlider                 = HealthBar.GetComponentInChildren<Slider>();
-        m_hSliderRectTransform      = m_hHpSlider.GetComponent<RectTransform>();
-        m_hDisassembler             = GetComponent<MeshDisassembler>();
-        m_hRigidbody                = GetComponent<Rigidbody>();
-        m_hController               = GetComponent<IControllerPlayer>();
+        #region Initialize stuff
+        currentHealth = Hp;
+        HealthBar = this.GetComponentInChildren<Canvas>();
+        HealthBar.name = "HealthBar_" + this.gameObject.name;
+        HealthBar.transform.parent = null;
+        m_hHpSlider = HealthBar.GetComponentInChildren<Slider>();
+        m_hSliderRectTransform = m_hHpSlider.GetComponent<RectTransform>();
+        //m_hDisassembler             = GetComponent<MeshDisassembler>();
+        m_hRigidbody = GetComponent<Rigidbody>();
+        m_hController = GetComponent<IControllerPlayer>() as MonoBehaviour;
+        m_hProvider = GetComponent<InputProviderPCStd>();
+        m_hWeapon = GetComponent<IWeapon>() as MonoBehaviour;
+        m_hRenderers = new List<Renderer>(GetComponents<Renderer>());
+        m_hRenderers.AddRange(GetComponentsInChildren<Renderer>());
+        m_hColliders = new List<Collider>(GetComponents<Collider>());
+        m_hColliders.AddRange(GetComponentsInChildren<Collider>()); 
+        #endregion
 
         if (HpBarMode == HealthBarMode.WorldSpace)
         {
@@ -89,10 +102,18 @@ public class MadMaxActor : Actor
     public override void Die(Actor Killer)
     {
 		GameManager.Instance.WoW( Killer, this );
-        m_hDisassembler.Explode(10f, 20f);
+        //m_hDisassembler.Explode(10f, 20f);
         m_hRigidbody.isKinematic = true;
-        //MonoBehaviour asd = m_hController as MonoBehaviour;
-        //asd.enabled = false; 
+        m_hWeapon.enabled = false;
+
+        if (isLocalPlayer)
+        {
+            m_hController.enabled = false;
+            m_hProvider.enabled = false;
+        }
+
+        m_hRenderers.ForEach(hR => hR.enabled = false);
+        m_hColliders.ForEach(hC => hC.enabled = false);
         StartCoroutine(WaitForRespawn(GameManager.Instance.RespawnTime));
     }
     
@@ -104,15 +125,28 @@ public class MadMaxActor : Actor
 
     private IEnumerator WaitForRespawn(float duration)
     {
-        yield return new WaitWhile(() => m_hDisassembler.IsReady);
+
+        //yield return new WaitWhile(() => m_hDisassembler.IsNotReady);
+        yield return new WaitForSeconds(duration);
         this.Respawn();
     }
 
     private void Respawn()
     {
         this.m_hRigidbody.isKinematic = false;
-        m_hDisassembler.Reassemble();
+        m_hRenderers.ForEach(hR => hR.enabled = true);
+        m_hColliders.ForEach(hC => hC.enabled = true);
+        m_hWeapon.enabled = true;
+
+        if(isLocalPlayer)
+        {
+            m_hController.enabled = true;
+            m_hProvider.enabled = true;
+        }
+
+        //m_hDisassembler.Reassemble();
         currentHealth = Hp;
+        HealthBar.enabled = true;
         this.transform.position = GameManager.Instance.GetRandomSpawnPoint();
     }
 

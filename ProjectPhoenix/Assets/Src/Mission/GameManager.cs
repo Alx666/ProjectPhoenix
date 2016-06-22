@@ -11,8 +11,7 @@ public class GameManager : NetworkBehaviour
     public Text ScoreText;
     public Text WoWText;
 
-    [SerializeField]
-    public float RespawnTime { get; private set; }
+    public float RespawnTime;
 
     static public GameManager Instance { get; private set; }
 

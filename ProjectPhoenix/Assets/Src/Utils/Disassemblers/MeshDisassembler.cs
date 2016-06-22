@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class MeshDisassembler : MonoBehaviour
 {
-    public Material FadeOutMaterial;
+    //public Material FadeOutMaterial;
     public bool RootColliderAlwaysOn;
     public float MassForeachElement = 10;
 
@@ -18,13 +18,13 @@ public class MeshDisassembler : MonoBehaviour
     private List<Collider> remainingColliders;
     private List<MeshRenderer> meshRenderers;
 
-    public bool IsReady { get; private set; }
+    public bool IsNotReady { get; private set; }
 
     private void Awake()
     {
-        if (FadeOutMaterial == null)
-            throw new UnityException("Give Me the FadeOut Material!");
-        IsReady = true;
+        //if (FadeOutMaterial == null)
+        //    throw new UnityException("Give Me the FadeOut Material!");
+        IsNotReady = false;
 
         rootRigidbody = this.GetComponent<Rigidbody>();
         rootCollider = this.GetComponent<Collider>();
@@ -41,8 +41,8 @@ public class MeshDisassembler : MonoBehaviour
         meshRenderers.ForEach(hMR =>
         {
             List<Material> originalMaterials = hMR.materials.ToList();
-            FadeOutMaterial.mainTexture = originalMaterials.First().mainTexture;
-            originalMaterials.Add(FadeOutMaterial);
+            //FadeOutMaterial.mainTexture = originalMaterials.First().mainTexture;
+            //originalMaterials.Add(FadeOutMaterial);
             hMR.materials = originalMaterials.ToArray();
         });
 
@@ -107,7 +107,7 @@ public class MeshDisassembler : MonoBehaviour
        });
 
         remainingColliders.ForEach(hC => hC.enabled = false);
-        IsReady = false;
+        IsNotReady = true;
 
         if (rootCollider != null)
             if (!RootColliderAlwaysOn)
@@ -120,7 +120,7 @@ public class MeshDisassembler : MonoBehaviour
     {
         lastPosition = this.transform.position;
 
-        IsReady = false;
+        IsNotReady = true;
         targets.ForEach(hT =>
         {
             AssemblerInfo info = targetsInfo[hT];
@@ -166,7 +166,7 @@ public class MeshDisassembler : MonoBehaviour
         FadeOutMeshRenderers();
     }
 
-    private void Reassemble()
+    public void Reassemble()
     {
 
         this.transform.position = lastPosition;
@@ -211,25 +211,25 @@ public class MeshDisassembler : MonoBehaviour
     {
         StartCoroutine(WaitForFadeOut(3f));
     }
-    private void SwapMaterials()
-    {
-        meshRenderers.ForEach(hMR =>
-        {
-            Material tmp = hMR.material;
-            hMR.material = hMR.materials[hMR.materials.Length - 1];
-            hMR.materials[hMR.materials.Length - 1] = tmp;
-        });
-    }
+    //private void SwapMaterials()
+    //{
+    //    meshRenderers.ForEach(hMR =>
+    //    {
+    //        Material tmp = hMR.material;
+    //        hMR.material = hMR.materials[hMR.materials.Length - 1];
+    //        hMR.materials[hMR.materials.Length - 1] = tmp;
+    //    });
+    //}
     private void TurnOnMeshRenderers()
     {
-        SwapMaterials();
+        //SwapMaterials();
         targets.ForEach(hT => LeanTween.alpha(hT, 255f, 0f));
     }
     private IEnumerator WaitForFadeOut(float duration)
     {
         yield return new WaitForSeconds(duration);
-        SwapMaterials();
-        targets.ForEach(hT => LeanTween.alpha(hT, 0f, 3f).setOnComplete(x => IsReady = true));
+        //SwapMaterials();
+        targets.ForEach(hT => LeanTween.alpha(hT, 0f, 3f).setOnComplete(x => IsNotReady = false));
     }
 
     private struct AssemblerInfo

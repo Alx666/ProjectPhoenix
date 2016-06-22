@@ -147,7 +147,7 @@ public class Weapon : NetworkBehaviour, IWeapon
     [ClientRpc]
     private void RpcShoot(Vector3 vPos, Vector3 vDir)
     {
-        if (this.isLocalPlayer)
+        if (!this.isLocalPlayer)
         {
             GameObject hInstance = GlobalFactory.GetInstance(this.BulletPrefab);
             hInstance.GetComponent<IBullet>().Shoot(vPos, vDir, this.transform.forward, this.GetComponent<Actor>());
