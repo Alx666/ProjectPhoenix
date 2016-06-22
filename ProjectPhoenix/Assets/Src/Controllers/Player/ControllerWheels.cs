@@ -108,10 +108,7 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
         }
 
         m_hEngine.OnUpdate(IsFlying);
-
-        Debug.Log(m_hRigidbody.centerOfMass);
-
-
+        
         CurrentSpeed = (m_hRigidbody.velocity.magnitude * 3.6f).ToString();
 
         m_hFlyState = m_hFlyState.Update();
