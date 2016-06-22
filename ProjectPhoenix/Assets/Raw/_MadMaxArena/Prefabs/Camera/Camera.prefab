@@ -193,10 +193,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 179792}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 332106777f996d84cb944b2a3c887459, type: 3}
+  m_Script: {fileID: 11500000, guid: a8b464febcd5fc6459436cfba67a1ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 0}
+  MinOffset: 12
+  MaxOffset: 25
+  StateChanger: 324
+  DistanceFromTarget: 0.35
 --- !u!114 &11460288
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -228,8 +231,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visualizeFocus: 0
   focalLength: 10
-  focalSize: 0.147
-  aperture: 0.5
+  focalSize: 0.14
+  aperture: 0.45
   focalTransform: {fileID: 0}
   maxBlurSize: 2
   highResolution: 0

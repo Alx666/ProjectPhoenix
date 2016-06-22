@@ -284,6 +284,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &144176
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 493118}
+  m_Layer: 0
+  m_Name: DOF_Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &145586
 GameObject:
   m_ObjectHideFlags: 1
@@ -980,6 +995,7 @@ Transform:
   - {fileID: 495566}
   - {fileID: 463076}
   - {fileID: 480940}
+  - {fileID: 493118}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &484098
@@ -1008,6 +1024,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 415504}
   m_RootOrder: 1
+--- !u!4 &493118
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 144176}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 481640}
+  m_RootOrder: 10
 --- !u!4 &494676
 Transform:
   m_ObjectHideFlags: 1
@@ -1918,9 +1946,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visualizeFocus: 0
   focalLength: 10
-  focalSize: 0.147
-  aperture: 0.5
-  focalTransform: {fileID: 481640}
+  focalSize: 0.14
+  aperture: 0.45
+  focalTransform: {fileID: 493118}
   maxBlurSize: 2
   highResolution: 0
   blurType: 0
@@ -2206,10 +2234,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8b464febcd5fc6459436cfba67a1ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinOffset: 20
-  MaxOffset: 40
+  MinOffset: 12
+  MaxOffset: 25
   StateChanger: 324
-  DistanceFromTarget: 0.3
+  DistanceFromTarget: 0.35
 --- !u!114 &11499020
 MonoBehaviour:
   m_ObjectHideFlags: 1
