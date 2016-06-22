@@ -17,6 +17,7 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
     public float Hp = 100f;
     public float SteerAngle = 30f;
     public float MaxSpeed = 50f;
+    public float BrakeSpeed = 20f;
 
     public Vector3 OverrideCOM;
 
@@ -241,15 +242,18 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 
     public void StopVehicle()
     {
-        Vector3 currentSpeed = this.GetComponent<Rigidbody>().velocity;
-        Vector3 stop;
-        stop.x = Mathf.Lerp(0f, -currentSpeed.x, Time.deltaTime);
-        stop.y = Mathf.Lerp(0f, -currentSpeed.y, Time.deltaTime);
-        stop.z = Mathf.Lerp(0f, -currentSpeed.z, Time.deltaTime);
-        if (stop.magnitude > 0.2f)
-            this.GetComponent<Rigidbody>().AddForce(stop, ForceMode.VelocityChange);
-        else
-            this.GetComponent<Rigidbody>().AddForce(-currentSpeed, ForceMode.VelocityChange);
+        if (!IsFlying)
+        {
+            Vector3 currentSpeed = this.GetComponent<Rigidbody>().velocity;
+            Vector3 stop;
+            stop.x = Mathf.Lerp(0f, -currentSpeed.x, Time.deltaTime * BrakeSpeed);
+            stop.y = Mathf.Lerp(0f, -currentSpeed.y, Time.deltaTime * BrakeSpeed);
+            stop.z = Mathf.Lerp(0f, -currentSpeed.z, Time.deltaTime * BrakeSpeed);
+            if (stop.magnitude > 0.2f)
+                this.GetComponent<Rigidbody>().AddForce(stop, ForceMode.VelocityChange);
+            else
+                this.GetComponent<Rigidbody>().AddForce(-currentSpeed, ForceMode.VelocityChange);
+        }
     }
 
     public void EndDown()

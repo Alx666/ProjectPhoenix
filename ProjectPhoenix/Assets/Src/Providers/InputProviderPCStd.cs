@@ -13,7 +13,7 @@ internal class InputProviderPCStd : MonoBehaviour
     public KeyCode PanLeft  = KeyCode.Q;
 
     public KeyCode Up       = KeyCode.LeftShift;
-    public KeyCode Down     = KeyCode.Space;
+    public KeyCode Stop     = KeyCode.Space;
     public KeyCode Fire     = KeyCode.Mouse0;
 
     private IControllerPlayer m_hTarget;
@@ -32,9 +32,9 @@ internal class InputProviderPCStd : MonoBehaviour
         if (Input.GetKeyUp(Up))
             m_hTarget.EndUp();
 
-        if (Input.GetKey(Down))
+        if (Input.GetKey(Stop))
             m_hTarget.StopVehicle();
-        if (Input.GetKeyUp(Down))
+        if (Input.GetKeyUp(Stop))
             m_hTarget.EndDown();
 
         //MOVING

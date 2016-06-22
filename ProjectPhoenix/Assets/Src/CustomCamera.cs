@@ -9,7 +9,7 @@ public class CustomCamera : MonoBehaviour
     public float MinOffset = 20.0f;
     public float MaxOffset = 40.0f;
     public KeyCode StateChanger = KeyCode.Mouse1;
-
+    public float AimLerpSpeed = 20.0f;
 
     [Range(0, 1)]
     public float DistanceFromTarget = 0.3f;
@@ -148,7 +148,7 @@ public class CustomCamera : MonoBehaviour
             aimOffset.x = camera.stdCamera.stdOffset.x + vPoint.x - camera.Target.transform.position.x;
             aimOffset.z = camera.stdCamera.stdOffset.z + vPoint.z - camera.Target.transform.position.z;
 
-            camera.Offset = new Vector3(Mathf.Lerp(camera.Offset.x, aimOffset.x, Time.deltaTime), camera.Offset.y, Mathf.Lerp(camera.Offset.z, aimOffset.z, Time.deltaTime));
+            camera.Offset = new Vector3(Mathf.Lerp(camera.Offset.x, aimOffset.x, Time.deltaTime), camera.Offset.y, Mathf.Lerp(camera.Offset.z, aimOffset.z, Time.deltaTime * camera.AimLerpSpeed));
 
             camera.LerpDepthOfField(vPoint);
         }
