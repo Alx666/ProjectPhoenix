@@ -876,7 +876,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 128670}
-  m_LocalRotation: {x: 0.07269324, y: 0, z: 0, w: 0.9973544}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.001, y: -0.07800028, z: 1.5750043}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1975,9 +1975,9 @@ WheelCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 186548}
   m_Center: {x: 0, y: 0, z: 0}
-  m_Radius: 0.37
+  m_Radius: 0.395
   m_SuspensionSpring:
-    spring: 50000
+    spring: 40000
     damper: 8000
     targetPosition: 0.5
   m_SuspensionDistance: 0.14
@@ -1985,16 +1985,16 @@ WheelCollider:
   m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
-    m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
+    m_ExtremumSlip: 0.5
+    m_ExtremumValue: 1.5
+    m_AsymptoteSlip: 5
+    m_AsymptoteValue: 0.1
     m_Stiffness: 1.5
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.2
-    m_ExtremumValue: 1.2
-    m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
+    m_ExtremumSlip: 0.1
+    m_ExtremumValue: 5
+    m_AsymptoteSlip: 100
+    m_AsymptoteValue: 1.5
     m_Stiffness: 1.5
   m_Enabled: 1
 --- !u!146 &14632294
@@ -2004,10 +2004,10 @@ WheelCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 143092}
   m_Center: {x: 0, y: 0, z: 0}
-  m_Radius: 0.4
+  m_Radius: 0.41
   m_SuspensionSpring:
-    spring: 50000
-    damper: 8000
+    spring: 30000
+    damper: 5000
     targetPosition: 0.5
   m_SuspensionDistance: 0.14
   m_ForceAppPointDistance: 0
@@ -2015,15 +2015,15 @@ WheelCollider:
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
+    m_ExtremumValue: 1.5
+    m_AsymptoteSlip: 5
+    m_AsymptoteValue: 0.1
     m_Stiffness: 1.5
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.2
-    m_ExtremumValue: 1.2
-    m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
+    m_ExtremumSlip: 0.1
+    m_ExtremumValue: 5
+    m_AsymptoteSlip: 100
+    m_AsymptoteValue: 1.5
     m_Stiffness: 1.5
   m_Enabled: 1
 --- !u!146 &14643596
@@ -2033,10 +2033,10 @@ WheelCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 149592}
   m_Center: {x: 0, y: 0, z: 0}
-  m_Radius: 0.4
+  m_Radius: 0.41
   m_SuspensionSpring:
-    spring: 50000
-    damper: 8000
+    spring: 30000
+    damper: 5000
     targetPosition: 0.5
   m_SuspensionDistance: 0.14
   m_ForceAppPointDistance: 0
@@ -2044,15 +2044,15 @@ WheelCollider:
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
+    m_ExtremumValue: 1.5
+    m_AsymptoteSlip: 5
+    m_AsymptoteValue: 0.1
     m_Stiffness: 1.5
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.2
-    m_ExtremumValue: 1.2
-    m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
+    m_ExtremumSlip: 0.1
+    m_ExtremumValue: 5
+    m_AsymptoteSlip: 100
+    m_AsymptoteValue: 1.5
     m_Stiffness: 1.5
   m_Enabled: 1
 --- !u!146 &14693662
@@ -2062,9 +2062,9 @@ WheelCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 163848}
   m_Center: {x: 0, y: 0, z: 0}
-  m_Radius: 0.37
+  m_Radius: 0.395
   m_SuspensionSpring:
-    spring: 50000
+    spring: 40000
     damper: 8000
     targetPosition: 0.5
   m_SuspensionDistance: 0.14
@@ -2072,16 +2072,16 @@ WheelCollider:
   m_Mass: 20
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
-    m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
+    m_ExtremumSlip: 0.5
+    m_ExtremumValue: 1.5
+    m_AsymptoteSlip: 5
+    m_AsymptoteValue: 0.1
     m_Stiffness: 1.5
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.2
-    m_ExtremumValue: 1.2
-    m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
+    m_ExtremumSlip: 0.1
+    m_ExtremumValue: 5
+    m_AsymptoteSlip: 100
+    m_AsymptoteValue: 1.5
     m_Stiffness: 1.5
   m_Enabled: 1
 --- !u!222 &22218474
