@@ -11,7 +11,6 @@ public class Weapon : NetworkBehaviour, IWeapon
 
     private Queue<GameObject> QueueLocators;
     
-
     public ShootMode Mode;
 
     [Range(0f, 90f)]
@@ -30,6 +29,7 @@ public class Weapon : NetworkBehaviour, IWeapon
     private Pool m_hPool;
     private IWeaponState m_hStateMachine;
     private WeaponReady m_hTrigger;
+
     public bool IsReady { get; private set; }
 
     public Vector3 Direction { get; set; }
@@ -53,7 +53,6 @@ public class Weapon : NetworkBehaviour, IWeapon
             {
                 WeaponShoot hShoot = new WeaponShoot(this, Mode);
                 WeaponWait hWait = new WeaponWait(BulletDelay);
-
                 hLast.Next = hShoot;
                 hShoot.Next = hWait;
                 hLast = hWait;
@@ -74,16 +73,26 @@ public class Weapon : NetworkBehaviour, IWeapon
         m_hStateMachine = hLast;
     }
     
-
-
-
-   
-
-
+    
     private void Update()
     {
         m_hStateMachine = m_hStateMachine.Update();
         IsReady = m_hStateMachine as WeaponReady != null;
+    }
+
+    //RESET
+    public void Reset()
+    {
+        bool iterated = false;
+        IWeaponState hCurrent = m_hTrigger;
+        while(!iterated)
+        {
+            hCurrent.Reset();
+            hCurrent = hCurrent.Next;
+            if (hCurrent == m_hTrigger)
+                iterated = true;
+        }
+        this.m_hStateMachine = m_hTrigger;
     }
 
     public void Press()
@@ -106,6 +115,7 @@ public class Weapon : NetworkBehaviour, IWeapon
     private interface IWeaponState
     {
         IWeaponState Update();
+        void Reset();
 
         IWeaponState Next { get; set; }
     }
@@ -136,6 +146,11 @@ public class Weapon : NetworkBehaviour, IWeapon
                 return this;
             }
         }
+
+        public void Reset()
+        {
+            m_fElapsedTime = Delay;
+        }
     }
 
     [Command]
@@ -155,7 +170,7 @@ public class Weapon : NetworkBehaviour, IWeapon
     }
 
 
-    #region WeaponShoot
+    #region StateWeaponShoot
     private class WeaponShoot : IWeaponState
     {
         private Weapon m_hOwner;
@@ -296,12 +311,14 @@ public class Weapon : NetworkBehaviour, IWeapon
             m_hShootStrategy.Shoot();
             return Next;
         }
-        
+
+        public void Reset()
+        {
+
+        }
     }
 
     #endregion
-
-
 
     private class WeaponReady : IWeaponState
     {
@@ -327,6 +344,11 @@ public class Weapon : NetworkBehaviour, IWeapon
         }
 
         public void OnButtonReleased()
+        {
+            m_bFire = false;
+        }
+
+        public void Reset()
         {
             m_bFire = false;
         }
