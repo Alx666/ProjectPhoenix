@@ -33,7 +33,6 @@ public class LobbyManager : NetworkLobbyManager
 
         Instance = this;
     }
-
     #region Control Methods
 
     public void OnStartHostButton()

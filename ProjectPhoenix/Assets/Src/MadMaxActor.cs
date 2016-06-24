@@ -133,6 +133,7 @@ public class MadMaxActor : Actor
 
     private void Respawn()
     {
+        this.transform.position = GameManager.Instance.GetRandomSpawnPoint();
         this.m_hRigidbody.isKinematic = false;
         m_hRenderers.ForEach(hR => hR.enabled = true);
         m_hColliders.ForEach(hC => hC.enabled = true);
@@ -147,7 +148,6 @@ public class MadMaxActor : Actor
         //m_hDisassembler.Reassemble();
         currentHealth = Hp;
         HealthBar.enabled = true;
-        this.transform.position = GameManager.Instance.GetRandomSpawnPoint();
     }
 
     public enum HealthBarMode

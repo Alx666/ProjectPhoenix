@@ -5,20 +5,21 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using UnityEngine.SceneManagement;
 
+//ToDo: MadMaxGameManager
 public class GameManager : NetworkBehaviour
 {
+    public Text EndText;
     public Text ScoreText;
     public Text WoWText;
-
     public float RespawnTime;
 
     static public GameManager Instance { get; private set; }
 
     private Dictionary<Actor, int> scores;
     private List<NetworkStartPosition> m_hSpawnPoints;
-
-    //private IVictoryCondition m_hVictoryCondition;
+    private IVictoryCondition m_hVictoryCondition;
 
     void Awake()
     {
@@ -32,14 +33,14 @@ public class GameManager : NetworkBehaviour
 
     void Start()
     {
-        GameObject.DontDestroyOnLoad(this.gameObject);
+        //GameObject.DontDestroyOnLoad(this.gameObject);
         m_hSpawnPoints = new List<NetworkStartPosition>(FindObjectsOfType<NetworkStartPosition>());
 
         if (isServer)
             StartCoroutine(WaitForInitialization(2f));
 
         //ToDo: Rendere victory condition generica
-        //m_hVictoryCondition = new DeathMatchWinCondition(20);
+        m_hVictoryCondition = new DeathMatchWinCondition(1);
     }
 
     [ClientRpc]
@@ -57,25 +58,32 @@ public class GameManager : NetworkBehaviour
 
     internal int GetHighestScore()
     {
-        //ritorna il punteggio piu alto
-        //serve implementazione del punteggio
-        throw new NotImplementedException();
+        return scores.OrderByDescending(hS => hS.Value).FirstOrDefault().Value;
     }
 
     void GameTerminated()
     {
-        //Debug.Log("Game finish");
+        if (scores.OrderByDescending(hS => hS.Value).FirstOrDefault().Key.isLocalPlayer)
+            EndText.text = "HAIL VICTORY";
+        else
+            EndText.text = "STINKY DEFEAT";
+
+        StartCoroutine(WaitForEndGame(3f));
     }
 
     void AddScore(int value, Actor killer)
     {
         scores[killer] += value;
+        if (m_hVictoryCondition.Check())
+            GameTerminated();
     }
 
     public void WoW(Actor killer, Actor killed)
     {
         WoWText.text = killer.Name + " pwned " + killed.Name + "\n";
-        AddScore(100, killer);
+
+        if (killer != killed)
+            AddScore(1, killer);
     }
 
     public void ShowScores()
@@ -88,7 +96,7 @@ public class GameManager : NetworkBehaviour
 
     public Vector3 GetRandomSpawnPoint()
     {
-        return m_hSpawnPoints[UnityEngine.Random.Range(0, m_hSpawnPoints.Count-1)].transform.position;
+        return m_hSpawnPoints[UnityEngine.Random.Range(0, m_hSpawnPoints.Count - 1)].transform.position;
     }
 
     IEnumerator WaitForInitialization(float duration)
@@ -96,5 +104,21 @@ public class GameManager : NetworkBehaviour
         yield return new WaitForSeconds(duration);
         List<GameObject> m_hPlayerInstances = new List<GameObject>(LobbyManager.Instance.GetPlayerInstances());
         m_hPlayerInstances.ForEach(hA => RpcSyncPlayer(hA.GetComponent<Actor>().netId));
+    }
+
+    IEnumerator WaitForEndGame(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        Application.Quit();
+
+        //Network.Disconnect();
+
+        //if (isServer)
+        //    LobbyManager.Instance.lobbySlots.Where(hL => hL != null).ToList().ForEach(hP => Destroy(hP.gameObject));
+
+        //Destroy(LobbyManager.Instance.gameObject);
+
+        //SceneManager.LoadScene("DRAIV_Splash");
     }
 }
