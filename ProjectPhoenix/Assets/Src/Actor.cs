@@ -15,12 +15,18 @@ public class Actor : NetworkBehaviour, IDamageable
 
     //[SerializeField]private List<Skill> m_hSkills;
 
+    public Actor LastActor { get; set; }
 
     void Update()
     {
     }
     
     public virtual void Damage(IDamageSource hSource)
+    {
+
+    }
+
+    public virtual void OnFlippedState()
     {
 
     }

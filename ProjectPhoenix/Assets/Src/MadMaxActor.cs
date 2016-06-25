@@ -20,7 +20,6 @@ public class MadMaxActor : Actor
     private List<Renderer> m_hRenderers;
     private List<Collider> m_hColliders;
 
-
     [Header("Health Bar Config")]
     public HealthBarMode HpBarMode = HealthBarMode.WorldSpace;
     [Range(1f, 100f)]
@@ -90,6 +89,8 @@ public class MadMaxActor : Actor
 
     public override void Damage(IDamageSource hSource)
     {
+        LastActor = hSource.Owner;
+
         this.currentHealth -= hSource.GetDamage(this.Armor);
         
         if (this.currentHealth <= 0f)
@@ -97,6 +98,11 @@ public class MadMaxActor : Actor
             HealthBar.enabled = false;
             RpcDie(hSource.Owner.netId);
         }
+    }
+
+    public override void OnFlippedState()
+    {
+        Die(LastActor);
     }
 
     public override void Die(Actor Killer)

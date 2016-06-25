@@ -5,6 +5,13 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.Networking;
 
+public enum DriveType
+{
+    AWD,
+    RWD,
+    FWD
+}
+
 [RequireComponent(typeof(ConstantForce))]
 public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 {
@@ -20,11 +27,11 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
     public float BrakeSpeed = 20f;
 
     public Vector3 OverrideCOM;
+    public DriveType DriveType;
 
-
-    public bool m_hForward  { get; set; }
+    public bool m_hForward { get; set; }
     public bool m_hBackward { get; set; }
-    public bool m_hRight    { get; set; }
+    public bool m_hRight { get; set; }
     public bool m_hLeft { get; set; }
 
     internal bool IsFlying = false;
@@ -43,7 +50,7 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 
     private Vector3 m_hReverseCOM;
     private Vector3 m_hOriginalCOM;
-
+    private Actor m_hActor;
 
 
     void Awake()
@@ -70,8 +77,24 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
         //Initialize IWeapon
         m_hCurrentWeapon = GetComponentInChildren<IWeapon>();
 
+        m_hActor = GetComponent<Actor>();
+
         //Initialize Drive/Brake System
-        m_hEngine = new Drive(Hp, m_hWheels);
+        switch (DriveType)
+        {
+            case DriveType.AWD:
+                m_hEngine = new AwdDrive(Hp, m_hWheels);
+                break;
+            case DriveType.RWD:
+                m_hEngine = new RearDrive(Hp, m_hWheels);
+                break;
+            case DriveType.FWD:
+                m_hEngine = new ForwardDrive(Hp, m_hWheels);
+                break;
+            default:
+                break;
+        }
+
 
         m_hConstanForce = this.GetComponent<ConstantForce>();
         m_hReverseCOM = new Vector3(0.0f, -2.0f, 0.0f);
@@ -107,14 +130,23 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
             m_hFakeWheels.ForEach(hfw => hfw.OnUpdate(m_hWheels.Last().Collider));
         }
 
-        m_hEngine.OnUpdate(IsFlying);
-        
+        //m_hEngine.OnUpdate(IsFlying);
+
+        if (!IsFlying && this.transform.up.y < 0)
+            StartCoroutine(WaitForFlipper(4));
+
         CurrentSpeed = (m_hRigidbody.velocity.magnitude * 3.6f).ToString();
 
         m_hFlyState = m_hFlyState.Update();
     }
 
+    private IEnumerator WaitForFlipper(float fTime)
+    {
+        yield return new WaitForSeconds(fTime);
 
+        if (!IsFlying && this.transform.up.y < 0)
+            m_hActor.OnFlippedState();
+    }
 
     public void FixedUpdate()
     {
@@ -239,23 +271,25 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 
     public void StopVehicle()
     {
-        if (!IsFlying)
-        {
-            Vector3 currentSpeed = this.GetComponent<Rigidbody>().velocity;
-            Vector3 stop;
-            stop.x = Mathf.Lerp(0f, -currentSpeed.x, Time.deltaTime * BrakeSpeed);
-            stop.y = Mathf.Lerp(0f, -currentSpeed.y, Time.deltaTime * BrakeSpeed);
-            stop.z = Mathf.Lerp(0f, -currentSpeed.z, Time.deltaTime * BrakeSpeed);
-            if (stop.magnitude > 0.2f)
-                this.GetComponent<Rigidbody>().AddForce(stop, ForceMode.VelocityChange);
-            else
-                this.GetComponent<Rigidbody>().AddForce(-currentSpeed, ForceMode.VelocityChange);
-        }
+        //if (!IsFlying)
+        //{
+        //    Vector3 currentSpeed = this.GetComponent<Rigidbody>().velocity;
+        //    Vector3 stop;
+        //    stop.x = Mathf.Lerp(0f, -currentSpeed.x, Time.deltaTime * BrakeSpeed);
+        //    stop.y = Mathf.Lerp(0f, -currentSpeed.y, Time.deltaTime * BrakeSpeed);
+        //    stop.z = Mathf.Lerp(0f, -currentSpeed.z, Time.deltaTime * BrakeSpeed);
+        //    if (stop.magnitude > 0.2f)
+        //        this.GetComponent<Rigidbody>().AddForce(stop, ForceMode.VelocityChange);
+        //    else
+        //        this.GetComponent<Rigidbody>().AddForce(-currentSpeed, ForceMode.VelocityChange);
+        //}
+
+        m_hWheels.Skip(2).ToList().ForEach(hW => hW.Collider.brakeTorque = BrakeSpeed);
     }
 
     public void EndDown()
     {
-
+        m_hWheels.Skip(2).ToList().ForEach(hW => hW.Collider.brakeTorque = 0);
     }
 
     public void BeginPanLeft()
@@ -281,17 +315,29 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 
     #region Drive system
 
-    private class Drive
+    private abstract class Drive
     {
-        private float m_fHp;
-        private float m_fMotorTorqueMultiplier;
-        private List<Wheel> m_hWheels;
-
+        protected float m_fHp;
+        protected float m_fMotorTorqueMultiplier;
+        protected List<Wheel> m_hWheels;
 
         public Drive(float fHp, List<Wheel> hWheels)
         {
             m_fHp = fHp;
             m_hWheels = hWheels;
+        }
+
+        public abstract void BeginAccelerate();
+        public abstract void EndAccelerate();
+        public abstract void BeginBackward();
+        public abstract void EndBackward();
+
+    }
+
+    private class AwdDrive : Drive
+    {
+        public AwdDrive(float fHp, List<Wheel> hWheels) : base(fHp, hWheels)
+        {
             m_fMotorTorqueMultiplier = 0.25f;
         }
 
@@ -316,29 +362,84 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
             //}
         }
 
-        public void BeginAccelerate()
+        public override void BeginAccelerate()
         {
             //AWD
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = m_fHp * m_fMotorTorqueMultiplier);
         }
 
-        public void EndAccelerate()
+        public override void EndAccelerate()
         {
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
         }
 
-        public void BeginBackward()
+        public override void BeginBackward()
         {
             //AWD
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = -(m_fHp * m_fMotorTorqueMultiplier));
         }
 
-        public void EndBackward()
+        public override void EndBackward()
         {
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
         }
     }
 
+    private class ForwardDrive : Drive
+    {
+        public ForwardDrive(float fHp, List<Wheel> hWheels) : base(fHp, hWheels)
+        {
+            m_fMotorTorqueMultiplier = 0.50f;
+        }
+
+        public override void BeginAccelerate()
+        {
+            m_hWheels.Take(2).ToList().ForEach(hW => hW.Collider.motorTorque = m_fHp * m_fMotorTorqueMultiplier);
+        }
+
+        public override void EndAccelerate()
+        {
+            m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
+        }
+
+        public override void BeginBackward()
+        {
+            m_hWheels.Take(2).ToList().ForEach(hW => hW.Collider.motorTorque = -(m_fHp * m_fMotorTorqueMultiplier));
+        }
+
+        public override void EndBackward()
+        {
+            m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
+        }
+    }
+
+    private class RearDrive : Drive
+    {
+        public RearDrive(float fHp, List<Wheel> hWheels) : base(fHp, hWheels)
+        {
+            m_fMotorTorqueMultiplier = 0.50f;
+        }
+
+        public override void BeginAccelerate()
+        {
+            m_hWheels.Skip(2).ToList().ForEach(hW => hW.Collider.motorTorque = m_fHp * m_fMotorTorqueMultiplier);
+        }
+
+        public override void EndAccelerate()
+        {
+            m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
+        }
+
+        public override void BeginBackward()
+        {
+            m_hWheels.Skip(2).ToList().ForEach(hW => hW.Collider.motorTorque = -(m_fHp * m_fMotorTorqueMultiplier));
+        }
+
+        public override void EndBackward()
+        {
+            m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
+        }
+    }
     #endregion
 
     #region Wheel
@@ -405,7 +506,7 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 
             //m_hOwner.m_hConstanForce.enabled = false;
             //LeanTween.value(m_hOwner.gameObject, new Vector3(m_hOwner.m_hRigidbody.centerOfMass.x, m_hOwner.m_hRigidbody.centerOfMass.y, m_hOwner.m_hRigidbody.centerOfMass.z), new Vector3(m_hOwner.m_hRigidbody.centerOfMass.x, m_hOwner.OverrideCOM.y, m_hOwner.m_hRigidbody.centerOfMass.z), 0.5f).setOnUpdateVector3(SetCenterOfMass);
-            
+
 
             m_hOwner.m_hConstanForce.enabled = false;
             LeanTween.value(m_hOwner.gameObject, new Vector3(m_hOwner.m_hRigidbody.centerOfMass.x, m_hOwner.m_hRigidbody.centerOfMass.y, m_hOwner.m_hRigidbody.centerOfMass.z), new Vector3(m_hOwner.OverrideCOM.x, m_hOwner.OverrideCOM.y, m_hOwner.OverrideCOM.z), 1.5f).setOnUpdateVector3(SetCenterOfMass);
