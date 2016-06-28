@@ -49,14 +49,13 @@ public class BulletTracking : NetworkBehaviour, IBullet, IPoolable
         RaycastHit vRaycast;
         if (Physics.Raycast(vPosition, vDirection, out vRaycast))
         {
-            Actor hHit = vRaycast.collider.gameObject.GetComponent<Actor>();
+            IDamageable hHit = vRaycast.collider.gameObject.GetComponent<IDamageable>();
             if (hHit != null)
             {
                 this.target = vRaycast.collider.gameObject;
                 this.gameObject.transform.forward = (vRaycast.collider.gameObject.transform.position - this.transform.position).normalized;
                 this.current = follow;
-                ArmorType armor = hHit.Armor;
-                float rate = damageRates[armor];
+
                 hHit.Damage(this);
                 return;
             }

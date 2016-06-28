@@ -6,26 +6,30 @@ public class DRAIV_Disassembler : MonoBehaviour, IDamageable
     public float Mass = 1;
     private MeshCollider hCollider;
 
+    //DELETE?
+    private Rigidbody hRigidbody;
+    //DELETE?
+
     public void Awake()
     {
+        this.gameObject.layer = LayerMask.NameToLayer("Placeable");
         hCollider = this.GetComponent<MeshCollider>();
         if (hCollider == null)
         {
             hCollider = this.gameObject.AddComponent<MeshCollider>();
         }
         hCollider.convex = true;
+
+        hRigidbody = AddRigidbody();
     }
 
     public void Damage(IDamageSource hSource)
     {
-        this.gameObject.transform.SetParent(null);
+        //DELETE?
+        hRigidbody.useGravity = true;
+        //DELETE?
 
-        Rigidbody hRigidbody = this.GetComponent<Rigidbody>();
-        if (hRigidbody == null)
-            hRigidbody = this.gameObject.AddComponent<Rigidbody>();
-
-        hRigidbody.mass = Mass;
-
+        //Rigidbody hRigidbody = AddRigidbody();
         hRigidbody.velocity = hSource.GetDamage(Armor) * hSource.Owner.gameObject.transform.forward;
     }
 
@@ -34,6 +38,16 @@ public class DRAIV_Disassembler : MonoBehaviour, IDamageable
         if (collision.gameObject.GetComponent<DRAIV_Disassembler>() != null || collision.gameObject.GetComponent<TerrainCollider>() != null)
             return;
 
+        //DELETE?
+        hRigidbody.useGravity = true;
+        //DELETE?
+
+        //AddRigidbody();
+
+    }
+
+    private Rigidbody AddRigidbody()
+    {
         this.gameObject.transform.SetParent(null);
 
         Rigidbody hRigidbody = this.GetComponent<Rigidbody>();
@@ -41,5 +55,11 @@ public class DRAIV_Disassembler : MonoBehaviour, IDamageable
             hRigidbody = this.gameObject.AddComponent<Rigidbody>();
 
         hRigidbody.mass = Mass;
+
+        //DELETE?
+        hRigidbody.useGravity = false;
+        //DELETE?
+
+        return hRigidbody;
     }
 }

@@ -82,14 +82,12 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
 
         foreach (var Col in obj)
         {
-            if (Col.GetComponent<Actor>() != null && !this)
+            if (Col.GetComponent<IDamageable>() != null && !this)
             {
 
-                Actor h_Hit = collider.gameObject.GetComponent<Actor>();
+                IDamageable h_Hit = collider.gameObject.GetComponent<IDamageable>();
 
                 this.Damage = AoeDamage(Col.transform.position, collider.transform.position);
-                ArmorType armor = h_Hit.Armor;
-                float rate = damageRates[armor];
                 h_Hit.Damage(this);
             }
             if (Col.GetComponent<Rigidbody>() != null && !this)

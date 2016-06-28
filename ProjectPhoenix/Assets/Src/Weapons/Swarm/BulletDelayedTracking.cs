@@ -76,14 +76,12 @@ public class BulletDelayedTracking : MonoBehaviour, IBullet, IPoolable
         if (collider.gameObject.GetComponent<BulletDelayedTracking>() != null)
             return;
 
-        Actor hHit = collider.gameObject.GetComponent<Actor>();
+        IDamageable hHit = collider.gameObject.GetComponent<IDamageable>();
         m_hParticlesController.PlayHitVfx(this.transform.position, this.transform.up);
 
         
         if(hHit != null)
         {
-            ArmorType armor = hHit.Armor;
-            float rate = damageRates[armor];
             hHit.Damage(this);
         }
 

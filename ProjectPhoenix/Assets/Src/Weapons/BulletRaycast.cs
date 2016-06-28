@@ -69,7 +69,7 @@ public class BulletRaycast : NetworkBehaviour, IBullet, IPoolable
 
         if (Physics.Raycast(this.transform.position, this.transform.forward, out vRaycast, fSpace))
         {
-            Actor hHit = vRaycast.collider.transform.root.GetComponent<Actor>();
+            IDamageable hHit = vRaycast.collider.transform.root.GetComponent<IDamageable>();
 
             if (hHit != null)
             {

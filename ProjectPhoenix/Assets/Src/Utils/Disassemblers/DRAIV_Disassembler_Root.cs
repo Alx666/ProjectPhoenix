@@ -9,7 +9,7 @@ public class DRAIV_Disassembler_Root : MonoBehaviour
 
     public void Start()
     {
-        List<GameObject> children = this.gameObject.GetComponentsInChildren<Transform>().Select(hT => hT.gameObject).ToList();
+        List<GameObject> children = this.gameObject.GetComponentsInChildren<Transform>().Select(hT => hT.gameObject).Where(GO => GO != this.gameObject).ToList();
         children.ForEach(hGO =>
         {
             DRAIV_Disassembler disassembler = hGO.AddComponent<DRAIV_Disassembler>();
