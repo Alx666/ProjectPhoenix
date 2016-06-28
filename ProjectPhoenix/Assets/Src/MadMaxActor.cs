@@ -111,6 +111,8 @@ public class MadMaxActor : Actor
         //m_hDisassembler.Explode(10f, 20f);
         m_hRigidbody.isKinematic = true;
         m_hWeapon.enabled = false;
+        m_hWeapon.GetComponent<Weapon>().Reset();
+
 
         if (isLocalPlayer)
         {
@@ -144,6 +146,7 @@ public class MadMaxActor : Actor
         m_hRenderers.ForEach(hR => hR.enabled = true);
         m_hColliders.ForEach(hC => hC.enabled = true);
         m_hWeapon.enabled = true;
+        m_hWeapon.
 
         if(isLocalPlayer)
         {
