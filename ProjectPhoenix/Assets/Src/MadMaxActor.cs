@@ -146,7 +146,6 @@ public class MadMaxActor : Actor
         m_hRenderers.ForEach(hR => hR.enabled = true);
         m_hColliders.ForEach(hC => hC.enabled = true);
         m_hWeapon.enabled = true;
-        m_hWeapon.
 
         if(isLocalPlayer)
         {
