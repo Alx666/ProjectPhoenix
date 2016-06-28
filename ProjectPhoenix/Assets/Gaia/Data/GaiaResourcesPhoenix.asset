@@ -869,7 +869,7 @@ MonoBehaviour:
     m_spawnCriteria:
     - m_name: 
       m_checkType: 0
-      m_virginTerrain: 1
+      m_virginTerrain: 0
       m_checkHeight: 1
       m_minHeight: 1
       m_maxHeight: 975
@@ -979,7 +979,7 @@ MonoBehaviour:
     m_spawnCriteria:
     - m_name: 
       m_checkType: 0
-      m_virginTerrain: 1
+      m_virginTerrain: 0
       m_checkHeight: 1
       m_minHeight: 1
       m_maxHeight: 975
@@ -1079,7 +1079,7 @@ MonoBehaviour:
     m_spawnCriteria:
     - m_name: 
       m_checkType: 0
-      m_virginTerrain: 1
+      m_virginTerrain: 0
       m_checkHeight: 1
       m_minHeight: -1
       m_maxHeight: 975
@@ -1311,6 +1311,321 @@ MonoBehaviour:
         m_RotationOrder: 4
       m_checkSlope: 1
       m_minSlope: 1.5390637
+      m_maxSlope: 40.76444
+      m_slopeFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 0.05
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkProximity: 0
+      m_proximityTag: 
+      m_minProximity: 0
+      m_maxProximity: 100
+      m_proximityFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 0.3
+          value: 0.2
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkTexture: 0
+      m_matchingTextures: 2133
+      m_isActive: 1
+    m_spawnExtensions: []
+  - m_name: AIV_Grass
+    m_renderMode: 2
+    m_detailProtoype: {fileID: 0}
+    m_detailPrototypeFileName: 
+    m_detailTexture: {fileID: 2800000, guid: 685ff64163a16494caa3307eea6ea5df, type: 3}
+    m_detailTextureFileName: Flowers Red.psd
+    m_minWidth: 0.5
+    m_maxWidth: 1
+    m_minHeight: 0.7
+    m_maxHeight: 1.4
+    m_noiseSpread: 1
+    m_bendFactor: 0.1
+    m_healthyColour: {r: 1, g: 1, b: 1, a: 1}
+    m_dryColour: {r: 0.7352941, g: 0.7352941, b: 0.7352941, a: 1}
+    m_dna:
+      m_width: 1
+      m_height: 1.4
+      m_boundsRadius: 1
+      m_seedThrow: 4.2
+      m_minScale: 0.1
+      m_maxScale: 1
+      m_rndScaleInfluence: 0
+      m_extParam: 
+      m_protoIdx: 6
+    m_spawnCriteria:
+    - m_name: 
+      m_checkType: 0
+      m_virginTerrain: 0
+      m_checkHeight: 0
+      m_minHeight: 2
+      m_maxHeight: 975
+      m_heightFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 0.024169743
+          value: 1.0104895
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkSlope: 1
+      m_minSlope: 0
+      m_maxSlope: 40.76444
+      m_slopeFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 0.05
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkProximity: 0
+      m_proximityTag: 
+      m_minProximity: 0
+      m_maxProximity: 100
+      m_proximityFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 0.3
+          value: 0.2
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkTexture: 0
+      m_matchingTextures: 2133
+      m_isActive: 1
+    m_spawnExtensions: []
+  - m_name: AIV_Fern
+    m_renderMode: 2
+    m_detailProtoype: {fileID: 0}
+    m_detailPrototypeFileName: 
+    m_detailTexture: {fileID: 2800000, guid: 25a8dae594f98274c9c42d186e2db47e, type: 3}
+    m_detailTextureFileName: Flowers Red.psd
+    m_minWidth: 0.5
+    m_maxWidth: 1
+    m_minHeight: 0.7
+    m_maxHeight: 1.4
+    m_noiseSpread: 1
+    m_bendFactor: 0.1
+    m_healthyColour: {r: 1, g: 1, b: 1, a: 1}
+    m_dryColour: {r: 0.7352941, g: 0.7352941, b: 0.7352941, a: 1}
+    m_dna:
+      m_width: 1
+      m_height: 1.4
+      m_boundsRadius: 1
+      m_seedThrow: 4.2
+      m_minScale: 0.1
+      m_maxScale: 1
+      m_rndScaleInfluence: 0
+      m_extParam: 
+      m_protoIdx: 6
+    m_spawnCriteria:
+    - m_name: 
+      m_checkType: 0
+      m_virginTerrain: 0
+      m_checkHeight: 0
+      m_minHeight: 2
+      m_maxHeight: 975
+      m_heightFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 0.024169743
+          value: 1.0104895
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkSlope: 1
+      m_minSlope: 0
+      m_maxSlope: 40.76444
+      m_slopeFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 0.05
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkProximity: 0
+      m_proximityTag: 
+      m_minProximity: 0
+      m_maxProximity: 100
+      m_proximityFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 0.3
+          value: 0.2
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkTexture: 0
+      m_matchingTextures: 2133
+      m_isActive: 1
+    m_spawnExtensions: []
+  - m_name: AIV_Grass03
+    m_renderMode: 2
+    m_detailProtoype: {fileID: 0}
+    m_detailPrototypeFileName: 
+    m_detailTexture: {fileID: 2800000, guid: d7222aa66b058c640ba2fbf1f09648a9, type: 3}
+    m_detailTextureFileName: Flowers Red.psd
+    m_minWidth: 0.5
+    m_maxWidth: 1
+    m_minHeight: 0.7
+    m_maxHeight: 1.4
+    m_noiseSpread: 1
+    m_bendFactor: 0.1
+    m_healthyColour: {r: 1, g: 1, b: 1, a: 1}
+    m_dryColour: {r: 0.7352941, g: 0.7352941, b: 0.7352941, a: 1}
+    m_dna:
+      m_width: 1
+      m_height: 1.4
+      m_boundsRadius: 1
+      m_seedThrow: 4.2
+      m_minScale: 0.1
+      m_maxScale: 1
+      m_rndScaleInfluence: 0
+      m_extParam: 
+      m_protoIdx: 6
+    m_spawnCriteria:
+    - m_name: 
+      m_checkType: 0
+      m_virginTerrain: 0
+      m_checkHeight: 0
+      m_minHeight: 2
+      m_maxHeight: 975
+      m_heightFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 0.024169743
+          value: 1.0104895
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkSlope: 1
+      m_minSlope: 0
       m_maxSlope: 40.76444
       m_slopeFitness:
         serializedVersion: 2
