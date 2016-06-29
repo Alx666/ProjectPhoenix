@@ -16,6 +16,7 @@ public class MadMaxActor : Actor
     private Rigidbody m_hRigidbody;
     private MonoBehaviour m_hController;
     private InputProviderPCStd m_hProvider;
+    private DeathBomb m_hBomb;
     private MonoBehaviour m_hWeapon;
     private List<Renderer> m_hRenderers;
     private List<Collider> m_hColliders;
@@ -48,7 +49,8 @@ public class MadMaxActor : Actor
         m_hRenderers = new List<Renderer>(GetComponents<Renderer>());
         m_hRenderers.AddRange(GetComponentsInChildren<Renderer>());
         m_hColliders = new List<Collider>(GetComponents<Collider>());
-        m_hColliders.AddRange(GetComponentsInChildren<Collider>()); 
+        m_hColliders.AddRange(GetComponentsInChildren<Collider>());
+        m_hBomb = GetComponent<DeathBomb>();
         #endregion
 
         if (HpBarMode == HealthBarMode.WorldSpace)
@@ -105,6 +107,11 @@ public class MadMaxActor : Actor
         Die(LastActor);
     }
 
+    public void OnDeathBombTimeout()
+    {
+        Die(LastActor);
+    }
+
     public override void Die(Actor Killer)
     {
 		GameManager.Instance.WoW( Killer, this );
@@ -112,7 +119,7 @@ public class MadMaxActor : Actor
         m_hRigidbody.isKinematic = true;
         m_hWeapon.enabled = false;
         m_hWeapon.GetComponent<Weapon>().Reset();
-
+        m_hBomb.enabled = false;
 
         if (isLocalPlayer)
         {
@@ -146,6 +153,8 @@ public class MadMaxActor : Actor
         m_hRenderers.ForEach(hR => hR.enabled = true);
         m_hColliders.ForEach(hC => hC.enabled = true);
         m_hWeapon.enabled = true;
+        m_hBomb.enabled = true;
+        m_hBomb.Reset();
 
         if(isLocalPlayer)
         {

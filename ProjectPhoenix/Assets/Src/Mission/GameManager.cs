@@ -40,7 +40,7 @@ public class GameManager : NetworkBehaviour
             StartCoroutine(WaitForInitialization(2f));
 
         //ToDo: Rendere victory condition generica
-        m_hVictoryCondition = new DeathMatchWinCondition(1);
+        m_hVictoryCondition = new DeathMatchWinCondition(3);
 
         Cursor.SetCursor(InGameMouseCursor, new Vector2(16, 16), CursorMode.Auto);
     }
@@ -114,13 +114,13 @@ public class GameManager : NetworkBehaviour
 
         Application.Quit();
 
-        //Network.Disconnect();
+        Network.Disconnect();
 
-        //if (isServer)
-        //    LobbyManager.Instance.lobbySlots.Where(hL => hL != null).ToList().ForEach(hP => Destroy(hP.gameObject));
+        if (isServer)
+            LobbyManager.Instance.lobbySlots.Where(hL => hL != null).ToList().ForEach(hP => Destroy(hP.gameObject));
 
         //Destroy(LobbyManager.Instance.gameObject);
 
-        //SceneManager.LoadScene("DRAIV_Splash");
+        SceneManager.LoadScene("DRAIV_Splash");
     }
 }

@@ -65,6 +65,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &111802
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 496288}
+  - 108: {fileID: 10859772}
+  m_Layer: 0
+  m_Name: Point light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &121058
 GameObject:
   m_ObjectHideFlags: 1
@@ -208,6 +224,7 @@ GameObject:
   - 114: {fileID: 11487654}
   - 114: {fileID: 11401692}
   - 114: {fileID: 11461616}
+  - 114: {fileID: 11419236}
   m_Layer: 0
   m_Name: VEH_WHEEL_CAMARONUNZIO
   m_TagString: Untagged
@@ -751,7 +768,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 143454}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -15.935181, y: 34.2959, z: 228.71265}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 403132}
@@ -764,6 +781,7 @@ Transform:
   - {fileID: 485118}
   - {fileID: 421876}
   - {fileID: 482032}
+  - {fileID: 496288}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &466862
@@ -899,6 +917,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 403132}
   m_RootOrder: 0
+--- !u!4 &496288
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111802}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.01, z: 0.15}
+  m_LocalScale: {x: 1, y: 0.96042615, z: 1}
+  m_Children: []
+  m_Father: {fileID: 462220}
+  m_RootOrder: 10
 --- !u!4 &497792
 Transform:
   m_ObjectHideFlags: 1
@@ -1309,6 +1339,39 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 147716}
   m_Enabled: 1
+--- !u!108 &10859772
+Light:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111802}
+  m_Enabled: 1
+  serializedVersion: 6
+  m_Type: 2
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Intensity: 8
+  m_Range: 4
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 1
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_BounceIntensity: 0.82
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_AreaSize: {x: 1, y: 1}
 --- !u!114 &11401692
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1421,6 +1484,7 @@ MonoBehaviour:
   MaxSpeed: 500
   BrakeSpeed: 20
   OverrideCOM: {x: 0, y: 0, z: 0}
+  DriveType: 0
 --- !u!114 &11414636
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1557,6 +1621,23 @@ MonoBehaviour:
     type: 3}
   colorCorrectionSelectiveShader: {fileID: 4800000, guid: e515e0f94cefc4c0db54b45cba621544,
     type: 3}
+--- !u!114 &11419236
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95aff5708fccc744db47bbfc6841dddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BombTimer: 15
+  VelocityThreshold: 50
+  Frequency: 0.2
+  ActiveTime: 2
+  DeactiveTime: 1.5
+  Audio: {fileID: 0}
 --- !u!114 &11442526
 MonoBehaviour:
   m_ObjectHideFlags: 1
