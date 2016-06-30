@@ -37,8 +37,21 @@ public class GameManager : NetworkBehaviour
         //GameObject.DontDestroyOnLoad(this.gameObject);
         m_hSpawnPoints = new List<NetworkStartPosition>(FindObjectsOfType<NetworkStartPosition>());
 
+        //if (isServer)
+        //    StartCoroutine(WaitForInitialization(2f));
         if (isServer)
-            StartCoroutine(WaitForInitialization(2f));
+        {
+            List<GameObject> m_hPlayerInstances = new List<GameObject>(LobbyManager.Instance.GetPlayerInstances());
+            m_hPlayerInstances.ForEach(hA =>
+            {
+                Actor hActor = hA.GetComponent<Actor>();
+                if (!scores.ContainsKey(hActor))
+                    scores.Add(hActor, 0);
+            });
+        }
+        else
+            CmdSyncPlayer();
+
 
         //ToDo: Rendere victory condition generica
         m_hVictoryCondition = new DeathMatchWinCondition(ScoreToWin);
@@ -46,13 +59,22 @@ public class GameManager : NetworkBehaviour
         Cursor.SetCursor(InGameMouseCursor, new Vector2(16, 16), CursorMode.Auto);
     }
 
+    [Command]
+    public void CmdSyncPlayer()
+    {
+        RpcSyncPlayer(scores.Keys.Select(hA => hA.netId).ToArray());
+    }
+
     [ClientRpc]
-    public void RpcSyncPlayer(NetworkInstanceId hId)
+    public void RpcSyncPlayer(NetworkInstanceId[] hId)
     {
         EndText.text = "DIO GESU";
-        Actor hActor = ClientScene.FindLocalObject(hId).GetComponent<Actor>();
-        if (!scores.ContainsKey(hActor))
-            scores.Add(hActor, 0);
+        for (int i = 0; i < hId.Count(); i++)
+        {
+            Actor hActor = ClientScene.FindLocalObject(hId[i]).GetComponent<Actor>();
+            if (!scores.ContainsKey(hActor))
+                scores.Add(hActor, 0);
+        }
     }
 
     void Update()
@@ -104,13 +126,7 @@ public class GameManager : NetworkBehaviour
     {
         return m_hSpawnPoints[UnityEngine.Random.Range(0, m_hSpawnPoints.Count - 1)].transform.position;
     }
-
-    IEnumerator WaitForInitialization(float duration)
-    {
-        yield return new WaitForSeconds(duration);
-        List<GameObject> m_hPlayerInstances = new List<GameObject>(LobbyManager.Instance.GetPlayerInstances());
-        m_hPlayerInstances.ForEach(hA => RpcSyncPlayer(hA.GetComponent<Actor>().netId));
-    }
+    
 
     IEnumerator WaitForEndGame(float duration)
     {
