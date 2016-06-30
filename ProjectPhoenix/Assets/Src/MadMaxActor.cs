@@ -127,7 +127,7 @@ public class MadMaxActor : Actor
         m_hRigidbody.isKinematic = true;
         m_hWeapon.enabled = false;
         m_hWeapon.GetComponent<Weapon>().Reset();
-        m_hBomb.enabled = false;
+        //m_hBomb.enabled = false;
         HealthBar.enabled = false;
 
         if (isLocalPlayer)
@@ -163,8 +163,8 @@ public class MadMaxActor : Actor
         m_hColliders.ForEach(hC => hC.enabled = true);
         m_hWeapon.enabled = true;
         HealthBar.enabled = true;
-        m_hBomb.enabled = true;
-        m_hBomb.Reset();
+        //m_hBomb.enabled = true;
+        //m_hBomb.Reset();
 
         if(isLocalPlayer)
         {

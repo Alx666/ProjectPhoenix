@@ -49,6 +49,7 @@ public class GameManager : NetworkBehaviour
     [ClientRpc]
     public void RpcSyncPlayer(NetworkInstanceId hId)
     {
+        EndText.text = "DIO GESU";
         Actor hActor = ClientScene.FindLocalObject(hId).GetComponent<Actor>();
         if (!scores.ContainsKey(hActor))
             scores.Add(hActor, 0);
