@@ -84,7 +84,9 @@ public class GameManager : NetworkBehaviour
     {
         WoWText.text = killer.Name + " pwned " + killed.Name + "\n";
 
-        if (killer != killed)
+        if (killer == killed)
+            AddScore(-1, killer);
+        else
             AddScore(1, killer);
     }
 

@@ -84,13 +84,15 @@ public class MadMaxActor : Actor
             vHealthPosition = RectTransformUtility.WorldToScreenPoint(Camera.main, this.transform.position) + new Vector2(0.0f, HPBarOffset);
         }
 
-        
         Vector3 vCurrentHealthPosition = m_hSliderRectTransform.position;
         m_hSliderRectTransform.position = Vector3.Lerp(vCurrentHealthPosition, vHealthPosition, Time.deltaTime * HpBarLerp);        
     }
 
     public override void Damage(IDamageSource hSource)
     {
+        if (hSource.Owner == this)
+            return;
+
         LastActor = hSource.Owner;
 
         this.currentHealth -= hSource.GetDamage(this.Armor);
@@ -104,12 +106,18 @@ public class MadMaxActor : Actor
 
     public override void OnFlippedState()
     {
-        Die(LastActor);
+        if (LastActor != null)
+            Die(LastActor);
+        else
+            Die(this);
     }
 
     public void OnDeathBombTimeout()
     {
-        Die(LastActor);
+        if (LastActor != null)
+            Die(LastActor);
+        else
+            Die(this);
     }
 
     public override void Die(Actor Killer)
@@ -120,6 +128,7 @@ public class MadMaxActor : Actor
         m_hWeapon.enabled = false;
         m_hWeapon.GetComponent<Weapon>().Reset();
         m_hBomb.enabled = false;
+        HealthBar.enabled = false;
 
         if (isLocalPlayer)
         {
@@ -153,6 +162,7 @@ public class MadMaxActor : Actor
         m_hRenderers.ForEach(hR => hR.enabled = true);
         m_hColliders.ForEach(hC => hC.enabled = true);
         m_hWeapon.enabled = true;
+        HealthBar.enabled = true;
         m_hBomb.enabled = true;
         m_hBomb.Reset();
 
