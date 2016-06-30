@@ -15,6 +15,7 @@ public class GameManager : NetworkBehaviour
     public Text WoWText;
     public float RespawnTime;
     public Texture2D InGameMouseCursor;
+    public int ScoreToWin;
     static public GameManager Instance { get; private set; }
 
     private Dictionary<Actor, int> scores;
@@ -40,7 +41,7 @@ public class GameManager : NetworkBehaviour
             StartCoroutine(WaitForInitialization(2f));
 
         //ToDo: Rendere victory condition generica
-        m_hVictoryCondition = new DeathMatchWinCondition(3);
+        m_hVictoryCondition = new DeathMatchWinCondition(ScoreToWin);
 
         Cursor.SetCursor(InGameMouseCursor, new Vector2(16, 16), CursorMode.Auto);
     }
