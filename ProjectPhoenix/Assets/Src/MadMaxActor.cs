@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
-
+using System.Linq;;
 public class MadMaxActor : Actor
 {
     [SyncVar]
@@ -73,6 +73,20 @@ public class MadMaxActor : Actor
         }
     }
 
+    void Start()
+    {
+        if (!isServer && localPlayerAuthority)
+            CmdSyncPlayer();
+    }
+
+    #region Sexy Code
+    [Command]
+    void CmdSyncPlayer()
+    {
+        NetworkInstanceId[] hId = GameManager.Instance.scores.Keys.Select(hA => hA.netId).ToArray();
+        GameManager.Instance.RpcSyncPlayer(hId);
+    }
+    #endregion
 
     void Update()
     {

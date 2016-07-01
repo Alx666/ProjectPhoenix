@@ -18,7 +18,7 @@ public class GameManager : NetworkBehaviour
     public int ScoreToWin;
     static public GameManager Instance { get; private set; }
 
-    private Dictionary<Actor, int> scores;
+    public Dictionary<Actor, int> scores;
     private List<NetworkStartPosition> m_hSpawnPoints;
     private IVictoryCondition m_hVictoryCondition;
 
@@ -30,45 +30,32 @@ public class GameManager : NetworkBehaviour
             throw new System.Exception("Multiple Gamemanager detected in scene!");
 
         scores = new Dictionary<Actor, int>(); //TODO: popolare lista con i player [Compito del lobby manager]
+        m_hSpawnPoints = new List<NetworkStartPosition>(FindObjectsOfType<NetworkStartPosition>());
+
+
+        //DAto che viene eseguita prima del metodo nel lobbymanager, prova a fare sta roba nel lobymanager
+        //List<GameObject> m_hPlayerInstances = new List<GameObject>(LobbyManager.Instance.GetPlayerInstances());
+        //m_hPlayerInstances.ForEach(hA =>
+        //{
+        //    Actor hActor = hA.GetComponent<Actor>();
+        //    if (!scores.ContainsKey(hActor))
+        //        scores.Add(hActor, 0);
+        //});
     }
+    
 
     void Start()
     {
         //GameObject.DontDestroyOnLoad(this.gameObject);
-        m_hSpawnPoints = new List<NetworkStartPosition>(FindObjectsOfType<NetworkStartPosition>());
-
-        //if (isServer)
-        //    StartCoroutine(WaitForInitialization(2f));
-        if (isServer)
-        {
-            List<GameObject> m_hPlayerInstances = new List<GameObject>(LobbyManager.Instance.GetPlayerInstances());
-            m_hPlayerInstances.ForEach(hA =>
-            {
-                Actor hActor = hA.GetComponent<Actor>();
-                if (!scores.ContainsKey(hActor))
-                    scores.Add(hActor, 0);
-            });
-        }
-        else
-            CmdSyncPlayer();
-
-
         //ToDo: Rendere victory condition generica
         m_hVictoryCondition = new DeathMatchWinCondition(ScoreToWin);
 
         Cursor.SetCursor(InGameMouseCursor, new Vector2(16, 16), CursorMode.Auto);
     }
 
-    [Command]
-    public void CmdSyncPlayer()
-    {
-        RpcSyncPlayer(scores.Keys.Select(hA => hA.netId).ToArray());
-    }
-
     [ClientRpc]
     public void RpcSyncPlayer(NetworkInstanceId[] hId)
     {
-        EndText.text = "DIO GESU";
         for (int i = 0; i < hId.Count(); i++)
         {
             Actor hActor = ClientScene.FindLocalObject(hId[i]).GetComponent<Actor>();
@@ -126,7 +113,7 @@ public class GameManager : NetworkBehaviour
     {
         return m_hSpawnPoints[UnityEngine.Random.Range(0, m_hSpawnPoints.Count - 1)].transform.position;
     }
-    
+
 
     IEnumerator WaitForEndGame(float duration)
     {
