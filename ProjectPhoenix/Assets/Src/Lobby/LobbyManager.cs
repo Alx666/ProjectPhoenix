@@ -80,6 +80,12 @@ public class LobbyManager : NetworkLobbyManager
         GameObject hNew = (GameObject)GameObject.Instantiate(m_hCurrentLobbyPlayers[conn].PrefabToSpawn, startPositions[conn.connectionId].position, Quaternion.identity);
         hNew.GetComponent<Actor>().Name = m_hCurrentLobbyPlayers[conn].Username;
         m_hCurrentPlayersIntances.Add(hNew);
+
+        Actor hActor = hNew.GetComponent<Actor>();
+
+        if (!GameManager.Instance.scores.ContainsKey(hActor))
+            GameManager.Instance.scores.Add(hActor, 0);
+
         return hNew;
     } 
 
