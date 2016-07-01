@@ -6,14 +6,17 @@ public class DeathBomb : MonoBehaviour
 {
     public float BombTimer;
     public float VelocityThreshold;
-    public float PulseTime = 0.2f;
     public float StartingFrequency = 1.0f;
     public AudioSource Audio;
+
+    public string STATE_DEBUG = string.Empty;
 
     private MadMaxActor m_hActor;
     private Rigidbody m_hRigidbody;
     private Light m_hLight;
-    private IDetonator currentState;
+    private LightBulb m_hBulb;
+    
+    private IStateDetonator currentState;
 
     void Awake()
     {
@@ -21,10 +24,11 @@ public class DeathBomb : MonoBehaviour
         m_hRigidbody = GetComponent<Rigidbody>();
         m_hLight = GetComponentInChildren<Light>();
 
-        LightBulb lightBulb = new LightBulb(m_hLight);
-        StateInactive inactive = new StateInactive(this, lightBulb);
-        StateActive active = new StateActive(this, lightBulb);
-        StateExplode explode = new StateExplode(this, lightBulb);
+        m_hBulb = new LightBulb(this);
+
+        StateInactive inactive = new StateInactive(this);
+        StateActive active = new StateActive(this);
+        StateExplode explode = new StateExplode(this);
 
         inactive.Active = active;
         active.Inactive = inactive;
@@ -34,74 +38,80 @@ public class DeathBomb : MonoBehaviour
         inactive.OnStateEnter();
         currentState = inactive;
 
+        m_hBulb.Reset();
     }
     void Update()
     {
-        currentState.OnStateUpdate();
+        currentState = currentState.OnStateUpdate();
+        STATE_DEBUG = currentState.ToString();
     }
 
-    //public IEnumerator LightPulse()
-    //{
+    private void Pulse(float frequency)
+    {
+        StartCoroutine(LightPulse(frequency));
+    }
+    public IEnumerator LightPulse(float duration)
+    {
+        m_hBulb.TurnOn();
+        yield return new WaitForSeconds(duration * 0.5f);
+        m_hBulb.TurnOff();
 
-    //    yield return new WaitForSeconds(0.2f);
-    //    m_hLight.enabled = false;
-    //}
+        yield return new WaitForSeconds(duration * 0.5f);
+        m_hBulb.Reset();
 
-    public interface IDetonator
+    }
+
+    public interface IStateDetonator
     {
         void OnStateEnter();
-        IDetonator OnStateUpdate();
-
+        IStateDetonator OnStateUpdate();
     }
-    private class StateInactive : IDetonator
+    private class StateInactive : IStateDetonator
     {
         private DeathBomb deathBomb;
-        private LightBulb lightBulb;
         public StateActive Active { get; internal set; }
 
-        public StateInactive(DeathBomb deathBomb, LightBulb light)
+        public StateInactive(DeathBomb deathBomb)
         {
             this.deathBomb = deathBomb;
-            lightBulb = light;
         }
 
         public void OnStateEnter()
         {
-            lightBulb.Pulse(false);
+            deathBomb.m_hBulb.Reset();
         }
 
-        public IDetonator OnStateUpdate()
+        public IStateDetonator OnStateUpdate()
         {
-            //check player status if he is dead there's non need to compare velocity
-            //if (deathBomb.m_hActor.IsDead)
-            //{
-            //    return this;
-            //}
+            if (deathBomb.m_hActor.IsDead)
+            {
+                return this;
+            }
             if (deathBomb.m_hRigidbody.velocity.magnitude < deathBomb.VelocityThreshold)
             {
                 Active.OnStateEnter();
-                deathBomb.currentState = Active;
                 return Active;
             }
             return this;
         }
+        public override string ToString()
+        {
+            return "INACTIVE";
+        }
     }
-
-    private class StateActive : IDetonator
+    private class StateActive : IStateDetonator
     {
         public StateExplode Explode { get; internal set; }
         public StateInactive Inactive { get; internal set; }
 
         private DeathBomb deathBomb;
-        private LightBulb lightBulb;
 
         private float counter;
         private float frequency;
 
-        public StateActive(DeathBomb deathBomb, LightBulb light)
+        public StateActive(DeathBomb deathBomb)
         {
             this.deathBomb = deathBomb;
-            lightBulb = light;
         }
 
         public void OnStateEnter()
@@ -110,7 +120,7 @@ public class DeathBomb : MonoBehaviour
             frequency = deathBomb.StartingFrequency;
         }
 
-        public IDetonator OnStateUpdate()
+        public IStateDetonator OnStateUpdate()
         {
             if (deathBomb.m_hRigidbody.velocity.magnitude > deathBomb.VelocityThreshold)
             {
@@ -119,103 +129,96 @@ public class DeathBomb : MonoBehaviour
                 if (counter > deathBomb.BombTimer)
                 {
                     Inactive.OnStateEnter();
-                    deathBomb.currentState = Inactive;
                     return Inactive;
                 }
             }
+            else
+            {
+                counter -= Time.deltaTime;
+            }
 
-            counter -= Time.deltaTime;
-            float countRate = counter / deathBomb.BombTimer;
+            if (deathBomb.m_hBulb.PulseReady)
+            {
+                float countRate = counter / deathBomb.BombTimer;
+                if (countRate < 0f)
+                {
+                    Explode.OnStateEnter();
+                    return Explode;
+                }
+                else if (countRate > 0.0f && countRate < 0.25f)
+                {
+                    frequency = deathBomb.StartingFrequency * 0.25f;
+                    deathBomb.Pulse(frequency);
+                }
+                else if (countRate > 0.25f && countRate < 0.5f)
+                {
+                    frequency = deathBomb.StartingFrequency * 0.5f;
+                    deathBomb.Pulse(frequency);
+                }
+                else if (countRate > 0.5f && countRate < 0.75f)
+                {
+                    deathBomb.Pulse(frequency);
+                }
+            }
+            
 
-            if (countRate < 0f)
-            {
-                Explode.OnStateEnter();
-                deathBomb.currentState = Explode;
-                return Explode;
-            }
-            else if (countRate > 0.0f && countRate < 0.25f)
-            {
-                //passare ad una coroutine che aspetta la frequenza e che chiama un'altra courotine che fa l'accensione per x secondi
-                frequency = deathBomb.StartingFrequency * 0.25f;
-                lightBulb.Pulse(true, frequency);
-            }
-            else if (countRate > 0.25f && countRate < 0.5f)
-            {
-                frequency = deathBomb.StartingFrequency * 0.5f;
-                lightBulb.Pulse(true, frequency);
-            }
-            else if (countRate > 0.5f && countRate < 0.75f)
-            {
-                lightBulb.Pulse(true, frequency);
-            }
-            deathBomb.currentState = this;
             return this;
         }
-    }
 
-    private class StateExplode : IDetonator
+        public override string ToString()
+        {
+            return "ACTIVE";
+        }
+    }
+    private class StateExplode : IStateDetonator
     {
         private DeathBomb deathBomb;
-        private LightBulb lightBulb;
         public StateInactive Inactive { get; internal set; }
 
-        public StateExplode(DeathBomb deathBomb, LightBulb light)
+        public StateExplode(DeathBomb deathBomb)
         {
             this.deathBomb = deathBomb;
-            lightBulb = light;
         }
-
 
         public void OnStateEnter()
         {
             deathBomb.m_hActor.Die(deathBomb.m_hActor);
         }
 
-        public IDetonator OnStateUpdate()
+        public IStateDetonator OnStateUpdate()
         {
             Inactive.OnStateEnter();
-            deathBomb.currentState = Inactive;
             return Inactive;
         }
+        public override string ToString()
+        {
+            return "EXPLODED";
+        }
     }
-
+    
     private class LightBulb
     {
-        public float Frequency { get; set; }
+        public bool PulseReady { get; private set; }
+        private DeathBomb deathBomb;
 
-        private Light light;
-        private float lightPulseCounter;
-        private float lightPulseDuration = 0.5f;
-        public LightBulb(Light lightBulb)
+        public LightBulb(DeathBomb deathBomb)
         {
-            light = lightBulb;
-            light.enabled = false;
-            lightPulseCounter = lightPulseDuration;
+            this.deathBomb = deathBomb;
         }
 
-        public void Pulse(bool IsActive, float Frequency = 1.0f)
+        public void TurnOn()
         {
-            if (IsActive)
-            {
-                float waitTime = Frequency;
-                while (waitTime > 0.0f)
-                {
-                    light.enabled = false;
-                    waitTime -= Time.deltaTime;
-                }
-
-                light.enabled = true;
-                float pulseWaitTime = lightPulseDuration;
-                while (pulseWaitTime > 0.0f)
-                {
-                    pulseWaitTime -= Time.deltaTime;
-                }
-                light.enabled = false;
-            }
-            else
-            {
-                return;
-            }
+            PulseReady = false;
+            deathBomb.m_hLight.enabled = true;
+        }
+        public void TurnOff()
+        {
+            deathBomb.m_hLight.enabled = false;
+        }
+        public void Reset()
+        {
+            PulseReady = true;
+            deathBomb.m_hLight.enabled = false;
         }
     }
 }

@@ -30,7 +30,14 @@ public class MadMaxActor : Actor
     [Range(0.01f, 1f)]
     public float HpBarScale = 0.01f;
 
+    //DAMAGE ON IMPACT REGION
+    [Tooltip("Max Damage get by Impact between to MadMaxActors")]
+    public float ImpactMaxDamage = 10f;
+    [Tooltip("Cool Down Calculated in Seconds")]
+    public float ImpactCoolDownTime = 1f;
+    private LinkedList<MadMaxActor> impactCoolDownActors;
 
+    public bool IsDead { get; internal set; }
 
     void Awake()
 	{
@@ -51,6 +58,9 @@ public class MadMaxActor : Actor
         m_hColliders = new List<Collider>(GetComponents<Collider>());
         m_hColliders.AddRange(GetComponentsInChildren<Collider>());
         m_hBomb = GetComponent<DeathBomb>();
+
+        impactCoolDownActors = new LinkedList<MadMaxActor>();
+
         #endregion
 
         if (HpBarMode == HealthBarMode.WorldSpace)
@@ -139,6 +149,8 @@ public class MadMaxActor : Actor
         m_hRenderers.ForEach(hR => hR.enabled = false);
         m_hColliders.ForEach(hC => hC.enabled = false);
         StartCoroutine(WaitForRespawn(GameManager.Instance.RespawnTime));
+
+        this.IsDead = true;
     }
     
     [ClientRpc]
@@ -175,6 +187,8 @@ public class MadMaxActor : Actor
         //m_hDisassembler.Reassemble();
         currentHealth = Hp;
         HealthBar.enabled = true;
+
+        IsDead = false;
     }
 
     public enum HealthBarMode
@@ -182,4 +196,83 @@ public class MadMaxActor : Actor
         Overlay,
         WorldSpace,
     }
+
+    #region ON COLLISION ENTER
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<TerrainCollider>() != null)
+            return;
+
+        MadMaxActor other = collision.gameObject.GetComponent<MadMaxActor>();
+        if (other != null && !impactCoolDownActors.Contains(other))
+        {
+            float damage = 0f;
+            float damageRate = 0f;
+
+            float dot = Mathf.Abs(Vector3.Dot(this.transform.forward, other.transform.forward));
+
+            //NON PARALLELE (IMPULSIVE FORCE)
+            if (dot < 0.5f)
+            {
+                damageRate = 1 - Mathf.Abs(Vector3.Dot(this.transform.forward, collision.impulse.normalized));
+            }
+            //PARALLELE (VELOCITY)
+            else
+            {
+                float sum = m_hRigidbody.velocity.magnitude + other.m_hRigidbody.velocity.magnitude;
+                float damageValue = sum - m_hRigidbody.velocity.magnitude;
+                damageRate = damageValue / sum;
+            }
+
+            damage = ImpactMaxDamage * damageRate;
+            this.Damage(other, damage);
+            //COOLDOWN
+            StartCoroutine(ImpactCoolDown(other));
+        }
+    }
+
+    private void Damage(MadMaxActor hActor, float dmg)
+    {
+        if (hActor == this)
+            return;
+
+        LastActor = hActor;
+
+        this.currentHealth -= hActor.GetImpactDamage(dmg);
+        if (this.currentHealth <= 0f)
+        {
+            HealthBar.enabled = false;
+            RpcDie(hActor.netId);
+        }
+    }
+    public float GetImpactDamage(float dmg)
+    {
+        float damage = 0;
+
+        switch (this.Armor)
+        {
+            case ArmorType.Light:
+                damage = dmg;           //Danno da impatto TOTALE
+                break;
+            case ArmorType.Medium:
+                damage = dmg * 0.5f;    //Danno da impatto DIMEZZATO
+                break;
+            case ArmorType.Heavy:
+                damage = dmg * 0.3f;    //Danno da impatto di UN TERZO
+                break;
+            default:
+                break;
+        }
+        return damage;
+    }
+    private IEnumerator ImpactCoolDown(object toCoolDownActor)
+    {
+        MadMaxActor actor = toCoolDownActor as MadMaxActor;
+
+        this.impactCoolDownActors.AddLast(actor);
+        yield return new WaitForSeconds(ImpactCoolDownTime);
+        this.impactCoolDownActors.Remove(actor);
+
+    }
+    #endregion
 }
