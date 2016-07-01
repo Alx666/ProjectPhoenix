@@ -5,11 +5,10 @@ using UnityEngine.Networking;
 [RequireComponent(typeof(Camera))]
 public class CustomCamera : MonoBehaviour
 {
-
     public float MinOffset = 20.0f;
     public float MaxOffset = 40.0f;
     public KeyCode StateChanger = KeyCode.Mouse1;
-    public float AimLerpSpeed = 20.0f;
+    public float LerpSpeed = 10.0f;
 
     [Range(0, 1)]
     public float DistanceFromTarget = 0.3f;
@@ -21,7 +20,7 @@ public class CustomCamera : MonoBehaviour
     AimCamera aimCamera;
     Vector3 Offset;
     Vector3 startingOffset;
-    //DepthOfField
+
     Transform m_hDepthOfField;
     UnityStandardAssets.ImageEffects.DepthOfField DoF;
 
@@ -53,11 +52,10 @@ public class CustomCamera : MonoBehaviour
 
     void Update()
     {
-
         if (!Input.GetKey(StateChanger))
         {
             current = stdCamera;
-            this.LerpToRoot();
+            //this.ClampToRoot();
         }
         else
             current = aimCamera;
@@ -65,7 +63,6 @@ public class CustomCamera : MonoBehaviour
 
     void LateUpdate()
     {
-
         current.CalculateOffset();
 
         this.transform.parent = null;
@@ -91,9 +88,11 @@ public class CustomCamera : MonoBehaviour
     {
         void CalculateOffset();
     }
+
     class StandardCamera : ICameraState
     {
         CustomCamera camera;
+        float currentSpeed;
         internal Vector3 stdOffset;
 
         public StandardCamera(CustomCamera MyCamera)
@@ -104,10 +103,11 @@ public class CustomCamera : MonoBehaviour
 
         public void CalculateOffset()
         {
-            stdOffset.y = Mathf.Clamp(Mathf.Lerp(stdOffset.y, (camera.MaxOffset / camera.MinOffset) * camera.Target.GetComponentInParent<Rigidbody>().velocity.magnitude, Time.deltaTime), camera.MinOffset, camera.MaxOffset);
+            currentSpeed = camera.Target.GetComponentInParent<Rigidbody>().velocity.magnitude;
+            stdOffset.y = Mathf.Clamp(Mathf.Lerp(stdOffset.y, (camera.MaxOffset / camera.MinOffset) * currentSpeed, Time.deltaTime), camera.MinOffset, camera.MaxOffset);
             stdOffset.x = (stdOffset.y * camera.startingOffset.x) / camera.startingOffset.y;
             stdOffset.z = (stdOffset.y * camera.startingOffset.z) / camera.startingOffset.y;
-            camera.Offset = new Vector3(Mathf.Lerp(camera.Offset.x, stdOffset.x, Time.deltaTime), Mathf.Lerp(camera.Offset.y, stdOffset.y, Time.deltaTime), Mathf.Lerp(camera.Offset.z, stdOffset.z, Time.deltaTime));
+            camera.Offset = Vector3.Lerp(camera.Offset, stdOffset, Time.deltaTime * camera.LerpSpeed);
         }
     }
 
@@ -115,59 +115,52 @@ public class CustomCamera : MonoBehaviour
     {
         CustomCamera camera;
         internal Vector3 aimOffset;
+        Camera myCamera;
 
-        public AimCamera(CustomCamera MyCamera)
+        public AimCamera(CustomCamera Camera)
         {
-
-            camera = MyCamera;
+            camera = Camera;
             aimOffset = camera.Offset;
+            myCamera = Camera.GetComponent<Camera>();
         }
 
 
         public void CalculateOffset()
         {
-            Vector3 screenTarget = camera.GetComponent<Camera>().WorldToScreenPoint(camera.Target.transform.position);
+            Vector3 screenTarget = myCamera.WorldToScreenPoint(camera.Target.transform.position);
             Vector3 BiDTarget = (Input.mousePosition - screenTarget) * camera.DistanceFromTarget;
             Ray vRay;
 
             if ((screenTarget + BiDTarget).x < Screen.width && (screenTarget + BiDTarget).y < Screen.height)
             {
-                vRay = camera.GetComponent<Camera>().ScreenPointToRay(screenTarget + BiDTarget);
+                vRay = myCamera.ScreenPointToRay(screenTarget + BiDTarget);
             }
             else
-                vRay = camera.GetComponent<Camera>().ScreenPointToRay(screenTarget);
+                vRay = myCamera.ScreenPointToRay(screenTarget);
 
             Plane vPlane = new Plane(Vector3.up, camera.Target.transform.position);
             float fDistance;
             vPlane.Raycast(vRay, out fDistance);
             Vector3 vPoint = vRay.GetPoint(fDistance);
+            
+            aimOffset = camera.stdCamera.stdOffset + vPoint - camera.Target.transform.position;
+            aimOffset.y = camera.Offset.y;
 
-
-
-
-            aimOffset.x = camera.stdCamera.stdOffset.x + vPoint.x - camera.Target.transform.position.x;
-            aimOffset.z = camera.stdCamera.stdOffset.z + vPoint.z - camera.Target.transform.position.z;
-
-            camera.Offset = new Vector3(Mathf.Lerp(camera.Offset.x, aimOffset.x, Time.deltaTime), camera.Offset.y, Mathf.Lerp(camera.Offset.z, aimOffset.z, Time.deltaTime * camera.AimLerpSpeed));
-
-            camera.LerpDepthOfField(vPoint);
+            camera.Offset = Vector3.Lerp(camera.Offset, aimOffset, Time.deltaTime * camera.LerpSpeed);
         }
     }
-    void LerpDepthOfField(Vector3 MousePosition)
+    void SetDepthOfField()
     {
-        Vector3 MousePositionToWorld;
-            Ray ray= Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray.origin, ray.direction,out hit))
-        {
-        m_hDepthOfField.position= new Vector3(Mathf.Lerp(m_hDepthOfField.position.x, hit.point.x, Time.deltaTime), m_hDepthOfField.position.y, Mathf.Lerp(m_hDepthOfField.position.z, hit.point.z, Time.deltaTime));
-
-        }
-
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //RaycastHit hit;
+        //if (Physics.Raycast(ray, out hit))
+        //{
+        //    m_hDepthOfField.position = new Vector3(Mathf.Lerp(m_hDepthOfField.position.x, hit.point.x, Time.deltaTime), m_hDepthOfField.position.y, Mathf.Lerp(m_hDepthOfField.position.z, hit.point.z, Time.deltaTime));
+        //}
     }
 
-    void LerpToRoot()
+    void ClampToRoot()
     {
-        m_hDepthOfField.position = Vector3.Lerp(m_hDepthOfField.position, this.Target.transform.position, Time.deltaTime);
+        m_hDepthOfField.position = this.Target.transform.position;
     }
 }
