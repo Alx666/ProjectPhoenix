@@ -98,6 +98,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &125932
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 435064}
+  - 108: {fileID: 10889782}
+  m_Layer: 0
+  m_Name: Point light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &128376
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,7 +571,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 184910}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -391.5, y: 89.61, z: -441.51}
+  m_LocalPosition: {x: -411.80182, y: 55.56956, z: -431.24268}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 475940}
@@ -568,6 +584,7 @@ Transform:
   - {fileID: 404366}
   - {fileID: 478540}
   - {fileID: 495890}
+  - {fileID: 435064}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &416794
@@ -631,6 +648,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 475940}
   m_RootOrder: 4
+--- !u!4 &435064
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 125932}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.27, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 412914}
+  m_RootOrder: 10
 --- !u!4 &436872
 Transform:
   m_ObjectHideFlags: 1
@@ -1191,6 +1220,39 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 170860}
   m_Enabled: 1
+--- !u!108 &10889782
+Light:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 125932}
+  m_Enabled: 1
+  serializedVersion: 6
+  m_Type: 2
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Intensity: 8
+  m_Range: 2
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 1
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_BounceIntensity: 0.82
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_AreaSize: {x: 1, y: 1}
 --- !u!114 &11402488
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1310,7 +1372,9 @@ MonoBehaviour:
   Hp: 10000
   SteerAngle: 30
   MaxSpeed: 250
+  BrakeSpeed: 20
   OverrideCOM: {x: 0, y: 0, z: 0}
+  DriveType: 0
 --- !u!114 &11421162
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1608,7 +1672,7 @@ MonoBehaviour:
   PanRight: 101
   PanLeft: 113
   Up: 304
-  Down: 32
+  Stop: 32
   Fire: 323
 --- !u!114 &11471328
 MonoBehaviour:
@@ -1624,6 +1688,7 @@ MonoBehaviour:
   MinOffset: 12
   MaxOffset: 25
   StateChanger: 324
+  AimLerpSpeed: 20
   DistanceFromTarget: 0.35
 --- !u!114 &11473446
 MonoBehaviour:

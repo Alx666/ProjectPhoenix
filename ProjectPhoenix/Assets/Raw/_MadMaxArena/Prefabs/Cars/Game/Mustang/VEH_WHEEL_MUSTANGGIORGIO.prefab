@@ -223,6 +223,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &127106
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 457120}
+  - 108: {fileID: 10831680}
+  m_Layer: 0
+  m_Name: Point light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &137508
 GameObject:
   m_ObjectHideFlags: 1
@@ -664,6 +680,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 499656}
   m_RootOrder: 4
+--- !u!4 &457120
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127106}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.07, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 499656}
+  m_RootOrder: 10
 --- !u!4 &457774
 Transform:
   m_ObjectHideFlags: 1
@@ -928,7 +956,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106096}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -402.8, y: 82.5, z: -450.08}
+  m_LocalPosition: {x: -411.13876, y: 56.055626, z: -431.6665}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 493892}
@@ -941,6 +969,7 @@ Transform:
   - {fileID: 451638}
   - {fileID: 433240}
   - {fileID: 464532}
+  - {fileID: 457120}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!20 &2014852
@@ -1389,6 +1418,39 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 110010}
   m_Enabled: 1
+--- !u!108 &10831680
+Light:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127106}
+  m_Enabled: 1
+  serializedVersion: 6
+  m_Type: 2
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Intensity: 8
+  m_Range: 2
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 1
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_BounceIntensity: 0.82
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_AreaSize: {x: 1, y: 1}
 --- !u!114 &11402866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1543,7 +1605,7 @@ MonoBehaviour:
   PanRight: 101
   PanLeft: 113
   Up: 304
-  Down: 32
+  Stop: 32
   Fire: 323
 --- !u!114 &11408058
 MonoBehaviour:
@@ -1641,6 +1703,7 @@ MonoBehaviour:
   MinOffset: 12
   MaxOffset: 25
   StateChanger: 324
+  AimLerpSpeed: 20
   DistanceFromTarget: 0.35
 --- !u!114 &11436222
 MonoBehaviour:
@@ -1742,7 +1805,9 @@ MonoBehaviour:
   Hp: 10000
   SteerAngle: 30
   MaxSpeed: 150
+  BrakeSpeed: 20
   OverrideCOM: {x: 0, y: 0, z: 0}
+  DriveType: 0
 --- !u!114 &11467928
 MonoBehaviour:
   m_ObjectHideFlags: 1
