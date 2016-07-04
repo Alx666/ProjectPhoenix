@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
-using System.Linq;;
+using System.Linq;
 public class MadMaxActor : Actor
 {
     [SyncVar]
