@@ -421,6 +421,7 @@ GameObject:
   - 114: {fileID: 11467570}
   - 114: {fileID: 11483226}
   - 75: {fileID: 7551794}
+  - 114: {fileID: 11463142}
   m_Layer: 0
   m_Name: VEH_WHEEL_MUSTANGGIADA
   m_TagString: Untagged
@@ -1519,7 +1520,7 @@ MonoBehaviour:
   MinOffset: 12
   MaxOffset: 25
   StateChanger: 324
-  AimLerpSpeed: 20
+  LerpSpeed: 10
   DistanceFromTarget: 0.35
 --- !u!114 &11436352
 MonoBehaviour:
@@ -1643,6 +1644,22 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11463142
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 184660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95aff5708fccc744db47bbfc6841dddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BombTimer: 5
+  VelocityThreshold: 10
+  StartingFrequency: 1
+  Audio: {fileID: 0}
+  STATE_DEBUG: 
 --- !u!114 &11467570
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1830,6 +1847,8 @@ MonoBehaviour:
   HPBarOffset: 4
   HpBarLerp: 100
   HpBarScale: 0.017
+  ImpactMaxDamage: 10
+  ImpactCoolDownTime: 1
 --- !u!114 &11486252
 MonoBehaviour:
   m_ObjectHideFlags: 1

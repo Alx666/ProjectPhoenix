@@ -224,6 +224,7 @@ GameObject:
   - 114: {fileID: 11400700}
   - 114: {fileID: 11468554}
   - 75: {fileID: 7579968}
+  - 114: {fileID: 11489242}
   m_Layer: 0
   m_Name: VEH_WHEEL_MUSTANGMATTEO
   m_TagString: Untagged
@@ -1708,7 +1709,7 @@ MonoBehaviour:
   MinOffset: 12
   MaxOffset: 25
   StateChanger: 324
-  AimLerpSpeed: 20
+  LerpSpeed: 10
   DistanceFromTarget: 0.35
 --- !u!114 &11446622
 MonoBehaviour:
@@ -1796,6 +1797,8 @@ MonoBehaviour:
   HPBarOffset: 4
   HpBarLerp: 100
   HpBarScale: 0.017
+  ImpactMaxDamage: 10
+  ImpactCoolDownTime: 1
 --- !u!114 &11468882
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1849,6 +1852,22 @@ MonoBehaviour:
   blurIterations: 2
   blurType: 0
   fastBloomShader: {fileID: 4800000, guid: 68a00c837b82e4c6d92e7da765dc5f1d, type: 3}
+--- !u!114 &11489242
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 155674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95aff5708fccc744db47bbfc6841dddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BombTimer: 5
+  VelocityThreshold: 10
+  StartingFrequency: 1
+  Audio: {fileID: 0}
+  STATE_DEBUG: 
 --- !u!124 &12464210
 Behaviour:
   m_ObjectHideFlags: 1

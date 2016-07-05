@@ -375,6 +375,7 @@ GameObject:
   - 114: {fileID: 11475468}
   - 114: {fileID: 11434634}
   - 114: {fileID: 11423532}
+  - 114: {fileID: 11404130}
   m_Layer: 0
   m_Name: VEH_WHEEL_MUSTANGDARIO
   m_TagString: Untagged
@@ -1291,6 +1292,22 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
   m_AreaSize: {x: 1, y: 1}
+--- !u!114 &11404130
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95aff5708fccc744db47bbfc6841dddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BombTimer: 5
+  VelocityThreshold: 10
+  StartingFrequency: 1
+  Audio: {fileID: 0}
+  STATE_DEBUG: 
 --- !u!114 &11405100
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1370,7 +1387,7 @@ MonoBehaviour:
   MinOffset: 12
   MaxOffset: 25
   StateChanger: 324
-  AimLerpSpeed: 20
+  LerpSpeed: 10
   DistanceFromTarget: 0.35
 --- !u!114 &11423532
 MonoBehaviour:
@@ -1406,6 +1423,8 @@ MonoBehaviour:
   HPBarOffset: 4
   HpBarLerp: 100
   HpBarScale: 0.017
+  ImpactMaxDamage: 10
+  ImpactCoolDownTime: 1
 --- !u!114 &11449518
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -494,6 +494,7 @@ GameObject:
   - 114: {fileID: 11425714}
   - 114: {fileID: 11441914}
   - 114: {fileID: 11424798}
+  - 114: {fileID: 11499888}
   m_Layer: 0
   m_Name: VEH_WHEEL_CHALLENGERLEONARDO
   m_TagString: Untagged
@@ -2083,6 +2084,8 @@ MonoBehaviour:
   HPBarOffset: 4
   HpBarLerp: 100
   HpBarScale: 0.017
+  ImpactMaxDamage: 10
+  ImpactCoolDownTime: 1
 --- !u!114 &11425714
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2369,7 +2372,7 @@ MonoBehaviour:
   MinOffset: 12
   MaxOffset: 25
   StateChanger: 324
-  AimLerpSpeed: 20
+  LerpSpeed: 10
   DistanceFromTarget: 0.35
 --- !u!114 &11491542
 MonoBehaviour:
@@ -2391,6 +2394,22 @@ MonoBehaviour:
   BrakeSpeed: 20
   OverrideCOM: {x: 0, y: 0, z: 0}
   DriveType: 0
+--- !u!114 &11499888
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95aff5708fccc744db47bbfc6841dddc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BombTimer: 5
+  VelocityThreshold: 10
+  StartingFrequency: 1
+  Audio: {fileID: 0}
+  STATE_DEBUG: 
 --- !u!124 &12447302
 Behaviour:
   m_ObjectHideFlags: 1
