@@ -37,36 +37,25 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
     internal bool IsFlying = false;
 
     private IFlyState m_hFlyState;
-
-    private List<Wheel> m_hWheels;
-    private List<FakeWheel> m_hFakeWheels;
     private Drive m_hEngine;
     private VehicleTurret m_hTurret;
 
-    private Rigidbody m_hRigidbody;
-    private ConstantForce m_hConstanForce;
+    protected List<Wheel> m_hWheels;
+    protected List<FakeWheel> m_hFakeWheels;
+    protected Rigidbody m_hRigidbody;
+    protected ConstantForce m_hConstanForce;
+    protected IWeapon m_hCurrentWeapon;
+    protected Vector3 m_hReverseCOM;
+    protected Vector3 m_hOriginalCOM;
+    protected Actor m_hActor;
 
-    private IWeapon m_hCurrentWeapon;
 
-    private Vector3 m_hReverseCOM;
-    private Vector3 m_hOriginalCOM;
-    private Actor m_hActor;
-
-    public ParticleSystem DustParticle;
-    private ParticleSystem.EmissionModule Emission;
-    private float EmissionRate;
-    private ParticleManager m_hparticleManager;
-
-    void Awake()
+    protected virtual void Awake()
     {
         m_hForward = false;
         m_hBackward = false;
         m_hRight = false;
         m_hLeft = false;
-
-        Emission = DustParticle.emission;
-        EmissionRate = Emission.rate.constantMax;
-        m_hparticleManager = new ParticleManager(DustParticle);
 
         m_hWheels = new List<Wheel>();
         m_hRigidbody = this.GetComponent<Rigidbody>();
@@ -121,18 +110,16 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
         m_hFlyState = hFlyState;
     }
 
-    void Start()
+    protected virtual void Start()
     {
         if (!this.isLocalPlayer)
             GameObject.Destroy(this.GetComponent<InputProviderPCStd>());
 
         if (OverrideCenterOfMass)
             m_hRigidbody.centerOfMass = OverrideCOM;
-
-        m_hparticleManager.Play();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (SyncGfxWheels)
         {
@@ -148,12 +135,6 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
         CurrentSpeed = (m_hRigidbody.velocity.magnitude * 3.6f).ToString();
 
         m_hFlyState = m_hFlyState.Update();
-
-        if (!IsFlying)
-        {
-            m_hparticleManager.OnUpdate(m_hWheels[0].Collider.rpm);
-            Emission = DustParticle.emission;
-        }
     }
 
     private IEnumerator WaitForFlipper(float fTime)
@@ -164,7 +145,7 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
             m_hActor.OnFlippedState();
     }
 
-    public void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         m_hRigidbody.velocity = Vector3.ClampMagnitude(m_hRigidbody.velocity, MaxSpeed / 3.6f);
     }
@@ -209,14 +190,14 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
         }
     }
 
-    public void BeginTurnRight()
+    public virtual void BeginTurnRight()
     {
         m_hRight = true;
         m_hWheels[0].Steer(this.SteerAngle);
         m_hWheels[1].Steer(this.SteerAngle);
     }
 
-    public void EndTurnRight()
+    public virtual void EndTurnRight()
     {
         m_hRight = false;
         if (m_hLeft)
@@ -231,14 +212,14 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
         }
     }
 
-    public void BeginTurnLeft()
+    public virtual void BeginTurnLeft()
     {
         m_hLeft = true;
         m_hWheels[0].Steer(-this.SteerAngle);
         m_hWheels[1].Steer(-this.SteerAngle);
     }
 
-    public void EndTurnLeft()
+    public virtual void EndTurnLeft()
     {
         m_hLeft = false;
         if (m_hRight)
@@ -460,26 +441,32 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 
     #region Wheel
 
-    internal class Wheel
+    public class Wheel
     {
-        internal WheelCollider Collider { get; private set; }
-        internal GameObject Gfx { get; private set; }
+        public WheelCollider Collider;
+        public GameObject Gfx;
+
 
         //Bool for motor torque handling while the vehicle is in the air
-        internal bool IsWheelGrounded { get; private set; }
+        internal bool IsWheelGrounded { get; set; }
 
-        internal Wheel(WheelCollider coll, GameObject gfx)
+        public Wheel()
+        {
+
+        }
+
+        public Wheel(WheelCollider coll, GameObject gfx)
         {
             Collider = coll;
             Gfx = gfx;
         }
 
-        internal void Steer(float fSteer)
+        public virtual void Steer(float fSteer)
         {
             Collider.steerAngle = fSteer;
         }
 
-        internal void OnUpdate()
+        public virtual void OnUpdate()
         {
             Vector3 position;
             Quaternion rotation;
@@ -625,39 +612,7 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 
     #endregion
 
-    internal class ParticleManager
-    {
-        internal float EmissionRate;
-        internal ParticleSystem Dust;
-        internal ParticleSystem.EmissionModule EmissionModule;
-        internal ParticleSystem.MinMaxCurve em;
 
-        internal ParticleManager(ParticleSystem pSystem)
-        {
-            Dust = pSystem;
-            em = Dust.emission.rate;
-            EmissionModule = Dust.emission;
-            EmissionRate = em.constantMax;
-        }
-
-        internal void Play()
-        {
-            Dust.Play();
-        }
-
-        internal void Stop()
-        {
-            Dust.Stop();
-        }
-
-        internal void OnUpdate(float rpm)
-        {
-            em.constantMax = EmissionRate * rpm;
-            em.constantMin = EmissionRate * rpm;
-
-            EmissionModule.rate = new ParticleSystem.MinMaxCurve(em.constantMin, em.constantMax);
-        }
-    }
 }
 
 
