@@ -10,7 +10,6 @@ public class ProviderAIWheels : MonoBehaviour, IControllerAI
     public float NodesStoppingDistance = 5f;
     public string DEBUG_CurrentState = string.Empty;
 
-    public AIGraph graph;
 
     private ControllerWheels receiver;
     private Rigidbody m_hRigidbody;
@@ -54,7 +53,7 @@ public class ProviderAIWheels : MonoBehaviour, IControllerAI
 
     public void Start()
     {
-        graph = GameObject.FindObjectOfType<AIGraph>();
+        //graph = GameObject.FindObjectOfType<AIGraph>();
     }
 
     private void Update()
@@ -64,10 +63,12 @@ public class ProviderAIWheels : MonoBehaviour, IControllerAI
     }
 
     #region IControllerAI
-
-    public GameObject target;
-
+    
+    private GameObject target;
     public GameObject Target { get { return target; } set { target = value; } }
+
+    private Graph<POI> graph;
+    public Graph<POI> Graph { get { return graph; } set { graph = value; } }
 
     public void Idle()
     {
@@ -165,7 +166,7 @@ public class ProviderAIWheels : MonoBehaviour, IControllerAI
                 POI nearestAI = roads.OrderBy(hN => Vector3.Distance(hN.Position, owner.transform.position)).First();
                 POI nearestPlayer = roads.OrderBy(hN => Vector3.Distance(hN.Position, owner.Target.transform.position)).First();
 
-                List<POI> list = owner.graph.m_hGraph.Dijkstra(nearestAI, nearestPlayer, roads);
+                List<POI> list = owner.graph.Dijkstra(nearestAI, nearestPlayer, roads);
 
                 pois = new Queue<POI>(list);
                 pathComputed = true;

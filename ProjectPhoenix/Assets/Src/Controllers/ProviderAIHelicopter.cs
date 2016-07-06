@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using Graph;
 
 [RequireComponent(typeof(ControllerPlayerHeli))]
 public class ProviderAIHelicopter : MonoBehaviour, IControllerAI {
@@ -43,28 +44,33 @@ public class ProviderAIHelicopter : MonoBehaviour, IControllerAI {
 		CURRENT_STATE = currentState.ToString();
 	}
 
-	#region ICONTROLLER
-	private GameObject target;
+    #region IControllerAI
 
-	public GameObject Target { get { return target; } set { target = value; } }
+    private GameObject target;
+    public GameObject Target { get { return target; } set { target = value; } }
 
-	public void Attack()
-	{
-		throw new NotImplementedException();
-	}
+    private Graph<POI> graph;
+    public Graph<POI> Graph { get { return graph; } set { graph = value; } }
 
-	public void Idle()
-	{
-		throw new NotImplementedException();
-	}
+    public void Idle()
+    {
+        idle.OnStateEnter();
+        currentState = idle;
+    }
 
-	public void Patrol()
-	{
-		throw new NotImplementedException();
-	}
-	#endregion
+    public void Patrol()
+    {
+        patrol.OnStateEnter();
+        currentState = patrol;
+    }
 
-	public interface IState
+    public void Attack()
+    {
+    }
+
+    #endregion IControllerAI
+
+    public interface IState
 	{
 		void OnStateEnter();
 		IState OnStateUpdate();

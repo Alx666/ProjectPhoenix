@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System;
+using Graph;
 
 public class UnitSpawner : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class UnitSpawner : MonoBehaviour
 	public float				MinSpawnTime;
 	public float				MaxSpawnTime;
 	public string				CURRENT_STATE;
-	public List<SpawnChance>	SpawnChances;
+	public List<SpawnChance>	Spawns;
 
 	private List<GameObject>	units;
 	private int					Count { get; set; }         //Tiene traccia di quanti veicoli sono attivi al momento
@@ -33,7 +34,7 @@ public class UnitSpawner : MonoBehaviour
 
 	public void Awake()
 	{
-		if ( !Mathf.Approximately( SpawnChances.Sum( hS => hS.Chance ), 1f ) )
+		if ( !Mathf.Approximately( Spawns.Sum( hS => hS.Chance ), 1f ) )
 			throw new UnityException( this.gameObject.name + ": Sum of chances must be == 1" );
 
 		animator = GetComponent<Animator>();
@@ -47,13 +48,13 @@ public class UnitSpawner : MonoBehaviour
 		open			= new StateOpen( this );
 		push			= new StatePush( this );
 		close			= new StateClose( this );
-
-		ready.Wait		= wait;
-		wait.Spawn		= spawn;
-		spawn.Open		= open;
-		open.Push		= push;
-		push.Close		= close;
-		close.Ready		= ready;
+        
+        ready.Wait = wait;
+        wait.Spawn = spawn;
+        spawn.Open = open;
+        open.Push = push;
+        push.Close = close;
+        close.Ready = ready;
 
 		currentState = ready;
 		ready.OnStateEnter();
@@ -69,9 +70,11 @@ public class UnitSpawner : MonoBehaviour
 	public class SpawnChance
 	{
 		public GameObject Unit;
+        public Graph<POI> Graph;
 
 		[Range( 0f, 1f )]
 		public float Chance;
+
 	}
 
 	public interface IState
@@ -182,21 +185,27 @@ public class UnitSpawner : MonoBehaviour
 		public void OnStateEnter()
 		{
 			float spawnResult = (float)UnityEngine.Random.Range( 0, 100 ) / 100;
-			for ( int i = 0; i < owner.SpawnChances.Count; i++ )
+			for ( int i = 0; i < owner.Spawns.Count; i++ )
 			{
-				spawnResult -= owner.SpawnChances[i].Chance;
+				spawnResult -= owner.Spawns[i].Chance;
 				if ( spawnResult <= 0f )
 				{
-					GameObject spawned = Instantiate( owner.SpawnChances[i].Unit, owner.SpawnLocator.position, owner.SpawnLocator.rotation ) as GameObject;
-					owner.units.Add( spawned );
-					//GlobalFactory.GetInstance( SpawnChances[i].Unit );
+                    SpawnChance unit = owner.Spawns[i];
+                    Spawn(unit);
 					break;
 				}
 			}
 			owner.Count++;
 		}
 
-		public IState OnStateUpdate()
+        private void Spawn(SpawnChance unit)
+        {
+            GameObject spawned = Instantiate(unit.Unit, owner.SpawnLocator.position, owner.SpawnLocator.rotation) as GameObject;
+            owner.units.Add(spawned);
+            spawned.GetComponent<IControllerAI>().Graph = unit.Graph;
+            //GlobalFactory.GetInstance( SpawnChances[i].Unit );
+        }
+        public IState OnStateUpdate()
 		{
 			Open.OnStateEnter();
 			return Open;
@@ -219,11 +228,19 @@ public class UnitSpawner : MonoBehaviour
 		}
 		public void OnStateEnter()
 		{
-			owner.animator.SetTrigger( owner.toOpen );
+            if (owner.animator == null)
+                return;
+                owner.animator.SetTrigger( owner.toOpen );
 		}
 		public IState OnStateUpdate()
 		{
-			if (owner.animator.IsInTransition(0) || owner.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1 ) 
+            if (owner.animator == null)
+            {
+                Push.OnStateEnter();
+                return Push;
+            }
+
+            if (owner.animator.IsInTransition(0) || owner.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1 ) 
 			{
 				return this;
 			}
@@ -264,7 +281,16 @@ public class UnitSpawner : MonoBehaviour
 				return this;
 			}
 
-			Close.OnStateEnter();
+            //else
+            IControllerAI ai = owner.units.Last().GetComponent<IControllerAI>();
+
+            Debug.Log("DELETEME!");
+            ai.Target = new GameObject();
+            ai.Target.transform.position = new Vector3(327f, 0f, 121f);
+            ai.Patrol();
+            //Deleteme
+
+            Close.OnStateEnter();
 			return Close;
 		}
 
@@ -286,12 +312,20 @@ public class UnitSpawner : MonoBehaviour
 
 		public void OnStateEnter()
 		{
+            if (owner.animator == null)
+                return;
 			owner.animator.SetTrigger( owner.toClose );
 		}
 
 		public IState OnStateUpdate()
 		{
-			if ( owner.animator.IsInTransition(0) || owner.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f )
+            if (owner.animator == null)
+            {
+                Ready.OnStateEnter();
+                return Ready;
+            }
+
+            if ( owner.animator.IsInTransition(0) || owner.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f )
 			{
 				return this;
 			}
