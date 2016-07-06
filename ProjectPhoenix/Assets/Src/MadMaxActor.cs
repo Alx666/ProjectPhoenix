@@ -45,7 +45,8 @@ public class MadMaxActor : Actor
         currentHealth = Hp;
         HealthBar = this.GetComponentInChildren<Canvas>();
         HealthBar.name = "HealthBar_" + this.gameObject.name;
-        HealthBar.transform.parent = null;
+        //HealthBar.transform.parent = null;
+        HealthBar.transform.SetParent(null, false);
         m_hHpSlider = HealthBar.GetComponentInChildren<Slider>();
         m_hSliderRectTransform = m_hHpSlider.GetComponent<RectTransform>();
         //m_hDisassembler             = GetComponent<MeshDisassembler>();
