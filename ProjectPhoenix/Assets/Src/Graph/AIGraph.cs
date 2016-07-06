@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using System;
+using UnityEditor;
 
 public class AIGraph : MonoBehaviour, IEnumerable<POI>, ISerializationCallbackReceiver
 {
@@ -36,6 +38,14 @@ public class AIGraph : MonoBehaviour, IEnumerable<POI>, ISerializationCallbackRe
         hA.Link(hB, fDist);
         hB.Link(hA, fDist);
     }
+
+    public void Save()
+    {
+        ScriptableObject.CreateInstance<SaveData>();
+        SaveData saveData = new SaveData(m_hSaveData);
+        AssetDatabase.CreateAsset(saveData, "Assets/AIGraph.asset");
+    }
+
 
     public POI this[int iIndex]
     {
@@ -84,6 +94,23 @@ public class AIGraph : MonoBehaviour, IEnumerable<POI>, ISerializationCallbackRe
         POI.Counter = m_hGraph.Nodes.Max(hP => hP.Id);
     }
 
-    #endregion 
+   
 
+    #endregion
+
+}
+
+public class SaveData : ScriptableObject
+{
+    byte[] m_hSaveData;
+
+    public SaveData(byte[] data)
+    {
+        m_hSaveData = data;
+    }
+
+    public Graph<POI> GetGraph()
+    {
+        return Graph<POI>.FromBinary<POI>(m_hSaveData);
+    }
 }
