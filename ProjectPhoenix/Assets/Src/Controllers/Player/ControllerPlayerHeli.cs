@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using UnityEngine.Networking;
+using System.Collections.Generic;
 
 internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
 {
@@ -10,7 +11,8 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
     public float MaxVelocityMagnitude;
     public float VelocityForce;
     public float VelocityRotation;
-    public GameObject rotor;
+    public List<GameObject> rotors;
+    public float MaxRotarSpeed = 15f;
     public Rigidbody HeliRigidBody { get; set; }
 
 
@@ -56,7 +58,7 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
             Inclination();
         }
 
-        if (rotor != null)
+        if (rotors != null)
             RotateRotor();
     }
 
@@ -111,8 +113,8 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
         if (!isGrounded)
         {
             rotarSpeed += Time.deltaTime * 10f;
-            if (rotarSpeed > 15f)
-                rotarSpeed = 15f;
+            if (rotarSpeed > MaxRotarSpeed)
+                rotarSpeed = MaxRotarSpeed;
         }
         else
         {
@@ -121,7 +123,10 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
                 rotarSpeed = 0f;
         }
 
-        rotor.transform.Rotate(new Vector3(0f, rotarSpeed, 0f));
+        foreach (GameObject rotor in rotors)
+        {
+            rotor.transform.Rotate(new Vector3(0f, rotarSpeed, 0f));
+        }        
     }
 
     public void BeginBackward()

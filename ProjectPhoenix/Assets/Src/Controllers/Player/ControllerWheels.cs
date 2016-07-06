@@ -52,6 +52,10 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
     private Vector3 m_hOriginalCOM;
     private Actor m_hActor;
 
+    public ParticleSystem DustParticle;
+    private ParticleSystem.EmissionModule Emission;
+    private float EmissionRate;
+    private ParticleManager m_hparticleManager;
 
     void Awake()
     {
@@ -59,6 +63,10 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
         m_hBackward = false;
         m_hRight = false;
         m_hLeft = false;
+
+        Emission = DustParticle.emission;
+        EmissionRate = Emission.rate.constantMax;
+        m_hparticleManager = new ParticleManager(DustParticle);
 
         m_hWheels = new List<Wheel>();
         m_hRigidbody = this.GetComponent<Rigidbody>();
@@ -120,6 +128,8 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 
         if (OverrideCenterOfMass)
             m_hRigidbody.centerOfMass = OverrideCOM;
+
+        m_hparticleManager.Play();
     }
 
     void Update()
@@ -138,6 +148,12 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
         CurrentSpeed = (m_hRigidbody.velocity.magnitude * 3.6f).ToString();
 
         m_hFlyState = m_hFlyState.Update();
+
+        if (!IsFlying)
+        {
+            m_hparticleManager.OnUpdate(m_hWheels[0].Collider.rpm);
+            Emission = DustParticle.emission;
+        }
     }
 
     private IEnumerator WaitForFlipper(float fTime)
@@ -609,7 +625,39 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 
     #endregion
 
+    internal class ParticleManager
+    {
+        internal float EmissionRate;
+        internal ParticleSystem Dust;
+        internal ParticleSystem.EmissionModule EmissionModule;
+        internal ParticleSystem.MinMaxCurve em;
 
+        internal ParticleManager(ParticleSystem pSystem)
+        {
+            Dust = pSystem;
+            em = Dust.emission.rate;
+            EmissionModule = Dust.emission;
+            EmissionRate = em.constantMax;
+        }
+
+        internal void Play()
+        {
+            Dust.Play();
+        }
+
+        internal void Stop()
+        {
+            Dust.Stop();
+        }
+
+        internal void OnUpdate(float rpm)
+        {
+            em.constantMax = EmissionRate * rpm;
+            em.constantMin = EmissionRate * rpm;
+
+            EmissionModule.rate = new ParticleSystem.MinMaxCurve(em.constantMin, em.constantMax);
+        }
+    }
 }
 
 
