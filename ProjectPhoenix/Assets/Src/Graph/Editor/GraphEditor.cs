@@ -101,15 +101,6 @@ public class GraphEditor : Editor
 
         EditorGUILayout.EndHorizontal();
 
-        EditorGUILayout.BeginHorizontal();
-
-        if (GUILayout.Button("Save as Asset"))
-        {
-            m_hTarget.Save();
-        }
-
-        EditorGUILayout.EndHorizontal();
-
         EditorGUILayout.Separator();
 
 

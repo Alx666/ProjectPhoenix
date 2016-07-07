@@ -38,15 +38,7 @@ public class AIGraph : MonoBehaviour, IEnumerable<POI>, ISerializationCallbackRe
         hA.Link(hB, fDist);
         hB.Link(hA, fDist);
     }
-
-    public void Save()
-    {
-        ScriptableObject.CreateInstance<SaveData>();
-        SaveData saveData = new SaveData(m_hSaveData);
-        AssetDatabase.CreateAsset(saveData, "Assets/AIGraph.asset");
-    }
-
-
+    
     public POI this[int iIndex]
     {
         get
@@ -98,19 +90,4 @@ public class AIGraph : MonoBehaviour, IEnumerable<POI>, ISerializationCallbackRe
 
     #endregion
 
-}
-
-public class SaveData : ScriptableObject
-{
-    byte[] m_hSaveData;
-
-    public SaveData(byte[] data)
-    {
-        m_hSaveData = data;
-    }
-
-    public Graph<POI> GetGraph()
-    {
-        return Graph<POI>.FromBinary<POI>(m_hSaveData);
-    }
 }
