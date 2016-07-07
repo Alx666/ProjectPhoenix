@@ -49,8 +49,8 @@ public class ProviderAIHelicopter : MonoBehaviour, IControllerAI {
     private GameObject target;
     public GameObject Target { get { return target; } set { target = value; } }
 
-    private Graph<POI> graph;
-    public Graph<POI> Graph { get { return graph; } set { graph = value; } }
+    private AIGraph graph;
+    public AIGraph AIGraph { get { return graph; } set { graph = value; } }
 
     public void Idle()
     {

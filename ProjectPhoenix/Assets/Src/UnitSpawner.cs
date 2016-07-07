@@ -38,7 +38,8 @@ public class UnitSpawner : MonoBehaviour
 			throw new UnityException( this.gameObject.name + ": Sum of chances must be == 1" );
 
 		animator = GetComponent<Animator>();
-
+        if (animator == null)
+            Debug.LogWarning("UnitSpawner " + this.name + "has not an ANIMATOR");
 		units = new List<GameObject>();
 
 		idle			= new StateIdle( this );
@@ -70,7 +71,7 @@ public class UnitSpawner : MonoBehaviour
 	public class SpawnChance
 	{
 		public GameObject Unit;
-        public Graph<POI> Graph;
+        public AIGraph AIGraph;
 
 		[Range( 0f, 1f )]
 		public float Chance;
@@ -202,7 +203,7 @@ public class UnitSpawner : MonoBehaviour
         {
             GameObject spawned = Instantiate(unit.Unit, owner.SpawnLocator.position, owner.SpawnLocator.rotation) as GameObject;
             owner.units.Add(spawned);
-            spawned.GetComponent<IControllerAI>().Graph = unit.Graph;
+            spawned.GetComponent<IControllerAI>().AIGraph = unit.AIGraph;
             //GlobalFactory.GetInstance( SpawnChances[i].Unit );
         }
         public IState OnStateUpdate()
@@ -286,7 +287,7 @@ public class UnitSpawner : MonoBehaviour
 
             Debug.Log("DELETEME!");
             ai.Target = new GameObject();
-            ai.Target.transform.position = new Vector3(327f, 0f, 121f);
+            ai.Target.transform.position = new Vector3(-15f, 0f, 90f);
             ai.Patrol();
             //Deleteme
 

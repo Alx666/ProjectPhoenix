@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Graph;
+using UnityEngine.Networking;
 
 [RequireComponent(typeof(SphereCollider))]
 public class ProviderAIWheels : MonoBehaviour, IControllerAI
@@ -25,6 +26,7 @@ public class ProviderAIWheels : MonoBehaviour, IControllerAI
 
     private void Awake()
     {
+        receiver = GetComponent<ControllerWheels>();
         sphereCollider = this.GetComponent<SphereCollider>();
         Debug.LogWarning("HARDCODED");
         sphereCollider.isTrigger = true;
@@ -67,8 +69,8 @@ public class ProviderAIWheels : MonoBehaviour, IControllerAI
     private GameObject target;
     public GameObject Target { get { return target; } set { target = value; } }
 
-    private Graph<POI> graph;
-    public Graph<POI> Graph { get { return graph; } set { graph = value; } }
+    private AIGraph graph;
+    public AIGraph AIGraph { get { return graph; } set { graph = value; } }
 
     public void Idle()
     {
@@ -166,7 +168,7 @@ public class ProviderAIWheels : MonoBehaviour, IControllerAI
                 POI nearestAI = roads.OrderBy(hN => Vector3.Distance(hN.Position, owner.transform.position)).First();
                 POI nearestPlayer = roads.OrderBy(hN => Vector3.Distance(hN.Position, owner.Target.transform.position)).First();
 
-                List<POI> list = owner.graph.Dijkstra(nearestAI, nearestPlayer, roads);
+                List<POI> list = owner.graph.m_hGraph.Dijkstra(nearestAI, nearestPlayer, roads);
 
                 pois = new Queue<POI>(list);
                 pathComputed = true;
