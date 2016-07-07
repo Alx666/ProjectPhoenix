@@ -41,16 +41,16 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
 
     void Start()
     {
-        //if (!this.isLocalPlayer)
-        //{
-        //    GameObject.Destroy(this.GetComponent<InputProviderPCStd>());
-        //    GameObject.Destroy(this);
-        //}
+        if (!this.isLocalPlayer)
+        {
+            GameObject.Destroy(this.GetComponent<InputProviderPCStd>());
+            GameObject.Destroy(this);
+        }
     }
     void Update()
     {
-        //if (!this.isLocalPlayer)
-        //    return;
+        if (!this.isLocalPlayer)
+            return;
 
         if (!isGrounded)
         {
