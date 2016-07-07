@@ -4,8 +4,9 @@ using System.Collections;
 using System.Linq;
 using System;
 using Graph;
+using UnityEngine.Networking;
 
-public class UnitSpawner : MonoBehaviour
+public class UnitSpawner : NetworkBehaviour
 {
 	public Transform			SpawnLocator;
 	public Transform			ExitLocator;
@@ -30,7 +31,6 @@ public class UnitSpawner : MonoBehaviour
 	private StateClose			close;
 
 	private IState				currentState;
-	
 
 	public void Awake()
 	{
@@ -63,8 +63,11 @@ public class UnitSpawner : MonoBehaviour
 
 	public void Update()
 	{
-		currentState = currentState.OnStateUpdate();
-		CURRENT_STATE = currentState.ToString();
+        if (isServer)
+        {
+		    currentState = currentState.OnStateUpdate();
+		    CURRENT_STATE = currentState.ToString();
+        }
 	}
 
 	[Serializable]
