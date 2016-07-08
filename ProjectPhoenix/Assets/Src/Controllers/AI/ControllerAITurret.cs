@@ -34,6 +34,7 @@ internal class ControllerAITurret : NetworkBehaviour
 
     private void Awake()
     {
+        m_hWeapon = this.GetComponent<Weapon>();
         Owner = GetComponent<Actor>();
         m_hIdle             = new StateIdle(this);
         m_hPatrol           = new StatePatrol(this);
@@ -54,7 +55,7 @@ internal class ControllerAITurret : NetworkBehaviour
         m_hCurrent          = m_hPatrol;
         m_hCurrent.OnStateEnter();
 
-        m_hWeapon = this.GetComponent<Weapon>();
+        
     }
 
     private void Update()
@@ -162,18 +163,17 @@ internal class ControllerAITurret : NetworkBehaviour
             {
                 float fNearest = float.MaxValue;//?da sostituire?
                 GameObject hTarget = null;
-                //for (int i = 0; i < CustomNetworkManager.Players.Count; i++)
-                //{
-                  
-                //    GameObject hCurrent = GameObject.Find("Player(Clone)");
-                //    //CustomNetworkManager.Players[i];
-                //    float fDistance = Vector3.Distance(m_hOwner.transform.position, hCurrent.transform.position);
-                //    if (fDistance < fNearest)
-                //    {
-                //        hTarget = hCurrent;
-                //        fNearest = fDistance;
-                //    }
-                //}
+
+                GameManager.Instance.scores.Keys.ToList().ForEach(hA =>
+                {
+                    float fDistance = Vector3.Distance(m_hOwner.transform.position, hA.transform.position);
+
+                    if (fDistance < fNearest)
+                    {
+                        hTarget = hA.gameObject;
+                        fNearest = fDistance;
+                    }
+                });
 
                 if (fNearest < m_hOwner.DetectionRange)
                 {
@@ -234,20 +234,16 @@ internal class ControllerAITurret : NetworkBehaviour
                 if (StateAimBallistic.Aim(m_hOwner.BulletForce, Physics.gravity.y, vLocToTarget.magnitude, vLocToTarget.y, (int)m_hOwner.Trajectory, out fAngle))
                 {
                     m_hOwner.AxeXrot.transform.localRotation = Quaternion.AngleAxis(fAngle, Vector3.right);//??
-
-                    //Fire Condition, Only Shoots On Server                    
-                    //Tmp Version
+                    
                     if (m_hOwner.isServer && m_fShootTimer < 0f)
                     {
-                        //TODO:da sostituire
-                        BulletPhysics hBullet = (GameObject.Instantiate(m_hOwner.m_hWeapon.BulletPrefab) as GameObject).GetComponent<BulletPhysics>();
-                        hBullet.Shoot(m_hOwner.ShootLocator.transform.position, m_hOwner.ShootLocator.transform.forward, m_hOwner.AxeXrot.transform.forward, m_hOwner.Owner);
-                        NetworkServer.Spawn(hBullet.gameObject);
+                        m_hOwner.m_hWeapon.Press();
                         m_fShootTimer = 2f;
                     }
                 }
                 else
                 {
+                    m_hOwner.m_hWeapon.Release();
                     m_hOwner.m_hTarget = null;
                     Next.OnStateEnter();
                     return Next;
@@ -320,15 +316,13 @@ internal class ControllerAITurret : NetworkBehaviour
 
                 if (Owner.isServer && m_fShootTimer < 0)
                 {
-                    //BulletPhysics hBullet = (GameObject.Instantiate(Owner.m_hWeapon.BulletPrefab) as GameObject).GetComponent<BulletPhysics>();
-                    //hBullet.Shoot(Owner.ShootLocator.transform.position, Owner.ShootLocator.transform.forward);
-                    //NetworkServer.Spawn(hBullet.gameObject);
-                    Debug.Log("beng");
+                    Owner.m_hWeapon.Press();
                     m_fShootTimer = 2f;
                 }
 
                 if (!(Vector3.Distance(Owner.gameObject.transform.position, Owner.m_hTarget.transform.position) <= Owner.DetectionRange))
                 {
+                    Owner.m_hWeapon.Release();
                     Owner.m_hTarget = null;
                     Next.OnStateEnter();
                     return Next;

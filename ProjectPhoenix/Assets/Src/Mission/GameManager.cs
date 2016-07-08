@@ -31,22 +31,10 @@ public class GameManager : NetworkBehaviour
 
         scores = new Dictionary<Actor, int>(); //TODO: popolare lista con i player [Compito del lobby manager]
         m_hSpawnPoints = new List<NetworkStartPosition>(FindObjectsOfType<NetworkStartPosition>());
-
-
-        //DAto che viene eseguita prima del metodo nel lobbymanager, prova a fare sta roba nel lobymanager
-        //List<GameObject> m_hPlayerInstances = new List<GameObject>(LobbyManager.Instance.GetPlayerInstances());
-        //m_hPlayerInstances.ForEach(hA =>
-        //{
-        //    Actor hActor = hA.GetComponent<Actor>();
-        //    if (!scores.ContainsKey(hActor))
-        //        scores.Add(hActor, 0);
-        //});
     }
     
-
     void Start()
     {
-        //GameObject.DontDestroyOnLoad(this.gameObject);
         //ToDo: Rendere victory condition generica
         m_hVictoryCondition = new DeathMatchWinCondition(ScoreToWin);
 
