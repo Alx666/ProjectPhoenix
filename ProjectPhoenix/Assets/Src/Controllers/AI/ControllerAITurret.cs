@@ -60,10 +60,10 @@ internal class ControllerAITurret : NetworkBehaviour
 
     private void Update()
     {
-        if (m_bHasTarget && m_hTarget == null)
-        {
-            RpcSetTarget();
-        }
+    //    if (m_bHasTarget && m_hTarget == null)
+    //    {
+    //        RpcSetTarget();
+    //    }
 
         m_hCurrent = m_hCurrent.Update();
     }
@@ -71,15 +71,9 @@ internal class ControllerAITurret : NetworkBehaviour
 
     //Serve a notificare tutte le copie di questa istanza sulle altre macchine che il bersaglio e' stato scelto
     [ClientRpc]
-    private void RpcSetTarget()
+    private void RpcSetTarget(NetworkInstanceId netID)
     {
-        CmdGetTarget(m_hTarget);
-    }
-
-    [Command]
-    private void CmdGetTarget(GameObject hTarget)
-    {
-        m_hTarget = hTarget;
+        m_hTarget = ClientScene.FindLocalObject(netID);
     }
 
     #region Nested Types
@@ -179,7 +173,7 @@ internal class ControllerAITurret : NetworkBehaviour
                 {
                     m_hOwner.OnTargetChanged(true);
                     m_hOwner.m_hTarget = hTarget;//il server setta il target
-                    m_hOwner.RpcSetTarget();//chiama il client
+                    m_hOwner.RpcSetTarget(hTarget.GetComponent<PhoenixActor>().netId);//chiama il client
                 }
             }
 
