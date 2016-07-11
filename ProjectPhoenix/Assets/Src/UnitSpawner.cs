@@ -14,11 +14,11 @@ public class UnitSpawner : NetworkBehaviour
 	public float				MinSpawnTime;
 	public float				MaxSpawnTime;
 	public string				CURRENT_STATE;
-	public List<SpawnChance>	Spawns;
+	public List<Spawn>	        Spawns;
 
 	private List<GameObject>	units;
-	private int					Count { get; set; }         //Tiene traccia di quanti veicoli sono attivi al momento
 	private Animator			animator;
+	private int					Count { get; set; }         //Tiene traccia di quanti veicoli sono attivi al momento
     private int toOpen			= Animator.StringToHash("ToOpen");
 	private int toClose			= Animator.StringToHash( "ToClose" );
 
@@ -38,8 +38,6 @@ public class UnitSpawner : NetworkBehaviour
 			throw new UnityException( this.gameObject.name + ": Sum of chances must be == 1" );
 
 		animator = GetComponent<Animator>();
-        if (animator == null)
-            Debug.LogWarning("UnitSpawner " + this.name + "has not an ANIMATOR");
 		units = new List<GameObject>();
 
 		idle			= new StateIdle( this );
@@ -71,14 +69,13 @@ public class UnitSpawner : NetworkBehaviour
 	}
 
 	[Serializable]
-	public class SpawnChance
+	public class Spawn
 	{
 		public GameObject Unit;
         public AIGraph AIGraph;
 
 		[Range( 0f, 1f )]
 		public float Chance;
-
 	}
 
 	public interface IState
@@ -175,6 +172,16 @@ public class UnitSpawner : NetworkBehaviour
 			return "WAIT";
 		}
 	}
+
+    [ClientRpc]
+    private void RpcSpawnSetup(NetworkInstanceId netId, int unitIndex)
+    {
+        GameObject spawned = ClientScene.FindLocalObject(netId);
+        units.Add(spawned);
+        IControllerAI ai = spawned.GetComponent<IControllerAI>();
+        ai.AIGraph = Spawns[unitIndex].AIGraph;
+    }
+
 	private class StateSpawn : IState
 	{
 		private UnitSpawner owner;
@@ -194,19 +201,19 @@ public class UnitSpawner : NetworkBehaviour
 				spawnResult -= owner.Spawns[i].Chance;
 				if ( spawnResult <= 0f )
 				{
-                    SpawnChance unit = owner.Spawns[i];
-                    Spawn(unit);
+                    Spawn(i);
 					break;
 				}
 			}
 			owner.Count++;
 		}
 
-        private void Spawn(SpawnChance unit)
+        private void Spawn(int unitIndex)
         {
+            Spawn unit = owner.Spawns[unitIndex];
             GameObject spawned = Instantiate(unit.Unit, owner.SpawnLocator.position, owner.SpawnLocator.rotation) as GameObject;
-            owner.units.Add(spawned);
-            spawned.GetComponent<IControllerAI>().AIGraph = unit.AIGraph;
+            NetworkServer.Spawn(spawned);
+            owner.RpcSpawnSetup(spawned.GetComponent<Actor>().netId, unitIndex);
             //GlobalFactory.GetInstance( SpawnChances[i].Unit );
         }
         public IState OnStateUpdate()
@@ -286,13 +293,13 @@ public class UnitSpawner : NetworkBehaviour
 			}
 
             //else
-            IControllerAI ai = owner.units.Last().GetComponent<IControllerAI>();
+            //IControllerAI ai = owner.units.Last().GetComponent<IControllerAI>();
 
-            Debug.Log("DELETEME!");
-            ai.Target = new GameObject();
-            ai.Target.transform.position = new Vector3(-15f, 0f, 90f);
-            ai.Patrol();
-            //Deleteme
+            //Debug.Log("DELETEME!");
+            //ai.Target = new GameObject();
+            //ai.Target.transform.position = new Vector3(-15f, 0f, 90f);
+            //ai.Patrol();
+            ////Deleteme
 
             Close.OnStateEnter();
 			return Close;

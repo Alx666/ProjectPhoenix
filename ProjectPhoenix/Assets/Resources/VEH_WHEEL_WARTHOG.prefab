@@ -109,7 +109,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 459962}
   - 54: {fileID: 5431120}
-  - 114: {fileID: 11488442}
   - 114: {fileID: 11466592}
   - 114: {fileID: 11412908}
   - 114: {fileID: 11457390}
@@ -118,6 +117,7 @@ GameObject:
   - 135: {fileID: 13514682}
   - 114: {fileID: 11406220}
   - 114: {fileID: 11485160}
+  - 114: {fileID: 11445688}
   m_Layer: 0
   m_Name: VEH_WHEEL_WARTHOG
   m_TagString: Untagged
@@ -765,15 +765,13 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 136958}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc49f3687d7f0204abf11b71380b4230, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NodesStoppingDistance: 5
+  NodesStoppingDistance: 20
   DEBUG_CurrentState: 
-  graph: {fileID: 0}
-  target: {fileID: 0}
 --- !u!114 &11412908
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -806,6 +804,20 @@ MonoBehaviour:
     i15: 136
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &11445688
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 136958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df481b163f2d22c4483b784f68627bfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hp: 1000
+  Armor: 0
+  Name: 
 --- !u!114 &11457390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -859,10 +871,12 @@ MonoBehaviour:
   OverrideCenterOfMass: 1
   SyncGfxWheels: 1
   CurrentSpeed: 
-  Hp: 200000
+  Hp: 100000
   SteerAngle: 30
   MaxSpeed: 200
+  BrakeSpeed: 20
   OverrideCOM: {x: 0, y: 0, z: 0}
+  DriveType: 0
 --- !u!114 &11475238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -918,26 +932,6 @@ MonoBehaviour:
     AnimationRangeY: 180
   AimMode: 2
   Trajectory: 1
---- !u!114 &11488442
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 136958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c0fa37227769844698cd538d5507b68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Forward: 119
-  Backward: 115
-  Right: 100
-  Left: 97
-  PanRight: 101
-  PanLeft: 113
-  Up: 304
-  Down: 32
-  Fire: 323
 --- !u!135 &13514682
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -945,10 +939,10 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 136958}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
+  m_IsTrigger: 1
+  m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 20
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!146 &14608844
 WheelCollider:
