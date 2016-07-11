@@ -28,7 +28,7 @@ public class ProviderAIWheels : MonoBehaviour, IControllerAI
     {
         receiver = GetComponent<ControllerWheels>();
         sphereCollider = this.GetComponent<SphereCollider>();
-        Debug.LogWarning("HARDCODED");
+        //Debug.LogWarning("HARDCODED");
         sphereCollider.isTrigger = true;
         sphereCollider.radius = 20f;
 
@@ -109,12 +109,11 @@ public class ProviderAIWheels : MonoBehaviour, IControllerAI
 
         public void OnStateEnter()
         {
-            owner.receiver.EndForward();
+            //owner.receiver.EndForward();
         }
 
         public IState Update()
         {
-            Debug.LogWarning("HARDCODED");
             if (owner.m_hRigidbody.velocity.magnitude > 1f)
             {
                 float sign = Mathf.Sign(Vector3.Dot(this.owner.transform.forward, this.owner.m_hRigidbody.velocity.normalized));
@@ -134,7 +133,6 @@ public class ProviderAIWheels : MonoBehaviour, IControllerAI
                 owner.receiver.EndBackward();
                 owner.receiver.EndForward();
             }
-
 
             return this;
         }
@@ -162,29 +160,31 @@ public class ProviderAIWheels : MonoBehaviour, IControllerAI
         public void OnStateEnter()
         {
             if (!pathComputed)
-            {
-                List<POI> roads = owner.graph.Where(hN => hN.Type == POI.NodeType.Road).ToList();
-
-                POI nearestAI = roads.OrderBy(hN => Vector3.Distance(hN.Position, owner.transform.position)).First();
-                POI nearestPlayer = roads.OrderBy(hN => Vector3.Distance(hN.Position, owner.Target.transform.position)).First();
-
-                List<POI> list = owner.graph.m_hGraph.Dijkstra(nearestAI, nearestPlayer, roads);
-
-                pois = new Queue<POI>(list);
-                pathComputed = true;
-            }
+                ComputePath();
 
 
             //GET POI FROM QUEUE
             if (pois.Count > 0)
             {
                 poi = pois.Dequeue();
-                Debug.Log(this.owner.gameObject.name + "DEQUEUED");
+                //Debug.Log(this.owner.gameObject.name + "DEQUEUED");
             }
             else
             {
                 poi = null;
             }
+        }
+        private void ComputePath()
+        {
+            List<POI> roads = owner.graph.Where(hN => hN.Type == POI.NodeType.Road).ToList();
+
+            POI nearestAI = roads.OrderBy(hN => Vector3.Distance(hN.Position, owner.transform.position)).First();
+            POI nearestPlayer = roads.OrderBy(hN => Vector3.Distance(hN.Position, owner.Target.transform.position)).First();
+
+            List<POI> list = owner.graph.m_hGraph.Dijkstra(nearestAI, nearestPlayer, roads);
+
+            pois = new Queue<POI>(list);
+            pathComputed = true;
         }
 
         public IState Update()
@@ -218,7 +218,7 @@ public class ProviderAIWheels : MonoBehaviour, IControllerAI
             owner.receiver.BeginForward();
             float distance = Vector3.Distance(owner.transform.position, vDestination);
 
-            float sign = Mathf.Sign(Vector3.Dot(this.owner.transform.forward, this.owner.m_hRigidbody.velocity));
+            float sign = Mathf.Sign(Vector3.Dot(this.owner.transform.forward, this.owner.m_hRigidbody.velocity.normalized));
             if (distance > 0f && distance < owner.NodesStoppingDistance && sign > 0f)
             {
                 if (pois.Count > 0)
