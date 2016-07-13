@@ -3,13 +3,16 @@ using System.Collections;
 using System;
 using UnityEngine.Networking;
 using System.Collections.Generic;
+using System.Linq;
 
 internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
 {
     public GameObject OwnBody;
+    public GameObject MainWeapon;
     public float MaxHeight;
     public float MaxVelocityMagnitude;
-    public float VelocityForce;
+    public float HorizontalVelocityForce;
+    public float VerticalVelocityForce;
     public float VelocityRotation;
     public List<GameObject> rotors;
     public float MaxRotarSpeed = 15f;
@@ -18,6 +21,7 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
 
     Plane playerPlane;
     Vector3 mousePos;
+    GameObject weapon;
     bool isGrounded;
     float mass;
     float engineForce;
@@ -45,6 +49,11 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
         {
             GameObject.Destroy(this.GetComponent<InputProviderPCStd>());
             GameObject.Destroy(this);
+        }
+
+        if (MainWeapon != null)
+        {
+            weapon = MainWeapon;
         }
     }
     void Update()
@@ -84,15 +93,16 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
     }
     private void Move()
     {
-        this.HeliRigidBody.AddForce(HeliRigidBody.transform.forward * VelocityForce * forwardForce);
-        this.HeliRigidBody.AddForce(HeliRigidBody.transform.right * VelocityForce * strafeForce);
+        this.HeliRigidBody.AddForce(HeliRigidBody.transform.forward * HorizontalVelocityForce * forwardForce);
+        this.HeliRigidBody.AddForce(HeliRigidBody.transform.right * HorizontalVelocityForce * strafeForce);
         this.HeliRigidBody.velocity = Vector3.ClampMagnitude(this.HeliRigidBody.velocity, MaxVelocityMagnitude);
     }
     private void Inclination()
     {
-        this.currentForwardSlope = Mathf.Lerp(currentForwardSlope, forwardForce * 20f, Time.fixedDeltaTime);
-        this.currentStrafeSlope = Mathf.Lerp(currentStrafeSlope, strafeForce * 20f, Time.fixedDeltaTime);
-        this.OwnBody.transform.localRotation = Quaternion.Euler(currentForwardSlope, OwnBody.transform.localEulerAngles.y, -currentStrafeSlope);
+        this.currentForwardSlope = forwardForce * 20f;
+        this.currentStrafeSlope = strafeForce * 20f;
+        this.OwnBody.transform.localRotation = Quaternion.Slerp(this.OwnBody.transform.localRotation, Quaternion.Euler(currentForwardSlope, 
+                                               OwnBody.transform.localEulerAngles.y, -currentStrafeSlope), Time.deltaTime);
     }
     private void Rotation()
     {
@@ -104,29 +114,19 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
             Vector3 targetPoint = ray.GetPoint(hitdist);
             Quaternion targetRotation = Quaternion.LookRotation(targetPoint - this.transform.position);
             this.transform.rotation = Quaternion.Slerp(this.transform.rotation, targetRotation, VelocityRotation * Time.deltaTime);
+            weapon.transform.rotation = targetRotation;            
         }
     }
-
-    //provvisorio
+    
     void RotateRotor()
     {
         if (!isGrounded)
-        {
             rotarSpeed += Time.deltaTime * 10f;
-            if (rotarSpeed > MaxRotarSpeed)
-                rotarSpeed = MaxRotarSpeed;
-        }
         else
-        {
             rotarSpeed -= Time.deltaTime * 3f;
-            if (rotarSpeed < 0f)
-                rotarSpeed = 0f;
-        }
 
-        foreach (GameObject rotor in rotors)
-        {
-            rotor.transform.Rotate(new Vector3(0f, rotarSpeed, 0f));
-        }        
+        rotarSpeed = Mathf.Clamp(rotarSpeed, 0f, MaxRotarSpeed);
+        rotors.ToList().ForEach(hR => hR.transform.Rotate(new Vector3(0f, rotarSpeed, 0f)));
     }
 
     public void BeginBackward()
@@ -179,7 +179,7 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
     public void BeginUp()
     {
         this.isGrounded = false;
-        this.engineForce = 50f;
+        this.engineForce = VerticalVelocityForce;
     }
 
     public void EndBackward()

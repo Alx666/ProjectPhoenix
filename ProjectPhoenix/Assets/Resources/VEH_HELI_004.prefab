@@ -82,7 +82,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &133246
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
@@ -97,7 +97,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &142880
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
@@ -217,6 +217,8 @@ GameObject:
   - 114: {fileID: 11471644}
   - 114: {fileID: 11469876}
   - 114: {fileID: 11476630}
+  - 114: {fileID: 11484988}
+  - 114: {fileID: 11436476}
   m_Layer: 0
   m_Name: VEH_HELI_004
   m_TagString: Untagged
@@ -248,7 +250,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 453254}
-  m_RootOrder: 7
+  m_RootOrder: 5
 --- !u!4 &423624
 Transform:
   m_ObjectHideFlags: 1
@@ -260,7 +262,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 453254}
-  m_RootOrder: 5
+  m_RootOrder: 3
 --- !u!4 &445554
 Transform:
   m_ObjectHideFlags: 1
@@ -284,7 +286,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 453254}
-  m_RootOrder: 4
+  m_RootOrder: 2
 --- !u!4 &446894
 Transform:
   m_ObjectHideFlags: 1
@@ -321,8 +323,6 @@ Transform:
   m_Children:
   - {fileID: 462368}
   - {fileID: 447380}
-  - {fileID: 467096}
-  - {fileID: 484750}
   - {fileID: 446246}
   - {fileID: 423624}
   - {fileID: 495916}
@@ -351,11 +351,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 142880}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.13, y: -1.4, z: 7.01}
+  m_LocalPosition: {x: 0.13, y: -0.048369646, z: 1.9990578}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 453254}
-  m_RootOrder: 2
+  m_Father: {fileID: 469428}
+  m_RootOrder: 0
 --- !u!4 &469428
 Transform:
   m_ObjectHideFlags: 1
@@ -365,7 +365,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0.07521093, z: 0.1472168}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 467096}
+  - {fileID: 484750}
   m_Father: {fileID: 401402}
   m_RootOrder: 0
 --- !u!4 &484750
@@ -375,11 +377,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 133246}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.13, y: -1.4, z: 7.01}
+  m_LocalPosition: {x: -0.13, y: -0.048369646, z: 1.9990578}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 453254}
-  m_RootOrder: 3
+  m_Father: {fileID: 469428}
+  m_RootOrder: 1
 --- !u!4 &495916
 Transform:
   m_ObjectHideFlags: 1
@@ -391,7 +393,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 453254}
-  m_RootOrder: 6
+  m_RootOrder: 4
 --- !u!20 &2078158
 Camera:
   m_ObjectHideFlags: 1
@@ -752,6 +754,25 @@ MonoBehaviour:
   LerpSpeed: 10
   DofDefocus: 5
   DistanceFromTarget: 0.35
+--- !u!114 &11436476
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 190808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1267208747, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 401402}
+  m_ChildIndex: 0
+  m_SendInterval: 0.1
+  m_SyncRotationAxis: 2
+  m_RotationSyncCompression: 2
+  m_MovementThreshold: 0.001
+  m_InterpolateRotation: 0.5
+  m_InterpolateMovement: 0.5
 --- !u!114 &11439648
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -901,6 +922,20 @@ MonoBehaviour:
   blurIterations: 2
   blurType: 0
   fastBloomShader: {fileID: 4800000, guid: 68a00c837b82e4c6d92e7da765dc5f1d, type: 3}
+--- !u!114 &11484988
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 190808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df481b163f2d22c4483b784f68627bfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hp: 100
+  Armor: 1
+  Name: TestHeli
 --- !u!114 &11494786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -913,10 +948,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   OwnBody: {fileID: 181488}
+  MainWeapon: {fileID: 119228}
   MaxHeight: 40
-  MaxVelocityMagnitude: 85
-  VelocityForce: 500
-  VelocityRotation: 25
+  MaxVelocityMagnitude: 120
+  HorizontalVelocityForce: 700
+  VerticalVelocityForce: 100
+  VelocityRotation: 3
   rotors:
   - {fileID: 116514}
   - {fileID: 155262}
