@@ -314,7 +314,7 @@ MonoBehaviour:
         m_RotationOrder: 4
       m_checkSlope: 1
       m_minSlope: 15
-      m_maxSlope: 90
+      m_maxSlope: 70
       m_slopeFitness:
         serializedVersion: 2
         m_Curve:
@@ -449,7 +449,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       m_checkTexture: 0
-      m_matchingTextures: 2133
+      m_matchingTextures: 1
       m_isActive: 1
     m_spawnExtensions: []
   - m_name: AIV_SoilB
@@ -536,7 +536,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       m_checkTexture: 0
-      m_matchingTextures: 2133
+      m_matchingTextures: 1
       m_isActive: 1
     m_spawnExtensions: []
   - m_name: AIV_SoilC
@@ -624,6 +624,180 @@ MonoBehaviour:
         m_RotationOrder: 4
       m_checkTexture: 0
       m_matchingTextures: 2133
+      m_isActive: 1
+    m_spawnExtensions: []
+  - m_name: AIV_RockBare
+    m_texture: {fileID: 2800000, guid: ffde01627276c7748b843c3695c09013, type: 3}
+    m_textureFileName: Rock_GuiMossyRock_2k_alb_s.psd
+    m_normal: {fileID: 2800000, guid: 694a3aa09e1bee043a997564080fc4dd, type: 3}
+    m_normalFileName: Rock_GuiMossyRock_2k_n.jpg
+    m_sizeX: 10
+    m_sizeY: 10
+    m_offsetX: 0
+    m_offsetY: 0
+    m_metalic: 0
+    m_smoothness: 0
+    m_spawnCriteria:
+    - m_name: 
+      m_checkType: 0
+      m_virginTerrain: 0
+      m_checkHeight: 0
+      m_minHeight: -25
+      m_maxHeight: 975
+      m_heightFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkSlope: 1
+      m_minSlope: 30
+      m_maxSlope: 90
+      m_slopeFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 18.692362
+          outSlope: 1.8503643
+          tangentMode: 1
+        - time: 0.19929403
+          value: 1.0069962
+          inSlope: 11.354733
+          outSlope: 0.047202628
+          tangentMode: 1
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkProximity: 0
+      m_proximityTag: 
+      m_minProximity: 0
+      m_maxProximity: 100
+      m_proximityFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 0.3
+          value: 0.2
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkTexture: 0
+      m_matchingTextures: 1
+      m_isActive: 1
+    m_spawnExtensions: []
+  - m_name: AIV_RockStriped
+    m_texture: {fileID: 2800000, guid: 4a1ef012fdcea934c95fed46663ba50e, type: 3}
+    m_textureFileName: Rock_GuiMossyRock_2k_alb_s.psd
+    m_normal: {fileID: 2800000, guid: 2cd9ffde4a957da4dac43aee48227fc9, type: 3}
+    m_normalFileName: Rock_GuiMossyRock_2k_n.jpg
+    m_sizeX: 10
+    m_sizeY: 10
+    m_offsetX: 0
+    m_offsetY: 0
+    m_metalic: 0
+    m_smoothness: 0
+    m_spawnCriteria:
+    - m_name: 
+      m_checkType: 0
+      m_virginTerrain: 0
+      m_checkHeight: 0
+      m_minHeight: -25
+      m_maxHeight: 975
+      m_heightFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkSlope: 1
+      m_minSlope: 15
+      m_maxSlope: 90
+      m_slopeFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 18.692362
+          outSlope: 1.8503643
+          tangentMode: 1
+        - time: 0.19929403
+          value: 1.0069962
+          inSlope: 11.354733
+          outSlope: 0.047202628
+          tangentMode: 1
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkProximity: 0
+      m_proximityTag: 
+      m_minProximity: 0
+      m_maxProximity: 100
+      m_proximityFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 0.3
+          value: 0.2
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkTexture: 0
+      m_matchingTextures: 1
       m_isActive: 1
     m_spawnExtensions: []
   m_detailPrototypes:
@@ -2442,6 +2616,132 @@ MonoBehaviour:
       m_checkSlope: 1
       m_minSlope: 0
       m_maxSlope: 7.4508843
+      m_slopeFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkProximity: 0
+      m_proximityTag: 
+      m_minProximity: 0
+      m_maxProximity: 100
+      m_proximityFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 0.3
+          value: 0.2
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkTexture: 0
+      m_matchingTextures: '!3'
+      m_isActive: 1
+    m_spawnExtensions: []
+  - m_name: stone4
+    m_instances:
+    - m_name: stone4
+      m_desktopPrefab: {fileID: 144052, guid: bfc032395fc44274b9da61343ffdf830, type: 2}
+      m_desktopPrefabFileName: 
+      m_mobilePrefab: {fileID: 0}
+      m_mobilePrefabFileName: 
+      m_minInstances: 1
+      m_maxInstances: 1
+      m_failureRate: 0
+      m_minSpawnOffsetX: 0
+      m_maxSpawnOffsetX: 0
+      m_minSpawnOffsetY: -0.3
+      m_maxSpawnOffsetY: -0.1
+      m_minSpawnOffsetZ: 0
+      m_maxSpawnOffsetZ: 0
+      m_rotateToSlope: 0
+      m_minRotationOffsetX: -180
+      m_maxRotationOffsetX: 180
+      m_minRotationOffsetY: -180
+      m_maxRotationOffsetY: 180
+      m_minRotationOffsetZ: -180
+      m_maxRotationOffsetZ: 180
+      m_useParentScale: 0
+      m_minScale: 0.5
+      m_maxScale: 1.5
+      m_scaleByDistance:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_localBounds: 5
+      m_virginTerrain: 1
+      m_extParam: 
+    m_dna:
+      m_width: 164.63327
+      m_height: 164.6323
+      m_boundsRadius: 164.63327
+      m_seedThrow: 246.9499
+      m_minScale: 0.1
+      m_maxScale: 2
+      m_rndScaleInfluence: 0
+      m_extParam: 
+      m_protoIdx: 5
+    m_spawnCriteria:
+    - m_name: 
+      m_checkType: 1
+      m_virginTerrain: 0
+      m_checkHeight: 0
+      m_minHeight: 0
+      m_maxHeight: 975
+      m_heightFitness:
+        serializedVersion: 2
+        m_Curve:
+        - time: 0
+          value: 1
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_checkSlope: 1
+      m_minSlope: 45
+      m_maxSlope: 75
       m_slopeFitness:
         serializedVersion: 2
         m_Curve:

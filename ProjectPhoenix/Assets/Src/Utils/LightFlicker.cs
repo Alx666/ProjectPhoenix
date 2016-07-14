@@ -22,15 +22,11 @@ public class LightFlicker : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-
-        float facaso = 3.0f;
-
 	    if(CurrentTime >= Targettime)
         {
             LightAnimators.ForEach(hA => hA.SetTrigger("Flicker"));
             Targettime = Random.Range(0.0f, RandomTime);
             CurrentTime = 0.0f;
-            facaso = 4.0f;
         }
         else
         {
