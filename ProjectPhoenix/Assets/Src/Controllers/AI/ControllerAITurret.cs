@@ -10,7 +10,6 @@ internal class ControllerAITurret : NetworkBehaviour
 {
     public GameObject     AxeYrot;
     public GameObject     AxeXrot;
-    public GameObject     ShootLocator;
     public float          DetectionRange  = 50f;
     public float          BulletForce;
     public AnimInfo       AnimationParams;
@@ -222,7 +221,7 @@ internal class ControllerAITurret : NetworkBehaviour
                 Quaternion vYRot = Quaternion.LookRotation(vDirection);
                 m_hOwner.AxeYrot.transform.localRotation = Quaternion.Lerp(m_hOwner.AxeYrot.transform.localRotation, vYRot, m_hOwner.AnimationParams.AnimationSpeed);
 
-                Vector3 vLocToTarget = m_hOwner.m_hTarget.transform.localPosition - m_hOwner.ShootLocator.transform.localPosition;
+                Vector3 vLocToTarget = m_hOwner.m_hTarget.transform.localPosition - m_hOwner.m_hWeapon.ShootLocators[0].transform.localPosition;
 
                 float fAngle;
                 if (StateAimBallistic.Aim(m_hOwner.BulletForce, Physics.gravity.y, vLocToTarget.magnitude, vLocToTarget.y, (int)m_hOwner.Trajectory, out fAngle))

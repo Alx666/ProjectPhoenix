@@ -55,12 +55,13 @@ GameObject:
   - 4: {fileID: 457006}
   - 54: {fileID: 5490874}
   - 114: {fileID: 11497312}
-  - 114: {fileID: 11480936}
   - 114: {fileID: 11439724}
   - 114: {fileID: 11484176}
   - 114: {fileID: 11490890}
+  - 114: {fileID: 11437078}
+  - 114: {fileID: 11488004}
   m_Layer: 0
-  m_Name: VEH_HELI_002
+  m_Name: VEH_HELI_VIPER
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,6 +157,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 408518}
   m_RootOrder: 0
@@ -168,6 +170,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 406722}
   - {fileID: 425110}
@@ -182,6 +185,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.2, y: 0.5, z: 0.653}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 457006}
   m_RootOrder: 2
@@ -194,6 +198,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 3, z: 0.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 408518}
   m_RootOrder: 1
@@ -206,6 +211,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.5, y: 0.55, z: 1.238}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 457006}
   m_RootOrder: 4
@@ -218,6 +224,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.2, y: 0.5, z: 0.653}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 457006}
   m_RootOrder: 3
@@ -228,8 +235,9 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 162612}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -14.844709, y: -2.2942495e-18, z: 0.10332381}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 408518}
   - {fileID: 463132}
@@ -248,6 +256,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 457006}
   m_RootOrder: 1
@@ -260,6 +269,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.5, y: 0.55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 457006}
   m_RootOrder: 5
@@ -431,6 +441,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+--- !u!114 &11437078
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 162612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d880271a87f8c714f932422ca253cd9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RotationSpeed: 10
+  StoppingDistance: 60
+  Tolerance: 0.2
+  CURRENT_STATE: 
 --- !u!114 &11439724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -453,26 +478,6 @@ MonoBehaviour:
   BulletDelay: 0.1
   BarrageDelay: 0.3
   Barrage: 1
---- !u!114 &11480936
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 162612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c0fa37227769844698cd538d5507b68, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Forward: 119
-  Backward: 115
-  Right: 100
-  Left: 97
-  PanRight: 101
-  PanLeft: 113
-  Up: 304
-  Down: 32
-  Fire: 323
 --- !u!114 &11484176
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -505,6 +510,20 @@ MonoBehaviour:
     i15: 167
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
+--- !u!114 &11488004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 162612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df481b163f2d22c4483b784f68627bfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hp: 1000
+  Armor: 1
+  Name: 
 --- !u!114 &11490890
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -541,7 +560,8 @@ MonoBehaviour:
   MaxVelocityMagnitude: 100
   VelocityForce: 400
   VelocityRotation: 20
-  rotor: {fileID: 188942}
+  rotors: []
+  MaxRotarSpeed: 15
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

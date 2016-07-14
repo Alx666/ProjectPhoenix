@@ -86,12 +86,13 @@ GameObject:
   - 4: {fileID: 469892}
   - 54: {fileID: 5466872}
   - 114: {fileID: 11432730}
-  - 114: {fileID: 11490472}
   - 114: {fileID: 11470926}
   - 114: {fileID: 11465844}
   - 114: {fileID: 11437634}
+  - 114: {fileID: 11443892}
+  - 114: {fileID: 11493912}
   m_Layer: 0
-  m_Name: VEH_HELI_003
+  m_Name: VEH_HELI_COBRA
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -156,6 +157,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 5.13, z: -0.22347426}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 446184}
   m_RootOrder: 1
@@ -168,6 +170,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 3.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 446184}
   m_RootOrder: 0
@@ -180,6 +183,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 440378}
   - {fileID: 436764}
@@ -194,6 +198,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.35, y: 1.623, z: 0.974}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 469892}
   m_RootOrder: 4
@@ -206,6 +211,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 20, y: 0.93, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 469892}
   m_RootOrder: 1
@@ -216,8 +222,9 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 130634}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -14.119753, y: 1.0334126e-17, z: -0.4654077}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 446184}
   - {fileID: 463556}
@@ -236,6 +243,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.35, y: 1.623, z: 0.974}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 469892}
   m_RootOrder: 5
@@ -248,6 +256,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -3, y: 1.623, z: 0.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 469892}
   m_RootOrder: 2
@@ -260,6 +269,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3, y: 1.623, z: 0.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 469892}
   m_RootOrder: 3
@@ -447,7 +457,8 @@ MonoBehaviour:
   MaxVelocityMagnitude: 80
   VelocityForce: 550
   VelocityRotation: 25
-  rotor: {fileID: 186042}
+  rotors: []
+  MaxRotarSpeed: 15
 --- !u!114 &11437634
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -468,6 +479,20 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 10
   m_InterpolateMovement: 1
+--- !u!114 &11443892
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 130634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df481b163f2d22c4483b784f68627bfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hp: 1000
+  Armor: 1
+  Name: 
 --- !u!114 &11465844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -522,7 +547,7 @@ MonoBehaviour:
   BulletDelay: 0.01
   BarrageDelay: 0.1
   Barrage: 1
---- !u!114 &11490472
+--- !u!114 &11493912
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -530,18 +555,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 130634}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c0fa37227769844698cd538d5507b68, type: 3}
+  m_Script: {fileID: 11500000, guid: d880271a87f8c714f932422ca253cd9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Forward: 119
-  Backward: 115
-  Right: 100
-  Left: 97
-  PanRight: 101
-  PanLeft: 113
-  Up: 304
-  Down: 32
-  Fire: 323
+  RotationSpeed: 10
+  StoppingDistance: 60
+  Tolerance: 0.2
+  CURRENT_STATE: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
