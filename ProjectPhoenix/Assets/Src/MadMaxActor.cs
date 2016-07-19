@@ -190,6 +190,7 @@ public class MadMaxActor : Actor
         m_hColliders.ForEach(hC => hC.enabled = true);
         m_hWeapon.enabled = true;
         HealthBar.enabled = true;
+        this.gameObject.transform.up = Vector3.up;
         //m_hBomb.enabled = true;
         //m_hBomb.Reset();
 

@@ -1532,8 +1532,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8b464febcd5fc6459436cfba67a1ace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinOffset: 12
-  MaxOffset: 25
+  MinOffset: 20
+  MaxOffset: 35
   StateChanger: 324
   LerpSpeed: 10
   DofDefocus: 10
@@ -1549,8 +1549,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95aff5708fccc744db47bbfc6841dddc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BombTimer: 5
-  VelocityThreshold: 10
+  BombTimer: 7
+  VelocityThreshold: 5
   StartingFrequency: 1
   Audio: {fileID: 0}
   STATE_DEBUG: 
@@ -1589,7 +1589,7 @@ MonoBehaviour:
   CurrentSpeed: 
   Hp: 10000
   SteerAngle: 30
-  MaxSpeed: 150
+  MaxSpeed: 180
   BrakeSpeed: 20
   OverrideCOM: {x: 0, y: 0.3, z: 0}
   DriveType: 0
@@ -1690,7 +1690,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.07692308
+  m_SendInterval: 0.0625
   m_SyncRotationAxis: 2
   m_RotationSyncCompression: 0
   m_SyncSpin: 1
