@@ -16,6 +16,8 @@ public class LobbyManager : NetworkLobbyManager
     public Text             IPField;
     public Text             NameField;
     public LobbyPlayer      LocalPlayer { get; set; }
+    public GameObject LobbyUI;
+    public GameObject CreditsUI;
 
     private Dictionary<NetworkConnection, LobbyPlayer> m_hCurrentLobbyPlayers;
     private List<GameObject> m_hCurrentPlayersIntances;
@@ -62,6 +64,25 @@ public class LobbyManager : NetworkLobbyManager
         {
             return LocalPlayer.PrefabToSpawn;
         }
+    }
+
+    //Called by Credits button in lobby UI
+    public void OnCredits()
+    {
+        LobbyUI.SetActive(false);
+        CreditsUI.SetActive(true);
+    }
+    //Called by Back button in credits UI
+    public void OnBackCreditsToLobby()
+    {
+        CreditsUI.SetActive(false);
+        LobbyUI.SetActive(true);
+    }
+
+    //Called by Quit button in lobby UI
+    public void OnQuitApplication()
+    {
+        Application.Quit();
     }
     
 
