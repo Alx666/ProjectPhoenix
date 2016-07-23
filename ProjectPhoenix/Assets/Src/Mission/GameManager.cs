@@ -84,8 +84,7 @@ public class GameManager : NetworkBehaviour
 
     void Update()
     {
-        ScoreText.text = scores.Count.ToString();
-        //ScoreText.text = scores.ToList().Where(hP => hP.Key.isLocalPlayer).FirstOrDefault().Value.ToString();
+        ScoreText.text = scores.ToList().Where(hP => hP.Key.isLocalPlayer).FirstOrDefault().Value.ToString();
     }
 
     internal int GetHighestScore()
