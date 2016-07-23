@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
+public delegate void OnCreateGamePlayer(object sender, EventArgs e);
 
 public class LobbyManager : NetworkLobbyManager
 {
@@ -22,12 +23,15 @@ public class LobbyManager : NetworkLobbyManager
     private Dictionary<NetworkConnection, LobbyPlayer> m_hCurrentLobbyPlayers;
     private List<GameObject> m_hCurrentPlayersIntances;
 
+    private List<Actor> m_hActors;
+
     public static LobbyManager Instance { get; private set; }
 
     void Awake()
     {
         m_hCurrentLobbyPlayers = new Dictionary<NetworkConnection, LobbyPlayer>();
         m_hCurrentPlayersIntances = new List<GameObject>();
+        m_hActors = new List<Actor>();
         GameObject.DontDestroyOnLoad(this.gameObject);
 
         if (Instance != null)
@@ -96,6 +100,15 @@ public class LobbyManager : NetworkLobbyManager
         return hLobbyPlayer.gameObject;
     }
 
+    
+    public event OnCreateGamePlayer Created;
+
+    protected virtual void OnCreated(EventArgs e)
+    {
+        if(Created != null)
+            Created(this, e);
+    }
+
     public override GameObject OnLobbyServerCreateGamePlayer(NetworkConnection conn, short playerControllerId)
     {
         GameObject hNew = (GameObject)GameObject.Instantiate(m_hCurrentLobbyPlayers[conn].PrefabToSpawn, startPositions[conn.connectionId].position, Quaternion.identity);
@@ -103,12 +116,15 @@ public class LobbyManager : NetworkLobbyManager
         m_hCurrentPlayersIntances.Add(hNew);
 
         Actor hActor = hNew.GetComponent<Actor>();
-
-        if (!GameManager.Instance.scores.ContainsKey(hActor))
-            GameManager.Instance.scores.Add(hActor, 0);
-
+        m_hActors.Add(hActor);
+        OnCreated(EventArgs.Empty);
         return hNew;
     } 
+
+    public List<Actor> GetActors()
+    {
+        return m_hActors;
+    }
 
     public override void OnClientConnect(NetworkConnection conn)
     {
