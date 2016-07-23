@@ -509,7 +509,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 110792}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.000012627686, y: 0.29600102, z: 1.2810011}
+  m_LocalPosition: {x: -0.000012627686, y: 0.29600102, z: 1.544}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 464518}
@@ -1387,7 +1387,7 @@ MonoBehaviour:
   - {fileID: 110792}
   Mode: 0
   Spread: 0
-  BulletDelay: 0.3
+  BulletDelay: 0.7
   BarrageDelay: 0.3
   Barrage: 1
 --- !u!114 &11451436
@@ -1588,7 +1588,6 @@ MonoBehaviour:
   MaxOffset: 35
   StateChanger: 324
   LerpSpeed: 10
-  DofDefocus: 10
   DistanceFromTarget: 0.35
 --- !u!114 &11487342
 MonoBehaviour:
