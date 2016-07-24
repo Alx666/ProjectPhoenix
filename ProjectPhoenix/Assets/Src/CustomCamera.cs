@@ -22,12 +22,12 @@ public class CustomCamera : MonoBehaviour
     float currentSpeed;
 
     Transform m_hDepthOfField;
-    UnityStandardAssets.ImageEffects.DepthOfField DoF;
+    UnityStandardAssets.CinematicEffects.DepthOfField DoF;
 
     void Awake()
     {
-        DoF = this.GetComponent<UnityStandardAssets.ImageEffects.DepthOfField>();
-        m_hDepthOfField = DoF.focalTransform;
+        DoF = this.GetComponent<UnityStandardAssets.CinematicEffects.DepthOfField>();
+        m_hDepthOfField = DoF.focus.transform;
 
         Target = this.transform.root.gameObject;
 
