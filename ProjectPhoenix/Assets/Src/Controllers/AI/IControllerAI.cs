@@ -9,7 +9,4 @@ internal interface IControllerAI
     void Idle();
     void Patrol();
     void Attack();
-
-
-
 }
