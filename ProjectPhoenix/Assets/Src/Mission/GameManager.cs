@@ -84,7 +84,8 @@ public class GameManager : NetworkBehaviour
             if (!scores.ContainsKey(hActor))
                 scores.Add(hActor, 0);
 
-            m_hRadar.Add(hActor.gameObject);
+            if(hActor.gameObject != m_hRadar.Player)
+                m_hRadar.Add(hActor.gameObject);
         }
     }
 
