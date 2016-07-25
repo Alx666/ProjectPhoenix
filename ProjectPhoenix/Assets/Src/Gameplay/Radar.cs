@@ -40,6 +40,9 @@ public class Radar : MonoBehaviour
 	
 	void LateUpdate ()
     {
+        if (Player == null)
+            return;
+
         m_hFloats.Clear();
 
         Vector3 vPlayer2D = Camera.main.WorldToScreenPoint(Player.transform.position);
