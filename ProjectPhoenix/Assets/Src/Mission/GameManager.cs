@@ -21,7 +21,7 @@ public class GameManager : NetworkBehaviour
     public Dictionary<Actor, int> scores;
     private List<NetworkStartPosition> m_hSpawnPoints;
     private IVictoryCondition m_hVictoryCondition;
-
+    private List<Actor> m_hActors;
     void Awake()
     {
         if (Instance == null)
@@ -31,16 +31,44 @@ public class GameManager : NetworkBehaviour
 
         scores = new Dictionary<Actor, int>(); //TODO: popolare lista con i player [Compito del lobby manager]
         m_hSpawnPoints = new List<NetworkStartPosition>(FindObjectsOfType<NetworkStartPosition>());
+
+        
     }
     
+
     void Start()
     {
+        m_hActors = new List<Actor>(LobbyManager.Instance.GetActors());
+        if (m_hActors != null)
+        {
+            m_hActors.ForEach(hA =>
+            {
+                if (!scores.ContainsKey(hA))
+                    scores.Add(hA, 0);
+            });
+        }
+
+        LobbyManager.Instance.Created += Instance_Created;
+
         //ToDo: Rendere victory condition generica
         m_hVictoryCondition = new DeathMatchWinCondition(ScoreToWin);
 
         Cursor.SetCursor(InGameMouseCursor, new Vector2(16, 16), CursorMode.Auto);
     }
 
+    private void Instance_Created(object sender, EventArgs e)
+    {
+        m_hActors = new List<Actor>(LobbyManager.Instance.GetActors());
+        if (m_hActors != null)
+        {
+            m_hActors.ForEach(hA =>
+            {
+                if (!scores.ContainsKey(hA))
+                    scores.Add(hA, 0);
+            });
+        }
+    }
+    
     [ClientRpc]
     public void RpcSyncPlayer(NetworkInstanceId[] hId)
     {
@@ -51,6 +79,8 @@ public class GameManager : NetworkBehaviour
                 scores.Add(hActor, 0);
         }
     }
+
+
 
     void Update()
     {

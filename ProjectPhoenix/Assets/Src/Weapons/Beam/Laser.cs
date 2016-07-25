@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 [RequireComponent(typeof(LineRenderer))]
-public class  Laser : MonoBehaviour, IBeam
+public class Laser : MonoBehaviour, IBeam
 {
     public float DPS;
     public Actor Owner { get; set; }
@@ -38,6 +38,7 @@ public class  Laser : MonoBehaviour, IBeam
     float initialBeamOffset;        // Initial UV offset 
 
     private bool bDone;
+    private AudioSource LaserSound;
     void Awake()
     {
         Owner = GetComponent<Actor>();
@@ -49,6 +50,7 @@ public class  Laser : MonoBehaviour, IBeam
 
         // Randomize uv offset
         initialBeamOffset = UnityEngine.Random.Range(0f, 5f);
+        LaserSound = this.GetComponent<AudioSource>();
     }
 
     void OnSpawned()
@@ -60,7 +62,7 @@ public class  Laser : MonoBehaviour, IBeam
         // Start oscillation sequence
         if (Oscillate && Points > 0)
             OscillateTimerID = TimeUtils.time.AddTimer(OscillateTime, OnOscillate);
-        
+
         // Play audio
         //if (F3DAudioController.instance)
         //    F3DAudioController.instance.LightningGunLoop(transform.position, transform);
@@ -229,6 +231,9 @@ public class  Laser : MonoBehaviour, IBeam
         this.gameObject.transform.forward = vDir;
 
         m_hLineRenderer.enabled = true;
+        //TODO: Lerp Volume!!!
+        if (!LaserSound.isPlaying)
+            LaserSound.Play();
 
         if (!bDone)
         {
@@ -245,7 +250,8 @@ public class  Laser : MonoBehaviour, IBeam
     public void Disable()
     {
         m_hLineRenderer.enabled = false;
-
+        //TODO: Lerp Volume!!!
+        LaserSound.Stop();
         rayImpact.GetComponent<ParticleSystem>().Stop();
         rayMuzzle.GetComponent<ParticleSystem>().Stop();
 

@@ -9,7 +9,6 @@ public class CustomCamera : MonoBehaviour
     public float MaxOffset = 40.0f;
     public KeyCode StateChanger = KeyCode.Mouse1;
     public float LerpSpeed = 10f;
-    public float DofDefocus = 10f;
 
     [Range(0, 1)]
     public float DistanceFromTarget = 0.3f;
@@ -23,12 +22,12 @@ public class CustomCamera : MonoBehaviour
     float currentSpeed;
 
     Transform m_hDepthOfField;
-    UnityStandardAssets.ImageEffects.DepthOfField DoF;
+    UnityStandardAssets.CinematicEffects.DepthOfField DoF;
 
     void Awake()
     {
-        DoF = this.GetComponent<UnityStandardAssets.ImageEffects.DepthOfField>();
-        m_hDepthOfField = DoF.focalTransform;
+        DoF = this.GetComponent<UnityStandardAssets.CinematicEffects.DepthOfField>();
+        m_hDepthOfField = DoF.focus.transform;
 
         Target = this.transform.root.gameObject;
 
@@ -124,9 +123,12 @@ public class CustomCamera : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+        float DofIncrement;
+
         if (Physics.Raycast(ray, out hit))
         {
-            m_hDepthOfField.position = new Vector3(hit.point.x, Target.transform.position.y + DofDefocus, hit.point.z);
+            DofIncrement = Mathf.Abs((new Vector3(hit.point.x, Target.transform.position.y, hit.point.z) - Target.transform.position).magnitude) / 5f;
+            m_hDepthOfField.position = new Vector3(hit.point.x, Target.transform.position.y + DofIncrement, hit.point.z);
         }
     }
 }

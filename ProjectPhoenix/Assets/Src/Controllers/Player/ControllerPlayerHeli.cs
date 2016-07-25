@@ -12,7 +12,6 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
     public float MaxHeight;
     public float MaxVelocityMagnitude;
     public float HorizontalVelocityForce;
-    public float VerticalVelocityForce;
     public float VelocityRotation;
     public List<GameObject> rotors;
     public float MaxRotarSpeed = 15f;
@@ -82,19 +81,21 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
 
     private void LiftProcess()
     {
+        Vector3 engine = new Vector3(0f, engineForce, 0f);
         Ray currentHeight = new Ray(this.transform.position, Vector3.down);
         RaycastHit vHit;
         Physics.Raycast(currentHeight, out vHit);
-        targetHeight = this.transform.position.y + (MaxHeight - vHit.distance);
 
-        var upForce = 1f - Mathf.Clamp01(this.transform.position.y / targetHeight);
-        upForce = Mathf.Lerp(0f, engineForce, upForce) * mass;
-        this.HeliRigidBody.AddForce(Vector3.up * upForce);
+        //var upForce = 1f - Mathf.Clamp01(this.transform.position.y / targetHeight);
+        //upForce = Mathf.Lerp(0f, engineForce, upForce) * mass;
+        //this.HeliRigidBody.AddForce(Vector3.up * upForce);
+
+        this.transform.Translate(engine * MaxHeight * Mathf.Clamp01(MaxHeight - vHit.distance) * Time.deltaTime);
     }
     private void Move()
     {
-        this.HeliRigidBody.AddForce(HeliRigidBody.transform.forward * HorizontalVelocityForce * forwardForce);
-        this.HeliRigidBody.AddForce(HeliRigidBody.transform.right * HorizontalVelocityForce * strafeForce);
+        this.HeliRigidBody.AddForce(HeliRigidBody.transform.forward * HorizontalVelocityForce * forwardForce, ForceMode.VelocityChange);
+        this.HeliRigidBody.AddForce(HeliRigidBody.transform.right * HorizontalVelocityForce * strafeForce, ForceMode.VelocityChange);
         this.HeliRigidBody.velocity = Vector3.ClampMagnitude(this.HeliRigidBody.velocity, MaxVelocityMagnitude);
     }
     private void Inclination()
@@ -179,7 +180,7 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
     public void BeginUp()
     {
         this.isGrounded = false;
-        this.engineForce = VerticalVelocityForce;
+        this.engineForce = 1f;
     }
 
     public void EndBackward()
