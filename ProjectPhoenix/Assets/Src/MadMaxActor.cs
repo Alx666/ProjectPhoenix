@@ -30,6 +30,8 @@ public class MadMaxActor : Actor
     [Range(0.01f, 1f)]
     public float HpBarScale = 0.01f;
 
+    public GameObject DeathExplosionPrefab;
+
     //DAMAGE ON IMPACT REGION
     [Tooltip("Max Damage get by Impact between to MadMaxActors")]
     public float ImpactMaxDamage = 10f;
@@ -148,6 +150,16 @@ public class MadMaxActor : Actor
     public override void Die(Actor Killer)
     {
 		GameManager.Instance.WoW( Killer, this );
+
+        if (this.DeathExplosionPrefab != null)
+        {
+            ParticleVfx vExplosion = GlobalFactory.GetInstance<ParticleVfx>(DeathExplosionPrefab);
+            Vector3 vDirection = Random.insideUnitSphere;
+            vDirection.y = 0;
+            vDirection.Normalize();
+            vExplosion.PlayEffect(this.transform.position, vDirection, 1.0f, false);
+        }
+
         //m_hDisassembler.Explode(10f, 20f);
         m_hRigidbody.isKinematic = true;
         m_hWeapon.enabled = false;
