@@ -167,7 +167,6 @@ public class ProviderAIWheels : MonoBehaviour, IControllerAI
             if (pois.Count > 0)
             {
                 poi = pois.Dequeue();
-                //Debug.Log(this.owner.gameObject.name + "DEQUEUED");
             }
             else
             {
