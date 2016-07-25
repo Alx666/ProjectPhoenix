@@ -22,6 +22,8 @@ public class GameManager : NetworkBehaviour
     private List<NetworkStartPosition> m_hSpawnPoints;
     private IVictoryCondition m_hVictoryCondition;
     private List<Actor> m_hActors;
+    private Radar m_hRadar;
+
     void Awake()
     {
         if (Instance == null)
@@ -38,6 +40,10 @@ public class GameManager : NetworkBehaviour
 
     void Start()
     {
+        CustomCamera hCamera = GameObject.FindObjectOfType<CustomCamera>();
+        m_hRadar = this.GetComponent<Radar>();
+        m_hRadar.Player = hCamera.Target;
+
         m_hActors = new List<Actor>(LobbyManager.Instance.GetActors());
         if (m_hActors != null)
         {
@@ -77,6 +83,8 @@ public class GameManager : NetworkBehaviour
             Actor hActor = ClientScene.FindLocalObject(hId[i]).GetComponent<Actor>();
             if (!scores.ContainsKey(hActor))
                 scores.Add(hActor, 0);
+
+            m_hRadar.Add(hActor.gameObject);
         }
     }
 

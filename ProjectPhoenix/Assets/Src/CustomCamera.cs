@@ -13,7 +13,7 @@ public class CustomCamera : MonoBehaviour
     [Range(0, 1)]
     public float DistanceFromTarget = 0.3f;
 
-    GameObject Target;
+    public GameObject Target { get; private set; }
     Vector3 Offset;
     Vector3 tempOffset;
     Vector3 stdOffset;
