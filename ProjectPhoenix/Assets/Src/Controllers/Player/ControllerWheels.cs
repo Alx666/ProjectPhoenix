@@ -19,7 +19,7 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
     public bool OverrideCenterOfMass;
     public bool SyncGfxWheels;
 
-    public string CurrentSpeed = string.Empty;
+    public float CurrentSpeed;
 
     public float Hp = 100f;
     public float SteerAngle = 30f;
@@ -132,7 +132,7 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
         if (!IsFlying && this.transform.up.y < 0)
             StartCoroutine(WaitForFlipper(4));
 
-        CurrentSpeed = (m_hRigidbody.velocity.magnitude * 3.6f).ToString();
+        CurrentSpeed = (m_hRigidbody.velocity.magnitude * 3.6f);
 
         m_hFlyState = m_hFlyState.Update();
     }
