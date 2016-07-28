@@ -31,15 +31,8 @@ public class MadMaxCarAudio1 : MonoBehaviour
 
         DEBUG_GEARINDEX = hGear.MaxChangeSpeed;
 
-        if (m_hWheelCtrl.IsFlying)
-        {
-            m_hAudioSource.pitch = Mathf.Lerp(m_hAudioSource.pitch, Gears[0].MinPitchValue, Time.deltaTime);
-        }
-        else
-        {
-            m_hAudioSource.pitch = Revs(m_hWheelCtrl.CurrentSpeed, hGear.MaxChangeSpeed, hGear.MaxPitchValue, hGear.MinPitchValue);
-        }
-
+        if(!m_hWheelCtrl.IsFlying && !m_hWheelCtrl.m_hRight && !m_hWheelCtrl.m_hLeft)
+            m_hAudioSource.pitch = Revs(m_hWheelCtrl.CurrentSpeed, hGear.MaxChangeSpeed, hGear.Amplitude, hGear.Addendum);
     }
 
     private AudioSource SetUpEngineAudioSource(AudioClip clip)
@@ -74,7 +67,7 @@ public class MadMaxCarAudio1 : MonoBehaviour
     {
         public float MinChangeSpeed;
         public float MaxChangeSpeed;
-        public float MinPitchValue;
-        public float MaxPitchValue;
+        public float Addendum;
+        public float Amplitude;
     }
 }
