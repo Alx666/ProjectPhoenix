@@ -1501,7 +1501,7 @@ MonoBehaviour:
   OverrideCenterOfMass: 1
   SyncGfxWheels: 1
   CurrentSpeed: 0
-  Hp: 5000
+  Hp: 10000
   SteerAngle: 30
   MaxSpeed: 200
   BrakeSpeed: 20
@@ -1814,16 +1814,16 @@ MonoBehaviour:
   Gears:
   - MinChangeSpeed: 0
     MaxChangeSpeed: 60
-    MinPitchValue: 0.8
-    MaxPitchValue: 0.4
-  - MinChangeSpeed: 40
+    Addendum: 0.6
+    Amplitude: 1
+  - MinChangeSpeed: 60
     MaxChangeSpeed: 120
-    MinPitchValue: 0.8
-    MaxPitchValue: 0.3
+    Addendum: 0.5
+    Amplitude: 0.8
   - MinChangeSpeed: 120
-    MaxChangeSpeed: 180
-    MinPitchValue: 0.8
-    MaxPitchValue: 0.25
+    MaxChangeSpeed: 200
+    Addendum: 0.4
+    Amplitude: 0.7
   Clip: {fileID: 8300000, guid: 03e3bd08a6e70684dbe299a3e185fdd2, type: 3}
   MaxRolloffDistance: 500
   DEBUG_GEARINDEX: 0
