@@ -225,7 +225,7 @@ GameObject:
   - 114: {fileID: 11401692}
   - 114: {fileID: 11461616}
   - 114: {fileID: 11419236}
-  - 114: {fileID: 11453028}
+  - 114: {fileID: 11465160}
   m_Layer: 0
   m_Name: VEH_WHEEL_CAMARONUNZIO
   m_TagString: Untagged
@@ -1501,7 +1501,7 @@ MonoBehaviour:
   OverrideCenterOfMass: 1
   SyncGfxWheels: 1
   CurrentSpeed: 0
-  Hp: 10000
+  Hp: 5000
   SteerAngle: 30
   MaxSpeed: 200
   BrakeSpeed: 20
@@ -1740,44 +1740,6 @@ MonoBehaviour:
   m_SnapThreshold: 5
   m_InterpolateRotation: 10
   m_InterpolateMovement: 1
---- !u!114 &11453028
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 143454}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c81988821134a91418c0658bcf3035fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Gears:
-  - ChangeSpeed: 65
-    Amplitude: 1
-    Addendum: 0
-  - ChangeSpeed: 107
-    Amplitude: 0.8
-    Addendum: 0.1
-  - ChangeSpeed: 153
-    Amplitude: 0.6
-    Addendum: 0.2
-  - ChangeSpeed: 160
-    Amplitude: 0.5
-    Addendum: 0.3
-  - ChangeSpeed: 1000
-    Amplitude: 0.4
-    Addendum: 0.3
-  HighAccelClip: {fileID: 8300000, guid: 189e13e28fb7f494ba3838275ee2f1b5, type: 3}
-  HighDecelClip: {fileID: 8300000, guid: 189e13e28fb7f494ba3838275ee2f1b5, type: 3}
-  LowAccelClip: {fileID: 8300000, guid: 189e13e28fb7f494ba3838275ee2f1b5, type: 3}
-  LowDecelClip: {fileID: 8300000, guid: 189e13e28fb7f494ba3838275ee2f1b5, type: 3}
-  PitchMultiplier: 1
-  LowPitchMin: 1
-  LowPitchMax: 6
-  HighPitchMultiplier: 0.25
-  MaxRolloffDistance: 500
-  AccelerationCoeff: 10
-  DEBUG_GEARINDEX: 0
 --- !u!114 &11461150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1838,6 +1800,33 @@ MonoBehaviour:
   Up: 304
   Stop: 32
   Fire: 323
+--- !u!114 &11465160
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b4a52d7ec61e2f4cba3fb0dbc8029e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Gears:
+  - MinChangeSpeed: 0
+    MaxChangeSpeed: 60
+    MinPitchValue: 0.8
+    MaxPitchValue: 0.4
+  - MinChangeSpeed: 40
+    MaxChangeSpeed: 120
+    MinPitchValue: 0.8
+    MaxPitchValue: 0.3
+  - MinChangeSpeed: 120
+    MaxChangeSpeed: 180
+    MinPitchValue: 0.8
+    MaxPitchValue: 0.25
+  Clip: {fileID: 8300000, guid: 03e3bd08a6e70684dbe299a3e185fdd2, type: 3}
+  MaxRolloffDistance: 500
+  DEBUG_GEARINDEX: 0
 --- !u!114 &11467096
 MonoBehaviour:
   m_ObjectHideFlags: 1
