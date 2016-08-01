@@ -712,6 +712,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11483462, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
+      propertyPath: m_SpawnPrefabs.Array.size
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 22400154, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -808,6 +812,42 @@ Prefab:
       propertyPath: m_Text
       value: Giacomo Caneschi - lead 3D art, design
       objectReference: {fileID: 0}
+    - target: {fileID: 11483462, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[27]
+      value: 
+      objectReference: {fileID: 149850, guid: 051988ea49acba84cb0315584179fce0, type: 2}
+    - target: {fileID: 11483462, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[21]
+      value: 
+      objectReference: {fileID: 142960, guid: 18857832037215c4c84bcae2c7d12896, type: 2}
+    - target: {fileID: 11483462, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[22]
+      value: 
+      objectReference: {fileID: 199474, guid: 39329436ee4914542b2b363853fbf157, type: 2}
+    - target: {fileID: 11483462, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[23]
+      value: 
+      objectReference: {fileID: 165722, guid: 00f68ed76c3dcf546a8367f23a0fc6e4, type: 2}
+    - target: {fileID: 11483462, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[24]
+      value: 
+      objectReference: {fileID: 142000, guid: b12e34c87a2330b46a2a322ec79374f9, type: 2}
+    - target: {fileID: 11483462, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[25]
+      value: 
+      objectReference: {fileID: 163644, guid: 6407bb3b5de2c6e4ab492287fe140550, type: 2}
+    - target: {fileID: 11483462, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[26]
+      value: 
+      objectReference: {fileID: 148604, guid: c0cf99ad894d3fa4ab35643ac616d1ac, type: 2}
+    - target: {fileID: 11483462, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[28]
+      value: 
+      objectReference: {fileID: 176136, guid: 9bf00b32f6c4d684aa7e68c0b74921bd, type: 2}
+    - target: {fileID: 11483462, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
+      propertyPath: m_SpawnPrefabs.Array.data[29]
+      value: 
+      objectReference: {fileID: 100000, guid: c74bc7ee383205642a1d19ea4091c0de, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
   m_IsPrefabParent: 0
@@ -5482,7 +5522,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 813709855}
-  m_LocalRotation: {x: 0.14533988, y: 0.72450703, z: -0.58584106, w: 0.33280072}
+  m_LocalRotation: {x: 0.14533986, y: 0.724507, z: -0.585841, w: 0.3328007}
   m_LocalPosition: {x: -0.422, y: 5.562, z: -7.123}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -14629,6 +14669,7 @@ MonoBehaviour:
   - {fileID: 169638, guid: b08c86c6725a0864da4fb6174a4b0e49, type: 2}
   - {fileID: 199560, guid: 43386f112611af2479365151b4cde6d3, type: 2}
   - {fileID: 145504, guid: b52ba5572029c5b4788a3891072aa5de, type: 2}
+  - {fileID: 135206, guid: cd74f06e31f440049a4d765f84d2bf1d, type: 2}
   - {fileID: 144456, guid: f4066a23d42bac34d83e7d448520ed2d, type: 2}
   SpawnPosition: {fileID: 1150889578}
   CurrentPosition: {fileID: 1246886322}

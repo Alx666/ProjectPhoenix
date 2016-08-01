@@ -1686,7 +1686,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OverrideCenterOfMass: 1
   SyncGfxWheels: 1
-  CurrentSpeed: 
+  CurrentSpeed: 0
   Hp: 10000
   SteerAngle: 30
   MaxSpeed: 180
@@ -1795,6 +1795,7 @@ MonoBehaviour:
   HPBarOffset: 4
   HpBarLerp: 100
   HpBarScale: 0.017
+  DeathExplosionPrefab: {fileID: 164480, guid: 255444e2a7fae0e41acfa7b6e014f94a, type: 2}
   ImpactMaxDamage: 10
   ImpactCoolDownTime: 1
 --- !u!114 &11486252

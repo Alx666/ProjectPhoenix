@@ -140,6 +140,7 @@ GameObject:
   - 114: {fileID: 11414246}
   - 114: {fileID: 11460762}
   - 114: {fileID: 11421430}
+  - 114: {fileID: 11485428}
   m_Layer: 0
   m_Name: VEH_WHEEL_CAMAROELISA
   m_TagString: Untagged
@@ -1465,7 +1466,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OverrideCenterOfMass: 1
   SyncGfxWheels: 1
-  CurrentSpeed: 
+  CurrentSpeed: 0
   Hp: 10000
   SteerAngle: 30
   MaxSpeed: 200
@@ -1866,6 +1867,7 @@ MonoBehaviour:
   HPBarOffset: 4
   HpBarLerp: 100
   HpBarScale: 0.017
+  DeathExplosionPrefab: {fileID: 164480, guid: 255444e2a7fae0e41acfa7b6e014f94a, type: 2}
   ImpactMaxDamage: 10
   ImpactCoolDownTime: 1
 --- !u!114 &11465962
@@ -1980,6 +1982,41 @@ MonoBehaviour:
     type: 3}
   m_TextureBokehShader: {fileID: 4800000, guid: c961b8ed1f00f924d804ada5143bd0e8,
     type: 3}
+--- !u!114 &11485428
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 121866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c81988821134a91418c0658bcf3035fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Gears:
+  - ChangeSpeed: 65
+    Amplitude: 1
+    Addendum: 0
+  - ChangeSpeed: 0
+    Amplitude: 0
+    Addendum: 0
+  - ChangeSpeed: 0
+    Amplitude: 0
+    Addendum: 0
+  - ChangeSpeed: 0
+    Amplitude: 0
+    Addendum: 0
+  HighAccelClip: {fileID: 0}
+  HighDecelClip: {fileID: 0}
+  LowAccelClip: {fileID: 0}
+  LowDecelClip: {fileID: 0}
+  PitchMultiplier: 1
+  LowPitchMin: 1
+  LowPitchMax: 6
+  HighPitchMultiplier: 0.25
+  MaxRolloffDistance: 500
+  AccelerationCoeff: 0
+  DEBUG_GEARINDEX: 0
 --- !u!114 &11491790
 MonoBehaviour:
   m_ObjectHideFlags: 1
