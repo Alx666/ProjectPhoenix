@@ -5,7 +5,8 @@ using System.Linq;
 
 public class MadMaxCarAudio : MonoBehaviour
 {
-    public List<Gear> Gears;
+    public AnimationCurve Curve;
+
 
     public AudioClip    HighAccelClip;
     public AudioClip    HighDecelClip;
@@ -42,10 +43,7 @@ public class MadMaxCarAudio : MonoBehaviour
         m_hHighAccel    = SetUpEngineAudioSource(HighAccelClip);
         m_hHighDecel    = SetUpEngineAudioSource(HighDecelClip);
         m_hLowAccel     = SetUpEngineAudioSource(LowAccelClip);
-        m_hLowDecel     = SetUpEngineAudioSource(LowDecelClip);
-
-        m_fChange = m_fMaxSpeed / Gears.Count;
-        Gears = Gears.OrderBy(hG => hG.ChangeSpeed).ToList();
+        m_hLowDecel     = SetUpEngineAudioSource(LowDecelClip);              
     }
 
 
@@ -63,46 +61,34 @@ public class MadMaxCarAudio : MonoBehaviour
 
         m_fAcceleration = (m_fSpeed - m_hWheelCtrl.CurrentSpeed) * AccelerationCoeff;
 
-        Gear hGear  = Gears.Where(hG => m_fSpeed < hG.ChangeSpeed).FirstOrDefault();
-        if (hGear == null)
-            hGear = Gears.Last();
-                
-        float pitch = ULerp(LowPitchMin, LowPitchMax, Revs(m_fSpeed, m_fChange, hGear.Amplitude, hGear.Addendum));
 
-        if (false)
-        {
-            m_hHighAccel.pitch = pitch * PitchMultiplier * HighPitchMultiplier;
-            m_hHighAccel.volume = 1;            
-        }
-        else
-        {
-            m_hLowAccel.pitch  = pitch * PitchMultiplier;
-            m_hLowDecel.pitch  = pitch * PitchMultiplier;
-            m_hHighAccel.pitch = pitch * HighPitchMultiplier * PitchMultiplier;
-            m_hHighDecel.pitch = pitch * HighPitchMultiplier * PitchMultiplier;
+        float pitch = Curve.Evaluate(m_fSpeed);
 
-            // get values for fading the sounds based on the acceleration
-            float accFade = Mathf.Abs(1);
-            float decFade = 1 - accFade;
 
-            // get the high fade value based on the cars revs
-            float highFade = Mathf.InverseLerp(0.2f, 0.8f, Revs(m_fSpeed, m_fChange, hGear.Amplitude, hGear.Addendum));
-            float lowFade = 1 - highFade;
+        m_hLowAccel.pitch = pitch * PitchMultiplier;
+        m_hLowDecel.pitch = pitch * PitchMultiplier;
+        m_hHighAccel.pitch = pitch * HighPitchMultiplier * PitchMultiplier;
+        m_hHighDecel.pitch = pitch * HighPitchMultiplier * PitchMultiplier;
 
-            // adjust the values to be more realistic
-            highFade = 1 - ((1 - highFade) * (1 - highFade));
-            lowFade = 1 - ((1 - lowFade) * (1 - lowFade));
-            accFade = 1 - ((1 - accFade) * (1 - accFade));
-            decFade = 1 - ((1 - decFade) * (1 - decFade));
+        // get values for fading the sounds based on the acceleration
+        float accFade = Mathf.Abs(1);
+        float decFade = 1 - accFade;
 
-            // adjust the source volumes based on the fade values
-            m_hLowAccel.volume = lowFade * accFade;
-            m_hLowDecel.volume = lowFade * decFade;
-            m_hHighAccel.volume = highFade * accFade;
-            m_hHighDecel.volume = highFade * decFade;
-        }
+        // get the high fade value based on the cars revs
+        float highFade = Mathf.InverseLerp(0.2f, 0.8f, pitch);
+        float lowFade = 1 - highFade;
 
-        DEBUG_GEARINDEX = hGear.ChangeSpeed;
+        // adjust the values to be more realistic
+        highFade = 1 - ((1 - highFade) * (1 - highFade));
+        lowFade = 1 - ((1 - lowFade) * (1 - lowFade));
+        accFade = 1 - ((1 - accFade) * (1 - accFade));
+        decFade = 1 - ((1 - decFade) * (1 - decFade));
+
+        // adjust the source volumes based on the fade values
+        m_hLowAccel.volume = lowFade * accFade;
+        m_hLowDecel.volume = lowFade * decFade;
+        m_hHighAccel.volume = highFade * accFade;
+        m_hHighDecel.volume = highFade * decFade;
     }
 
     
@@ -131,13 +117,5 @@ public class MadMaxCarAudio : MonoBehaviour
     private static float Revs(float fSpeed, float fPeriod, float fAmplitude, float fAddendum)
     {
         return fAmplitude * (fSpeed / fPeriod - Mathf.Floor(fSpeed / fPeriod)) + fAddendum;
-    }
-
-    [Serializable]
-    public class Gear
-    {
-        public float ChangeSpeed;
-        public float Amplitude;
-        public float Addendum;
     }
 }
