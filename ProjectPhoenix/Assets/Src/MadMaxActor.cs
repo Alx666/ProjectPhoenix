@@ -9,7 +9,7 @@ public class MadMaxActor : Actor
     [SyncVar]
     private float currentHealth;
 
-	private Canvas HealthBar;
+    private Canvas HealthBar;
     private Slider m_hHpSlider;
     private RectTransform m_hSliderRectTransform;
     //private MeshDisassembler m_hDisassembler;
@@ -20,6 +20,7 @@ public class MadMaxActor : Actor
     private MonoBehaviour m_hWeapon;
     private List<Renderer> m_hRenderers;
     private List<Collider> m_hColliders;
+    private Vector3 PlayableCenterOfMass;
 
     [Header("Health Bar Config")]
     public HealthBarMode HpBarMode = HealthBarMode.WorldSpace;
@@ -42,7 +43,7 @@ public class MadMaxActor : Actor
     public bool IsDead { get; internal set; }
 
     void Awake()
-	{
+    {
         #region Initialize stuff
         currentHealth = Hp;
         HealthBar = this.GetComponentInChildren<Canvas>();
@@ -63,6 +64,7 @@ public class MadMaxActor : Actor
         m_hBomb = GetComponent<DeathBomb>();
 
         impactCoolDownActors = new LinkedList<MadMaxActor>();
+        PlayableCenterOfMass = m_hRigidbody.centerOfMass;
 
         #endregion
 
@@ -94,10 +96,14 @@ public class MadMaxActor : Actor
     void Update()
     {
         m_hHpSlider.value = Mathf.Clamp(currentHealth, 0f, base.Hp); //TODO: Make RPC
+
+        //debug
+        if (Input.GetKeyDown(KeyCode.Space))
+            this.Die(this);
     }
 
-	void LateUpdate()
-	{
+    void LateUpdate()
+    {
         Vector3 vHealthPosition;
 
         if (HpBarMode == HealthBarMode.WorldSpace)
@@ -112,7 +118,7 @@ public class MadMaxActor : Actor
         }
 
         Vector3 vCurrentHealthPosition = m_hSliderRectTransform.position;
-        m_hSliderRectTransform.position = Vector3.Lerp(vCurrentHealthPosition, vHealthPosition, Time.deltaTime * HpBarLerp);        
+        m_hSliderRectTransform.position = Vector3.Lerp(vCurrentHealthPosition, vHealthPosition, Time.deltaTime * HpBarLerp);
     }
 
     public override void Damage(IDamageSource hSource)
@@ -123,7 +129,7 @@ public class MadMaxActor : Actor
         LastActor = hSource.Owner;
 
         this.currentHealth -= hSource.GetDamage(this.Armor);
-        
+
         if (this.currentHealth <= 0f)
         {
             HealthBar.enabled = false;
@@ -149,7 +155,7 @@ public class MadMaxActor : Actor
 
     public override void Die(Actor Killer)
     {
-		GameManager.Instance.WoW( Killer, this );
+        GameManager.Instance.WoW(Killer, this);
 
         if (this.DeathExplosionPrefab != null)
         {
@@ -161,7 +167,7 @@ public class MadMaxActor : Actor
         }
 
         //m_hDisassembler.Explode(10f, 20f);
-        m_hRigidbody.isKinematic = true;
+        //m_hRigidbody.isKinematic = true;
         m_hWeapon.enabled = false;
         m_hWeapon.GetComponent<Weapon>().Reset();
         //m_hBomb.enabled = false;
@@ -173,13 +179,21 @@ public class MadMaxActor : Actor
             m_hProvider.enabled = false;
         }
 
-        m_hRenderers.ForEach(hR => hR.enabled = false);
-        m_hColliders.ForEach(hC => hC.enabled = false);
+        //m_hRenderers.ForEach(hR => hR.enabled = false);
+        //m_hColliders.ForEach(hC => hC.enabled = false);
+        
+        m_hRigidbody.ResetCenterOfMass();
+        m_hRigidbody.AddForce(Vector3.up * 12f, ForceMode.VelocityChange);
+        m_hRigidbody.AddTorque(Random.rotation.eulerAngles * 10f, ForceMode.VelocityChange);
+        Physics.OverlapSphere(this.transform.position, 10f).Select(x => x.GetComponent<Rigidbody>()).Where(x => x != null).ToList().ForEach(x => x.AddExplosionForce(10f, this.transform.position, 0f));
+        //this.m_hController.enabled = false;
+        
+
         StartCoroutine(WaitForRespawn(GameManager.Instance.RespawnTime));
 
         this.IsDead = true;
     }
-    
+
     [ClientRpc]
     public void RpcDie(NetworkInstanceId hID)
     {
@@ -203,10 +217,13 @@ public class MadMaxActor : Actor
         m_hWeapon.enabled = true;
         HealthBar.enabled = true;
         this.gameObject.transform.up = Vector3.up;
+        m_hRigidbody.centerOfMass = PlayableCenterOfMass;
+        m_hRigidbody.velocity = Vector3.zero;
+        m_hRigidbody.angularVelocity = Vector3.zero;
         //m_hBomb.enabled = true;
         //m_hBomb.Reset();
 
-        if(isLocalPlayer)
+        if (isLocalPlayer)
         {
             m_hController.enabled = true;
             m_hProvider.enabled = true;

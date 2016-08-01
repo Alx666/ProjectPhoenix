@@ -13,8 +13,6 @@ public class MadMaxCarAudio : MonoBehaviour
     public AudioClip    LowAccelClip;
     public AudioClip    LowDecelClip;
     public float        PitchMultiplier        = 1f; 
-    public float        LowPitchMin            = 1f; 
-    public float        LowPitchMax            = 6f;
     public float        HighPitchMultiplier    = 0.25f;      
     public float        MaxRolloffDistance     = 500;         
    

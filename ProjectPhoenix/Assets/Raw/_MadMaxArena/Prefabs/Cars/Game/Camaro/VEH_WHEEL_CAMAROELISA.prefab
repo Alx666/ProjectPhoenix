@@ -1993,27 +1993,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c81988821134a91418c0658bcf3035fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Gears:
-  - ChangeSpeed: 65
-    Amplitude: 1
-    Addendum: 0
-  - ChangeSpeed: 0
-    Amplitude: 0
-    Addendum: 0
-  - ChangeSpeed: 0
-    Amplitude: 0
-    Addendum: 0
-  - ChangeSpeed: 0
-    Amplitude: 0
-    Addendum: 0
-  HighAccelClip: {fileID: 0}
-  HighDecelClip: {fileID: 0}
-  LowAccelClip: {fileID: 0}
-  LowDecelClip: {fileID: 0}
+  Curve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0.4
+      inSlope: 0.00014089976
+      outSlope: 0.00014089976
+      tangentMode: 0
+    - time: 68.417465
+      value: 0.9936827
+      inSlope: 0.02046285
+      outSlope: Infinity
+      tangentMode: 25
+    - time: 68.861946
+      value: 0.5936827
+      inSlope: Infinity
+      outSlope: -0.00009491966
+      tangentMode: 7
+    - time: 117.2768
+      value: 0.9978942
+      inSlope: 0.019071652
+      outSlope: Infinity
+      tangentMode: 25
+    - time: 117.7768
+      value: 0.59789425
+      inSlope: Infinity
+      outSlope: 0.000054958153
+      tangentMode: 7
+    - time: 165.16017
+      value: 0.9978942
+      inSlope: 0.0108020855
+      outSlope: Infinity
+      tangentMode: 25
+    - time: 165.6699
+      value: 0.59789425
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 7
+    - time: 200.38992
+      value: 0.9938918
+      inSlope: 0.00899732
+      outSlope: 0.0031344087
+      tangentMode: 1
+    - time: 273.73398
+      value: 0.989396
+      inSlope: -0.00031917405
+      outSlope: -0.00031917405
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  HighAccelClip: {fileID: 8300000, guid: 03e3bd08a6e70684dbe299a3e185fdd2, type: 3}
+  HighDecelClip: {fileID: 8300000, guid: 03bf91d88fce91c41995d27de63cc967, type: 3}
+  LowAccelClip: {fileID: 8300000, guid: c4d8928c75c21af43998193f0f038429, type: 3}
+  LowDecelClip: {fileID: 8300000, guid: 5699dddcce16c4543b95951c4ce0e092, type: 3}
   PitchMultiplier: 1
-  LowPitchMin: 1
-  LowPitchMax: 6
-  HighPitchMultiplier: 0.25
+  HighPitchMultiplier: 0.65
   MaxRolloffDistance: 500
   AccelerationCoeff: 0
   DEBUG_GEARINDEX: 0
