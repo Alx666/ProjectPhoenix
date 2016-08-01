@@ -14,6 +14,7 @@ public class DeathPlane : MonoBehaviour
     void OnTriggerEnter(Collider hColl)
     {
         Actor hActor = hColl.transform.root.GetComponent<Actor>();
-        hActor.Die(hActor);
+        if(hActor != null)
+            hActor.Die(hActor);
     }
 }
