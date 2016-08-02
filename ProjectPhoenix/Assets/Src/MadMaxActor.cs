@@ -43,7 +43,7 @@ public class MadMaxActor : Actor
    private  ControllerWheels wheels;
 
 
-    public bool IsDead { get; internal set; }
+    
 
     void Awake()
     {

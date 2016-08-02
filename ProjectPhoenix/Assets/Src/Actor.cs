@@ -30,9 +30,11 @@ public class Actor : NetworkBehaviour, IDamageable
     {
 
     }
+    public bool IsDead { get; protected set; }
 
     public virtual void Die(Actor Killer)
     {
+        IsDead = true;
         Destroy(this.gameObject); //temp
     }
 }
