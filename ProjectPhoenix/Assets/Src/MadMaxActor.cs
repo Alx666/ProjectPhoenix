@@ -40,6 +40,9 @@ public class MadMaxActor : Actor
     public float ImpactCoolDownTime = 1f;
     private LinkedList<MadMaxActor> impactCoolDownActors;
 
+   private  ControllerWheels wheels;
+
+
     public bool IsDead { get; internal set; }
 
     void Awake()
@@ -65,6 +68,8 @@ public class MadMaxActor : Actor
 
         impactCoolDownActors = new LinkedList<MadMaxActor>();
         PlayableCenterOfMass = m_hRigidbody.centerOfMass;
+
+        wheels = GetComponent<ControllerWheels>();
 
         #endregion
 
@@ -182,7 +187,7 @@ public class MadMaxActor : Actor
         //m_hRenderers.ForEach(hR => hR.enabled = false);
         //m_hColliders.ForEach(hC => hC.enabled = false);
         
-        m_hRigidbody.ResetCenterOfMass();
+        //m_hRigidbody.ResetCenterOfMass();
         m_hRigidbody.AddForce(Vector3.up * 12f, ForceMode.VelocityChange);
         m_hRigidbody.AddTorque(Random.rotation.eulerAngles * 10f, ForceMode.VelocityChange);
         Physics.OverlapSphere(this.transform.position, 10f).Select(x => x.GetComponent<Rigidbody>()).Where(x => x != null).ToList().ForEach(x => x.AddExplosionForce(10f, this.transform.position, 0f));
@@ -217,11 +222,17 @@ public class MadMaxActor : Actor
         m_hWeapon.enabled = true;
         HealthBar.enabled = true;
         this.gameObject.transform.up = Vector3.up;
-        m_hRigidbody.centerOfMass = PlayableCenterOfMass;
+        //m_hRigidbody.centerOfMass = PlayableCenterOfMass;
         m_hRigidbody.velocity = Vector3.zero;
         m_hRigidbody.angularVelocity = Vector3.zero;
-        //m_hBomb.enabled = true;
-        //m_hBomb.Reset();
+
+
+
+        m_hBomb.Reset();
+        if(wheels != null)
+        {
+            wheels.Reset();
+        }
 
         if (isLocalPlayer)
         {

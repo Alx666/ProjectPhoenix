@@ -284,6 +284,22 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
         m_hWheels.Skip(2).ToList().ForEach(hW => hW.Collider.brakeTorque = BrakeSpeed);
     }
 
+    internal void Reset()
+    {
+        //RILASCIA I TASTI PREMUTI
+        EndForward();
+        EndBackward();
+        EndUp();
+        EndDown();
+        EndTurnRight();
+        EndTurnLeft();
+        EndPanRight();
+        EndPanLeft();
+        EndFire();
+
+        m_hEngine.StopImmediate();
+    }
+
     public void EndDown()
     {
         m_hWheels.Skip(2).ToList().ForEach(hW => hW.Collider.brakeTorque = 0);
@@ -328,7 +344,7 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
         public abstract void EndAccelerate();
         public abstract void BeginBackward();
         public abstract void EndBackward();
-
+        public abstract void StopImmediate();
     }
 
     private class AwdDrive : Drive
@@ -362,7 +378,11 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
         public override void BeginAccelerate()
         {
             //AWD
-            m_hWheels.ForEach(hW => hW.Collider.motorTorque = m_fHp * m_fMotorTorqueMultiplier);
+            m_hWheels.ForEach(hW => 
+            {
+                hW.Collider.brakeTorque = 0f;
+                hW.Collider.motorTorque = m_fHp * m_fMotorTorqueMultiplier;
+            });
         }
 
         public override void EndAccelerate()
@@ -373,12 +393,21 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
         public override void BeginBackward()
         {
             //AWD
-            m_hWheels.ForEach(hW => hW.Collider.motorTorque = -(m_fHp * m_fMotorTorqueMultiplier));
+            m_hWheels.ForEach(hW =>
+            {
+                hW.Collider.brakeTorque = 0f;
+                hW.Collider.motorTorque = -(m_fHp * m_fMotorTorqueMultiplier);
+            });
         }
 
         public override void EndBackward()
         {
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
+        }
+
+        public override void StopImmediate()
+        {
+            m_hWheels.ForEach(hW => hW.Collider.brakeTorque = Mathf.Infinity);
         }
     }
 
@@ -391,7 +420,11 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 
         public override void BeginAccelerate()
         {
-            m_hWheels.Take(2).ToList().ForEach(hW => hW.Collider.motorTorque = m_fHp * m_fMotorTorqueMultiplier);
+            m_hWheels.Take(2).ToList().ForEach(hW =>
+            {
+                hW.Collider.motorTorque = m_fHp * m_fMotorTorqueMultiplier;
+                hW.Collider.brakeTorque = 0f;
+            });
         }
 
         public override void EndAccelerate()
@@ -401,12 +434,21 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 
         public override void BeginBackward()
         {
-            m_hWheels.Take(2).ToList().ForEach(hW => hW.Collider.motorTorque = -(m_fHp * m_fMotorTorqueMultiplier));
+            m_hWheels.Take(2).ToList().ForEach(hW =>
+            {
+                hW.Collider.brakeTorque = 0f;
+                hW.Collider.motorTorque = -(m_fHp * m_fMotorTorqueMultiplier);
+            });
         }
 
         public override void EndBackward()
         {
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
+        }
+
+        public override void StopImmediate()
+        {
+            m_hWheels.ForEach(hW => hW.Collider.brakeTorque = Mathf.Infinity);
         }
     }
 
@@ -419,7 +461,11 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 
         public override void BeginAccelerate()
         {
-            m_hWheels.Skip(2).ToList().ForEach(hW => hW.Collider.motorTorque = m_fHp * m_fMotorTorqueMultiplier);
+            m_hWheels.Skip(2).ToList().ForEach( hW => 
+            {
+                hW.Collider.brakeTorque = 0f;
+                hW.Collider.motorTorque = m_fHp * m_fMotorTorqueMultiplier;
+            });
         }
 
         public override void EndAccelerate()
@@ -429,12 +475,21 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 
         public override void BeginBackward()
         {
-            m_hWheels.Skip(2).ToList().ForEach(hW => hW.Collider.motorTorque = -(m_fHp * m_fMotorTorqueMultiplier));
+            m_hWheels.Skip(2).ToList().ForEach(hW =>
+            {
+                hW.Collider.brakeTorque = 0f;
+                hW.Collider.motorTorque = -(m_fHp * m_fMotorTorqueMultiplier);
+            });
         }
 
         public override void EndBackward()
         {
             m_hWheels.ForEach(hW => hW.Collider.motorTorque = 0f);
+        }
+
+        public override void StopImmediate()
+        {
+            m_hWheels.ForEach(hW => hW.Collider.brakeTorque = Mathf.Infinity);
         }
     }
     #endregion

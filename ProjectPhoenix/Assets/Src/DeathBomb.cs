@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
+﻿using System.Collections;
+using UnityEngine;
 
 public class DeathBomb : MonoBehaviour
 {
@@ -15,10 +14,14 @@ public class DeathBomb : MonoBehaviour
     private Rigidbody m_hRigidbody;
     private Light m_hLight;
     private LightBulb m_hBulb;
-    
+
+    private StateInactive inactive;
+    private StateActive active;
+    private StateExplode explode;
+
     private IStateDetonator currentState;
 
-    void Awake()
+    private void Awake()
     {
         m_hActor = GetComponent<MadMaxActor>();
         m_hRigidbody = GetComponent<Rigidbody>();
@@ -26,9 +29,9 @@ public class DeathBomb : MonoBehaviour
 
         m_hBulb = new LightBulb(this);
 
-        StateInactive inactive = new StateInactive(this);
-        StateActive active = new StateActive(this);
-        StateExplode explode = new StateExplode(this);
+        inactive = new StateInactive(this);
+        active = new StateActive(this);
+        explode = new StateExplode(this);
 
         inactive.Active = active;
         active.Inactive = inactive;
@@ -40,7 +43,8 @@ public class DeathBomb : MonoBehaviour
 
         m_hBulb.Reset();
     }
-    void Update()
+
+    private void Update()
     {
         currentState = currentState.OnStateUpdate();
         STATE_DEBUG = currentState.ToString();
@@ -50,6 +54,7 @@ public class DeathBomb : MonoBehaviour
     {
         StartCoroutine(LightPulse(frequency));
     }
+
     public IEnumerator LightPulse(float duration)
     {
         m_hBulb.TurnOn();
@@ -58,14 +63,15 @@ public class DeathBomb : MonoBehaviour
 
         yield return new WaitForSeconds(duration * 0.5f);
         m_hBulb.Reset();
-
     }
 
     public interface IStateDetonator
     {
         void OnStateEnter();
+
         IStateDetonator OnStateUpdate();
     }
+
     private class StateInactive : IStateDetonator
     {
         private DeathBomb deathBomb;
@@ -94,11 +100,13 @@ public class DeathBomb : MonoBehaviour
             }
             return this;
         }
+
         public override string ToString()
         {
             return "INACTIVE";
         }
     }
+
     private class StateActive : IStateDetonator
     {
         public StateExplode Explode { get; internal set; }
@@ -160,7 +168,6 @@ public class DeathBomb : MonoBehaviour
                     deathBomb.Pulse(frequency);
                 }
             }
-            
 
             return this;
         }
@@ -170,6 +177,7 @@ public class DeathBomb : MonoBehaviour
             return "ACTIVE";
         }
     }
+
     private class StateExplode : IStateDetonator
     {
         private DeathBomb deathBomb;
@@ -190,12 +198,13 @@ public class DeathBomb : MonoBehaviour
             Inactive.OnStateEnter();
             return Inactive;
         }
+
         public override string ToString()
         {
             return "EXPLODED";
         }
     }
-    
+
     private class LightBulb
     {
         public bool PulseReady { get; private set; }
@@ -211,14 +220,23 @@ public class DeathBomb : MonoBehaviour
             PulseReady = false;
             deathBomb.m_hLight.enabled = true;
         }
+
         public void TurnOff()
         {
             deathBomb.m_hLight.enabled = false;
         }
+
         public void Reset()
         {
             PulseReady = true;
             deathBomb.m_hLight.enabled = false;
         }
+    }
+
+    internal void Reset()
+    {
+        inactive.OnStateEnter();
+        currentState = inactive;
+        m_hBulb.Reset();
     }
 }
