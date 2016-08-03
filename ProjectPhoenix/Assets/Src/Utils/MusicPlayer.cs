@@ -11,6 +11,7 @@ public class MusicPlayer : MonoBehaviour
     public float Volume = 1.0f;
 
     public float FadeOutTime = 1.0f;
+    public bool Shuffle = true;
 
     private LinkedList<AudioClip> m_hTracks;
     private LinkedListNode<AudioClip> m_hCurrent;
@@ -19,7 +20,8 @@ public class MusicPlayer : MonoBehaviour
 	
 	void Awake()
     {
-        Tracks.Shuffle();
+        if(Shuffle)
+            Tracks.Shuffle();
 
         m_hAudioSource          = this.GetComponent<AudioSource>();
         m_hAudioSource.loop     = false;
