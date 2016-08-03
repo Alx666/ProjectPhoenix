@@ -105,8 +105,27 @@ public class VehicleSelection : MonoBehaviour
 
 }
 
-internal static class CircularLinkedListExtensions
+internal static class LinkedListExtensions
 {
+    private static System.Random m_hRand;
+    static LinkedListExtensions()
+    {
+        m_hRand = new System.Random();
+    }
+
+    public static void Shuffle<T>(this IList<T> list)
+    {
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = m_hRand.Next(n + 1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
+
     public static LinkedListNode<T> NextOrFirst<T>(this LinkedListNode<T> hCurrent)
     {
         if (hCurrent.Next == null)
