@@ -716,6 +716,10 @@ Prefab:
       propertyPath: m_SpawnPrefabs.Array.size
       value: 31
       objectReference: {fileID: 0}
+    - target: {fileID: 11445424, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 22400154, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -852,6 +856,26 @@ Prefab:
       propertyPath: m_SpawnPrefabs.Array.data[30]
       value: 
       objectReference: {fileID: 100000, guid: c74bc7ee383205642a1d19ea4091c0de, type: 2}
+    - target: {fileID: 11445424, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445424, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445424, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1038239478}
+    - target: {fileID: 11445424, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: FadeOut
+      objectReference: {fileID: 0}
+    - target: {fileID: 11445424, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7e9c7cb437969d34aab8f5b13ce60f30, type: 2}
   m_IsPrefabParent: 0
@@ -5526,7 +5550,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 813709855}
-  m_LocalRotation: {x: 0.14533988, y: 0.72450703, z: -0.58584106, w: 0.33280072}
+  m_LocalRotation: {x: 0.14533986, y: 0.724507, z: -0.585841, w: 0.3328007}
   m_LocalPosition: {x: -0.422, y: 5.562, z: -7.123}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -9305,6 +9329,134 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1032344155}
   m_Mesh: {fileID: 4300080, guid: f939abb64e4826c48a0f02ee69620f9b, type: 3}
+--- !u!1 &1038239477
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1038239480}
+  - 82: {fileID: 1038239479}
+  - 114: {fileID: 1038239478}
+  m_Layer: 0
+  m_Name: MusicPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1038239478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1038239477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3117af6864088224b972b3796b567d10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Tracks:
+  - {fileID: 8300000, guid: 22b1b392ba7a13041b10fbd922279cb8, type: 3}
+  - {fileID: 8300000, guid: 46b911e2a3dff6545a5dd18d42afca80, type: 3}
+  - {fileID: 8300000, guid: 6cb9c3c5f1f291f4fbe81fe73a0ba342, type: 3}
+  - {fileID: 8300000, guid: 5de0c8aaf54afa84d98eacf2ad681845, type: 3}
+  - {fileID: 8300000, guid: ca7b1c7d057c589409ac150494e0460d, type: 3}
+  - {fileID: 8300000, guid: c488198d3f463cf4ea78ca97666916c8, type: 3}
+  - {fileID: 8300000, guid: 10fe1bcd1a4da874f8d1fbba81465789, type: 3}
+  - {fileID: 8300000, guid: 4050ab0ebe563d5429cdf797ac179f7d, type: 3}
+  - {fileID: 8300000, guid: ec6cb28e01eef7c49b0d3164f078f1e0, type: 3}
+  - {fileID: 8300000, guid: 141b079f49cae0d4f874488b02ed2040, type: 3}
+  - {fileID: 8300000, guid: 0d1f02af14c44df4391d2ceadaa721ca, type: 3}
+  Volume: 1
+  FadeOutTime: 1
+--- !u!82 &1038239479
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1038239477}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!4 &1038239480
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1038239477}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.5604954, y: 0.20287037, z: -43.28602}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
 --- !u!1 &1053699125
 GameObject:
   m_ObjectHideFlags: 0
@@ -10312,6 +10464,17 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2108822745}
         m_MethodName: OnButtonStart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1038239478}
+        m_MethodName: FadeOut
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
