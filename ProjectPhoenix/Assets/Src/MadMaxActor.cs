@@ -21,6 +21,7 @@ public class MadMaxActor : Actor
     private List<Renderer> m_hRenderers;
     private List<Collider> m_hColliders;
     private Vector3 PlayableCenterOfMass;
+    private MadMaxCarAudio m_hAudioCtrl;
 
     [Header("Health Bar Config")]
     public HealthBarMode HpBarMode = HealthBarMode.WorldSpace;
@@ -65,6 +66,7 @@ public class MadMaxActor : Actor
         m_hColliders = new List<Collider>(GetComponents<Collider>());
         m_hColliders.AddRange(GetComponentsInChildren<Collider>());
         m_hBomb = GetComponent<DeathBomb>();
+        m_hAudioCtrl = this.GetComponent<MadMaxCarAudio>();
 
         impactCoolDownActors = new LinkedList<MadMaxActor>();
         PlayableCenterOfMass = m_hRigidbody.centerOfMass;
@@ -177,6 +179,7 @@ public class MadMaxActor : Actor
         m_hWeapon.GetComponent<Weapon>().Reset();
         //m_hBomb.enabled = false;
         HealthBar.enabled = false;
+        m_hAudioCtrl.enabled = false;
 
         if (isLocalPlayer)
         {
@@ -225,7 +228,7 @@ public class MadMaxActor : Actor
         //m_hRigidbody.centerOfMass = PlayableCenterOfMass;
         m_hRigidbody.velocity = Vector3.zero;
         m_hRigidbody.angularVelocity = Vector3.zero;
-
+        m_hAudioCtrl.enabled = true;
 
 
         m_hBomb.Reset();
