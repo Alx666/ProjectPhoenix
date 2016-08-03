@@ -10,6 +10,8 @@ public class MusicPlayer : MonoBehaviour
     [Range(0f, 1f)]
     public float Volume = 1.0f;
 
+    public float FadeOutTime = 1.0f;
+
     private LinkedList<AudioClip> m_hTracks;
     private LinkedListNode<AudioClip> m_hCurrent;
     private AudioSource m_hAudioSource;
@@ -26,7 +28,6 @@ public class MusicPlayer : MonoBehaviour
         m_hTracks               = new LinkedList<AudioClip>(Tracks);
         m_hCurrent              = m_hTracks.First;
         m_hAudioSource.clip     = m_hCurrent.Value;
-
     }
 	
 	
@@ -39,5 +40,15 @@ public class MusicPlayer : MonoBehaviour
             m_hAudioSource.clip = m_hCurrent.Value;
             m_hAudioSource.Play();
         }
+    }
+
+    public void FadeOut()
+    {
+        LeanTween.value(this.gameObject, OnValueUpdate, Volume, 0f, FadeOutTime);
+    }
+
+    private void OnValueUpdate(float fVolume)
+    {
+        m_hAudioSource.volume = fVolume;
     }
 }
