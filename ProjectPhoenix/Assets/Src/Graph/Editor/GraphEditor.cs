@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 using System;
 
 [CustomEditor(typeof(AIGraph))]
-public class GraphEditor : Editor
+public class AIGraphEditor : Editor
 {
     private AIGraph m_hTarget;
     private string Label0 = string.Empty;

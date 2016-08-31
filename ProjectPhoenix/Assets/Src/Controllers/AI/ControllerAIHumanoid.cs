@@ -1,46 +1,113 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Pathfinding.RVO;
+using Pathfinding;
 using System.Linq;
-using RootMotion.FinalIK;
+using UnityEngine.Networking;
 using System;
 
-public class ControllerAIHumanoid : MonoBehaviour
+public class ControllerAIHumanoid : NetworkBehaviour, IDamageable
 {
-    public Transform WeaponLocator;
-    public Transform RightHand;
-    public Transform LeftHandObj;
-    public Transform RightHandObj;
-    public Transform LookObj;
+    [SyncVar]
+    Vector3 syncPos;
+    [SyncVar]
+    float syncRotY;
+    Vector3 lastPos;
+    Quaternion lastRot;
+    Transform myTransform;
+    float lerpRate = 3.5f;
+    float posThershold = 0.5f;
+    float rotThershold = 5f;
 
-    internal float DefaultStoppingDistance { get; private set; }
-    internal List<GameObject> SeeEnemies { get; private set; }
-    internal Vector3 CurrentEnemyPos { get; private set; }
-    internal NavMeshAgent agent { get; private set; }
 
-    Vector3 m_GroundNormal;
+    public float Speed;
+    public float NextWaypointDistance;
+    public GameObject Ragdoll;
+    public GameObject WeaponRagdoll;
+
+    internal bool NOTURN;
+
+    internal GameObject CurrentEnemy { get; private set; }
+    internal RVOController RVOController { get; private set; }
+    internal float MaxSpeedRVO { get; private set; }
+    bool canMove;
+
+    internal AIPath AI;
+
+    List<IControllerPlayer> NearEnemies;
     float fieldOfView = 110f;
+    SphereCollider hearingCollider;
+    CapsuleCollider capsuleCollider;
+    Animator animator;
     float turnValue;
     float forwardValue;
     int forwardHash;
     int turnHash;
-    int toChase;
-    int shootingHash;
+    int toChaseHash;
+    int rollLayer;
+    int rollingHash;
+    Transform weaponLocator;
+    IWeapon weapon;
+    Seeker seeker;
+    Path currentPath;
+    int currentWaypoint = 0;
+    Vector3 m_GroundNormal;
+    public void EndRolling()
+    {
+        animator.SetBool(rollingHash, false);
+    }
+    public override void PreStartClient()
+    {
+        this.weapon = GetComponent<IWeapon>();
+        if (!isServer)
+        {
+            Destroy(GetComponent<AIPath>());
+            Destroy(GetComponent<SphereCollider>());
+            Destroy(GetComponent<CapsuleCollider>());
+            Destroy(GetComponent<Seeker>());
+            Destroy(GetComponent<RVOController>());
+            Destroy(GetComponent<FunnelModifier>());
+        }
+    }
+    public override void OnStartServer()
+    {
+        this.AI = GetComponent<AIPath>();
+        this.hearingCollider = GetComponent<SphereCollider>();
+        this.capsuleCollider = GetComponent<CapsuleCollider>();
+        this.forwardHash = Animator.StringToHash("Forward");
+        this.turnHash = Animator.StringToHash("Turn");
+        this.toChaseHash = Animator.StringToHash("ToChase");
+        this.NearEnemies = new List<IControllerPlayer>();
+        this.seeker = GetComponent<Seeker>();
+        this.RVOController = GetComponent<RVOController>();
+        this.MaxSpeedRVO = RVOController.maxSpeed;
+    }
+    void Start()
+    {
+        this.weaponLocator = GetComponent<IKControllerHumanoid>().WeaponLocator;
+        this.rollLayer = Animator.StringToHash("Base Layer.Roll");
+        this.rollingHash = Animator.StringToHash("Rolling");
 
-    AimIK aimIk;
-    Animator animator;
-    SphereCollider coll;
+        this.animator = GetComponent<Animator>();
+        this.myTransform = transform;
 
+    }
+   
     internal bool IsInFieldOfView(GameObject obj)
     {
-        Vector3 direction = obj.transform.position - this.transform.position;
+        //Setting Height
+        Vector3 direction = (obj.transform.position  - (this.transform.position + Vector3.up));
+
+        Debug.DrawRay(transform.position + Vector3.up, direction,Color.black);
+
         float angle = Vector3.Angle(this.transform.forward, direction);
         if (angle <= fieldOfView * 0.5f)
         {
             RaycastHit hit;
-
-            if (Physics.Raycast(transform.position, direction.normalized, out hit, coll.radius))
+            if (Physics.Raycast(transform.position + Vector3.up, direction.normalized, out hit, hearingCollider.radius))
             {
-                if (hit.collider.gameObject.tag == "Enemy")
+                Debug.DrawRay(transform.position + Vector3.up, direction);
+                if (hit.collider.gameObject == CurrentEnemy.transform.parent.gameObject)
                 {
                     return true;
                 }
@@ -48,133 +115,208 @@ public class ControllerAIHumanoid : MonoBehaviour
         }
         return false;
     }
-    void OnTriggerStay(Collider other)
+    void OnCollisionEnter(Collision coll)
     {
-        if (other.gameObject.tag == "Enemy")
+        if (coll.gameObject.GetComponentInParent<IControllerPlayer>() != null || coll.gameObject.tag == "Enemy")
         {
+            RpcDie(coll.relativeVelocity);
+        }
+    }
+    public void Damage(IDamageSource hSource)
+    {
+        RpcDie(Vector3.up);
+    }
+    void OnTriggerEnter(Collider other)
+    {
 
-            if (IsInFieldOfView(other.gameObject))
+
+        IControllerPlayer enemy = other.gameObject.GetComponent<IControllerPlayer>();
+
+        if (enemy != null || /* enemy is ControllerPlayerWheels || enemy is ControllerSpiderMech ||*/ other.tag == "Enemy")
+        {
+            if (!NearEnemies.Contains(enemy))
+                this.NearEnemies.Add(enemy);
+
+            if (!animator.GetBool(toChaseHash))
             {
-                if (!SeeEnemies.Contains(other.gameObject))
-                    this.SeeEnemies.Add(other.gameObject);
+                //Prende la transform del veicolo per settare la mira correttamente.  Trovare un altro sistema!!!
+                CurrentEnemy = other.gameObject.GetComponent<ControllerWheels>().CentralPoint;
 
-                if (!animator.GetBool(toChase))
+                RpcSetCurrentEnemy(other.gameObject.GetComponent<NetworkIdentity>());
+                animator.SetBool(toChaseHash, true);
+            }
+        }
+    }
+    void OnTriggerExit(Collider other)
+    {
+        IControllerPlayer enemy = other.gameObject.GetComponent<IControllerPlayer>();
+
+        if (enemy != null || /*enemy is ControllerPlayerWheels || enemy is ControllerSpiderMech ||*/ other.tag == "Enemy")
+        {
+            if (NearEnemies.Contains(enemy))
+                this.NearEnemies.Remove(enemy);
+
+            if (animator.GetBool(toChaseHash) && NearEnemies.Count == 0)
+            {
+                AI.enabled = false;
+                RVOController.Move(Vector3.zero);
+                animator.SetBool(toChaseHash, false);
+            }
+        }
+    }
+
+    void SetTransformRagdoll(GameObject ragdoll)
+    {
+        Transform[] currentTransform = this.GetComponentsInChildren<Transform>();
+        Transform[] ragdollTranform = ragdoll.GetComponentsInChildren<Transform>();
+        for (int i = 0; i < currentTransform.Length; i++)
+        {
+            for (int j = 0; j < ragdollTranform.Length; j++)
+            {
+                if (currentTransform[i].name.GetHashCode() == ragdollTranform[j].name.GetHashCode())
                 {
-                    animator.SetBool(toChase, true);
+                    ragdollTranform[j].position = currentTransform[i].position;
+                    ragdollTranform[j].rotation = currentTransform[i].rotation;
+
                 }
             }
         }
     }
-    void OnTriggerEnter(Collider other)
+    #region ClientRPC
+    [ClientRpc]
+    internal void RpcDie(Vector3 force)
     {
-        if (other.gameObject.tag == "Enemy")
+        GameObject ragdoll = Instantiate(Ragdoll, this.transform.position, this.transform.rotation) as GameObject;
+        SetTransformRagdoll(ragdoll);
+        Instantiate(WeaponRagdoll, weaponLocator.position, weaponLocator.rotation);
+        ragdoll.GetComponentsInChildren<Rigidbody>().ToList().ForEach(r => r.AddForce(force, ForceMode.VelocityChange));
+        this.gameObject.SetActive(false);
+    }
+    [ClientRpc]
+    internal void RpcStopShooting()
+    {
+
+        weapon.Release();
+    }
+    [ClientRpc]
+    internal void RpcStartShooting()
+    {
+        weapon.Press();
+    }
+    [ClientRpc]
+    internal void RpcSetCurrentEnemy(NetworkIdentity id)
+    {
+        //Prende la transform della torretta del veicolo per settare la mira correttamente. Trovare un altro sistema!!!
+        this.CurrentEnemy = ClientScene.FindLocalObject(id.netId).GetComponent<ControllerWheels>().CentralPoint;
+    }
+
+    #endregion
+    internal void ManuallyStopAgent()
+    {
+        canMove = false;
+        currentPath = null;
+        RVOController.Move(Vector3.zero);
+
+    }
+    #region VANGUARD MOVE
+    internal bool ManuallyMoveAgent()
+    {
+        if (canMove)
         {
+            Vector3 dir = (currentPath.vectorPath[currentWaypoint] - transform.position).normalized;
+            dir *= Speed * Time.deltaTime;
+            RVOController.Move(dir);
+            if (Vector3.Distance(transform.position, currentPath.vectorPath[currentWaypoint]) < NextWaypointDistance)
+            {
+                currentWaypoint++;
 
+            }
+            if (currentWaypoint >= currentPath.vectorPath.Count)
+            {
+                canMove = false;
+                Debug.Log("End Of Path Reached");
+                return true;
+            }
+            return false;
+        }
+        else
+        {
+            Debug.LogWarning("Path is not ready!!");
+            return false;
 
+        }
+    }
+    internal void ManuallySetPath(Path path)
+    {
+        seeker.StartPath(path, OnPathComplete);
+
+    }
+    internal void ManuallySetPath(Vector3 pos)
+    {
+        seeker.StartPath(this.transform.position, pos, OnPathComplete);
+
+    }
+    void OnPathComplete(Path p)
+    {
+        if (!p.error)
+        {
+            currentPath = p;
+            currentWaypoint = 0;
+            canMove = true;
         }
 
     }
-
-    void OnTriggerExit(Collider other)
+    void OnAnimatorMove()
     {
-        if (other.gameObject.tag == "Enemy")
-        {
-
-        }
+        if (animator.GetCurrentAnimatorStateInfo(0).fullPathHash == rollLayer)
+            animator.ApplyBuiltinRootMotion();
     }
 
-    void OnAnimatorIK()
+
+    #endregion
+    void SendMotion()
     {
-
-        if (animator)
+        if (!isServer)
+            return;
+        if (Vector3.Distance(myTransform.position, lastPos) > posThershold || Quaternion.Angle(myTransform.rotation, lastRot) > rotThershold)
         {
-            if (LookObj != null)
-            {
-                animator.SetLookAtWeight(1);
-                animator.SetLookAtPosition(LookObj.position);
-
-            }
-            if (RightHandObj != null)
-            {
-                animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
-                animator.SetIKRotationWeight(AvatarIKGoal.RightHand, 1);
-                animator.SetIKPosition(AvatarIKGoal.RightHand, RightHandObj.position);
-                animator.SetIKRotation(AvatarIKGoal.RightHand, RightHandObj.rotation);
-            }
-            if (LeftHandObj != null)
-            {
-                animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
-                animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
-                animator.SetIKPosition(AvatarIKGoal.LeftHand, LeftHandObj.position);
-                animator.SetIKRotation(AvatarIKGoal.LeftHand, LeftHandObj.rotation);
-            }
-            else
-            {
-                animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 0);
-                animator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 0);
-                animator.SetLookAtWeight(0);
-            }
-
+            lastPos = myTransform.position;
+            lastRot = myTransform.rotation;
+            syncPos = myTransform.position;
+            syncRotY = myTransform.eulerAngles.y;
         }
     }
-    void Awake()
+    void LerpMotion()
     {
-        this.shootingHash = Animator.StringToHash("Shooting");
-        this.aimIk = GetComponent<AimIK>();
-        this.aimIk.solver.target = WeaponLocator;
-        this.SeeEnemies = new List<GameObject>();
-        this.agent = GetComponent<NavMeshAgent>();
-        this.DefaultStoppingDistance = agent.stoppingDistance;
-        this.animator = GetComponent<Animator>();
-        this.coll = GetComponent<SphereCollider>();
-        this.forwardHash = Animator.StringToHash("Forward");
-        this.turnHash = Animator.StringToHash("Turn");
-        this.toChase = Animator.StringToHash("ToChase");
+        if (isServer)
+            return;
 
-    }
-    void SetCurrentEnemy()
-    {
-        try
-        {
-            for (int i = 0; i < SeeEnemies.Count; i++)
-            {
-                if (!IsInFieldOfView(SeeEnemies[i]))
-                    SeeEnemies.RemoveAt(i);
-            }
-            SeeEnemies.Sort(delegate (GameObject x, GameObject y)
-            {
-                return Vector3.Distance(x.transform.position, this.transform.position).CompareTo(Vector3.Distance(y.transform.position, this.transform.position));
-            });
-            aimIk.solver.target = SeeEnemies[0].transform;
-            CurrentEnemyPos = SeeEnemies[0].transform.position;
-
-        }
-        catch (ArgumentOutOfRangeException)
-        {
-            animator.SetBool(shootingHash, false);
-            animator.SetBool(toChase, false);
-            this.aimIk.solver.target = WeaponLocator;
-        }
-
+        myTransform.position = Vector3.Lerp(myTransform.position, syncPos, Time.deltaTime * lerpRate);
+        Vector3 newRotation = new Vector3(0f, syncRotY, 0f);
+        myTransform.rotation = Quaternion.Lerp(myTransform.rotation, Quaternion.Euler(newRotation), Time.deltaTime * lerpRate);
 
     }
     void Update()
     {
-        if (animator.GetBool(toChase))
+        SendMotion();
+        LerpMotion();
+
+        if (isServer)
         {
-            SetCurrentEnemy();
+            Move(RVOController.velocity);
         }
     }
+
     internal void Move(Vector3 move)
     {
-        if (move.magnitude > 1f)
-            move.Normalize();
+        //if (move.magnitude > 1f)
+        //    move.Normalize();
+
         move = transform.InverseTransformDirection(move);
         RaycastHit hitInfo;
         if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hitInfo, 0.1f))
         {
             m_GroundNormal = hitInfo.normal;
-
         }
 
         move = Vector3.ProjectOnPlane(move, m_GroundNormal);
@@ -198,18 +340,6 @@ public class ControllerAIHumanoid : MonoBehaviour
             animator.speed = 1;
         }
     }
-    internal void ManualSetAnimator(float forward, float turn, bool damp)
-    {
-        if (damp)
-        {
-            animator.SetFloat(forwardHash, forward, 0.1f, Time.deltaTime);
-            animator.SetFloat(turnHash, turn, 0.1f, Time.deltaTime);
-        }
-        else
-        {
-            animator.SetFloat(forwardHash, forward);
-            animator.SetFloat(turnHash, turn);
-        }
-    }
 
+   
 }

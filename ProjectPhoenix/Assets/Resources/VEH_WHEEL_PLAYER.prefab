@@ -42,6 +42,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &114008
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 439212}
+  m_Layer: 0
+  m_Name: Locator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &115636
 GameObject:
   m_ObjectHideFlags: 1
@@ -234,6 +249,7 @@ GameObject:
   - 114: {fileID: 11499550}
   - 114: {fileID: 11414154}
   - 114: {fileID: 11478914}
+  - 114: {fileID: 11412008}
   m_Layer: 0
   m_Name: VEH_WHEEL_PLAYER
   m_TagString: Untagged
@@ -322,6 +338,21 @@ GameObject:
   - 146: {fileID: 14612610}
   m_Layer: 0
   m_Name: WheelRL
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &170590
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 413032}
+  m_Layer: 0
+  m_Name: CenterPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -532,7 +563,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 138154}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.68, y: 0, z: 0}
+  m_LocalPosition: {x: 302.9515, y: 0.027640462, z: 227.88568}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -547,6 +578,7 @@ Transform:
   - {fileID: 420558}
   - {fileID: 480328}
   - {fileID: 458056}
+  - {fileID: 413032}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &403550
@@ -577,6 +609,19 @@ Transform:
   - {fileID: 479604}
   m_Father: {fileID: 461146}
   m_RootOrder: 0
+--- !u!4 &413032
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 170590}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.87, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 401756}
+  m_RootOrder: 11
 --- !u!4 &414432
 Transform:
   m_ObjectHideFlags: 1
@@ -699,6 +744,19 @@ Transform:
   - {fileID: 423058}
   m_Father: {fileID: 401756}
   m_RootOrder: 2
+--- !u!4 &439212
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 114008}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 2.33}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 499592}
+  m_RootOrder: 0
 --- !u!4 &440762
 Transform:
   m_ObjectHideFlags: 1
@@ -941,7 +999,8 @@ Transform:
   m_LocalPosition: {x: 0.000000014901161, y: 0.1310997, z: 1.0709338}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
+  m_Children:
+  - {fileID: 439212}
   m_Father: {fileID: 493288}
   m_RootOrder: 0
 --- !u!20 &2081426
@@ -1722,6 +1781,25 @@ MonoBehaviour:
   min: -45
   max: 90
   zeroAxisDisplayOffset: 0
+--- !u!114 &11412008
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 138154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletPrefab: {fileID: 149850, guid: 051988ea49acba84cb0315584179fce0, type: 2}
+  ShootLocators:
+  - {fileID: 114008}
+  Mode: 0
+  Spread: 5
+  BulletDelay: 0.1
+  BarrageDelay: 0.1
+  Barrage: 1
 --- !u!114 &11414154
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2238,6 +2316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6be407272083bc24da0188c5c1162410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CentralPoint: {fileID: 170590}
   OverrideCenterOfMass: 0
   SyncGfxWheels: 1
   CurrentSpeed: 0

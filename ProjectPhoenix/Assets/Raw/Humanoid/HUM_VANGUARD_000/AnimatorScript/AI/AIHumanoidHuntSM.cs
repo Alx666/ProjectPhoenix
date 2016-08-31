@@ -2,40 +2,49 @@
 using System.Collections;
 using System.Linq;
 using System;
-
+using Pathfinding;
 public class AIHumanoidHuntSM : StateMachineBehaviour
 {
-    int shootingHash;
-    int toChase;
+
+    int toKeepDistance;
+    int readyToAimHash;
+    int toStationaryHash;
     ControllerAIHumanoid controller;
+    float elapsedTime;
     bool firstSetting = true;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+
+
         if (firstSetting)
         {
-            this.shootingHash = Animator.StringToHash("Shooting");
-            this.toChase = Animator.StringToHash("ToChase");
+            this.toKeepDistance = Animator.StringToHash("ToKeepDistance");
+
+            this.readyToAimHash = Animator.StringToHash("ReadyToAim");
+            this.toStationaryHash = Animator.StringToHash("ToStationary");
             this.controller = animator.GetComponent<ControllerAIHumanoid>();
             this.firstSetting = false;
         }
-        animator.SetBool(shootingHash, true);
-        controller.agent.SetDestination(controller.CurrentEnemyPos);
+        if (!controller.isServer)
+            return;
 
+        this.elapsedTime = 0f;
+        animator.SetBool(readyToAimHash, true);
+        controller.RVOController.enableRotation = false;
+        controller.RVOController.maxSpeed = controller.MaxSpeedRVO;
+        controller.AI.enabled = true;
+        controller.AI.target = controller.CurrentEnemy.transform;
     }
-
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        controller.agent.SetDestination(controller.CurrentEnemyPos);
+        if (!controller.isServer)
+            return;
 
-        if (controller.agent.remainingDistance <= controller.agent.stoppingDistance)
+        if (controller.IsInFieldOfView(controller.CurrentEnemy) && Vector3.Distance(animator.transform.position, controller.CurrentEnemy.transform.position) < 9f)
         {
-            controller.Move(Vector3.zero);
+            animator.SetBool(toStationaryHash, true);
+        }
 
-        }
-        else
-        {
-            controller.Move(controller.agent.desiredVelocity);
-        }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

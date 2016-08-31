@@ -1,64 +1,54 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-
+using UnityEngine.Networking;
 public class AIHumanoidReachPointSM : StateMachineBehaviour
 {
     public List<Vector3> Node;
 
+    
     Vector3 target;
-    Queue<Vector3> wayPoint;
-    int toLookAround;
+    int toReachPoint;
     bool firstSetting = true;
 
     ControllerAIHumanoid controller;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+
         if (firstSetting)
         {
             this.controller = animator.GetComponent<ControllerAIHumanoid>();
 
-            this.wayPoint = new Queue<Vector3>();
-            for (int i = 0; i < Node.Count; i++)
-            {
-                wayPoint.Enqueue(Node[i]);
-            }
-            this.toLookAround = Animator.StringToHash("ToLookAround");
-            this.target = wayPoint.Dequeue();
-            this.controller.agent.SetDestination(target);
+            
+            this.toReachPoint = Animator.StringToHash("ToReachPoint");
             this.firstSetting = false;
         }
-        else
-        {
-            this.controller.agent.Resume();
-            SetDestination();
-        }
-        this.controller.agent.speed = 0.4f;
 
+        if (!controller.isServer)
+            return;
+        controller.AI.enabled = false;
+        controller.RVOController.Move(Vector3.zero);
+        controller.RVOController.maxSpeed = 1f;
+        this.target = Node[Random.Range(0,Node.Count)];
+        this.controller.ManuallySetPath(target);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (controller.agent.remainingDistance <= controller.agent.stoppingDistance)
+        if (!controller.isServer)
+            return;
+
+        if (controller.ManuallyMoveAgent())
         {
-            controller.Move(Vector3.zero);
-            animator.SetTrigger(toLookAround);
-        }
-        else
-        {
-            controller.Move(controller.agent.desiredVelocity);
+            controller.RVOController.Move(Vector3.zero);
+            animator.SetBool(toReachPoint, false);
         }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        if (!controller.isServer)
+            return;
 
     }
 
-    //SOSTITUIRE
-    void SetDestination()
-    {
-        this.wayPoint.Enqueue(target);
-        this.target = wayPoint.Dequeue();
-        this.controller.agent.SetDestination(target);
-    }
 }

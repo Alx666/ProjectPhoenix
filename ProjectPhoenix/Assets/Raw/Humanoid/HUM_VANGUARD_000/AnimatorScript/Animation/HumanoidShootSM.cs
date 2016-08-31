@@ -3,32 +3,51 @@ using System.Collections;
 
 public class HumanoidShootSM : StateMachineBehaviour
 {
-    Quaternion originalRotation;
     ControllerAIHumanoid controller;
+    IKControllerHumanoid IKController;
     int shootingHash;
-    IWeapon weapon;
+    Transform PrevEnemy;
     bool firstSetting = true;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (firstSetting)
         {
             this.shootingHash = Animator.StringToHash("Shooting");
+            this.IKController = animator.GetComponent<IKControllerHumanoid>();
             this.controller = animator.GetComponent<ControllerAIHumanoid>();
-            this.weapon = animator.GetComponentInChildren<IWeapon>();
-            this.originalRotation = controller.WeaponLocator.transform.rotation;
             this.firstSetting = false;
         }
 
+        if (!controller.isServer)
+            return;
+        IKController.SetWeaponTarget(controller.CurrentEnemy.transform);
     }
 
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        this.weapon.Press();
+
+        if (!controller.isServer)
+            return;
+
+        if (IKController.IKWeight < 0.98f)
+        {
+            IKController.IKWeight = Mathf.Lerp(IKController.IKWeight, 1f, Time.deltaTime * 3f);
+        }
+        else
+        {
+            controller.RpcStartShooting();
+        }
+                
+        if (!controller.IsInFieldOfView(controller.CurrentEnemy))
+        {
+            controller.RpcStopShooting();
+            animator.SetBool(shootingHash, false);
+        }
     }
 
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        this.weapon.Release();
+
     }
 
 }

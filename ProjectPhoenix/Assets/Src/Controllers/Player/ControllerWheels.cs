@@ -15,7 +15,8 @@ public enum DriveType
 [RequireComponent(typeof(ConstantForce))]
 public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 {
-
+    //Test Mode
+    public GameObject CentralPoint;
     public bool OverrideCenterOfMass;
     public bool SyncGfxWheels;
 
