@@ -1689,7 +1689,7 @@ MonoBehaviour:
   m_Tonemapping:
     enabled: 1
     tonemapper: 6
-    exposure: 1
+    exposure: 1.44
     curve:
       serializedVersion: 2
       m_Curve:
@@ -1706,9 +1706,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    neutralBlackIn: 0.018
+    neutralBlackIn: 0.0156
     neutralWhiteIn: 9
-    neutralBlackOut: -0.046
+    neutralBlackOut: -0.0468
     neutralWhiteOut: 1
     neutralWhiteLevel: 20
     neutralWhiteClip: 10
@@ -1720,25 +1720,25 @@ MonoBehaviour:
     enabled: 1
     precision: 16
     colorWheels:
-      shadows: {r: 0.7267389, g: 0.8595139, b: 1, a: 1}
-      midtones: {r: 1, g: 0.8403535, b: 0.6613349, a: 1}
-      highlights: {r: 1, g: 0.99675363, b: 0.9513572, a: 1}
+      shadows: {r: 0.7619467, g: 0.87756824, b: 1, a: 1}
+      midtones: {r: 1, g: 0.80716443, b: 0.5909194, a: 1}
+      highlights: {r: 1, g: 0.99628294, b: 0.9443156, a: 1}
     basics:
-      temperatureShift: 0
-      tint: 0
-      hue: 0
-      saturation: 0.9
-      vibrance: 0
-      value: 1.5
-      contrast: 1.08
-      gain: 1
+      temperatureShift: -0.18
+      tint: -0.18
+      hue: 0.004
+      saturation: 0.735
+      vibrance: 0.727
+      value: 1.67
+      contrast: 1.088
+      gain: 1.06
       gamma: 1
     channelMixer:
       currentChannel: 0
       channels:
-      - {x: 1, y: 0, z: 0}
-      - {x: 0, y: 1, z: 0}
-      - {x: 0, y: 0, z: 1}
+      - {x: 0.96, y: 0, z: 0}
+      - {x: 0, y: 1.17, z: -0.31}
+      - {x: 0, y: 0.08, z: 0.77}
     curves:
       master:
         serializedVersion: 2
