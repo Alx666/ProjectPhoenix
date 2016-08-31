@@ -41,20 +41,11 @@ public class MadMaxCarAudio : MonoBehaviour
         m_hHighAccel    = SetUpEngineAudioSource(HighAccelClip);
         m_hHighDecel    = SetUpEngineAudioSource(HighDecelClip);
         m_hLowAccel     = SetUpEngineAudioSource(LowAccelClip);
-        m_hLowDecel     = SetUpEngineAudioSource(LowDecelClip);              
+        m_hLowDecel     = SetUpEngineAudioSource(LowDecelClip);
     }
 
-
-    //Velocity = rb.velocity.magnitude;
-    //    computeGear();
-    //int maxSpeed = gears[CurrentGear - 1];//perché partono da 0
-    //float speedPerc = Velocity / maxSpeed;
-    //audios.pitch = 2 * speedPerc+1;
-
-
-
     void Update ()
-    {
+    {        
         m_fSpeed = Mathf.Lerp(m_fSpeed, m_hWheelCtrl.CurrentSpeed, 0.1f);
 
         m_fAcceleration = (m_fSpeed - m_hWheelCtrl.CurrentSpeed) * AccelerationCoeff;
@@ -89,6 +80,22 @@ public class MadMaxCarAudio : MonoBehaviour
         m_hHighDecel.volume = highFade * decFade;
     }
 
+
+    void OnEnable()
+    {
+        m_hLowAccel.enabled     = true;
+        m_hLowDecel.enabled     = true;
+        m_hHighAccel.enabled    = true;
+        m_hHighDecel.enabled    = true;
+    }
+
+    void OnDisable()
+    {
+        m_hLowAccel.enabled     = false;
+        m_hLowDecel.enabled     = false;
+        m_hHighAccel.enabled    = false;
+        m_hHighDecel.enabled    = false;
+    }
     
     private AudioSource SetUpEngineAudioSource(AudioClip clip)
     {

@@ -188,6 +188,7 @@ GameObject:
   - 114: {fileID: 11417138}
   - 75: {fileID: 7507754}
   - 114: {fileID: 11405230}
+  - 114: {fileID: 11430500}
   m_Layer: 0
   m_Name: VEH_WHEEL_MUSTANGANDREA
   m_TagString: Untagged
@@ -1382,6 +1383,77 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &11430500
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 144090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c81988821134a91418c0658bcf3035fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Curve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0.4
+      inSlope: 0.00014089976
+      outSlope: 0.00014089976
+      tangentMode: 0
+    - time: 68.417465
+      value: 1.5
+      inSlope: 0.02046285
+      outSlope: Infinity
+      tangentMode: 25
+    - time: 68.861946
+      value: 0.8
+      inSlope: Infinity
+      outSlope: -0.00009491966
+      tangentMode: 7
+    - time: 117.2768
+      value: 1.5
+      inSlope: 0.019071652
+      outSlope: Infinity
+      tangentMode: 25
+    - time: 117.7768
+      value: 0.8
+      inSlope: Infinity
+      outSlope: 0.000054958153
+      tangentMode: 7
+    - time: 165.16017
+      value: 1.5
+      inSlope: 0.0108020855
+      outSlope: Infinity
+      tangentMode: 25
+    - time: 165.6699
+      value: 0.8
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 7
+    - time: 200.38992
+      value: 1.5
+      inSlope: 0.00899732
+      outSlope: 0.0031344087
+      tangentMode: 1
+    - time: 273.73398
+      value: 0.989396
+      inSlope: -0.00031917405
+      outSlope: -0.00031917405
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  HighAccelClip: {fileID: 8300000, guid: 03e3bd08a6e70684dbe299a3e185fdd2, type: 3}
+  HighDecelClip: {fileID: 8300000, guid: 03bf91d88fce91c41995d27de63cc967, type: 3}
+  LowAccelClip: {fileID: 8300000, guid: c4d8928c75c21af43998193f0f038429, type: 3}
+  LowDecelClip: {fileID: 8300000, guid: 5699dddcce16c4543b95951c4ce0e092, type: 3}
+  PitchMultiplier: 1
+  HighPitchMultiplier: 0.65
+  MaxRolloffDistance: 500
+  AccelerationCoeff: 0
+  DEBUG_GEARINDEX: 0
 --- !u!114 &11431390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1617,7 +1689,7 @@ MonoBehaviour:
   m_Tonemapping:
     enabled: 1
     tonemapper: 6
-    exposure: 1
+    exposure: 1.44
     curve:
       serializedVersion: 2
       m_Curve:
@@ -1634,9 +1706,9 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    neutralBlackIn: 0.018
+    neutralBlackIn: 0.0156
     neutralWhiteIn: 9
-    neutralBlackOut: -0.046
+    neutralBlackOut: -0.0468
     neutralWhiteOut: 1
     neutralWhiteLevel: 20
     neutralWhiteClip: 10
@@ -1648,25 +1720,25 @@ MonoBehaviour:
     enabled: 1
     precision: 16
     colorWheels:
-      shadows: {r: 0.7267389, g: 0.8595139, b: 1, a: 1}
-      midtones: {r: 1, g: 0.8403535, b: 0.6613349, a: 1}
-      highlights: {r: 1, g: 0.99675363, b: 0.9513572, a: 1}
+      shadows: {r: 0.7619467, g: 0.87756824, b: 1, a: 1}
+      midtones: {r: 1, g: 0.80716443, b: 0.5909194, a: 1}
+      highlights: {r: 1, g: 0.99628294, b: 0.9443156, a: 1}
     basics:
-      temperatureShift: 0
-      tint: 0
-      hue: 0
-      saturation: 0.9
-      vibrance: 0
-      value: 1.5
-      contrast: 1.08
-      gain: 1
+      temperatureShift: -0.18
+      tint: -0.18
+      hue: 0.004
+      saturation: 0.735
+      vibrance: 0.727
+      value: 1.67
+      contrast: 1.088
+      gain: 1.06
       gamma: 1
     channelMixer:
       currentChannel: 0
       channels:
-      - {x: 1, y: 0, z: 0}
-      - {x: 0, y: 1, z: 0}
-      - {x: 0, y: 0, z: 1}
+      - {x: 0.96, y: 0, z: 0}
+      - {x: 0, y: 1.17, z: -0.31}
+      - {x: 0, y: 0.08, z: 0.77}
     curves:
       master:
         serializedVersion: 2
