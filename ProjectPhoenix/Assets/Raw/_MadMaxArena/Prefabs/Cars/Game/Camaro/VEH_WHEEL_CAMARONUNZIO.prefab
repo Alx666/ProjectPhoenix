@@ -1385,7 +1385,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MinOffset: 12
-  MaxOffset: 25
+  MaxOffset: 28
   StateChanger: 324
   LerpSpeed: 10
   DistanceFromTarget: 0.35
@@ -1403,7 +1403,7 @@ MonoBehaviour:
   Hp: 100
   Armor: 0
   Name: 
-  HpBarMode: 1
+  HpBarMode: 0
   HPBarOffset: 4
   HpBarLerp: 100
   HpBarScale: 0.017
@@ -1782,8 +1782,8 @@ MonoBehaviour:
   - {fileID: 121058}
   Mode: 1
   Spread: 0
-  BulletDelay: 1
-  BarrageDelay: 0.7
+  BulletDelay: 0.1
+  BarrageDelay: 1
   Barrage: 3
 --- !u!114 &11461616
 MonoBehaviour:
