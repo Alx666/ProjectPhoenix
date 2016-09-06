@@ -60,6 +60,7 @@ public class GameManager : NetworkBehaviour
         m_hVictoryCondition = new DeathMatchWinCondition(ScoreToWin);
 
         Cursor.SetCursor(InGameMouseCursor, new Vector2(16, 16), CursorMode.Auto);
+        
     }
 
     private void Instance_Created(object sender, EventArgs e)

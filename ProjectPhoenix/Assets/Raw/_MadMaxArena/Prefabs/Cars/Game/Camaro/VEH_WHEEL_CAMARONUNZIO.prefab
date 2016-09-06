@@ -1403,7 +1403,7 @@ MonoBehaviour:
   Hp: 100
   Armor: 0
   Name: 
-  HpBarMode: 0
+  HpBarMode: 1
   HPBarOffset: 4
   HpBarLerp: 100
   HpBarScale: 0.017
@@ -1496,6 +1496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8224965cf0fff0647b4ebdf860a77a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CentralPoint: {fileID: 0}
   OverrideCenterOfMass: 1
   SyncGfxWheels: 1
   CurrentSpeed: 0
