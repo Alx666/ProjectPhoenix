@@ -60,7 +60,7 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
 
         m_hWheels = new List<Wheel>();
         m_hRigidbody = this.GetComponent<Rigidbody>();
-
+        m_hRigidbody.interpolation = RigidbodyInterpolation.None;
         //Initialize effective wheels
         List<Transform> gfxPos = this.GetComponentsInChildren<Transform>().Where(hT => hT.GetComponent<WheelCollider>() == null).ToList();
         this.GetComponentsInChildren<WheelCollider>().ToList().ForEach(hW => m_hWheels.Add(new Wheel(hW, gfxPos.OrderBy(hP => Vector3.Distance(hP.position, hW.transform.position)).First().gameObject)));
@@ -114,7 +114,13 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
     protected virtual void Start()
     {
         if (!this.isLocalPlayer)
+        {
             GameObject.Destroy(this.GetComponent<InputProviderPCStd>());
+        }
+        else
+        {
+            m_hRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
+        }
 
         if (OverrideCenterOfMass)
             m_hRigidbody.centerOfMass = OverrideCOM;

@@ -1863,12 +1863,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.0625
+  m_SendInterval: 0.033333335
   m_SyncRotationAxis: 2
   m_RotationSyncCompression: 0
   m_SyncSpin: 1
   m_MovementTheshold: 0.001
-  m_SnapThreshold: 5
+  m_SnapThreshold: 1
   m_InterpolateRotation: 10
   m_InterpolateMovement: 1
 --- !u!114 &11421212
@@ -1957,7 +1957,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 131774}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 95aff5708fccc744db47bbfc6841dddc, type: 3}
   m_Name: 
@@ -1980,7 +1980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Target: {fileID: 462870}
   m_ChildIndex: 0
-  m_SendInterval: 0.1
+  m_SendInterval: 0.033333335
   m_SyncRotationAxis: 2
   m_RotationSyncCompression: 2
   m_MovementThreshold: 0.001
@@ -2369,6 +2369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8224965cf0fff0647b4ebdf860a77a0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CentralPoint: {fileID: 0}
   OverrideCenterOfMass: 1
   SyncGfxWheels: 1
   CurrentSpeed: 0
