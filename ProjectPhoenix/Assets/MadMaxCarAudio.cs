@@ -12,6 +12,7 @@ public class MadMaxCarAudio : MonoBehaviour
     public AudioClip    HighDecelClip;
     public AudioClip    LowAccelClip;
     public AudioClip    LowDecelClip;
+    public AnimationCurve RolloffCurve;
     public float        PitchMultiplier        = 1f; 
     public float        HighPitchMultiplier    = 0.25f;      
     public float        MaxRolloffDistance     = 500;         
@@ -104,6 +105,10 @@ public class MadMaxCarAudio : MonoBehaviour
         source.clip = clip;
         source.volume = 0;
         source.loop = true;
+        source.spatialBlend = 1.0f;
+        source.rolloffMode = AudioRolloffMode.Custom;
+        source.SetCustomCurve(AudioSourceCurveType.CustomRolloff, RolloffCurve);
+        
 
         // start the clip from a random point
         source.time = UnityEngine.Random.Range(0f, clip.length);

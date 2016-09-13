@@ -348,11 +348,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxDistance: 200
-  Speed: 125
-  Damage: 20
+  Speed: 500
+  Damage: 2
   LightArmorDamageRate: 1
-  MediumArmorDamageRate: 0.5
-  HeavyArmorDamageRate: 0.3
+  MediumArmorDamageRate: 1
+  HeavyArmorDamageRate: 1
 --- !u!114 &11498002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -369,11 +369,11 @@ MonoBehaviour:
   HitVfxs:
   - {fileID: 128412, guid: 0528c16e09e298c4fbdc8f7a8f6f8a40, type: 2}
   SideHitVfxs:
-  - {fileID: 128412, guid: 0528c16e09e298c4fbdc8f7a8f6f8a40, type: 2}
+  - {fileID: 168004, guid: 64d3cece7fd392c46bb6f2c94d2cd78f, type: 2}
   MissVfxs:
-  - {fileID: 186490, guid: 567393cc238e81449adc11fb38ac507f, type: 2}
+  - {fileID: 168004, guid: 64d3cece7fd392c46bb6f2c94d2cd78f, type: 2}
   SideMissVfxs:
-  - {fileID: 186490, guid: 567393cc238e81449adc11fb38ac507f, type: 2}
+  - {fileID: 168004, guid: 64d3cece7fd392c46bb6f2c94d2cd78f, type: 2}
   MuzzleScaleCoef: 1
   HitScaleCoef: 1
   MissScaleCoef: 1

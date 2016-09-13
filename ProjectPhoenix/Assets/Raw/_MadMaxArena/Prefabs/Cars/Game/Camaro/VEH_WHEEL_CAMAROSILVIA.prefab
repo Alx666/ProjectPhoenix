@@ -205,21 +205,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &122912
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 442658}
-  m_Layer: 0
-  m_Name: WeaponLocator (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &123062
 GameObject:
   m_ObjectHideFlags: 1
@@ -644,21 +629,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &168004
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 483756}
-  m_Layer: 0
-  m_Name: WeaponLocator (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &169376
 GameObject:
   m_ObjectHideFlags: 1
@@ -1011,7 +981,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 118520}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.014, y: 0.174, z: 0.766}
+  m_LocalPosition: {x: -0.014, y: 0.034, z: 0.978}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 468902}
@@ -1073,7 +1043,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 189598}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -411.91858, y: 55.13762, z: -431.31458}
+  m_LocalPosition: {x: 2.8445568, y: 0.32550526, z: -2.8073168}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 483274}
@@ -1266,18 +1236,6 @@ Transform:
   - {fileID: 423044}
   m_Father: {fileID: 400900}
   m_RootOrder: 0
---- !u!4 &442658
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 122912}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.136, y: -0.044, z: 0.76598907}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 468902}
-  m_RootOrder: 1
 --- !u!4 &443042
 Transform:
   m_ObjectHideFlags: 1
@@ -1475,8 +1433,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 402150}
-  - {fileID: 442658}
-  - {fileID: 483756}
   m_Father: {fileID: 470026}
   m_RootOrder: 0
 --- !u!4 &470026
@@ -1583,18 +1539,6 @@ Transform:
   - {fileID: 473022}
   m_Father: {fileID: 414046}
   m_RootOrder: 0
---- !u!4 &483756
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 168004}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.19, y: -0.043999515, z: 0.76598907}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 468902}
-  m_RootOrder: 2
 --- !u!4 &492510
 Transform:
   m_ObjectHideFlags: 1
@@ -2620,7 +2564,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 189598}
   serializedVersion: 2
-  m_Mass: 1850
+  m_Mass: 1500
   m_Drag: 0.05
   m_AngularDrag: 0.6
   m_UseGravity: 1
@@ -2998,7 +2942,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Target: {fileID: 470026}
   m_ChildIndex: 0
-  m_SendInterval: 0.1
+  m_SendInterval: 0.125
   m_SyncRotationAxis: 2
   m_RotationSyncCompression: 2
   m_MovementThreshold: 0.001
@@ -3149,14 +3093,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.033333335
-  m_SyncRotationAxis: 2
-  m_RotationSyncCompression: 0
+  m_SendInterval: 0.06666667
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 2
   m_SyncSpin: 1
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 1
-  m_InterpolateRotation: 10
-  m_InterpolateMovement: 1
+  m_MovementTheshold: 0.01
+  m_SnapThreshold: 12
+  m_InterpolateRotation: 20
+  m_InterpolateMovement: 0.5
 --- !u!114 &11463088
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3250,9 +3194,30 @@ MonoBehaviour:
   HighDecelClip: {fileID: 8300000, guid: 03bf91d88fce91c41995d27de63cc967, type: 3}
   LowAccelClip: {fileID: 8300000, guid: c4d8928c75c21af43998193f0f038429, type: 3}
   LowDecelClip: {fileID: 8300000, guid: 5699dddcce16c4543b95951c4ce0e092, type: 3}
+  RolloffCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 10
+    - time: 0.25
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: -1.3333334
+      outSlope: -1.3333334
+      tangentMode: 10
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   PitchMultiplier: 1
   HighPitchMultiplier: 0.65
-  MaxRolloffDistance: 500
+  MaxRolloffDistance: 250
   AccelerationCoeff: 0
   DEBUG_GEARINDEX: 0
 --- !u!114 &11473990
@@ -3401,13 +3366,11 @@ MonoBehaviour:
   BulletPrefab: {fileID: 148604, guid: c0cf99ad894d3fa4ab35643ac616d1ac, type: 2}
   ShootLocators:
   - {fileID: 118520}
-  - {fileID: 122912}
-  - {fileID: 168004}
   Mode: 1
-  Spread: 0
-  BulletDelay: 0.3
-  BarrageDelay: 1
-  Barrage: 3
+  Spread: 0.3
+  BulletDelay: 0.05
+  BarrageDelay: 0.1
+  Barrage: 5
 --- !u!124 &12493634
 Behaviour:
   m_ObjectHideFlags: 1

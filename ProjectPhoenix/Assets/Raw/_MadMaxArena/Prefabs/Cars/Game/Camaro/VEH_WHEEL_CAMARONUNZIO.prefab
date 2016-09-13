@@ -81,21 +81,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &121058
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 481688}
-  m_Layer: 0
-  m_Name: WeaponLocator (3)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &123878
 GameObject:
   m_ObjectHideFlags: 0
@@ -479,21 +464,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &189084
-GameObject:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 407294}
-  m_Layer: 0
-  m_Name: WeaponLocator (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &193894
 GameObject:
   m_ObjectHideFlags: 1
@@ -572,7 +542,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 193894}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.14100805, y: 0.114, z: 1.2400082}
+  m_LocalPosition: {x: -0.13, y: 0.009, z: 1.2400082}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 410004}
@@ -609,18 +579,6 @@ Transform:
   - {fileID: 466862}
   m_Father: {fileID: 461824}
   m_RootOrder: 0
---- !u!4 &407294
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 189084}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.315, y: -0.014, z: 1.2400082}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 410004}
-  m_RootOrder: 1
 --- !u!4 &408414
 Transform:
   m_ObjectHideFlags: 1
@@ -644,8 +602,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400118}
-  - {fileID: 407294}
-  - {fileID: 481688}
   m_Father: {fileID: 466862}
   m_RootOrder: 0
 --- !u!4 &416772
@@ -846,18 +802,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 462220}
   m_RootOrder: 5
---- !u!4 &481688
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 121058}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.04, y: -0.013998747, z: 1.2400082}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 410004}
-  m_RootOrder: 2
 --- !u!4 &482032
 Transform:
   m_ObjectHideFlags: 1
@@ -1247,7 +1191,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 143454}
   serializedVersion: 2
-  m_Mass: 1850
+  m_Mass: 1500
   m_Drag: 0.05
   m_AngularDrag: 0.6
   m_UseGravity: 1
@@ -1757,14 +1701,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.033333335
-  m_SyncRotationAxis: 2
-  m_RotationSyncCompression: 0
+  m_SendInterval: 0.06666667
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 2
   m_SyncSpin: 1
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 1
-  m_InterpolateRotation: 10
-  m_InterpolateMovement: 1
+  m_MovementTheshold: 0.01
+  m_SnapThreshold: 12
+  m_InterpolateRotation: 20
+  m_InterpolateMovement: 0.5
 --- !u!114 &11461150
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1779,13 +1723,11 @@ MonoBehaviour:
   BulletPrefab: {fileID: 149850, guid: 051988ea49acba84cb0315584179fce0, type: 2}
   ShootLocators:
   - {fileID: 193894}
-  - {fileID: 189084}
-  - {fileID: 121058}
   Mode: 1
-  Spread: 0
-  BulletDelay: 0.1
-  BarrageDelay: 1
-  Barrage: 3
+  Spread: 0.4
+  BulletDelay: 0.03
+  BarrageDelay: 0.03
+  Barrage: 1
 --- !u!114 &11461616
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1942,7 +1884,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Target: {fileID: 466862}
   m_ChildIndex: 0
-  m_SendInterval: 0.1
+  m_SendInterval: 0.125
   m_SyncRotationAxis: 2
   m_RotationSyncCompression: 2
   m_MovementThreshold: 0.001
@@ -2014,9 +1956,30 @@ MonoBehaviour:
   HighDecelClip: {fileID: 8300000, guid: 03bf91d88fce91c41995d27de63cc967, type: 3}
   LowAccelClip: {fileID: 8300000, guid: c4d8928c75c21af43998193f0f038429, type: 3}
   LowDecelClip: {fileID: 8300000, guid: 5699dddcce16c4543b95951c4ce0e092, type: 3}
+  RolloffCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 10
+    - time: 0.25
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: -1.3333334
+      outSlope: -1.3333334
+      tangentMode: 10
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   PitchMultiplier: 1
   HighPitchMultiplier: 0.65
-  MaxRolloffDistance: 500
+  MaxRolloffDistance: 250
   AccelerationCoeff: 0
   DEBUG_GEARINDEX: 0
 --- !u!124 &12410388

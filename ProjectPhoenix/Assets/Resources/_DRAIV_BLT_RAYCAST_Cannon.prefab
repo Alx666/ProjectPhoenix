@@ -316,7 +316,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MuzzleVfxs:
-  - {fileID: 199628, guid: ef7d25be43b4dcd4a9222abb58968be2, type: 2}
+  - {fileID: 189476, guid: a3a60b8d46cb1e64492af25fffeeab95, type: 2}
   HitVfxs:
   - {fileID: 151156, guid: 3055e4d899d560a44847a51f0ca9270b, type: 2}
   SideHitVfxs:
@@ -325,9 +325,9 @@ MonoBehaviour:
   - {fileID: 118532, guid: d85b8b15977ca284a841d456b5ec79fb, type: 2}
   SideMissVfxs:
   - {fileID: 118532, guid: d85b8b15977ca284a841d456b5ec79fb, type: 2}
-  MuzzleScaleCoef: 1
-  HitScaleCoef: 1
-  MissScaleCoef: 1
+  MuzzleScaleCoef: 0.5
+  HitScaleCoef: 1.1
+  MissScaleCoef: 1.1
 --- !u!114 &11438082
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -372,11 +372,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxDistance: 150
-  Speed: 200
-  Damage: 15
+  Speed: 500
+  Damage: 30
   LightArmorDamageRate: 1
-  MediumArmorDamageRate: 0.5
-  HeavyArmorDamageRate: 0.3
+  MediumArmorDamageRate: 1
+  HeavyArmorDamageRate: 1
 --- !u!198 &19807560
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -1161,7 +1161,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 184660}
   serializedVersion: 2
-  m_Mass: 1850
+  m_Mass: 1500
   m_Drag: 0.05
   m_AngularDrag: 0.1
   m_UseGravity: 1
@@ -1453,9 +1453,30 @@ MonoBehaviour:
   HighDecelClip: {fileID: 8300000, guid: 03bf91d88fce91c41995d27de63cc967, type: 3}
   LowAccelClip: {fileID: 8300000, guid: c4d8928c75c21af43998193f0f038429, type: 3}
   LowDecelClip: {fileID: 8300000, guid: 5699dddcce16c4543b95951c4ce0e092, type: 3}
+  RolloffCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 10
+    - time: 0.25
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: -1.3333334
+      outSlope: -1.3333334
+      tangentMode: 10
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
   PitchMultiplier: 1
   HighPitchMultiplier: 0.65
-  MaxRolloffDistance: 500
+  MaxRolloffDistance: 250
   AccelerationCoeff: 0
   DEBUG_GEARINDEX: 0
 --- !u!114 &11436352
@@ -1469,7 +1490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 149850, guid: 051988ea49acba84cb0315584179fce0, type: 2}
+  BulletPrefab: {fileID: 100000, guid: c74bc7ee383205642a1d19ea4091c0de, type: 2}
   ShootLocators:
   - {fileID: 167674}
   Mode: 0
@@ -1739,7 +1760,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Target: {fileID: 499264}
   m_ChildIndex: 0
-  m_SendInterval: 0.033333335
+  m_SendInterval: 0.125
   m_SyncRotationAxis: 2
   m_RotationSyncCompression: 2
   m_MovementThreshold: 0.001
@@ -1826,14 +1847,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 3
-  m_SendInterval: 0.033333335
-  m_SyncRotationAxis: 2
-  m_RotationSyncCompression: 0
+  m_SendInterval: 0.06666667
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 2
   m_SyncSpin: 1
-  m_MovementTheshold: 0.001
-  m_SnapThreshold: 1
-  m_InterpolateRotation: 10
-  m_InterpolateMovement: 1
+  m_MovementTheshold: 0.01
+  m_SnapThreshold: 12
+  m_InterpolateRotation: 20
+  m_InterpolateMovement: 0.5
 --- !u!114 &11481916
 MonoBehaviour:
   m_ObjectHideFlags: 1

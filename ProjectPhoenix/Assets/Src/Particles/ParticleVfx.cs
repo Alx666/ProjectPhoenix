@@ -12,12 +12,15 @@ public class ParticleVfx : MonoBehaviour, IVisualEffect, IPoolable
 
     private List<ParticleSystem> m_hParticle;
     private AudioSource m_hAudioSource;
+    private bool FirstPlay;
 
     void Awake()
     {
         m_hParticle = this.GetComponentsInChildren<ParticleSystem>().ToList();
         m_hAudioSource = this.GetComponent<AudioSource>();
+        FirstPlay = true;
     }
+
 
     public void PlayEffect(Vector3 vPosition, Vector3 vDirection, float scaleCoef, bool isSide)
     {
@@ -28,7 +31,11 @@ public class ParticleVfx : MonoBehaviour, IVisualEffect, IPoolable
         else
             this.gameObject.transform.forward = vDirection;
 
-        m_hParticle.ForEach(hP => hP.startSize = hP.startSize * scaleCoef);
+        if (FirstPlay)
+        {
+            m_hParticle.ForEach(hP => hP.startSize = hP.startSize * scaleCoef);
+            FirstPlay = false;
+        }
 
         m_hParticle.ForEach(hP => hP.Play());
         m_hAudioSource.Play();

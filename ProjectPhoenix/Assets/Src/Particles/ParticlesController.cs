@@ -17,7 +17,7 @@ public class ParticlesController : MonoBehaviour
     internal void PlayMuzzleVfx(Vector3 vPosition, Vector3 vDirection)
     {
         IVisualEffect effectParticle = GlobalFactory.GetInstance<IVisualEffect>(MuzzleVfxs[Random.Range(0, MuzzleVfxs.Count)]);
-        effectParticle.PlayEffect(vPosition, vDirection, Random.Range(MuzzleScaleCoef * 0.5f, MuzzleScaleCoef * 1.5f), false);
+        effectParticle.PlayEffect(vPosition, vDirection, MuzzleScaleCoef, false);
     }
     internal void PlayHitVfx(Vector3 vPosition, Vector3 vNormal)
     {
