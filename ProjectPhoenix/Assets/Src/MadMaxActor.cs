@@ -31,6 +31,8 @@ public class MadMaxActor : Actor
     public float HpBarLerp = 10f;
     [Range(0.01f, 1f)]
     public float HpBarScale = 0.01f;
+    private Image DamageImage;
+    public float FlashSpeed = 5.0f;
 
     public GameObject DeathExplosionPrefab;
 
@@ -41,10 +43,11 @@ public class MadMaxActor : Actor
     public float ImpactCoolDownTime = 1f;
     private LinkedList<MadMaxActor> impactCoolDownActors;
 
-   private  ControllerWheels wheels;
+    private ControllerWheels wheels;
+    private Color DMGColor;
 
 
-    
+
 
     void Awake()
     {
@@ -73,6 +76,8 @@ public class MadMaxActor : Actor
 
         wheels = GetComponent<ControllerWheels>();
 
+        DMGColor = DamageImage.color;
+        DMGColor.a = 0.5f;
         #endregion
 
         if (HpBarMode == HealthBarMode.WorldSpace)
@@ -107,6 +112,8 @@ public class MadMaxActor : Actor
         //debug
         if (Input.GetKeyDown(KeyCode.Space))
             this.Die(this);
+        if (isLocalPlayer && DamageImage.color != Color.clear && DamageImage != null)
+            DamageImage.color = Color.Lerp(DamageImage.color, Color.clear, FlashSpeed * Time.deltaTime);
     }
 
     void LateUpdate()
@@ -132,6 +139,9 @@ public class MadMaxActor : Actor
     {
         if (hSource.Owner == this)
             return;
+
+        if (isLocalPlayer && DamageImage != null)
+            DamageImage.color = DMGColor;
 
         LastActor = hSource.Owner;
 
@@ -189,13 +199,13 @@ public class MadMaxActor : Actor
 
         //m_hRenderers.ForEach(hR => hR.enabled = false);
         //m_hColliders.ForEach(hC => hC.enabled = false);
-        
+
         //m_hRigidbody.ResetCenterOfMass();
         m_hRigidbody.AddForce(Vector3.up * 12f, ForceMode.VelocityChange);
         m_hRigidbody.AddTorque(Random.rotation.eulerAngles * 10f, ForceMode.VelocityChange);
         Physics.OverlapSphere(this.transform.position, 10f).Select(x => x.GetComponent<Rigidbody>()).Where(x => x != null).ToList().ForEach(x => x.AddExplosionForce(10f, this.transform.position, 0f));
         //this.m_hController.enabled = false;
-        
+
 
         StartCoroutine(WaitForRespawn(GameManager.Instance.RespawnTime));
 
@@ -232,7 +242,7 @@ public class MadMaxActor : Actor
 
 
         m_hBomb.Reset();
-        if(wheels != null)
+        if (wheels != null)
         {
             wheels.Reset();
         }
