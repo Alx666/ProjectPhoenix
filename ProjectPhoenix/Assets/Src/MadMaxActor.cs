@@ -31,8 +31,6 @@ public class MadMaxActor : Actor
     public float HpBarLerp = 10f;
     [Range(0.01f, 1f)]
     public float HpBarScale = 0.01f;
-    private Image DamageImage;
-    public float FlashSpeed = 5.0f;
 
     public GameObject DeathExplosionPrefab;
 
@@ -44,7 +42,7 @@ public class MadMaxActor : Actor
     private LinkedList<MadMaxActor> impactCoolDownActors;
 
     private ControllerWheels wheels;
-    private Color DMGColor;
+
 
 
 
@@ -76,8 +74,9 @@ public class MadMaxActor : Actor
 
         wheels = GetComponent<ControllerWheels>();
 
-        DMGColor = DamageImage.color;
-        DMGColor.a = 0.5f;
+
+
+
         #endregion
 
         if (HpBarMode == HealthBarMode.WorldSpace)
@@ -112,8 +111,7 @@ public class MadMaxActor : Actor
         //debug
         if (Input.GetKeyDown(KeyCode.Space))
             this.Die(this);
-        if (isLocalPlayer && DamageImage.color != Color.clear && DamageImage != null)
-            DamageImage.color = Color.Lerp(DamageImage.color, Color.clear, FlashSpeed * Time.deltaTime);
+
     }
 
     void LateUpdate()
@@ -140,8 +138,8 @@ public class MadMaxActor : Actor
         if (hSource.Owner == this)
             return;
 
-        if (isLocalPlayer && DamageImage != null)
-            DamageImage.color = DMGColor;
+
+
 
         LastActor = hSource.Owner;
 
@@ -324,10 +322,10 @@ public class MadMaxActor : Actor
                 damage = dmg;           //Danno da impatto TOTALE
                 break;
             case ArmorType.Medium:
-                damage = dmg * 0.5f;    //Danno da impatto DIMEZZATO
+                damage = dmg; //* 0.5f;    //Danno da impatto DIMEZZATO
                 break;
             case ArmorType.Heavy:
-                damage = dmg * 0.3f;    //Danno da impatto di UN TERZO
+                damage = dmg;// * 0.3f;    //Danno da impatto di UN TERZO
                 break;
             default:
                 break;
