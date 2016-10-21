@@ -22,6 +22,7 @@ public class MadMaxActor : Actor
     private List<Collider> m_hColliders;
     private Vector3 PlayableCenterOfMass;
     private MadMaxCarAudio m_hAudioCtrl;
+    //private DMGImageMGR dmgImgMGR;
 
     [Header("Health Bar Config")]
     public HealthBarMode HpBarMode = HealthBarMode.WorldSpace;
@@ -74,7 +75,7 @@ public class MadMaxActor : Actor
 
         wheels = GetComponent<ControllerWheels>();
 
-
+        //dmgImgMGR = GameManager.Instance.GetComponentInChildren<DMGImageMGR>();
 
 
         #endregion
@@ -92,7 +93,17 @@ public class MadMaxActor : Actor
     void Start()
     {
         if (!isServer && localPlayerAuthority)
+        {
             CmdSyncPlayer();
+            
+        }
+        StartCoroutine(WaitForInit());
+    }
+
+    public IEnumerator WaitForInit()
+    {
+        yield return new WaitForSeconds(5.0f);
+        //dmgImgMGR = GameManager.Instance.GetComponentInChildren<DMGImageMGR>();
     }
 
     #region Sexy Code
@@ -111,6 +122,8 @@ public class MadMaxActor : Actor
         //debug
         if (Input.GetKeyDown(KeyCode.Space))
             this.Die(this);
+        //if (Input.GetKeyDown(KeyCode.H))
+        //    dmgImgMGR.FlashIn();
 
     }
 
@@ -139,7 +152,7 @@ public class MadMaxActor : Actor
             return;
 
 
-
+        //dmgImgMGR.FlashIn();
 
         LastActor = hSource.Owner;
 
