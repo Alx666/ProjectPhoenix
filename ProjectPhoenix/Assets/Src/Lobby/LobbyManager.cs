@@ -38,6 +38,7 @@ public class LobbyManager : NetworkLobbyManager
             throw new Exception("Duplicate Lobby Manager Detected!");
 
         Instance = this;
+        playScene = "DRAIV_Game_LuccaComicsEdition";
     }
     #region Control Methods
 
@@ -169,6 +170,7 @@ public class LobbyManager : NetworkLobbyManager
 
         if (allready)
             ServerChangeScene(playScene);
+        
     }
 
     public List<GameObject> GetPlayerInstances()
