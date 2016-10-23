@@ -44,9 +44,7 @@ public class MadMaxActor : Actor
 
     private ControllerWheels wheels;
 
-
-
-
+    public bool CanTakeDamage { get; private set; }
 
     void Awake()
     {
@@ -77,7 +75,7 @@ public class MadMaxActor : Actor
 
         //dmgImgMGR = GameManager.Instance.GetComponentInChildren<DMGImageMGR>();
 
-
+        CanTakeDamage = true;
         #endregion
 
         if (HpBarMode == HealthBarMode.WorldSpace)
@@ -151,6 +149,8 @@ public class MadMaxActor : Actor
         if (hSource.Owner == this)
             return;
 
+        if (!CanTakeDamage)
+            return;
 
         //dmgImgMGR.FlashIn();
 
@@ -209,7 +209,6 @@ public class MadMaxActor : Actor
         }
 
         //m_hRenderers.ForEach(hR => hR.enabled = false);
-        //m_hColliders.ForEach(hC => hC.enabled = false);
 
         //m_hRigidbody.ResetCenterOfMass();
         m_hRigidbody.AddForce(Vector3.up * 12f, ForceMode.VelocityChange);
@@ -217,6 +216,8 @@ public class MadMaxActor : Actor
         Physics.OverlapSphere(this.transform.position, 10f).Select(x => x.GetComponent<Rigidbody>()).Where(x => x != null).ToList().ForEach(x => x.AddExplosionForce(10f, this.transform.position, 0f));
         //this.m_hController.enabled = false;
 
+        //m_hColliders.ForEach(hC => hC.enabled = false);
+        CanTakeDamage = false;
 
         StartCoroutine(WaitForRespawn(GameManager.Instance.RespawnTime));
 
@@ -241,8 +242,8 @@ public class MadMaxActor : Actor
     {
         this.transform.position = GameManager.Instance.GetRandomSpawnPoint();
         this.m_hRigidbody.isKinematic = false;
-        m_hRenderers.ForEach(hR => hR.enabled = true);
-        m_hColliders.ForEach(hC => hC.enabled = true);
+        //m_hRenderers.ForEach(hR => hR.enabled = true);
+        //m_hColliders.ForEach(hC => hC.enabled = true);
         m_hWeapon.enabled = true;
         HealthBar.enabled = true;
         this.gameObject.transform.up = Vector3.up;
@@ -251,6 +252,7 @@ public class MadMaxActor : Actor
         m_hRigidbody.angularVelocity = Vector3.zero;
         m_hAudioCtrl.enabled = true;
 
+        CanTakeDamage = true;
 
         m_hBomb.Reset();
         if (wheels != null)
