@@ -38,7 +38,7 @@ public class LobbyManager : NetworkLobbyManager
             throw new Exception("Duplicate Lobby Manager Detected!");
 
         Instance = this;
-        playScene = "DRAIV_Game_LuccaComicsEdition";
+        playScene = "DRAIV_Game_LuccaComicsEdition_NightTime";
     }
     #region Control Methods
 
