@@ -209,6 +209,7 @@ public class MadMaxActor : Actor
         }
 
         //m_hRenderers.ForEach(hR => hR.enabled = false);
+        //m_hColliders.ForEach(hC => hC.enabled = false);
 
         //m_hRigidbody.ResetCenterOfMass();
         m_hRigidbody.AddForce(Vector3.up * 12f, ForceMode.VelocityChange);
@@ -216,7 +217,6 @@ public class MadMaxActor : Actor
         Physics.OverlapSphere(this.transform.position, 10f).Select(x => x.GetComponent<Rigidbody>()).Where(x => x != null).ToList().ForEach(x => x.AddExplosionForce(10f, this.transform.position, 0f));
         //this.m_hController.enabled = false;
 
-        //m_hColliders.ForEach(hC => hC.enabled = false);
         CanTakeDamage = false;
 
         StartCoroutine(WaitForRespawn(GameManager.Instance.RespawnTime));

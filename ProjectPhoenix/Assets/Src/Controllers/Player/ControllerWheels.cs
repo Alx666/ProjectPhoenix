@@ -304,7 +304,7 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
         EndPanLeft();
         EndFire();
 
-        m_hEngine.StopImmediate();
+        //m_hEngine.StopImmediate();
     }
 
     public void EndDown()

@@ -105,9 +105,9 @@ public class GameManager : NetworkBehaviour
     void GameTerminated()
     {
         if (scores.OrderByDescending(hS => hS.Value).FirstOrDefault().Key.isLocalPlayer)
-            EndText.text = "HAIL VICTORY";
+            EndText.text = "You Win!";
         else
-            EndText.text = "STINKY DEFEAT";
+            EndText.text = "You Lost!";
 
         StartCoroutine(WaitForEndGame(3f));
     }
