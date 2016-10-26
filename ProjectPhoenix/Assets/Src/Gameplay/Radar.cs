@@ -13,12 +13,10 @@ public class Radar : MonoBehaviour
     private Plane               m_vPlaneUpper;
     private Plane               m_vPlaneLeft;
     private Plane               m_vPlaneBottom;
+    private Vector2             m_vScreenOffset;
 
     public GameObject           Player        { get; set; }
     public List<Image>          GuiArrows;
-
-    [Range(1.5f, 3.0f)]
-    public float                ScreenCoeff = 2.2f;
 
     [Range(100f, 350f)]
     public float                MaxDistance = 350f;
@@ -30,11 +28,13 @@ public class Radar : MonoBehaviour
         m_hFloats = new List<float>();
         GuiArrows.ForEach(x => x.enabled = false);
 
-        m_vScreenCenter     = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
-        m_vPlaneRight       = new Plane(Vector3.left, Screen.width    / ScreenCoeff);
-        m_vPlaneUpper       = new Plane(Vector3.down, Screen.height   / ScreenCoeff);
-        m_vPlaneLeft        = new Plane(Vector3.left, -Screen.width   / ScreenCoeff);
-        m_vPlaneBottom      = new Plane(Vector3.down, -Screen.height  / ScreenCoeff);
+        m_vScreenCenter     = new Vector3(0.5f, 0.5f, 0f);
+        m_vPlaneRight       = new Plane(Vector3.left,   1f);
+        m_vPlaneUpper       = new Plane(Vector3.down,   1f);
+        m_vPlaneLeft        = new Plane(Vector3.right,  0f);
+        m_vPlaneBottom      = new Plane(Vector3.up,     0f);
+
+        m_vScreenOffset     = new Vector2(20f, 20f);
     }
 
 	
@@ -45,17 +45,20 @@ public class Radar : MonoBehaviour
 
         m_hFloats.Clear();
 
-        Vector3 vPlayer2D = Camera.main.WorldToScreenPoint(Player.transform.position);
+        Vector3 vPlayer2D = GameManager.Instance.CustomCamera.Camera.WorldToViewportPoint(Player.transform.position);
 
         for (int i = 0; i < m_hArrows.Count; i++)
         {
             TargetArrow hCurrent    = m_hArrows[i];
-            Vector3 vEnemyRelative2D = Camera.main.WorldToScreenPoint(hCurrent.Target.transform.position);
+            Vector3 vEnemyRelative2D = GameManager.Instance.CustomCamera.Camera.WorldToViewportPoint(hCurrent.Target.transform.position);
+            
+            //PRENDILA PER VERAAA!!!
+            vEnemyRelative2D = vEnemyRelative2D.z < 0f ? -vEnemyRelative2D : vEnemyRelative2D;
 
             bool bNotInRangeCondition      = Vector3.Distance(hCurrent.Target.transform.position, Player.transform.position) > MaxDistance;
-            bool bNotInScreenCondition  = vEnemyRelative2D.x > 0 && vEnemyRelative2D.x < Screen.width && vEnemyRelative2D.y > 0 && vEnemyRelative2D.y < Screen.height;
+            bool bInScreenCondition        = vEnemyRelative2D.x > 0f && vEnemyRelative2D.x < 1f && vEnemyRelative2D.y > 0f && vEnemyRelative2D.y < 1f;
 
-            if (bNotInScreenCondition || bNotInRangeCondition)
+            if (bInScreenCondition || bNotInRangeCondition)
             {
                 hCurrent.Arrow.enabled = false;
                 continue;
@@ -64,11 +67,13 @@ public class Radar : MonoBehaviour
             {
                 hCurrent.Arrow.enabled = true;
 
-                vEnemyRelative2D = (vEnemyRelative2D - vPlayer2D).normalized;
+                Vector2 vP = vPlayer2D;
+                Vector2 vT = vEnemyRelative2D;
+                Vector2 vR = (vT - vP).normalized;
 
-                Ray vRay = new Ray(Vector3.zero, vEnemyRelative2D);
+                Ray vRay = new Ray(vPlayer2D, vR);
 
-                m_hFloats = new List<float>();
+                //m_hFloats = new List<float>();
 
                 float fLeftRes;
                 if (m_vPlaneLeft.Raycast(vRay, out fLeftRes))
@@ -89,15 +94,19 @@ public class Radar : MonoBehaviour
                 float fMin = m_hFloats.Min();
 
                 Vector3 vBorder = vRay.GetPoint(fMin);
+                vBorder.x = Mathf.Clamp(vBorder.x *= Screen.width, m_vScreenOffset.x, Screen.width - m_vScreenOffset.x);
+                vBorder.y = Mathf.Clamp(vBorder.y *= Screen.height, m_vScreenOffset.y, Screen.height - m_vScreenOffset.y);
 
-                vBorder += m_vScreenCenter;
-
-                hCurrent.Arrow.rectTransform.right = -(vBorder - m_vScreenCenter).normalized;
+                hCurrent.Arrow.rectTransform.right = -vRay.direction;
+                Vector3 vAngles = hCurrent.Arrow.rectTransform.rotation.eulerAngles;
+                vAngles.x = 0f;
+                vAngles.y = 0f;
+                hCurrent.Arrow.rectTransform.rotation = Quaternion.Euler(vAngles);
                 hCurrent.Arrow.rectTransform.position = vBorder;
+
             }                                                            
         }
     }
-
 
     public void Add(GameObject hTarget)
     {
@@ -122,8 +131,6 @@ public class Radar : MonoBehaviour
 
         GuiArrows.Add(vToRemove.Arrow);
     }
-
-
 
     public class TargetArrow
     {

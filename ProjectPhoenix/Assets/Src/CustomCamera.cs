@@ -24,6 +24,8 @@ public class CustomCamera : MonoBehaviour
     Transform m_hDepthOfField;
     UnityStandardAssets.CinematicEffects.DepthOfField DoF;
 
+    public Camera Camera { get; set; }
+
     void Awake()
     {
         DoF = this.GetComponent<UnityStandardAssets.CinematicEffects.DepthOfField>();
@@ -43,6 +45,8 @@ public class CustomCamera : MonoBehaviour
         {
             GameObject.Destroy(this.gameObject);
         }
+
+        Camera = this.GetComponent<Camera>();
     }
 
 

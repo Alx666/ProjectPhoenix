@@ -22,7 +22,8 @@ public class GameManager : NetworkBehaviour
     private List<NetworkStartPosition> m_hSpawnPoints;
     private IVictoryCondition m_hVictoryCondition;
     private List<Actor> m_hActors;
-    private Radar m_hRadar;
+    public Radar Radar { get; set; }
+    public CustomCamera CustomCamera { get; set; }
 
     void Awake()
     {
@@ -36,13 +37,12 @@ public class GameManager : NetworkBehaviour
 
         
     }
-    
 
     void Start()
     {
-        CustomCamera hCamera = GameObject.FindObjectOfType<CustomCamera>();
-        m_hRadar = this.GetComponent<Radar>();
-        m_hRadar.Player = hCamera.Target;
+        Radar = this.GetComponent<Radar>();
+        CustomCamera = GameObject.FindObjectOfType<CustomCamera>();
+        Radar.Player = CustomCamera.Target;
 
         m_hActors = new List<Actor>(LobbyManager.Instance.GetActors());
         if (m_hActors != null)
@@ -85,8 +85,8 @@ public class GameManager : NetworkBehaviour
             if (!scores.ContainsKey(hActor))
                 scores.Add(hActor, 0);
 
-            if(hActor.gameObject != m_hRadar.Player)
-                m_hRadar.Add(hActor.gameObject);
+            if(hActor.gameObject != Radar.Player)
+                Radar.Add(hActor.gameObject);
         }
     }
 
@@ -94,6 +94,11 @@ public class GameManager : NetworkBehaviour
 
     void Update()
     {
+        if (CustomCamera == null)
+        {
+            CustomCamera = GameObject.FindObjectOfType<CustomCamera>();
+            Radar.Player = CustomCamera.Target;
+        }
         ScoreText.text = scores.ToList().Where(hP => hP.Key.isLocalPlayer).FirstOrDefault().Value.ToString();
     }
 
