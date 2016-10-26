@@ -303,7 +303,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &133000
 GameObject:
   m_ObjectHideFlags: 1
@@ -597,7 +597,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &179876
 GameObject:
   m_ObjectHideFlags: 1
@@ -2150,13 +2150,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 100000, guid: c74bc7ee383205642a1d19ea4091c0de, type: 2}
+  BulletPrefab: {fileID: 149850, guid: 051988ea49acba84cb0315584179fce0, type: 2}
   ShootLocators:
   - {fileID: 128670}
   Mode: 0
-  Spread: 0
-  BulletDelay: 0.3
-  BarrageDelay: 0.3
+  Spread: 0.4
+  BulletDelay: 0.03
+  BarrageDelay: 0.03
   Barrage: 1
 --- !u!114 &11425650
 MonoBehaviour:
