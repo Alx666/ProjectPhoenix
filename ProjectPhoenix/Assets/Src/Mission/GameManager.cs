@@ -35,12 +35,11 @@ public class GameManager : NetworkBehaviour
         scores = new Dictionary<Actor, int>(); //TODO: popolare lista con i player [Compito del lobby manager]
         m_hSpawnPoints = new List<NetworkStartPosition>(FindObjectsOfType<NetworkStartPosition>());
 
-        
+        Radar = this.GetComponent<Radar>();
     }
 
     void Start()
     {
-        Radar = this.GetComponent<Radar>();
         CustomCamera = GameObject.FindObjectOfType<CustomCamera>();
         Radar.Player = CustomCamera.Target;
 

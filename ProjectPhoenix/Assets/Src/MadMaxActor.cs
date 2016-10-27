@@ -93,7 +93,6 @@ public class MadMaxActor : Actor
         if (!isServer && localPlayerAuthority)
         {
             CmdSyncPlayer();
-            
         }
         StartCoroutine(WaitForInit());
     }

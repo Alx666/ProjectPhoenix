@@ -102,6 +102,7 @@ public class Radar : MonoBehaviour
                 vAngles.x = 0f;
                 vAngles.y = 0f;
                 hCurrent.Arrow.rectTransform.rotation = Quaternion.Euler(vAngles);
+
                 hCurrent.Arrow.rectTransform.position = vBorder;
 
             }                                                            
