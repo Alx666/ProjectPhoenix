@@ -247,6 +247,14 @@ public class Weapon : NetworkBehaviour, IWeapon
                 throw new NotImplementedException();
             }
         }
+
+        public class ShootBeam : IShootStrategy
+        {
+            public void Shoot()
+            {
+                
+            }
+        }
         #endregion
 
 

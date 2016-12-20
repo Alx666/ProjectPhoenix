@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 
-public class FlameThrower : MonoBehaviour, IBeam
+public class FlameThrower : NetworkBehaviour, IBeam, IPoolable
 {
     public Light FlameLight;
     public Actor Owner { get; set; }
+
+    public Pool Pool { get; set; }
 
     public float MaxFireLength;
     public float DPS;
@@ -71,5 +74,10 @@ public class FlameThrower : MonoBehaviour, IBeam
     public float GetDamage(ArmorType armor)
     {
         throw new NotImplementedException();
+    }
+
+    public void Enable()
+    {
+        this.gameObject.SetActive(true);
     }
 }

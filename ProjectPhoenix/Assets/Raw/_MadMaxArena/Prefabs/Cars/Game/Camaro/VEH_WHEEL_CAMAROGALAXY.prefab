@@ -276,7 +276,7 @@ GameObject:
   - 114: {fileID: 11461332}
   - 114: {fileID: 11488962}
   - 114: {fileID: 11413318}
-  - 114: {fileID: 11482380}
+  - 114: {fileID: 11450952}
   m_Layer: 0
   m_Name: VEH_WHEEL_CAMAROGALAXY
   m_TagString: Untagged
@@ -2626,6 +2626,22 @@ MonoBehaviour:
   RotationSpeed: 15
   MinAngle: -45
   MaxAngle: 15
+--- !u!114 &11450952
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b24167ba8b9dcbf4db1f286da9796da0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActiveTime: 5
+  Cooldown: 2
+  ShootLocators:
+  - {fileID: 178708}
+  Beam: {fileID: 140710, guid: a2875353b0a00504d88887011630d970, type: 2}
 --- !u!114 &11451454
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2908,25 +2924,6 @@ MonoBehaviour:
     type: 3}
   m_TextureBokehShader: {fileID: 4800000, guid: c961b8ed1f00f924d804ada5143bd0e8,
     type: 3}
---- !u!114 &11482380
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 129014}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5900203fbdad324794c428085965498, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BulletPrefab: {fileID: 148604, guid: c0cf99ad894d3fa4ab35643ac616d1ac, type: 2}
-  ShootLocators:
-  - {fileID: 178708}
-  Mode: 1
-  Spread: 0.2
-  BulletDelay: 0.05
-  BarrageDelay: 0.1
-  Barrage: 5
 --- !u!114 &11484252
 MonoBehaviour:
   m_ObjectHideFlags: 1
