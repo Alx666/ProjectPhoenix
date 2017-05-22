@@ -1129,7 +1129,7 @@ namespace UltimateFracturing
             }
 
             mesh.RecalculateBounds();
-            mesh.Optimize();
+            ;
 
             return true;
         }

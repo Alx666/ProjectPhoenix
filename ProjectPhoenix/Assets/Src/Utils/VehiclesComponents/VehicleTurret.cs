@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-internal class VehicleTurret : MonoBehaviour
+public class VehicleTurret : MonoBehaviour
 {
     public Transform AxeY;
     public Transform AxeX;

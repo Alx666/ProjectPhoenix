@@ -6,6 +6,10 @@ using UnityEngine.Networking;
 using System.Linq;
 public class MadMaxActor : Actor
 {
+    //TODO: this is a field added to set up initial HP from automated script "CarImportTool". Temp solution.
+    [HideInInspector]
+    public float HpToSet;
+
     [SyncVar]
     private float currentHealth;
 
@@ -49,6 +53,9 @@ public class MadMaxActor : Actor
     void Awake()
     {
         #region Initialize stuff
+        //Dangerous code, health hp can be set freely
+        Hp = HpToSet;
+
         currentHealth = Hp;
         HealthBar = this.GetComponentInChildren<Canvas>();
         HealthBar.name = "HealthBar_" + this.gameObject.name;

@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a448597d25c9d84babd347c1a7953c5, type: 3}
+  m_Name: Preset000
+  m_EditorClassIdentifier: 
+  CarAudioCurve: {fileID: 121866, guid: 3f979dcb04d193b42bdd066cf797df08, type: 2}
+  WeaponPrefab: {fileID: 149850, guid: 051988ea49acba84cb0315584179fce0, type: 2}
+  ExplosionPrefab: {fileID: 164480, guid: 255444e2a7fae0e41acfa7b6e014f94a, type: 2}
+  Armor: 0
+  AccelHigh: {fileID: 8300000, guid: 03e3bd08a6e70684dbe299a3e185fdd2, type: 3}
+  DecelHigh: {fileID: 8300000, guid: 03bf91d88fce91c41995d27de63cc967, type: 3}
+  AccelLow: {fileID: 8300000, guid: c4d8928c75c21af43998193f0f038429, type: 3}
+  DecelLow: {fileID: 8300000, guid: 5699dddcce16c4543b95951c4ce0e092, type: 3}
+  FrontWheelMass: 20
+  FrontDampingRate: 0.25
+  FrontSpring: 40000
+  FrontDamper: 8000
+  TargetPosition: 0.5
+  FrontForwardFrictionExtSlip: 0.5
+  FrontForwardFrictionExtVal: 1.5
+  FrontForwardFrictionAsySlip: 5
+  FrontForwardFrictionAsyVal: 0.1
+  FrontForwardFrictionStiff: 1.5
+  FrontSideFrictionExtSlip: 0.1
+  FrontSideFrictionExtVal: 5
+  FrontSideFrictionAsySlip: 100
+  FrontSideFrictionAsyVal: 1.5
+  FrontSideFrictionStiff: 1.5
+  RearWheelMass: 20
+  RearDampingRate: 0.25
+  RearSpring: 30000
+  RearDamper: 5000
+  RearForwardFrictionExtSlip: 0.4
+  RearForwardFrictionExtVal: 1.5
+  RearForwardFrictionAsySlip: 5
+  RearForwardFrictionAsyVal: 0.1
+  RearForwardFrictionStiff: 1.5
+  RearSideFrictionExtSlip: 0.1
+  RearSideFrictionStiff: 5
+  RearSideFrictionExtVal: 100
+  RearSideFrictionAsySlip: 1.5
+  RearSideFrictionAsyVal: 1.5
+  CarsToSetUp:
+  - {fileID: 100022, guid: b3e7bb1b85dfe114bb865bb06406b2b5, type: 3}
