@@ -14,6 +14,12 @@ MonoBehaviour:
   CarAudioCurve: {fileID: 121866, guid: 3f979dcb04d193b42bdd066cf797df08, type: 2}
   WeaponPrefab: {fileID: 149850, guid: 051988ea49acba84cb0315584179fce0, type: 2}
   ExplosionPrefab: {fileID: 164480, guid: 255444e2a7fae0e41acfa7b6e014f94a, type: 2}
+  GameCameraPrefab: {fileID: 121160, guid: d4d9d967fc2cee94ca6e54ee825620b8, type: 2}
+  InGameGUIPrefab: {fileID: 174806, guid: f2c17591cfe04ed4e975297d1743cd5d, type: 2}
+  LightPrefab: {fileID: 1374730811719484, guid: 318f56deb2477404cb224ebe441b9f0c,
+    type: 2}
+  StopLightPrefab: {fileID: 1418586667063760, guid: 3db06e244981edf49b6dda3959af9141,
+    type: 2}
   Armor: 0
   AccelHigh: {fileID: 8300000, guid: 03e3bd08a6e70684dbe299a3e185fdd2, type: 3}
   DecelHigh: {fileID: 8300000, guid: 03bf91d88fce91c41995d27de63cc967, type: 3}
@@ -49,4 +55,5 @@ MonoBehaviour:
   RearSideFrictionAsySlip: 1.5
   RearSideFrictionAsyVal: 1.5
   CarsToSetUp:
-  - {fileID: 100022, guid: b3e7bb1b85dfe114bb865bb06406b2b5, type: 3}
+  - {fileID: 100042, guid: 68fdf08aa96ff1d48bfdf3437434ce5f, type: 3}
+  DestroyCarOnceFinished: 0

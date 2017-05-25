@@ -1,18 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 [CreateAssetMenu()]
 public class CarPrefabConfiguration : ScriptableObject
 {
-    public  GameObject CarAudioCurve;
-    public  GameObject WeaponPrefab;
-    public  GameObject ExplosionPrefab;
-    public  ArmorType Armor;
-    public  AudioClip AccelHigh;
-    public  AudioClip DecelHigh;
-    public  AudioClip AccelLow;
-    public  AudioClip DecelLow;
+    public GameObject CarAudioCurve;
+    public GameObject WeaponPrefab;
+    public GameObject ExplosionPrefab;
+    public GameObject GameCameraPrefab;
+    public GameObject InGameGUIPrefab;
+    public GameObject LightPrefab;
+    public GameObject StopLightPrefab;
+
+    public ArmorType Armor;
+    public AudioClip AccelHigh;
+    public AudioClip DecelHigh;
+    public AudioClip AccelLow;
+    public AudioClip DecelLow;
 
     public float FrontWheelMass = 20.0f;
     public float FrontDampingRate = 0.25f;
@@ -48,4 +54,6 @@ public class CarPrefabConfiguration : ScriptableObject
     public float RearSideFrictionAsyVal = 1.5f;
 
     public List<GameObject> CarsToSetUp;
+
+    public bool DestroyCarOnceFinished;
 }

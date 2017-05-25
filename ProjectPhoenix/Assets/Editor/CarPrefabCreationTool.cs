@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CinematicEffects;
 using UnityEditor;
 using UnityEngine.Networking;
 using System.Linq;
@@ -10,6 +11,9 @@ public class CarPrefabCreationTool : EditorWindow
     //public scriptable object to get references from
     public static CarPrefabConfiguration Preset;
 
+    private static Object GameCarObject;
+    private static GameObject GameCarPrefab;
+    private static GameObject MenuCarPrefab;
     private static GameObject CarAudioCurve;
     private static GameObject WeaponPrefab;
     private static GameObject ExplosionPrefab;
@@ -21,6 +25,8 @@ public class CarPrefabCreationTool : EditorWindow
     private static GameObject FrontLeftWheel_model;
     private static GameObject RearRightWheel_model;
     private static GameObject RearLeftWheel_model;
+    private static List<Transform> BoxCollisions;
+    private static List<Transform> CarLightTransforms;
 
     private static Transform[] WeaponLocatorsPosition;
     private static Transform GunTransform;
@@ -69,6 +75,7 @@ public class CarPrefabCreationTool : EditorWindow
 
     static void GenerateCarPrefab()
     {
+        #region Data Structures and References Setup
         //getting references from scriptable object
         WeaponPrefab = Preset.WeaponPrefab;
         ExplosionPrefab = Preset.ExplosionPrefab;
@@ -78,7 +85,7 @@ public class CarPrefabCreationTool : EditorWindow
         DecelHigh = Preset.DecelHigh;
         DecelLow = Preset.DecelLow;
         Armor = Preset.Armor;
-
+        
         //getting audio curves
         MadMaxCarAudio tempCarAudio = CarAudioCurve.GetComponent<MadMaxCarAudio>();
         EngineAudioCurve = tempCarAudio.Curve;
@@ -91,50 +98,88 @@ public class CarPrefabCreationTool : EditorWindow
 
         //creating WheelFrictionCurve data struct
         FrictionCurve = new WheelFrictionCurve();
-
+#endregion
 
         //getting all the cars to setup and prefab
         GameObject[] Objects = Preset.CarsToSetUp.ToArray();
+        if (Objects.Length == 0)
+        {
+            Debug.Log("Please add one or more car to your CarPrefabConfiguration List!!!");
+            return;
+        }
 
         foreach (var obj in Objects)
         {
-            GameObject tempCar = GameObject.Instantiate(obj);
+            if (obj == null)
+            {
+                Debug.Log("Warning: null array position!!!");
+                break;
+            }
 
-            //adding and getting all components and gameobjects
-            ControllerWheels = tempCar.AddComponent<ControllerWheels>();
-            Weapon = tempCar.AddComponent<Weapon>();
-            NetTransform = tempCar.AddComponent<NetworkTransform>();
-            NetTransformChild = tempCar.AddComponent<NetworkTransformChild>();
-            MadMaxActor = tempCar.AddComponent<MadMaxActor>();
-            CarAudio = tempCar.AddComponent<MadMaxCarAudio>();
+            #region GameCarPrefab
+            GameObject tempGameCar = GameObject.Instantiate(obj);
 
-            Turret = tempCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "Turret").Select(y => y.gameObject.AddComponent<VehicleTurret>()).FirstOrDefault();
-            WeaponLocatorsPosition = tempCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "WeaponLocator").ToArray();
-            GunTransform = tempCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "Gun").FirstOrDefault();
-            FrontRightWheel_model = tempCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "Wheel_FR").Select(y => y.gameObject).FirstOrDefault();
-            FrontLeftWheel_model = tempCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "Wheel_FL").Select(y => y.gameObject).FirstOrDefault();
-            RearRightWheel_model = tempCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "Wheel_RR").Select(y => y.gameObject).FirstOrDefault();
-            RearLeftWheel_model = tempCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "Wheel_RL").Select(y => y.gameObject).FirstOrDefault();
+            //adding and getting fundamental components and gameobjects
+            ControllerWheels = tempGameCar.AddComponent<ControllerWheels>();
+            Weapon = tempGameCar.AddComponent<Weapon>();
+            NetTransform = tempGameCar.AddComponent<NetworkTransform>();
+            NetTransformChild = tempGameCar.AddComponent<NetworkTransformChild>();
+            MadMaxActor = tempGameCar.AddComponent<MadMaxActor>();
+            CarAudio = tempGameCar.AddComponent<MadMaxCarAudio>();
 
-            //starting all setup methods
-            SetupRigidBody(tempCar);
-            SetupWeapon();
+            Turret = tempGameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "Turret").Select(y => y.gameObject.AddComponent<VehicleTurret>()).FirstOrDefault();
+
+            //executing all setup methods
+            SetupCameraPrefab(tempGameCar);
+            SetupGameGUI(tempGameCar);
+            SetupRigidBody(tempGameCar);
+            SetupWeapon(tempGameCar);
             SetupControllerWheels();
-            SetupNetworkIdentity(tempCar);
+            SetupNetworkIdentity(tempGameCar);
             SetupNetworkTransform();
             SetupNetworkTransformChild();
             SetupMadMaxActor();
-            SetupMadMaxCarAudio(tempCar);
-            SetUpTurret();
-            SetupWheelColliders(tempCar);
-            SavePrefab(tempCar);
+            SetupMadMaxCarAudio();
+            SetUpTurret(tempGameCar);
+            SetupWheelColliders(tempGameCar);
+            //TODO gestire cubi ruotati
+            SetupCollisions(tempGameCar);
+            SaveGameCarPrefab(tempGameCar);
+            #endregion
+
+            #region MenuCarPrefab
+            GameObject tempMenuCar = GameObject.Instantiate(obj);
+
+            //starting setup methods
+            SetupVehiclePrefabMGR(tempMenuCar);
+            SetupLights(tempMenuCar);
+            DeleteCollisionCubes(tempMenuCar);
+            SaveMenuCarPrefab(tempMenuCar);
+            #endregion
         }
     }
+    #region GameCarPrefab Methods
+    private static void SetupCameraPrefab(GameObject gameCar)
+    {
+        //Camera setup: instantiating, parenting, instantiati an empty GO as DOFTarget in the same position as car pivot, assigning DOFTarget to camera DOF
+        GameObject tempGameCamera = GameObject.Instantiate(Preset.GameCameraPrefab);
+        DepthOfField DOFComponent = tempGameCamera.GetComponent<DepthOfField>();
+        GameObject DOFTarget = new GameObject("DOFTarget");
+        DOFTarget.transform.SetParent(gameCar.transform);
+        DOFComponent.focus.transform = DOFTarget.transform;
+        tempGameCamera.transform.SetParent(gameCar.transform);
+    }
 
-    private static void SetupRigidBody(GameObject obj)
+    private static void SetupGameGUI(GameObject gameCar)
+    {
+        //adding In Game GUI
+        GameObject tempInGameGUI = GameObject.Instantiate(Preset.InGameGUIPrefab, gameCar.transform);
+    }
+
+    private static void SetupRigidBody(GameObject gameCar)
     {
         //rigidbody was automatically added by ControllerWheels script
-        Rigidbody rBody = obj.GetComponent<Rigidbody>();
+        Rigidbody rBody = gameCar.GetComponent<Rigidbody>();
         if (rBody != null)
         {
             rBody.mass = 1850.0f;
@@ -143,8 +188,9 @@ public class CarPrefabCreationTool : EditorWindow
         }
     }
 
-    private static void SetupWeapon()
+    private static void SetupWeapon(GameObject gameCar)
     {
+        WeaponLocatorsPosition = gameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "WeaponLocator").ToArray();
         Weapon.BulletPrefab = WeaponPrefab;
         //TODO: add all weapon locators
         Weapon.ShootLocators = new List<GameObject>(WeaponLocatorsPosition.Length);
@@ -160,9 +206,9 @@ public class CarPrefabCreationTool : EditorWindow
         ControllerWheels.MaxSpeed = 200.0f;
     }
 
-    private static void SetupNetworkIdentity(GameObject obj)
+    private static void SetupNetworkIdentity(GameObject gameCar)
     {
-        obj.GetComponent<NetworkIdentity>().localPlayerAuthority = true;
+        gameCar.GetComponent<NetworkIdentity>().localPlayerAuthority = true;
     }
 
     private static void SetupNetworkTransform()
@@ -176,15 +222,6 @@ public class CarPrefabCreationTool : EditorWindow
         NetTransform.syncSpin = true;
     }
 
-    private static void SetupNetworkTransformChild()
-    {
-        NetTransformChild.sendInterval = 0.1f;
-        NetTransformChild.target = Turret.gameObject.transform;
-        NetTransformChild.movementThreshold = 0.01f;
-        NetTransformChild.syncRotationAxis = NetworkTransform.AxisSyncMode.AxisY;
-        NetTransformChild.rotationSyncCompression = NetworkTransform.CompressionSyncMode.High;
-    }
-
     private static void SetupMadMaxActor()
     {
         MadMaxActor.HpToSet = 100.0f;
@@ -195,7 +232,7 @@ public class CarPrefabCreationTool : EditorWindow
         MadMaxActor.DeathExplosionPrefab = ExplosionPrefab;
     }
 
-    private static void SetupMadMaxCarAudio(GameObject obj)
+    private static void SetupMadMaxCarAudio()
     {
         CarAudio.HighAccelClip = AccelHigh;
         CarAudio.HighDecelClip = DecelHigh;
@@ -207,14 +244,28 @@ public class CarPrefabCreationTool : EditorWindow
         CarAudio.RolloffCurve = RolloffAudioCurve;
     }
 
-    private static void SetUpTurret()
+    private static void SetUpTurret(GameObject gameCar)
     {
         Turret.AxeY = Turret.transform;
-        Turret.AxeX = GunTransform;
+        Turret.AxeX = gameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "Gun").FirstOrDefault(); ;
     }
 
-    private static void SetupWheelColliders(GameObject obj)
+    private static void SetupNetworkTransformChild()
     {
+        NetTransformChild.sendInterval = 0.1f;
+        NetTransformChild.target = Turret.gameObject.transform;
+        NetTransformChild.movementThreshold = 0.01f;
+        NetTransformChild.syncRotationAxis = NetworkTransform.AxisSyncMode.AxisY;
+        NetTransformChild.rotationSyncCompression = NetworkTransform.CompressionSyncMode.High;
+    }
+
+    private static void SetupWheelColliders(GameObject gameCar)
+    {
+        FrontRightWheel_model = gameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "Wheel_FR").Select(y => y.gameObject).FirstOrDefault();
+        FrontLeftWheel_model = gameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "Wheel_FL").Select(y => y.gameObject).FirstOrDefault();
+        RearRightWheel_model = gameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "Wheel_RR").Select(y => y.gameObject).FirstOrDefault();
+        RearLeftWheel_model = gameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "Wheel_RL").Select(y => y.gameObject).FirstOrDefault();
+
         //creating Wheel Colliders GameObjects
         GameObject WheelC_FR = new GameObject("WheelC_FR");
         GameObject WheelC_FL = new GameObject("WheelC_FL");
@@ -222,10 +273,10 @@ public class CarPrefabCreationTool : EditorWindow
         GameObject WheelC_RL = new GameObject("WheelC_RL");
 
         //parenting Wheel Colliders to Car GO
-        WheelC_FR.transform.SetParent(obj.transform);
-        WheelC_FL.transform.SetParent(obj.transform);
-        WheelC_RR.transform.SetParent(obj.transform);
-        WheelC_RL.transform.SetParent(obj.transform);
+        WheelC_FR.transform.SetParent(gameCar.transform);
+        WheelC_FL.transform.SetParent(gameCar.transform);
+        WheelC_RR.transform.SetParent(gameCar.transform);
+        WheelC_RL.transform.SetParent(gameCar.transform);
 
         //adding Sphere Colliders in order to calculate Wheels radius
         SphereCollider SphereC_FR = FrontRightWheel_model.AddComponent<SphereCollider>();
@@ -260,11 +311,11 @@ public class CarPrefabCreationTool : EditorWindow
         FrictionCurve.asymptoteValue = Preset.FrontForwardFrictionAsyVal;
         ColliderFR.forwardFriction = FrictionCurve;
 
-        FrictionCurve.extremumSlip   = Preset.FrontSideFrictionExtSlip;
-        FrictionCurve.extremumValue  = Preset.FrontSideFrictionExtVal;
-        FrictionCurve.asymptoteSlip  = Preset.FrontSideFrictionAsySlip;
+        FrictionCurve.extremumSlip = Preset.FrontSideFrictionExtSlip;
+        FrictionCurve.extremumValue = Preset.FrontSideFrictionExtVal;
+        FrictionCurve.asymptoteSlip = Preset.FrontSideFrictionAsySlip;
         FrictionCurve.asymptoteValue = Preset.FrontSideFrictionAsyVal;
-        ColliderFR.sidewaysFriction  = FrictionCurve;
+        ColliderFR.sidewaysFriction = FrictionCurve;
 
         //ColliderFL setup
         ColliderFL.mass = Preset.FrontWheelMass;
@@ -291,28 +342,28 @@ public class CarPrefabCreationTool : EditorWindow
         ColliderRR.mass = Preset.RearWheelMass;
         ColliderRR.radius = SphereC_RR.radius;
         ColliderRR.wheelDampingRate = Preset.RearDampingRate;
-        
-        GenericSpring.spring        = Preset.RearSpring;
-        GenericSpring.damper        = Preset.RearDamper;
-        ColliderRR.suspensionSpring = GenericSpring;
-        
-        FrictionCurve.extremumSlip   = Preset.RearForwardFrictionExtSlip;
-        FrictionCurve.extremumValue  = Preset.RearForwardFrictionExtVal;
-        FrictionCurve.asymptoteSlip  = Preset.RearForwardFrictionAsySlip;
-        FrictionCurve.asymptoteValue = Preset.RearForwardFrictionAsyVal;
-        ColliderRR.forwardFriction   = FrictionCurve;
 
-        FrictionCurve.extremumSlip   = Preset.RearSideFrictionExtSlip;
-        FrictionCurve.extremumValue  = Preset.RearSideFrictionExtVal;
-        FrictionCurve.asymptoteSlip  = Preset.RearSideFrictionAsySlip;
+        GenericSpring.spring = Preset.RearSpring;
+        GenericSpring.damper = Preset.RearDamper;
+        ColliderRR.suspensionSpring = GenericSpring;
+
+        FrictionCurve.extremumSlip = Preset.RearForwardFrictionExtSlip;
+        FrictionCurve.extremumValue = Preset.RearForwardFrictionExtVal;
+        FrictionCurve.asymptoteSlip = Preset.RearForwardFrictionAsySlip;
+        FrictionCurve.asymptoteValue = Preset.RearForwardFrictionAsyVal;
+        ColliderRR.forwardFriction = FrictionCurve;
+
+        FrictionCurve.extremumSlip = Preset.RearSideFrictionExtSlip;
+        FrictionCurve.extremumValue = Preset.RearSideFrictionExtVal;
+        FrictionCurve.asymptoteSlip = Preset.RearSideFrictionAsySlip;
         FrictionCurve.asymptoteValue = Preset.RearSideFrictionAsyVal;
-        ColliderRR.sidewaysFriction  = FrictionCurve;
+        ColliderRR.sidewaysFriction = FrictionCurve;
 
         //ColliderRL setup
         ColliderRL.mass = Preset.RearWheelMass;
         ColliderRL.radius = SphereC_RL.radius;
         ColliderRL.wheelDampingRate = Preset.RearDampingRate;
-        
+
         GenericSpring.spring = Preset.RearSpring;
         GenericSpring.damper = Preset.RearDamper;
         ColliderRL.suspensionSpring = GenericSpring;
@@ -336,13 +387,87 @@ public class CarPrefabCreationTool : EditorWindow
         DestroyImmediate(SphereC_RL);
     }
 
-    private static void SavePrefab(GameObject obj)
+    private static void SetupCollisions(GameObject gameCar)
     {
-        string FileLocation = "Assets/Raw/_MadMaxArena/Prefabs/Cars/Game1617/" + obj.name + ".prefab";
-        
+        BoxCollisions = new List<Transform>();
+        BoxCollisions = gameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.transform.parent != null && x.gameObject.transform.parent.name == "CarBody").ToList();
+        MeshFilter Mfilter;
+        MeshRenderer MRenderer;
+        for (int i = 0; i < BoxCollisions.Count; i++)
+        {
+            BoxCollisions[i].gameObject.AddComponent<BoxCollider>();
+            Mfilter = BoxCollisions[i].gameObject.GetComponent<MeshFilter>();
+            MRenderer = BoxCollisions[i].gameObject.GetComponent<MeshRenderer>();
 
-        Object prefab = PrefabUtility.CreateEmptyPrefab(FileLocation);
-        PrefabUtility.ReplacePrefab(obj, prefab, ReplacePrefabOptions.ConnectToPrefab);
+            DestroyImmediate(Mfilter);
+            DestroyImmediate(MRenderer);
+        }
     }
 
+    private static void SaveGameCarPrefab(GameObject gameCar)
+    {
+        string FileLocation = "Assets/Raw/_MadMaxArena/Prefabs/Cars/Game1617/" + gameCar.name + ".prefab";
+
+        GameCarObject = PrefabUtility.CreateEmptyPrefab(FileLocation);
+        GameCarPrefab = PrefabUtility.ReplacePrefab(gameCar, GameCarObject, ReplacePrefabOptions.ConnectToPrefab);
+
+        if (Preset.DestroyCarOnceFinished)
+            DestroyImmediate(gameCar);
+    }
+#endregion
+
+    //Part Two: create car menu prefab
+    //Get car menu name
+    //Add veehicle prefab MGR
+    //Add NetworkIdentity
+    //Add Lights
+    private static void SetupVehiclePrefabMGR(GameObject menuCar)
+    {
+        Transform CarNameTransform = menuCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.transform.parent != null && x.gameObject.transform.parent.name == "CarName").FirstOrDefault();
+        string MenuCarName = CarNameTransform.gameObject.name;
+        VehiclePrefabMGR menuPrefabMGR = menuCar.AddComponent<VehiclePrefabMGR>();
+        menuPrefabMGR.VehiclePrefab = GameCarPrefab;
+        menuPrefabMGR.VehicleName = MenuCarName;
+        menuCar.AddComponent<NetworkIdentity>().localPlayerAuthority = true;
+    }
+
+    private static void SetupLights(GameObject menuCar)
+    {
+        CarLightTransforms = new List<Transform>();
+        CarLightTransforms = menuCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.transform.parent != null && x.gameObject.transform.parent.name == "Lights").ToList();
+        foreach (var light in CarLightTransforms)
+        {
+            GameObject tempLight = GameObject.Instantiate(Preset.LightPrefab, light);
+            tempLight.transform.localPosition = Vector3.zero;
+        }
+
+        List<Transform> CarStopLightTransforms = new List<Transform>();
+        CarStopLightTransforms = menuCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.transform.parent != null && x.gameObject.name == "StopLights").ToList();
+        foreach (var stopLight in CarStopLightTransforms)
+        {
+            GameObject tempLight = GameObject.Instantiate(Preset.StopLightPrefab, stopLight);
+            tempLight.transform.localPosition = Vector3.zero;
+        }
+    }
+
+    private static void DeleteCollisionCubes(GameObject menuCar)
+    {
+        BoxCollisions = new List<Transform>();
+        BoxCollisions = menuCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.transform.parent != null && x.gameObject.transform.parent.name == "CarBody").ToList();
+        foreach (var renderBox in BoxCollisions)
+        {
+            GameObject.DestroyImmediate(renderBox.gameObject);
+        }
+    }
+
+    private static void SaveMenuCarPrefab(GameObject menuCar)
+    {
+        string FileLocation = "Assets/Raw/_MadMaxArena/Prefabs/Cars/Menu1617/" + menuCar.name + ".prefab";
+
+        GameCarObject = PrefabUtility.CreateEmptyPrefab(FileLocation);
+        PrefabUtility.ReplacePrefab(menuCar, GameCarObject, ReplacePrefabOptions.ConnectToPrefab);
+
+        if (Preset.DestroyCarOnceFinished)
+            DestroyImmediate(menuCar);
+    }
 }

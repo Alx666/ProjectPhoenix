@@ -5,20 +5,20 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 404354}
-  - 20: {fileID: 2090588}
-  - 92: {fileID: 9279934}
-  - 124: {fileID: 12465116}
-  - 81: {fileID: 8112650}
-  - 114: {fileID: 11493134}
-  - 114: {fileID: 11475434}
-  - 114: {fileID: 11415604}
-  - 114: {fileID: 11488364}
-  - 114: {fileID: 11415960}
-  - 114: {fileID: 11473888}
-  - 114: {fileID: 11406830}
+  - component: {fileID: 404354}
+  - component: {fileID: 2090588}
+  - component: {fileID: 9279934}
+  - component: {fileID: 12465116}
+  - component: {fileID: 8112650}
+  - component: {fileID: 11493134}
+  - component: {fileID: 11475434}
+  - component: {fileID: 11415604}
+  - component: {fileID: 11488364}
+  - component: {fileID: 11415960}
+  - component: {fileID: 11473888}
+  - component: {fileID: 11406830}
   m_Layer: 0
   m_Name: Main Camera_VehicleSelection_Update
   m_TagString: MainCamera
@@ -38,6 +38,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &2090588
 Camera:
   m_ObjectHideFlags: 1
@@ -68,6 +69,8 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
+  m_AllowMSAA: 0
+  m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
@@ -115,12 +118,14 @@ MonoBehaviour:
     curve:
       serializedVersion: 2
       m_Curve:
-      - time: 0
+      - serializedVersion: 2
+        time: 0
         value: 0
         inSlope: 1
         outSlope: 1
         tangentMode: 0
-      - time: 1
+      - serializedVersion: 2
+        time: 1
         value: 1
         inSlope: 1
         outSlope: 1
@@ -165,12 +170,14 @@ MonoBehaviour:
       master:
         serializedVersion: 2
         m_Curve:
-        - time: 0
+        - serializedVersion: 2
+          time: 0
           value: 0
           inSlope: 1
           outSlope: 1
           tangentMode: 0
-        - time: 1
+        - serializedVersion: 2
+          time: 1
           value: 1
           inSlope: 1
           outSlope: 1
@@ -181,12 +188,14 @@ MonoBehaviour:
       red:
         serializedVersion: 2
         m_Curve:
-        - time: 0
+        - serializedVersion: 2
+          time: 0
           value: 0
           inSlope: 1
           outSlope: 1
           tangentMode: 0
-        - time: 1
+        - serializedVersion: 2
+          time: 1
           value: 1
           inSlope: 1
           outSlope: 1
@@ -197,12 +206,14 @@ MonoBehaviour:
       green:
         serializedVersion: 2
         m_Curve:
-        - time: 0
+        - serializedVersion: 2
+          time: 0
           value: 0
           inSlope: 1
           outSlope: 1
           tangentMode: 0
-        - time: 1
+        - serializedVersion: 2
+          time: 1
           value: 1
           inSlope: 1
           outSlope: 1
@@ -213,12 +224,14 @@ MonoBehaviour:
       blue:
         serializedVersion: 2
         m_Curve:
-        - time: 0
+        - serializedVersion: 2
+          time: 0
           value: 0
           inSlope: 1
           outSlope: 1
           tangentMode: 0
-        - time: 1
+        - serializedVersion: 2
+          time: 1
           value: 1
           inSlope: 1
           outSlope: 1

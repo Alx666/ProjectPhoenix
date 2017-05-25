@@ -5,18 +5,18 @@ GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Component:
-  - 4: {fileID: 460054}
-  - 20: {fileID: 2071226}
-  - 124: {fileID: 12419814}
-  - 92: {fileID: 9268476}
-  - 81: {fileID: 8191324}
-  - 114: {fileID: 11470790}
-  - 114: {fileID: 11498988}
-  - 114: {fileID: 11423094}
-  - 114: {fileID: 11496852}
-  - 114: {fileID: 11416288}
+  - component: {fileID: 460054}
+  - component: {fileID: 2071226}
+  - component: {fileID: 12419814}
+  - component: {fileID: 9268476}
+  - component: {fileID: 8191324}
+  - component: {fileID: 11470790}
+  - component: {fileID: 11498988}
+  - component: {fileID: 11423094}
+  - component: {fileID: 11496852}
+  - component: {fileID: 11416288}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -36,6 +36,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &2071226
 Camera:
   m_ObjectHideFlags: 1
@@ -66,6 +67,8 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
+  m_AllowMSAA: 0
+  m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
@@ -100,12 +103,14 @@ MonoBehaviour:
   remapCurve:
     serializedVersion: 2
     m_Curve:
-    - time: 0
+    - serializedVersion: 2
+      time: 0
       value: 0
       inSlope: -0.099689566
       outSlope: -0.099689566
       tangentMode: 0
-    - time: 1
+    - serializedVersion: 2
+      time: 1
       value: 1
       inSlope: 0.29850954
       outSlope: 0.29850954
@@ -163,7 +168,6 @@ MonoBehaviour:
   MaxOffset: 25
   StateChanger: 324
   LerpSpeed: 10
-  DofDefocus: 10
   DistanceFromTarget: 0.35
 --- !u!114 &11496852
 MonoBehaviour:
