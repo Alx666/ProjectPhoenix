@@ -55,5 +55,5 @@ public class CarPrefabConfiguration : ScriptableObject
 
     public List<GameObject> CarsToSetUp;
 
-    public bool DestroyCarOnceFinished;
+    public bool DestroyOnFinish;
 }
