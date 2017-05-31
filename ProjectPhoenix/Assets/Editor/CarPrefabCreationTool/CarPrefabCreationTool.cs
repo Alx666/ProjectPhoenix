@@ -126,15 +126,24 @@ public class CarPrefabCreationTool : EditorWindow
             //TODO prendere riferimento alle collisioni di torretta e gun
             Turret = tempGameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "Turret").Select(y => y.gameObject.AddComponent<VehicleTurret>()).FirstOrDefault();
             if (Turret == null)
+            {
                 Debug.Log("Unable to find Turret GO");
+                break;
+            }
             else
             {
                 TurretCollision = tempGameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "TurretCollision").Select(y => y.gameObject).FirstOrDefault();
                 if (TurretCollision == null)
+                {
                     Debug.Log("Unable to find TurretCollision GO");
+                    break;
+                }
                 GunCollision = tempGameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "GunCollision").Select(y => y.gameObject).FirstOrDefault();
                 if (GunCollision == null)
+                {
                     Debug.Log("Unable to find GunCollision GO");
+                    break;
+                }
             }
 
             //executing all setup methods
@@ -199,6 +208,12 @@ public class CarPrefabCreationTool : EditorWindow
     private static void SetupWeapon(GameObject gameCar)
     {
         WeaponLocatorsPosition = gameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "WeaponLocator").ToArray();
+        if(WeaponLocatorsPosition == null)
+        {
+            Debug.Log("Unable to find WeaponLocator GO");
+            return;
+        }
+        
         Weapon.BulletPrefab = WeaponPrefab;
         //TODO: add all weapon locators
         Weapon.ShootLocators = new List<GameObject>(WeaponLocatorsPosition.Length);
@@ -210,6 +225,7 @@ public class CarPrefabCreationTool : EditorWindow
 
     private static void SetupControllerWheels()
     {
+        ControllerWheels.SyncGfxWheels = true;
         ControllerWheels.Hp = 10000.0f;
         ControllerWheels.MaxSpeed = 200.0f;
     }
@@ -256,6 +272,8 @@ public class CarPrefabCreationTool : EditorWindow
     {
         Turret.AxeY = Turret.transform;
         Turret.AxeX = gameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "Gun").FirstOrDefault();
+        if (Turret.AxeX == null)
+            Debug.Log("Unable to find Gun GO");
     }
 
     private static void SetupNetworkTransformChild()
@@ -317,12 +335,14 @@ public class CarPrefabCreationTool : EditorWindow
         FrictionCurve.extremumValue = Preset.FrontForwardFrictionExtVal;
         FrictionCurve.asymptoteSlip = Preset.FrontForwardFrictionAsySlip;
         FrictionCurve.asymptoteValue = Preset.FrontForwardFrictionAsyVal;
+        FrictionCurve.stiffness = Preset.FrontForwardFrictionStiff;
         ColliderFR.forwardFriction = FrictionCurve;
 
         FrictionCurve.extremumSlip = Preset.FrontSideFrictionExtSlip;
         FrictionCurve.extremumValue = Preset.FrontSideFrictionExtVal;
         FrictionCurve.asymptoteSlip = Preset.FrontSideFrictionAsySlip;
         FrictionCurve.asymptoteValue = Preset.FrontSideFrictionAsyVal;
+        FrictionCurve.stiffness = Preset.FrontSideFrictionStiff;
         ColliderFR.sidewaysFriction = FrictionCurve;
 
         //ColliderFL setup
@@ -359,12 +379,14 @@ public class CarPrefabCreationTool : EditorWindow
         FrictionCurve.extremumValue = Preset.RearForwardFrictionExtVal;
         FrictionCurve.asymptoteSlip = Preset.RearForwardFrictionAsySlip;
         FrictionCurve.asymptoteValue = Preset.RearForwardFrictionAsyVal;
+        FrictionCurve.stiffness = Preset.RearForwardFrictionStiff;
         ColliderRR.forwardFriction = FrictionCurve;
 
         FrictionCurve.extremumSlip = Preset.RearSideFrictionExtSlip;
         FrictionCurve.extremumValue = Preset.RearSideFrictionExtVal;
         FrictionCurve.asymptoteSlip = Preset.RearSideFrictionAsySlip;
         FrictionCurve.asymptoteValue = Preset.RearSideFrictionAsyVal;
+        FrictionCurve.stiffness = Preset.RearSideFrictionStiff;
         ColliderRR.sidewaysFriction = FrictionCurve;
 
         //ColliderRL setup
@@ -399,6 +421,11 @@ public class CarPrefabCreationTool : EditorWindow
     {
         BoxCollisions = new List<Transform>();
         BoxCollisions = gameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.transform.parent != null && x.gameObject.transform.parent.name == "CarBody").ToList();
+        if (BoxCollisions == null)
+        {
+            Debug.Log("Unable to find CarBody GO or parent meshes inside of it");
+            return;
+        }
         MeshFilter Mfilter;
         MeshRenderer MRenderer;
         for (int i = 0; i < BoxCollisions.Count; i++)
@@ -446,6 +473,10 @@ public class CarPrefabCreationTool : EditorWindow
     private static void SetupVehiclePrefabMGR(GameObject menuCar)
     {
         Transform CarNameTransform = menuCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.transform.parent != null && x.gameObject.transform.parent.name == "CarName").FirstOrDefault();
+        if(CarNameTransform == null)
+        {
+            Debug.Log("Unable to find CarName GO or its children");
+        }
         string MenuCarName = CarNameTransform.gameObject.name;
         VehiclePrefabMGR menuPrefabMGR = menuCar.AddComponent<VehiclePrefabMGR>();
         menuPrefabMGR.VehiclePrefab = GameCarPrefab;
@@ -457,6 +488,11 @@ public class CarPrefabCreationTool : EditorWindow
     {
         CarLightTransforms = new List<Transform>();
         CarLightTransforms = menuCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.transform.parent != null && x.gameObject.transform.parent.name == "Lights" && x.gameObject.name != "StopLights").ToList();
+        if(CarLightTransforms == null)
+        {
+            Debug.Log("Unable to find Lights GO");
+            return;
+        }
         foreach (var light in CarLightTransforms)
         {
             GameObject tempLight = GameObject.Instantiate(Preset.LightPrefab, light);
@@ -465,6 +501,11 @@ public class CarPrefabCreationTool : EditorWindow
 
         List<Transform> CarStopLightTransforms = new List<Transform>();
         CarStopLightTransforms = menuCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.transform.parent != null && x.gameObject.transform.parent.name == "StopLights").ToList();
+        if (CarStopLightTransforms == null)
+        {
+            Debug.Log("Unable to find StopLights GO");
+            return;
+        }
         foreach (var stopLight in CarStopLightTransforms)
         {
             GameObject tempLight = GameObject.Instantiate(Preset.StopLightPrefab, stopLight);

@@ -36,7 +36,7 @@ MonoBehaviour:
   FrontForwardFrictionAsyVal: 0.1
   FrontForwardFrictionStiff: 1.5
   FrontSideFrictionExtSlip: 0.1
-  FrontSideFrictionExtVal: 5
+  FrontSideFrictionExtVal: 1.2
   FrontSideFrictionAsySlip: 100
   FrontSideFrictionAsyVal: 1.5
   FrontSideFrictionStiff: 1.5
@@ -50,10 +50,10 @@ MonoBehaviour:
   RearForwardFrictionAsyVal: 0.1
   RearForwardFrictionStiff: 1.5
   RearSideFrictionExtSlip: 0.1
-  RearSideFrictionStiff: 5
-  RearSideFrictionExtVal: 100
-  RearSideFrictionAsySlip: 1.5
+  RearSideFrictionExtVal: 1.2
+  RearSideFrictionAsySlip: 100
   RearSideFrictionAsyVal: 1.5
+  RearSideFrictionStiff: 1.5
   CarsToSetUp:
-  - {fileID: 100044, guid: 4069bf87214d1644fb74d7be36b41035, type: 3}
+  - {fileID: 100010, guid: bdbfb45bd10234741ab51750d8aff5e3, type: 3}
   DestroyOnFinish: 0

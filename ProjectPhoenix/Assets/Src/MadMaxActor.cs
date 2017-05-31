@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using System.Linq;
+
+[RequireComponent(typeof(InputProviderPCStd))]
 public class MadMaxActor : Actor
 {
     //TODO: this is a field added to set up initial HP from automated script "CarImportTool". Temp solution.
@@ -20,7 +22,8 @@ public class MadMaxActor : Actor
     private Rigidbody m_hRigidbody;
     private MonoBehaviour m_hController;
     private InputProviderPCStd m_hProvider;
-    private DeathBomb m_hBomb;
+    //DeathBomb not used anymore in 2016/2017 version
+    //private DeathBomb m_hBomb;
     private MonoBehaviour m_hWeapon;
     private List<Renderer> m_hRenderers;
     private List<Collider> m_hColliders;
@@ -72,7 +75,7 @@ public class MadMaxActor : Actor
         m_hRenderers.AddRange(GetComponentsInChildren<Renderer>());
         m_hColliders = new List<Collider>(GetComponents<Collider>());
         m_hColliders.AddRange(GetComponentsInChildren<Collider>());
-        m_hBomb = GetComponent<DeathBomb>();
+        //m_hBomb = GetComponent<DeathBomb>();
         m_hAudioCtrl = this.GetComponent<MadMaxCarAudio>();
 
         impactCoolDownActors = new LinkedList<MadMaxActor>();
@@ -260,7 +263,7 @@ public class MadMaxActor : Actor
 
         CanTakeDamage = true;
 
-        m_hBomb.Reset();
+        //m_hBomb.Reset();
         if (wheels != null)
         {
             wheels.Reset();

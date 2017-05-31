@@ -6,15 +6,12 @@ using UnityEditor;
 public class DRAIVCustomImportTool : AssetPostprocessor
 {
 
-    private ModelImporter importedModel;
-
-    public bool ApplyCustomImportSettings { get; set; }
-
-    void OnPreProcessModel()
+    void OnPreprocessModel()
     {
-        DRAIVCustomImportWindow Wnd = EditorWindow.GetWindow<DRAIVCustomImportWindow>();
-        if (ApplyCustomImportSettings)
+        if (DRAIVCustomImportMGR.ImportMeshesWithCustomSettings)
         {
+            ModelImporter importedModel = assetImporter as ModelImporter;
+            
             importedModel.materialName = ModelImporterMaterialName.BasedOnMaterialName;
         }
     }

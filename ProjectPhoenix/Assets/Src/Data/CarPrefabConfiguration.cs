@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-[CreateAssetMenu()]
+[CreateAssetMenu(fileName = "CarPrefabConfig", menuName = "CarPrefabConfig")]
 public class CarPrefabConfiguration : ScriptableObject
 {
     public GameObject CarAudioCurve;
@@ -32,7 +32,7 @@ public class CarPrefabConfiguration : ScriptableObject
     public float FrontForwardFrictionStiff = 1.5f;
 
     public float FrontSideFrictionExtSlip = 0.1f;
-    public float FrontSideFrictionExtVal = 5.0f;
+    public float FrontSideFrictionExtVal = 1.2f;
     public float FrontSideFrictionAsySlip = 100.0f;
     public float FrontSideFrictionAsyVal = 1.5f;
     public float FrontSideFrictionStiff = 1.5f;
@@ -43,15 +43,15 @@ public class CarPrefabConfiguration : ScriptableObject
     public float RearDamper = 5000f;
     public float RearForwardFrictionExtSlip = 0.4f;
     public float RearForwardFrictionExtVal = 1.5f;
-    public float RearForwardFrictionAsySlip = 5.0f;
+    public float RearForwardFrictionAsySlip = 1.2f;
     public float RearForwardFrictionAsyVal = 0.1f;
     public float RearForwardFrictionStiff = 1.5f;
 
     public float RearSideFrictionExtSlip = 0.1f;
-    public float RearSideFrictionStiff = 5.0f;
-    public float RearSideFrictionExtVal = 100.0f;
+    public float RearSideFrictionExtVal = 1.2f;
     public float RearSideFrictionAsySlip = 1.5f;
     public float RearSideFrictionAsyVal = 1.5f;
+    public float RearSideFrictionStiff = 1.2f;
 
     public List<GameObject> CarsToSetUp;
 
