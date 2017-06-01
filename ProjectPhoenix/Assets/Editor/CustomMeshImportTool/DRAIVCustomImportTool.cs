@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR
 public class DRAIVCustomImportTool : AssetPostprocessor
 {
 
@@ -16,3 +17,5 @@ public class DRAIVCustomImportTool : AssetPostprocessor
         }
     }
 }
+#endif
+

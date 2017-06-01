@@ -2,32 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-
+#if UNITY_EDITOR
 public class DRAIVCustomImportWindow : EditorWindow
 {
-    public DRAIVImportConfiguration Preset;
+    //public DRAIVImportConfiguration Preset;
 
 
-    private static bool CustomConfigurationToggle = false;
+    //private static bool CustomConfigurationToggle = false;
 
-    [MenuItem("DRAIVTools/CustomAssetImporter")]
-    private static void OpenWindow()
-    {
-        DRAIVCustomImportWindow Wnd = EditorWindow.GetWindow<DRAIVCustomImportWindow>();
+    //[MenuItem("DRAIVTools/CustomAssetImporter")]
+    //private static void OpenWindow()
+    //{
+    //    DRAIVCustomImportWindow Wnd = EditorWindow.GetWindow<DRAIVCustomImportWindow>();
 
-    }
+    //}
 
-    private void OnGUI()
-    {
-        CustomConfigurationToggle = GUILayout.Toggle(CustomConfigurationToggle, "ApplyCustomMeshesImportConfiguration");
-        if (CustomConfigurationToggle)
-        {
-            Preset = (DRAIVImportConfiguration)EditorGUILayout.ObjectField("MeshesImportConfiguration", Preset, typeof(DRAIVImportConfiguration), false);
-            DRAIVCustomImportMGR.ImportMeshesWithCustomSettings = true;
-        }
-        else
-        {
-            DRAIVCustomImportMGR.ImportMeshesWithCustomSettings = false;
-        }
-    }
+    //private void OnGUI()
+    //{
+    //    CustomConfigurationToggle = GUILayout.Toggle(CustomConfigurationToggle, "ApplyCustomMeshesImportConfiguration");
+    //    if (CustomConfigurationToggle)
+    //    {
+    //        Preset = (DRAIVImportConfiguration)EditorGUILayout.ObjectField("MeshesImportConfiguration", Preset, typeof(DRAIVImportConfiguration), false);
+    //        DRAIVCustomImportMGR.ImportMeshesWithCustomSettings = true;
+    //    }
+    //    else
+    //    {
+    //        DRAIVCustomImportMGR.ImportMeshesWithCustomSettings = false;
+    //    }
+    //}
 }
+#endif

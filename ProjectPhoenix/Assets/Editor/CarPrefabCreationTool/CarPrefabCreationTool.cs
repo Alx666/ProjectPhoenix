@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine.Networking;
 using System.Linq;
 
+#if UNITY_EDITOR
 public class CarPrefabCreationTool : EditorWindow
 {
     //public scriptable object to get references from
@@ -208,7 +209,7 @@ public class CarPrefabCreationTool : EditorWindow
     private static void SetupWeapon(GameObject gameCar)
     {
         WeaponLocatorsPosition = gameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "WeaponLocator").ToArray();
-        if(WeaponLocatorsPosition == null)
+        if(WeaponLocatorsPosition.Length == 0)
         {
             Debug.Log("Unable to find WeaponLocator GO");
             return;
@@ -541,3 +542,4 @@ public class CarPrefabCreationTool : EditorWindow
             DestroyImmediate(menuCar);
     }
 }
+#endif
