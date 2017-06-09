@@ -6,6 +6,9 @@ using UnityEngine.Networking;
 [CreateAssetMenu(fileName = "CarPrefabConfig", menuName = "CarPrefabConfig")]
 public class CarPrefabConfiguration : ScriptableObject
 {
+    public List<GameObject> CarsToSetUp;
+    public bool DestroyOnFinish;
+
     public GameObject CarAudioCurve;
     public GameObject WeaponPrefab;
     public GameObject ExplosionPrefab;
@@ -53,7 +56,5 @@ public class CarPrefabConfiguration : ScriptableObject
     public float RearSideFrictionAsyVal = 1.5f;
     public float RearSideFrictionStiff = 1.2f;
 
-    public List<GameObject> CarsToSetUp;
 
-    public bool DestroyOnFinish;
 }

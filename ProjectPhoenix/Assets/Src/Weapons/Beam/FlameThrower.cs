@@ -17,6 +17,14 @@ public class FlameThrower : NetworkBehaviour, IBeam, IPoolable
     public float DPS;
     public float DoT;
 
+    public float Damage = 10f;
+    [Range(0f, 1f)]
+    public float LightArmorDamageRate;
+    [Range(0f, 1f)]
+    public float MediumArmorDamageRate;
+    [Range(0f, 1f)]
+    public float HeavyArmorDamageRate;
+
     private float LightIntensity;
     private AudioSource FlamesSound;
 
@@ -73,7 +81,23 @@ public class FlameThrower : NetworkBehaviour, IBeam, IPoolable
 
     public float GetDamage(ArmorType armor)
     {
-        throw new NotImplementedException();
+        float damage = 0;
+
+        switch (armor)
+        {
+            case ArmorType.Light:
+                damage = Damage * LightArmorDamageRate;
+                break;
+            case ArmorType.Medium:
+                damage = Damage * MediumArmorDamageRate;
+                break;
+            case ArmorType.Heavy:
+                damage = Damage * HeavyArmorDamageRate;
+                break;
+            default:
+                break;
+        }
+        return damage;
     }
 
     public void Enable()

@@ -5,6 +5,7 @@ using UnityStandardAssets.CinematicEffects;
 using UnityEditor;
 using UnityEngine.Networking;
 using System.Linq;
+using System;
 
 #if UNITY_EDITOR
 public class CarPrefabCreationTool : EditorWindow
@@ -12,7 +13,7 @@ public class CarPrefabCreationTool : EditorWindow
     //public scriptable object to get references from
     public static CarPrefabConfiguration Preset;
 
-    private static Object GameCarObject;
+    private static UnityEngine.Object GameCarObject;
     private static GameObject GameCarPrefab;
     private static GameObject CarAudioCurve;
     private static GameObject WeaponPrefab;
@@ -67,8 +68,57 @@ public class CarPrefabCreationTool : EditorWindow
             else
                 Debug.Log("Please specify an import tool preset file!!!");
         }
+        if (GUILayout.Button("UpdateCarPrefabs"))
+        {
+            if (Preset != null)
+                UpdateCarPrefab();
+            else
+                Debug.Log("Please specify an import tool preset file to update car prefabs!!!");
+        }
     }
 
+    private void UpdateCarPrefab()
+    {
+        //getting all the cars to setup and prefab
+        GameObject[] Objects = Preset.CarsToSetUp.ToArray();
+        if (Objects.Length == 0)
+        {
+            Debug.Log("Please add one or more car to your CarPrefabConfiguration List!!!");
+            return;
+        }
+
+        foreach (var obj in Objects)
+        {
+            if (obj == null)
+            {
+                Debug.Log("Warning: null array position!!!");
+                break;
+            }
+
+            #region GameCarPrefab
+            GameObject tempUpdateGameCar = GameObject.Instantiate(obj);
+            MadMaxActor mxActor = tempUpdateGameCar.GetComponentInChildren<MadMaxActor>();
+            if (mxActor == null)
+                Debug.Log("Specify one or more valid car Prefab!!!");
+            //TODO utilizzare solo metodi necessari all'aggiornamento del carPrefab
+            //executing all setup methods
+            SetupCameraPrefab(tempUpdateGameCar);
+            SetupGameGUI(tempUpdateGameCar);
+            SetupRigidBody(tempUpdateGameCar);
+            SetupWeapon(tempUpdateGameCar);
+            SetupControllerWheels();
+            SetupNetworkIdentity(tempUpdateGameCar);
+            SetupNetworkTransform();
+            SetupNetworkTransformChild();
+            SetupMadMaxActor();
+            SetupMadMaxCarAudio();
+            SetUpTurret(tempUpdateGameCar);
+            SetupWheelColliders(tempUpdateGameCar);
+            SetupCollisions(tempUpdateGameCar);
+            SaveGameCarPrefab(tempUpdateGameCar);
+            #endregion
+        }
+    }
 
     static void GenerateCarPrefab()
     {
@@ -82,7 +132,7 @@ public class CarPrefabCreationTool : EditorWindow
         DecelHigh = Preset.DecelHigh;
         DecelLow = Preset.DecelLow;
         Armor = Preset.Armor;
-        
+
         //getting audio curves
         MadMaxCarAudio tempCarAudio = CarAudioCurve.GetComponent<MadMaxCarAudio>();
         EngineAudioCurve = tempCarAudio.Curve;
@@ -95,7 +145,7 @@ public class CarPrefabCreationTool : EditorWindow
 
         //creating WheelFrictionCurve data struct
         FrictionCurve = new WheelFrictionCurve();
-#endregion
+        #endregion
 
         //getting all the cars to setup and prefab
         GameObject[] Objects = Preset.CarsToSetUp.ToArray();
@@ -116,15 +166,14 @@ public class CarPrefabCreationTool : EditorWindow
             #region GameCarPrefab
             GameObject tempGameCar = GameObject.Instantiate(obj);
 
-            //adding and getting fundamental components and gameobjects
+            //adding fundamental components and gameobjects
             ControllerWheels = tempGameCar.AddComponent<ControllerWheels>();
             Weapon = tempGameCar.AddComponent<Weapon>();
             NetTransform = tempGameCar.AddComponent<NetworkTransform>();
             NetTransformChild = tempGameCar.AddComponent<NetworkTransformChild>();
             MadMaxActor = tempGameCar.AddComponent<MadMaxActor>();
             CarAudio = tempGameCar.AddComponent<MadMaxCarAudio>();
-            
-            //TODO prendere riferimento alle collisioni di torretta e gun
+
             Turret = tempGameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "Turret").Select(y => y.gameObject.AddComponent<VehicleTurret>()).FirstOrDefault();
             if (Turret == null)
             {
@@ -160,7 +209,6 @@ public class CarPrefabCreationTool : EditorWindow
             SetupMadMaxCarAudio();
             SetUpTurret(tempGameCar);
             SetupWheelColliders(tempGameCar);
-            //TODO gestire cubi ruotati
             SetupCollisions(tempGameCar);
             SaveGameCarPrefab(tempGameCar);
             #endregion
@@ -179,7 +227,7 @@ public class CarPrefabCreationTool : EditorWindow
     #region GameCarPrefab Methods
     private static void SetupCameraPrefab(GameObject gameCar)
     {
-        //Camera setup: instantiating, parenting, instantiati an empty GO as DOFTarget in the same position as car pivot, assigning DOFTarget to camera DOF
+        //Camera setup: instantiating, parenting, instantiate an empty GO as DOFTarget in the same position as car pivot, assigning DOFTarget to camera DOF
         GameObject tempGameCamera = GameObject.Instantiate(Preset.GameCameraPrefab);
         DepthOfField DOFComponent = tempGameCamera.GetComponent<DepthOfField>();
         GameObject DOFTarget = new GameObject("DOFTarget");
@@ -208,13 +256,18 @@ public class CarPrefabCreationTool : EditorWindow
 
     private static void SetupWeapon(GameObject gameCar)
     {
-        WeaponLocatorsPosition = gameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "WeaponLocator").ToArray();
-        if(WeaponLocatorsPosition.Length == 0)
+        WeaponLocatorsPosition = gameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.transform.parent != null && x.gameObject.transform.parent.name == "WeaponLocator").ToArray();
+        if (WeaponLocatorsPosition.Length == 0)
         {
-            Debug.Log("Unable to find WeaponLocator GO");
-            return;
+            WeaponLocatorsPosition = gameCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.name == "WeaponLocator").ToArray();
+            if (WeaponLocatorsPosition.Length == 0)
+            {
+                Debug.Log("Unable to find WeaponLocator GO");
+                return;
+            }
+
         }
-        
+
         Weapon.BulletPrefab = WeaponPrefab;
         //TODO: add all weapon locators
         Weapon.ShootLocators = new List<GameObject>(WeaponLocatorsPosition.Length);
@@ -464,7 +517,7 @@ public class CarPrefabCreationTool : EditorWindow
         if (Preset.DestroyOnFinish)
             DestroyImmediate(gameCar);
     }
-#endregion
+    #endregion
 
     //Part Two: create car menu prefab
     //Get car menu name
@@ -474,7 +527,7 @@ public class CarPrefabCreationTool : EditorWindow
     private static void SetupVehiclePrefabMGR(GameObject menuCar)
     {
         Transform CarNameTransform = menuCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.transform.parent != null && x.gameObject.transform.parent.name == "CarName").FirstOrDefault();
-        if(CarNameTransform == null)
+        if (CarNameTransform == null)
         {
             Debug.Log("Unable to find CarName GO or its children");
         }
@@ -489,7 +542,7 @@ public class CarPrefabCreationTool : EditorWindow
     {
         CarLightTransforms = new List<Transform>();
         CarLightTransforms = menuCar.GetComponentsInChildren<Transform>().Where(x => x.gameObject.transform.parent != null && x.gameObject.transform.parent.name == "Lights" && x.gameObject.name != "StopLights").ToList();
-        if(CarLightTransforms == null)
+        if (CarLightTransforms == null)
         {
             Debug.Log("Unable to find Lights GO");
             return;
@@ -498,6 +551,7 @@ public class CarPrefabCreationTool : EditorWindow
         {
             GameObject tempLight = GameObject.Instantiate(Preset.LightPrefab, light);
             tempLight.transform.localPosition = Vector3.zero;
+            tempLight.transform.forward = light.transform.forward;
         }
 
         List<Transform> CarStopLightTransforms = new List<Transform>();
