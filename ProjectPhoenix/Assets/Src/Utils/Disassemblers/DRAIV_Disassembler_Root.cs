@@ -14,7 +14,7 @@ public class DRAIV_Disassembler_Root : MonoBehaviour
         {
             DRAIV_Disassembler disassembler = hGO.AddComponent<DRAIV_Disassembler>();
             disassembler.Armor = Armor;
-            disassembler.Mass = Mass;
+            disassembler.SetMass(Mass);
         });
     }
 }

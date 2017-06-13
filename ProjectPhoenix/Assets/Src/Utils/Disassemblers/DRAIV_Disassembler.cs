@@ -62,4 +62,8 @@ public class DRAIV_Disassembler : MonoBehaviour, IDamageable
 
         return hRigidbody;
     }
+    public void SetMass(float mass)
+    {
+        hRigidbody.mass = mass;
+    }
 }
