@@ -339,7 +339,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4809165307394926}
-  - component: {fileID: 95612520806038272}
   - component: {fileID: 114888915642841004}
   - component: {fileID: 114585108428733724}
   m_Layer: 0
@@ -602,7 +601,7 @@ Transform:
   m_GameObject: {fileID: 1904609523730580}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0.004100682}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.95, y: 0.95, z: 0.95}
   m_Children:
   - {fileID: 4680721930067860}
   - {fileID: 4583073355474884}
@@ -954,23 +953,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1690496259533746}
   m_Mesh: {fileID: 4300036, guid: 2a4679b8d4ce2884ba0f0063ff580463, type: 3}
---- !u!95 &95612520806038272
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1904609523730580}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 2a4679b8d4ce2884ba0f0063ff580463, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!108 &108093599523351758
 Light:
   m_ObjectHideFlags: 1

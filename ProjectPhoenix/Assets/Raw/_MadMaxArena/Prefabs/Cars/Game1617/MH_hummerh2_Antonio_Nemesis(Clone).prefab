@@ -478,7 +478,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4984709794945554}
-  - component: {fileID: 95080449745995872}
   - component: {fileID: 54876950263991354}
   - component: {fileID: 75178567748739582}
   - component: {fileID: 114915835820499130}
@@ -6782,23 +6781,6 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1297476142165166}
   m_Enabled: 1
---- !u!95 &95080449745995872
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1327810483814276}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 210cac6bd3e001142854c63d4987b92c, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114139796272278888
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7178,7 +7160,7 @@ MonoBehaviour:
   m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 0
+  m_TransformSyncMode: 3
   m_SendInterval: 0.07
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 2
