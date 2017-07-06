@@ -27,7 +27,6 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
     public float MediumArmorDamageRate;
     [Range(0f, 1f)]
     public float HeavyArmorDamageRate;
-    private float m_fTotalDistance;
 
     private ParticlesController m_hParticlesController;
     private Rigidbody m_hRigidBody;

@@ -133,7 +133,6 @@ public class ProceduralWorld : MonoBehaviour {
 	class ProceduralTile {
 		int x, z;
 		System.Random rnd;
-		bool staticBatching;
 
 		ProceduralWorld world;
 

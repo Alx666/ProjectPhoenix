@@ -247,8 +247,8 @@ namespace UnityStandardAssets.CinematicEffects
             importer.textureType = TextureImporterType.Default;
             importer.anisoLevel = 0;
             importer.mipmapEnabled = false;
-            importer.linearTexture = true;
-            importer.textureFormat = TextureImporterFormat.RGB24;
+            importer.sRGBTexture = true;
+            importer.textureCompression = TextureImporterCompression.Uncompressed;
             importer.SaveAndReimport();
         }
 
@@ -348,7 +348,7 @@ namespace UnityStandardAssets.CinematicEffects
             {
                 Camera camera = concreteTarget.GetComponent<Camera>();
 
-                if (camera != null && !camera.hdr)
+                if (camera != null && !camera.allowHDR)
                     EditorGUILayout.HelpBox("The camera is not HDR enabled. This will likely break the tonemapper.", MessageType.Warning);
                 else if (!concreteTarget.validRenderTextureFormat)
                     EditorGUILayout.HelpBox("The input to tonemapper is not in HDR. Make sure that all effects prior to this are executed in HDR.", MessageType.Warning);
@@ -366,8 +366,8 @@ namespace UnityStandardAssets.CinematicEffects
                     TextureImporter importer = (TextureImporter)AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(concreteTarget.lut.texture));
                     bool valid = importer.anisoLevel == 0
                         && importer.mipmapEnabled == false
-                        && importer.linearTexture == true
-                        && (importer.textureFormat == TextureImporterFormat.RGB24 || importer.textureFormat == TextureImporterFormat.AutomaticTruecolor);
+                        && importer.sRGBTexture == true
+                        && (importer.textureCompression == TextureImporterCompression.Uncompressed);
 
                     if (!valid)
                     {

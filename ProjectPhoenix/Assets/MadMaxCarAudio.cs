@@ -25,7 +25,7 @@ public class MadMaxCarAudio : MonoBehaviour
 
     private ControllerWheels m_hWheelCtrl;
     private float       m_fMaxSpeed;
-    private float       m_fChange;
+    //private float       m_fChange;
     private float       m_fSpeed;
     private float       m_fAcceleration;
 

@@ -7,13 +7,13 @@ using System.Linq;
 
 internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
 {
-    public GameObject OwnBody;
-    public GameObject MainWeapon;
-    public float MaxHeight;
-    public float MaxVelocityMagnitude;
-    public float HorizontalVelocityForce;
-    public float VelocityRotation;
-    public List<GameObject> rotors;
+    public GameObject OwnBody = null;
+    public GameObject MainWeapon = null;
+    public float MaxHeight = 100f;
+    public float MaxVelocityMagnitude = 100f;
+    public float HorizontalVelocityForce = 10f;
+    public float VelocityRotation = 10f;
+    public List<GameObject> rotors = new List<GameObject>();
     public float MaxRotarSpeed = 15f;
     public Rigidbody HeliRigidBody { get; set; }
 
@@ -28,7 +28,6 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
     float strafeForce;
     float currentForwardSlope;
     float currentStrafeSlope;
-    float targetHeight;
     IWeapon m_hCurrentWeapon;
     float rotarSpeed;
 

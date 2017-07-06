@@ -664,7 +664,7 @@ public class TrackBuildRGenerator : MonoBehaviour
                         if (track.numberOfTextures > 0)
                             newMeshHolder.AddComponent<MeshRenderer>().material = track.Texture(curve.trackTextureStyleIndex).GetMaterial();// track.trackTexture.material;
 #if UNITY_EDITOR
-                        EditorUtility.SetSelectedWireframeHidden(newMeshHolder.GetComponent<Renderer>(), !track.showWireframe);
+                        EditorUtility.SetSelectedRenderState(newMeshHolder.GetComponent<Renderer>(), track.showWireframe ? EditorSelectedRenderState.Wireframe : EditorSelectedRenderState.Hidden);
 #endif
                     }
                 }
@@ -684,7 +684,7 @@ public class TrackBuildRGenerator : MonoBehaviour
                         if (track.numberOfTextures > 0)
                             newMeshHolder.AddComponent<MeshRenderer>().material = track.Texture(curve.boundaryTextureStyleIndex).GetMaterial();// track.trackTexture.material;
 #if UNITY_EDITOR
-                        EditorUtility.SetSelectedWireframeHidden(newMeshHolder.GetComponent<Renderer>(), !track.showWireframe);
+                        EditorUtility.SetSelectedRenderState(newMeshHolder.GetComponent<Renderer>(), track.showWireframe ? EditorSelectedRenderState.Wireframe : EditorSelectedRenderState.Hidden);
 #endif
                     }
                 }
@@ -703,7 +703,7 @@ public class TrackBuildRGenerator : MonoBehaviour
                         if (track.numberOfTextures > 0)
                             newMeshHolder.AddComponent<MeshRenderer>().material = track.Texture(curve.offroadTextureStyleIndex).GetMaterial();// track.offroadTexture.material;
 #if UNITY_EDITOR
-                        EditorUtility.SetSelectedWireframeHidden(newMeshHolder.GetComponent<Renderer>(), !track.showWireframe);
+                        EditorUtility.SetSelectedRenderState(newMeshHolder.GetComponent<Renderer>(), track.showWireframe ? EditorSelectedRenderState.Wireframe : EditorSelectedRenderState.Hidden);
 #endif
                     }
                 }
@@ -794,7 +794,7 @@ public class TrackBuildRGenerator : MonoBehaviour
                         if (track.numberOfTextures > 0)
                             newMeshHolder.AddComponent<MeshRenderer>().material = track.Texture(curve.bumperTextureStyleIndex).GetMaterial();// track.bumperTexture.material;
 #if UNITY_EDITOR
-                        EditorUtility.SetSelectedWireframeHidden(newMeshHolder.GetComponent<Renderer>(), !track.showWireframe);
+                        EditorUtility.SetSelectedRenderState(newMeshHolder.GetComponent<Renderer>(), track.showWireframe ? EditorSelectedRenderState.Wireframe : EditorSelectedRenderState.Hidden);
 #endif
                     }
                 }
@@ -813,7 +813,7 @@ public class TrackBuildRGenerator : MonoBehaviour
                         if (track.numberOfTextures > 0)
                             newMeshHolder.AddComponent<MeshRenderer>().material = track.Texture(curve.bottomTextureStyleIndex).GetMaterial();// track.trackTexture.material;
 #if UNITY_EDITOR
-                        EditorUtility.SetSelectedWireframeHidden(newMeshHolder.GetComponent<Renderer>(), !track.showWireframe);
+                        EditorUtility.SetSelectedRenderState(newMeshHolder.GetComponent<Renderer>(), track.showWireframe ? EditorSelectedRenderState.Wireframe : EditorSelectedRenderState.Hidden);
 #endif
                     }
                 }

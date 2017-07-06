@@ -27,13 +27,21 @@ public class ParticleVfx : MonoBehaviour, IVisualEffect, IPoolable
         this.gameObject.transform.position = vPosition;
 
         if (isSide)
-            this.gameObject.transform.right   = vDirection;
+            this.gameObject.transform.right = vDirection;
         else
             this.gameObject.transform.forward = vDirection;
 
         if (FirstPlay)
         {
-            m_hParticle.ForEach(hP => hP.startSize = hP.startSize * scaleCoef);
+            //m_hParticle.ForEach(hP => hP.startSize = hP.startSize * scaleCoef);
+
+            //TODO: verify
+            m_hParticle.ForEach(hP =>
+            {
+                ParticleSystem.MainModule module = hP.main;
+                module.startSizeMultiplier *= scaleCoef;
+            });
+
             FirstPlay = false;
         }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 internal class VehicleTester : MonoBehaviour
 {
     [SerializeField]
-    internal List<GameObject> InputReceivers;
+    internal List<GameObject> InputReceivers = new List<GameObject>();
 
     void Awake()
     {

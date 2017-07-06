@@ -20,15 +20,80 @@ namespace Pathfinding {
 			public Vector3[] vertices;
 			public Vector3[] normals;
 			public Vector2[] uv;
-			public Vector2[] uv1;
-			public Vector2[] uv2;
-			public int[] triangles;
-			public int[] faceVerts;
-			public int[] faceUVs;
-			public Vector3[] faceData;
-			public string name;
-			public string fileName;
-		}
+            private Vector2[] uv1;
+            private Vector2[] uv2;
+            public int[] triangles;
+            private int[] faceVerts;
+            private int[] faceUVs;
+            public Vector3[] faceData;
+            private string name;
+            public string fileName;
+
+            public Vector2[] Uv1
+            {
+                get
+                {
+                    return uv1;
+                }
+
+                set
+                {
+                    uv1 = value;
+                }
+            }
+
+            public Vector2[] Uv2
+            {
+                get
+                {
+                    return uv2;
+                }
+
+                set
+                {
+                    uv2 = value;
+                }
+            }
+
+            public int[] FaceVerts
+            {
+                get
+                {
+                    return faceVerts;
+                }
+
+                set
+                {
+                    faceVerts = value;
+                }
+            }
+
+            public int[] FaceUVs
+            {
+                get
+                {
+                    return faceUVs;
+                }
+
+                set
+                {
+                    faceUVs = value;
+                }
+            }
+
+            public string Name
+            {
+                get
+                {
+                    return name;
+                }
+
+                set
+                {
+                    name = value;
+                }
+            }
+        }
 
 		// Use this for initialization
 		public static Mesh ImportFile (string filePath) {

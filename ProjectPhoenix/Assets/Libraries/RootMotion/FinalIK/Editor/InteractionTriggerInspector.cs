@@ -127,7 +127,7 @@ namespace RootMotion.FinalIK {
 				
 			if (direction != Vector3.zero && range.characterPosition.maxAngle < 180f) {
 				Handles.DrawLine(position, position + x);
-				Handles.DotCap(0, position + x, Quaternion.identity, range.characterPosition.radius * 0.01f);
+				Handles.DotHandleCap(0, position + x, Quaternion.identity, range.characterPosition.radius * 0.01f, EventType.Ignore);
 			}
 				
 			Handles.Label(position - Vector3.up * index * 0.05f, "Character Position for Range " + index.ToString() + ": " + range.name);
@@ -167,7 +167,7 @@ namespace RootMotion.FinalIK {
 			direction = direction.normalized * range.cameraPosition.maxDistance;
 			
 			Handles.DrawLine(position, position + direction);
-			Handles.DotCap(0, position + direction, Quaternion.identity, 0.005f);
+			Handles.DotHandleCap(0, position + direction, Quaternion.identity, 0.005f, EventType.Ignore);
 			
 			Handles.Label(position + direction * 1.1f, "Camera Position for Range " + index.ToString() + ": " + range.name);
 			
@@ -178,7 +178,7 @@ namespace RootMotion.FinalIK {
 			
 			Quaternion rotation = targetRotation * Quaternion.LookRotation(range.cameraPosition.direction);
 			
-			Handles.CircleCap(0, position + direction.normalized * d, rotation, r);
+			Handles.CircleHandleCap(0, position + direction.normalized * d, rotation, r, EventType.Ignore);
 			
 			if (SceneView.lastActiveSceneView != null && SceneView.lastActiveSceneView.camera != null) {
 				//Vector3 c = Vector3.Cross(direction, SceneView.lastActiveSceneView.camera.transform.forward);

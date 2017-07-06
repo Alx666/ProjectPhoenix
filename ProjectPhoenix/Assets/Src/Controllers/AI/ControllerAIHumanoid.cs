@@ -25,7 +25,7 @@ public class ControllerAIHumanoid : NetworkBehaviour, IDamageable
     public GameObject Ragdoll;
     public GameObject WeaponRagdoll;
 
-    internal bool NOTURN;
+    internal bool NOTURN = false;
 
     internal GameObject CurrentEnemy { get; private set; }
     internal RVOController RVOController { get; private set; }

@@ -23,7 +23,6 @@ public class WeaponBeam : MonoBehaviour, IWeapon
 
     private bool m_bFire;
     private float m_fDurationTime;
-    private bool m_bRecharging;
     private bool m_bCompleteDischarge;
     private IRecharge m_hCurrent;
     public bool IsFiring { get { return m_bFire; } }
@@ -81,7 +80,6 @@ public class WeaponBeam : MonoBehaviour, IWeapon
             {
                 m_hWB.ShootLocators.ForEach(hS => m_hWB.Direction = hS.transform.forward);
                 m_hWB.m_hBeam.Enable(m_hWB.ShootLocators.First().transform.position, m_hWB.Direction);
-                m_hWB.m_bRecharging = false;
                 m_hWB.m_fDurationTime -= Time.deltaTime;
             }
             else
@@ -101,7 +99,6 @@ public class WeaponBeam : MonoBehaviour, IWeapon
             if (m_hWB.m_fDurationTime < 0.0f)
                 m_hWB.m_bCompleteDischarge = true;
 
-            m_hWB.m_bRecharging = true;
             m_hWB.m_hBeam.Disable();
             m_hWB.m_hCurrent = m_hWB.m_hRecharging;
         }
@@ -124,7 +121,6 @@ public class WeaponBeam : MonoBehaviour, IWeapon
             else
             {
                 m_hWB.m_bCompleteDischarge = false;
-                m_hWB.m_bRecharging = false;
                 m_hWB.m_hCurrent = m_hWB.m_hWeaponOff;
             }
         }
@@ -141,7 +137,6 @@ public class WeaponBeam : MonoBehaviour, IWeapon
         {
             if (!m_hWB.m_bFire)
             {
-                m_hWB.m_bRecharging = true;
                 return;
             }
             else

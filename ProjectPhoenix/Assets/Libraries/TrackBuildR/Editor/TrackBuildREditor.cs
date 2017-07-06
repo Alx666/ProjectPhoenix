@@ -30,7 +30,7 @@ public class TrackBuildREditor : Editor
     public static Texture2D[] _stageToolbarTexturesA;
     public static Texture2D[] _stageToolbarTexturesB;
     public static string[] trackModeString = new[] { "track", "boundary", "bumpers", "textures", "terrain", "stunt", "diagram", "options", "export" };
-    public static string[] pointModeString = new[] { "transform", "control points", "track up","track point" };
+    public static string[] pointModeString = new[] { "transform", "control points", "track up", "track point" };
     public static string[] boundaryModeString = new[] { "boundary transform", "boundary control points" };
     public static string[] pitModeString = new[] { "edit pit lane", "set start point", "set end point" };
     public const int numberOfMenuOptionsA = 5;
@@ -59,7 +59,7 @@ public class TrackBuildREditor : Editor
         //Preview Camera
         if (_trackBuildR.trackEditorPreview != null)
             DestroyImmediate(_trackBuildR.trackEditorPreview);
-        if (!EditorApplication.isPlaying && SystemInfo.supportsRenderTextures)
+        if (!EditorApplication.isPlaying)
         {
             _trackBuildR.trackEditorPreview = new GameObject("Track Preview Cam");
             _trackBuildR.trackEditorPreview.hideFlags = HideFlags.HideAndDontSave;
@@ -90,7 +90,7 @@ public class TrackBuildREditor : Editor
                     _trackBuildR.trackEditorPreview.AddComponent<Skybox>().material = sceneCameraSkybox.material;
                 else
                     if (RenderSettings.skybox != null)
-                        _trackBuildR.trackEditorPreview.AddComponent<Skybox>().material = RenderSettings.skybox;
+                    _trackBuildR.trackEditorPreview.AddComponent<Skybox>().material = RenderSettings.skybox;
             }
         }
     }
@@ -166,7 +166,7 @@ public class TrackBuildREditor : Editor
         }
 
         Handles.color = Color.green;
-        if (Handles.Button(mousePlanePoint, Quaternion.identity, _handleSize, _handleSize, Handles.DotCap))
+        if (Handles.Button(mousePlanePoint, Quaternion.identity, _handleSize, _handleSize, Handles.DotHandleCap))
         {
             TrackBuildRPoint newTrackPoint = _track.gameObject.AddComponent<TrackBuildRPoint>();//CreateInstance<TrackBuildRPoint>();
             newTrackPoint.baseTransform = _trackBuildR.transform;
@@ -179,7 +179,7 @@ public class TrackBuildREditor : Editor
         {
             TrackBuildRPoint pointOne = _track[0];
             Handles.Label(pointOne.worldPosition, "Loop Track");
-            if (Handles.Button(pointOne.worldPosition, Quaternion.identity, _handleSize, _handleSize, Handles.DotCap))
+            if (Handles.Button(pointOne.worldPosition, Quaternion.identity, _handleSize, _handleSize, Handles.DotHandleCap))
             {
                 _track.drawMode = false;
                 _trackBuildR.UpdateRender();
@@ -227,11 +227,11 @@ public class TrackBuildREditor : Editor
                             Repaint();
 
                         Handles.color = TrackBuildRColours.GREY;
-                        for(int i = 0; i < _track.realNumberOfPoints; i++)
+                        for (int i = 0; i < _track.realNumberOfPoints; i++)
                         {
                             Vector3 pointPos = _track[i].worldPosition;
                             float handleSize = HandleUtility.GetHandleSize(pointPos);
-                            Handles.DotCap(0, pointPos, Quaternion.identity, handleSize*0.05f);
+                            Handles.DotHandleCap(0, pointPos, Quaternion.identity, handleSize * 0.05f, EventType.Ignore);
                         }
 
                         Handles.color = TrackBuildRColours.GREEN;
@@ -239,7 +239,7 @@ public class TrackBuildREditor : Editor
                         Vector3 mouseTrackPoint = _track.GetTrackPosition(mousePercentage) + position;
                         Handles.Label(mouseTrackPoint, "Add New Track Point");
                         float newPointHandleSize = HandleUtility.GetHandleSize(mouseTrackPoint) * HANDLE_SCALE;
-                        if (Handles.Button(mouseTrackPoint, mouseLookDirection, newPointHandleSize, newPointHandleSize, Handles.DotCap))
+                        if (Handles.Button(mouseTrackPoint, mouseLookDirection, newPointHandleSize, newPointHandleSize, Handles.DotHandleCap))
                         {
                             int newPointIndex = _track.GetLastPointIndex(mousePercentage);
                             TrackBuildRPoint newPoint = _track.InsertPoint(newPointIndex + 1);
@@ -264,7 +264,7 @@ public class TrackBuildREditor : Editor
 
                             float pointHandleSize = HandleUtility.GetHandleSize(point.worldPosition) * HANDLE_SCALE;
                             Handles.Label(point.worldPosition, "Remove Track Point");
-                            if (Handles.Button(point.worldPosition, mouseLookDirection, pointHandleSize, pointHandleSize, Handles.DotCap))
+                            if (Handles.Button(point.worldPosition, mouseLookDirection, pointHandleSize, pointHandleSize, Handles.DotHandleCap))
                             {
                                 _track.RemovePoint(point);
                                 GUI.changed = true;
@@ -285,7 +285,7 @@ public class TrackBuildREditor : Editor
                 for (int i = 0; i < numberOfCurves; i++)
                 {
                     TrackBuildRPoint curve = _track[i];
-                    if(curve==null)
+                    if (curve == null)
                         continue;
                     int curvePoints = curve.storedPointSize;
 
@@ -371,7 +371,7 @@ public class TrackBuildREditor : Editor
 
                     float pointHandleSize = HandleUtility.GetHandleSize(thisCurve.center) * HANDLE_SCALE;
                     Handles.color = (i == selectedCurveIndex) ? TrackBuildRColours.RED : TrackBuildRColours.BLUE;
-                    if (Handles.Button(thisCurve.center, Quaternion.identity, pointHandleSize, pointHandleSize, Handles.DotCap))
+                    if (Handles.Button(thisCurve.center, Quaternion.identity, pointHandleSize, pointHandleSize, Handles.DotHandleCap))
                     {
                         selectedCurveIndex = i;
                         GUIUtility.hotControl = 0;
@@ -418,13 +418,13 @@ public class TrackBuildREditor : Editor
                 float trackWidth;
                 Vector3 startCross;
                 Vector3 p0, p1, p2, p3, p4, p5, p6, p7;
-                switch(_trackBuildR.stuntMode)
+                switch (_trackBuildR.stuntMode)
                 {
                     case TrackBuildR.stuntModes.loop:
-                        
+
                         atPoint = _track[selectedPoint];
                         trackWidth = atPoint.width;
-                        
+
                         float loopRadius = _track.loopRadius;
                         Vector3 loopPosition = atPoint.worldPosition;
                         Vector3 trackDirection = atPoint.trackDirection.normalized;
@@ -432,10 +432,10 @@ public class TrackBuildREditor : Editor
                         Vector3 trackCross = atPoint.trackCross;
                         Vector3 loopCentreHeight = loopRadius * trackup;
                         Quaternion loopAngle = Quaternion.FromToRotation(Vector3.right, trackDirection);
-                        for(float i = 0; i < 0.99f; i += 0.01f )
+                        for (float i = 0; i < 0.99f; i += 0.01f)
                         {
-                            float radA = Mathf.PI * 2 * (i+0.5f);
-                            float radB = Mathf.PI * 2 * (i+0.51f);
+                            float radA = Mathf.PI * 2 * (i + 0.5f);
+                            float radB = Mathf.PI * 2 * (i + 0.51f);
                             Vector3 pointLoopPositionA = loopAngle * ((new Vector3(Mathf.Sin(radA), Mathf.Cos(radA), 0)) * loopRadius);
                             Vector3 pointLoopPositionB = loopAngle * ((new Vector3(Mathf.Sin(radB), Mathf.Cos(radB), 0)) * loopRadius);
                             Vector3 lateral = Vector3.Lerp((trackCross * trackWidth * -0.6f), (trackCross * trackWidth * 0.6f), i);
@@ -457,7 +457,7 @@ public class TrackBuildREditor : Editor
                         Vector3 jumpDirection = atPoint.trackDirection;
                         Vector3 jumpMiddle = atPoint.worldPosition;
                         startCross = atPoint.trackCross;
-                        trackWidth = atPoint.width*0.5f;
+                        trackWidth = atPoint.width * 0.5f;
                         Quaternion trackUp = atPoint.trackUpQ;
 
                         Vector3 jumpHeight = trackUp * (Vector3.forward * _track.jumpHeight);
@@ -491,38 +491,38 @@ public class TrackBuildREditor : Editor
                         Handles.DrawLine(p5, p5 - jumpHeight);
                         Handles.DrawLine(p6, p4 - jumpHeight);
                         Handles.DrawLine(p7, p5 - jumpHeight);
-                        
+
                         break;
 
-//                        case TrackBuildR.stuntModes.twist:
-//                        
-//                        atPoint = _track[selectedPoint];
-//                        lastPoint = _track.GetPoint(selectedPoint - 1);
-//
-//                        float twistDistance = Mathf.Min((lastPoint.arcLength + atPoint.arcLength) * 0.333f, _track.maxJumpLength);
-//
-//                        Vector3 twistDirection = atPoint.trackDirection;
-//                        Vector3 twistMiddle = atPoint.worldPosition;
-//                        Vector3 twistUp = atPoint.trackUp;
-//                        float twistRadius = _track.twistRadius;
-//                        Vector3 twistStartPosition = twistMiddle - twistDirection * (twistDistance * 0.33f);
-//                        Vector3 twistEndPosition = twistMiddle + twistDirection * (twistDistance * 0.33f);
-//                        Vector3 twistCentreHeight = twistUp * twistRadius;
-//                        Quaternion twistAngle = Quaternion.LookRotation(twistDirection, twistUp);
-//                        for(float i = 0; i < 0.99f; i += 0.01f )
-//                        {
-//                            float radA = Mathf.PI * 2 * (i+0.5f);
-//                            float radB = Mathf.PI * 2 * (i+0.51f);
-//                            Vector3 pointLoopPositionA = twistAngle * ((new Vector3(Mathf.Sin(radA), Mathf.Cos(radA), 0)) * twistRadius);
-//                            Vector3 pointLoopPositionB = twistAngle * ((new Vector3(Mathf.Sin(radB), Mathf.Cos(radB), 0)) * twistRadius);
-//                            float smoothI = i * i * (3.0f - 2.0f * i);
-//                            Vector3 lateral = Vector3.Lerp(twistStartPosition, twistEndPosition, i + (i-smoothI));
-//                            Vector3 pointPositionA = (pointLoopPositionA) + lateral + twistCentreHeight;
-//                            Vector3 pointPositionB = (pointLoopPositionB) + lateral + twistCentreHeight;
-//                            Handles.DrawLine(pointPositionA, pointPositionB);
-//                        }
-//
-//                        break;
+                    //                        case TrackBuildR.stuntModes.twist:
+                    //                        
+                    //                        atPoint = _track[selectedPoint];
+                    //                        lastPoint = _track.GetPoint(selectedPoint - 1);
+                    //
+                    //                        float twistDistance = Mathf.Min((lastPoint.arcLength + atPoint.arcLength) * 0.333f, _track.maxJumpLength);
+                    //
+                    //                        Vector3 twistDirection = atPoint.trackDirection;
+                    //                        Vector3 twistMiddle = atPoint.worldPosition;
+                    //                        Vector3 twistUp = atPoint.trackUp;
+                    //                        float twistRadius = _track.twistRadius;
+                    //                        Vector3 twistStartPosition = twistMiddle - twistDirection * (twistDistance * 0.33f);
+                    //                        Vector3 twistEndPosition = twistMiddle + twistDirection * (twistDistance * 0.33f);
+                    //                        Vector3 twistCentreHeight = twistUp * twistRadius;
+                    //                        Quaternion twistAngle = Quaternion.LookRotation(twistDirection, twistUp);
+                    //                        for(float i = 0; i < 0.99f; i += 0.01f )
+                    //                        {
+                    //                            float radA = Mathf.PI * 2 * (i+0.5f);
+                    //                            float radB = Mathf.PI * 2 * (i+0.51f);
+                    //                            Vector3 pointLoopPositionA = twistAngle * ((new Vector3(Mathf.Sin(radA), Mathf.Cos(radA), 0)) * twistRadius);
+                    //                            Vector3 pointLoopPositionB = twistAngle * ((new Vector3(Mathf.Sin(radB), Mathf.Cos(radB), 0)) * twistRadius);
+                    //                            float smoothI = i * i * (3.0f - 2.0f * i);
+                    //                            Vector3 lateral = Vector3.Lerp(twistStartPosition, twistEndPosition, i + (i-smoothI));
+                    //                            Vector3 pointPositionA = (pointLoopPositionA) + lateral + twistCentreHeight;
+                    //                            Vector3 pointPositionB = (pointLoopPositionB) + lateral + twistCentreHeight;
+                    //                            Handles.DrawLine(pointPositionA, pointPositionB);
+                    //                        }
+                    //
+                    //                        break;
 
                     case TrackBuildR.stuntModes.jumptwist:
 
@@ -546,7 +546,7 @@ public class TrackBuildREditor : Editor
                         Vector3 jumpTHeight = atPointUpQ * (Vector3.forward * _track.jumpHeight);
                         Vector3 jumpTStartPosition = jumpTMiddle - jumpTDirection * (jumpTDistance * 0.33f) + jumpTHeight - jumpLateral;
                         Vector3 jumpTEndPosition = jumpTMiddle + jumpTDirection * (jumpTDistance * 0.33f) + jumpTHeight + jumpLateral;
-                        
+
                         p0 = lastPoint.worldPosition + trackWidth * startCross;
                         p1 = lastPoint.worldPosition - trackWidth * startCross;
                         p2 = jumpTStartPosition + trackWidth * trackCrossExit;
@@ -561,19 +561,19 @@ public class TrackBuildREditor : Editor
                         Handles.DrawLine(p1, p3);
                         Handles.DrawLine(p0, p1);
                         Handles.DrawLine(p2, p3);
-//                        Handles.DrawLine(p2, p2 - jumpTHeight);
-//                        Handles.DrawLine(p3, p3 - jumpTHeight);
-//                        Handles.DrawLine(p0, p2 - jumpTHeight);
-//                        Handles.DrawLine(p1, p3 - jumpTHeight);
+                        //                        Handles.DrawLine(p2, p2 - jumpTHeight);
+                        //                        Handles.DrawLine(p3, p3 - jumpTHeight);
+                        //                        Handles.DrawLine(p0, p2 - jumpTHeight);
+                        //                        Handles.DrawLine(p1, p3 - jumpTHeight);
 
                         Handles.DrawLine(p4, p6);
                         Handles.DrawLine(p5, p7);
                         Handles.DrawLine(p4, p5);
                         Handles.DrawLine(p6, p7);
-//                        Handles.DrawLine(p4, p4 - jumpTHeight);
-//                        Handles.DrawLine(p5, p5 - jumpTHeight);
-//                        Handles.DrawLine(p6, p4 - jumpTHeight);
-//                        Handles.DrawLine(p7, p5 - jumpTHeight);
+                        //                        Handles.DrawLine(p4, p4 - jumpTHeight);
+                        //                        Handles.DrawLine(p5, p5 - jumpTHeight);
+                        //                        Handles.DrawLine(p6, p4 - jumpTHeight);
+                        //                        Handles.DrawLine(p7, p5 - jumpTHeight);
 
                         break;
                 }
@@ -630,7 +630,7 @@ public class TrackBuildREditor : Editor
                             Handles.DrawLine(diagramPlanePoint, diagramPlanePoint + Vector3.back * crossSize);
 
                             Handles.color = new Color(0, 0, 0, 0);
-                            if (Handles.Button(diagramPlanePoint, Quaternion.identity, crossSize, crossSize, Handles.DotCap))
+                            if (Handles.Button(diagramPlanePoint, Quaternion.identity, crossSize, crossSize, Handles.DotHandleCap))
                             {
                                 _track.scalePointA = diagramPlanePoint;
                                 _track.assignedPoints = 2;
@@ -663,7 +663,7 @@ public class TrackBuildREditor : Editor
                             Handles.DrawLine(diagramPlanePoint, diagramPlanePoint + Vector3.back * crossSize);
 
                             Handles.color = new Color(0, 0, 0, 0);
-                            if (Handles.Button(diagramPlanePoint, Quaternion.identity, crossSize, crossSize, Handles.DotCap))
+                            if (Handles.Button(diagramPlanePoint, Quaternion.identity, crossSize, crossSize, Handles.DotHandleCap))
                             {
                                 _track.scalePointB = diagramPlanePoint;
                                 _track.assignedPoints = 0;
@@ -683,7 +683,7 @@ public class TrackBuildREditor : Editor
             {
                 case "UndoRedoPerformed":
                     //                    Debug.Log("UndoRedoPerformed");
-                                        _trackBuildR.ForceFullRecalculation();
+                    _trackBuildR.ForceFullRecalculation();
                     GUI.changed = true;
                     return;
             }
@@ -711,7 +711,7 @@ public class TrackBuildREditor : Editor
             Handles.Label(point.worldPosition, "point " + (i + 1));
             float pointHandleSize = HandleUtility.GetHandleSize(point.worldPosition) * HANDLE_SCALE;
             Handles.color = (i == selectedPoint) ? TrackBuildRColours.RED : TrackBuildRColours.GREEN;
-            if (Handles.Button(point.worldPosition, Quaternion.identity, pointHandleSize, pointHandleSize, Handles.DotCap))
+            if (Handles.Button(point.worldPosition, Quaternion.identity, pointHandleSize, pointHandleSize, Handles.DotHandleCap))
             {
                 selectedPoint = i;
                 GUIUtility.hotControl = 0;
@@ -742,9 +742,9 @@ public class TrackBuildREditor : Editor
                                 Handles.color = TrackBuildRColours.DARK_GREY;
                                 Handles.DrawLine(point.worldPosition, point.forwardControlPoint + position);
                                 Handles.DrawLine(point.worldPosition, point.backwardControlPoint + position);
-                                if (Handles.Button(point.backwardControlPoint + position, Quaternion.identity, pointHandleSize, pointHandleSize, Handles.DotCap))
+                                if (Handles.Button(point.backwardControlPoint + position, Quaternion.identity, pointHandleSize, pointHandleSize, Handles.DotHandleCap))
                                     _trackBuildR.pointMode = TrackBuildR.pointModes.controlpoint;
-                                if (Handles.Button(point.forwardControlPoint + position, Quaternion.identity, pointHandleSize, pointHandleSize, Handles.DotCap))
+                                if (Handles.Button(point.forwardControlPoint + position, Quaternion.identity, pointHandleSize, pointHandleSize, Handles.DotHandleCap))
                                     _trackBuildR.pointMode = TrackBuildR.pointModes.controlpoint;
                                 break;
 
@@ -769,20 +769,20 @@ public class TrackBuildREditor : Editor
                                 point.trackUpQ = Handles.RotationHandle(point.trackUpQ, point.worldPosition);
 
                                 Handles.color = TrackBuildRColours.BLUE;
-                                Handles.ArrowCap(0, point.worldPosition, point.trackUpQ, pointHandleSize * 10);
+                                Handles.ArrowHandleCap(0, point.worldPosition, point.trackUpQ, pointHandleSize * 10, EventType.Ignore);
                                 Handles.Label(point.worldPosition + point.trackUpQ * Vector3.forward * pointHandleSize * 15, "Up Vector");
                                 Handles.color = TrackBuildRColours.GREEN;
-                                Handles.ArrowCap(0, point.worldPosition, Quaternion.LookRotation(point.trackDirection), pointHandleSize * 10);
+                                Handles.ArrowHandleCap(0, point.worldPosition, Quaternion.LookRotation(point.trackDirection), pointHandleSize * 10, EventType.Ignore);
                                 Handles.Label(point.worldPosition + point.trackDirection * pointHandleSize * 15, "Direction Vector");
-                                
+
                                 Handles.color = TrackBuildRColours.RED;
                                 Quaternion quatForward = Quaternion.LookRotation(point.trackUpQ * Vector3.up);
-                                Handles.ArrowCap(0, point.worldPosition, quatForward, pointHandleSize * 10);
+                                Handles.ArrowHandleCap(0, point.worldPosition, quatForward, pointHandleSize * 10, EventType.Ignore);
                                 Handles.Label(point.worldPosition + Quaternion.LookRotation(point.trackUpQ * Vector3.up) * Vector3.forward * pointHandleSize * 15, "Up Forward Vector");
 
                                 Handles.color = TrackBuildRColours.PURPLE;
                                 Quaternion quatCross = Quaternion.LookRotation(point.trackCross);
-                                Handles.ArrowCap(0, point.worldPosition, quatCross, pointHandleSize * 10);
+                                Handles.ArrowHandleCap(0, point.worldPosition, quatCross, pointHandleSize * 10, EventType.Ignore);
                                 Handles.Label(point.worldPosition + point.trackCross * pointHandleSize * 15, "Cross Vector");
                                 break;
 

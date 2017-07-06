@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
-using Pathfinding.RVO;
-using Pathfinding;
 
 public class AIHumanoidStationarySM : StateMachineBehaviour
 {
-    RVOObstacle obs;
     ControllerAIHumanoid controller;
     int toKeepDistanceHash;
     int toStationaryHash;

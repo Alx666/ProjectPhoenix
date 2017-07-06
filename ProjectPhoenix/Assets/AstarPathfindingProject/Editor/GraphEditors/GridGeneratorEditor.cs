@@ -610,7 +610,7 @@ namespace Pathfinding {
 			Matrix4x4 inversed = savedMatrix.inverse;
 
 			Handles.color = AstarColor.BoundsHandles;
-			Handles.DrawCapFunction cap = Handles.CylinderCap;
+			Handles.CapFunction cap = Handles.CylinderHandleCap;
 
 			Vector2 extents = graph.unclampedSize*0.5F;
 			Vector3 center = inversed.MultiplyPoint3x4(graph.center);

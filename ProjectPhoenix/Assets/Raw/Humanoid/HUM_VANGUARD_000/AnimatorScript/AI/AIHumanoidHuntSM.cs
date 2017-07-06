@@ -10,7 +10,6 @@ public class AIHumanoidHuntSM : StateMachineBehaviour
     int readyToAimHash;
     int toStationaryHash;
     ControllerAIHumanoid controller;
-    float elapsedTime;
     bool firstSetting = true;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -28,7 +27,6 @@ public class AIHumanoidHuntSM : StateMachineBehaviour
         if (!controller.isServer)
             return;
 
-        this.elapsedTime = 0f;
         animator.SetBool(readyToAimHash, true);
         controller.RVOController.enableRotation = false;
         controller.RVOController.maxSpeed = controller.MaxSpeedRVO;

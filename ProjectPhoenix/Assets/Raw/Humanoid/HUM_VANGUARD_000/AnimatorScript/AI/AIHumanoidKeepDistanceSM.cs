@@ -5,7 +5,6 @@ using Pathfinding;
 public class AIHumanoidKeepDistanceSM : StateMachineBehaviour
 {
     IKControllerHumanoid IKController;
-    Vector3 backward;
     int toKeepDistanceHash;
     int rollingHash;
     ControllerAIHumanoid controller;

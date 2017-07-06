@@ -132,7 +132,7 @@ public class AIGraphEditor : Editor
 
             hCurrent.Position = Handles.PositionHandle(hCurrent.Position, Quaternion.identity);
 
-            Handles.SphereCap(0, hCurrent.Position, Quaternion.identity, 0.5f);
+            Handles.SphereHandleCap(0, hCurrent.Position, Quaternion.identity, 0.5f, EventType.Ignore);
             Handles.Label(hCurrent.Position, hCurrent.Id.ToString());
 
             Color m_hColor;
@@ -177,7 +177,7 @@ public class AIGraphEditor : Editor
         Color c = Handles.color;
         Handles.color = color;
         Handles.DrawLine(hFirst.Position, hSecond.Position);
-        Handles.ConeCap(0, vConePosition, Quaternion.LookRotation(dir != Vector3.zero ? dir : Vector3.right), headSize);
+        Handles.ConeHandleCap(0, vConePosition, Quaternion.LookRotation(dir != Vector3.zero ? dir : Vector3.right), headSize, EventType.Ignore);
         Handles.color = c;
     }
 

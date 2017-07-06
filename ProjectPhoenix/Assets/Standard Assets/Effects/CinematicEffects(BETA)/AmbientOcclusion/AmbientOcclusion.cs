@@ -20,7 +20,7 @@ namespace UnityStandardAssets.CinematicEffects
         /// Checks if the ambient-only mode is supported under the current settings.
         public bool isAmbientOnlySupported
         {
-            get { return targetCamera.hdr && occlusionSource == OcclusionSource.GBuffer; }
+            get { return targetCamera.allowHDR && occlusionSource == OcclusionSource.GBuffer; }
         }
 
         /// Checks if the G-buffer is available
@@ -145,7 +145,7 @@ namespace UnityStandardAssets.CinematicEffects
             get { return _quadMesh; }
         }
 
-        [SerializeField] Mesh _quadMesh;
+        [SerializeField] Mesh _quadMesh = null;
 
         #endregion
 

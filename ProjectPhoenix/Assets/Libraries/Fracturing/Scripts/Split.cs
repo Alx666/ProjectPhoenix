@@ -56,7 +56,7 @@ namespace UltimateFracturing
 
             fracturedComponent.ListFracturedChunks.Clear();
             fracturedComponent.DecomposeRadius = (meshfIn.sharedMesh.bounds.max - meshfIn.sharedMesh.bounds.min).magnitude;
-            Random.seed = fracturedComponent.RandomSeed;
+            Random.InitState(fracturedComponent.RandomSeed);
 
 //            Debug.Log("In: " + gameObjectIn.name + ": " + meshfIn.sharedMesh.subMeshCount + " submeshes, " + ": " + (meshfIn.sharedMesh.triangles.Length / 3) + " triangles, " + meshfIn.sharedMesh.vertexCount + " vertices, " + (meshfIn.sharedMesh.uv != null ? meshfIn.sharedMesh.uv.Length : 0) + " uv1, " + (meshfIn.sharedMesh.uv2 != null ? meshfIn.sharedMesh.uv2.Length : 0) + " uv2");
 

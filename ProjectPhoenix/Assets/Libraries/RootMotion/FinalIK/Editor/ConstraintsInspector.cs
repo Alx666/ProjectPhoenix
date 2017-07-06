@@ -36,7 +36,7 @@ namespace RootMotion.FinalIK {
 			GUI.color = color;
 			
 			// Transform
-			Handles.SphereCap(0, constraints.transform.position, Quaternion.identity, GetHandleSize(constraints.transform.position));
+			Handles.SphereHandleCap(0, constraints.transform.position, Quaternion.identity, GetHandleSize(constraints.transform.position), EventType.Ignore);
 			
 			// Target
 			Handles.color = new Color(color.r, color.g, color.b, color.a * constraints.positionWeight);
@@ -44,7 +44,7 @@ namespace RootMotion.FinalIK {
 			Handles.color = color;
 			
 			if (Application.isPlaying && modifiable && (constraints.positionWeight > 0 || constraints.rotationWeight > 0)) {
-				Handles.CubeCap(0, constraints.position, Quaternion.Euler(constraints.rotation), GetHandleSize(constraints.transform.position));
+				Handles.CubeHandleCap(0, constraints.position, Quaternion.Euler(constraints.rotation), GetHandleSize(constraints.transform.position), EventType.Ignore);
 					
 				// Manipulating position and rotation
 				switch(Tools.current) {

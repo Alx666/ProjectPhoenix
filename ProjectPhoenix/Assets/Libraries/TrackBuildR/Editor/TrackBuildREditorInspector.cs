@@ -1008,9 +1008,6 @@ public class TrackBuildREditorInspector
 
     private static void RenderPreview(TrackBuildR _trackBuildR)
     {
-        if (!SystemInfo.supportsRenderTextures)
-            return;
-
         if (EditorApplication.isPlaying)
             return;
 

@@ -8,11 +8,11 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Weapon))]
 internal class ControllerAITurret : NetworkBehaviour
 {
-    public GameObject     AxeYrot;
-    public GameObject     AxeXrot;
+    public GameObject     AxeYrot = null;
+    public GameObject     AxeXrot = null;
     public float          DetectionRange  = 50f;
-    public float          BulletForce;
-    public AnimInfo       AnimationParams;
+    public float          BulletForce = 100f;
+    public AnimInfo       AnimationParams = null;
     public TurretAimMode  AimMode         = TurretAimMode.Direct;
     public BallisticMode  Trajectory      = BallisticMode.Hi;
     public Actor Owner { get; set; }

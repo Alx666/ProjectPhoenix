@@ -124,7 +124,7 @@ public class Laser : MonoBehaviour, IBeam
         // Update line rendered segments in case number of points less than 2
         if (points < 2)
         {
-            m_hLineRenderer.SetVertexCount(2);
+            m_hLineRenderer.positionCount =2;
             m_hLineRenderer.SetPosition(0, Vector3.zero);
             m_hLineRenderer.SetPosition(1, new Vector3(0, 0, beamLength));
         }
@@ -132,7 +132,7 @@ public class Laser : MonoBehaviour, IBeam
         else
         {
             // Update number of points for line renderer
-            m_hLineRenderer.SetVertexCount(points);
+            m_hLineRenderer.positionCount =points;
             // Set zero point manually
             m_hLineRenderer.SetPosition(0, Vector3.zero);
 

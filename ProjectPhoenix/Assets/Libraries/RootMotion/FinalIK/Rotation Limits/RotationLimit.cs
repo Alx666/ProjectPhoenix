@@ -85,7 +85,6 @@ namespace RootMotion.FinalIK {
 		protected abstract Quaternion LimitRotation(Quaternion rotation);
 		
 		private bool initiated;
-		private bool applicationQuit;
 		
 		/*
 		 * Initiating the Rotation Limit

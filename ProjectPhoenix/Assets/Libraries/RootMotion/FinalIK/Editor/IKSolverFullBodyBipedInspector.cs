@@ -46,8 +46,8 @@ namespace RootMotion.FinalIK {
 					Handles.color = c;
 					
 					Handles.DrawLine(solver.chain[i].nodes[1].transform.position, solver.chain[i].bendConstraint.bendGoal.position);
-					Handles.SphereCap(0, solver.chain[i].nodes[1].transform.position, Quaternion.identity, size * 0.5f);
-					Handles.SphereCap(0, solver.chain[i].bendConstraint.bendGoal.position, Quaternion.identity, size * 0.5f);
+					Handles.SphereHandleCap(0, solver.chain[i].nodes[1].transform.position, Quaternion.identity, size * 0.5f, EventType.Ignore);
+					Handles.SphereHandleCap(0, solver.chain[i].bendConstraint.bendGoal.position, Quaternion.identity, size * 0.5f, EventType.Ignore);
 					
 					Handles.color = Color.white;
 				}
@@ -87,13 +87,13 @@ namespace RootMotion.FinalIK {
 					GUI.color = new Color(1f, 0.75f, 0.75f);
 					Handles.color = Color.yellow;
 
-					if (Handles.Button(chain.nodes[1].transform.position, Quaternion.identity, size * 0.5f, size, Handles.DotCap)) {
+					if (Handles.Button(chain.nodes[1].transform.position, Quaternion.identity, size * 0.5f, size, Handles.DotHandleCap)) {
 						Warning.logged = false;
 						Warning.Log("The bend direction of this limb appears to be inverted. Please rotate this bone so that the limb is bent in it's natural bending direction. If this limb is supposed to be bent in the direction pointed by the arrow, ignore this warning.", root, true);
 					}
 				}
 
-				Handles.ArrowCap(0, chain.nodes[1].transform.position, Quaternion.LookRotation(bendDirection), size * 2f);
+				Handles.ArrowHandleCap(0, chain.nodes[1].transform.position, Quaternion.LookRotation(bendDirection), size * 2f, EventType.Ignore);
 
 				GUI.color = Color.white;
 				Handles.color = c;
@@ -103,7 +103,7 @@ namespace RootMotion.FinalIK {
 				Handles.color = Color.red;
 				GUI.color = new Color(1f, 0.75f, 0.75f);
 
-				if (Handles.Button(chain.nodes[1].transform.position, Quaternion.identity, size * 0.5f, size, Handles.DotCap)) {
+				if (Handles.Button(chain.nodes[1].transform.position, Quaternion.identity, size * 0.5f, size, Handles.DotHandleCap)) {
 					Warning.logged = false;
 					Warning.Log("The limb is completely stretched out. Full Body Biped IK does not know which way the limb should be bent. Please rotate this bone slightly in it's bending direction.", root, true);
 				}

@@ -6,7 +6,6 @@ public class HumanoidShootSM : StateMachineBehaviour
     ControllerAIHumanoid controller;
     IKControllerHumanoid IKController;
     int shootingHash;
-    Transform PrevEnemy;
     bool firstSetting = true;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {

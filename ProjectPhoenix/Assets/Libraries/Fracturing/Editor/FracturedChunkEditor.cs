@@ -44,14 +44,14 @@ public class FracturedChunkEditor : Editor
 
             if(fracturedChunk.ListAdjacentChunks.Count > 0)
             {
-                Handles.DotCap(0, fracturedChunk.transform.position, Quaternion.identity, HandleUtility.GetHandleSize(fracturedChunk.transform.position) * 0.03f);
+                Handles.DotHandleCap(0, fracturedChunk.transform.position, Quaternion.identity, HandleUtility.GetHandleSize(fracturedChunk.transform.position) * 0.03f, EventType.Ignore);
             }
 
             foreach(FracturedChunk.AdjacencyInfo chunkAdjacency in fracturedChunk.ListAdjacentChunks)
             {
                 if(chunkAdjacency.chunk)
                 {
-                    Handles.DotCap(0, chunkAdjacency.chunk.transform.position, Quaternion.identity, HandleUtility.GetHandleSize(chunkAdjacency.chunk.transform.position) * 0.03f);
+                    Handles.DotHandleCap(0, chunkAdjacency.chunk.transform.position, Quaternion.identity, HandleUtility.GetHandleSize(chunkAdjacency.chunk.transform.position) * 0.03f, EventType.Ignore);
                     Handles.DrawLine(fracturedChunk.transform.position, chunkAdjacency.chunk.transform.position);
                 }
             }

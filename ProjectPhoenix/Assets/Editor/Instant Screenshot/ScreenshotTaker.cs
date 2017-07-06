@@ -14,8 +14,6 @@ public class Screenshot : EditorWindow
 	int scale = 1;
 
 	string path = "";
-	bool showPreview = true;
-	RenderTexture renderTexture;
 
 	bool isTransparent = false;
 
@@ -27,11 +25,8 @@ public class Screenshot : EditorWindow
 		EditorWindow editorWindow = EditorWindow.GetWindow(typeof(Screenshot));
 		editorWindow.autoRepaintOnSceneChange = true;
 		editorWindow.Show();
-		editorWindow.title = "Screenshot";
+		editorWindow.titleContent = new GUIContent("Screenshot");
 	}
-
-	float lastTime;
-
 
 	void OnGUI()
 	{

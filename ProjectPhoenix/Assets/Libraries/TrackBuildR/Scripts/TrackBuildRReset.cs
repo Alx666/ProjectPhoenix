@@ -7,13 +7,13 @@ using UnityEngine;
 public class TrackBuildRReset : MonoBehaviour
 {
     [SerializeField]
-    private Transform target;
+    private Transform target = null;
 
     [SerializeField]
-    private TrackBuildRTrack track;
+    private TrackBuildRTrack track = null;
 
     [SerializeField]
-    private BoxCollider[] noTrackingAreas;//defined box colliders that will define areas that the target can't reset in
+    private BoxCollider[] noTrackingAreas = null;//defined box colliders that will define areas that the target can't reset in
 
     [SerializeField]
     private float resetHeight = 0.5f;//height off track for reset to take place

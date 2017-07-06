@@ -347,7 +347,7 @@ public class TrackBuildRTrack : MonoBehaviour
                     if (curve.holder == null)
                         continue;
                     foreach (MeshRenderer holderR in curve.holder.GetComponentsInChildren<MeshRenderer>())
-                        EditorUtility.SetSelectedWireframeHidden(holderR, !value);
+                        EditorUtility.SetSelectedRenderState(holderR, _showWireframe ? EditorSelectedRenderState.Wireframe : EditorSelectedRenderState.Hidden);
                 }
                 _showWireframe = value;
             }

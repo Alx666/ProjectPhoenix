@@ -217,7 +217,7 @@ public class FracturedObjectEditor : Editor
                 {
                     if(chunkA.ListAdjacentChunks.Count > 0)
                     {
-                        Handles.DotCap(0, chunkA.transform.position, Quaternion.identity, HandleUtility.GetHandleSize(chunkA.transform.position) * 0.05f);
+                        Handles.DotHandleCap(0, chunkA.transform.position, Quaternion.identity, HandleUtility.GetHandleSize(chunkA.transform.position) * 0.05f, EventType.Ignore);
                     }
 
                     foreach(FracturedChunk.AdjacencyInfo chunkAdjacency in chunkA.ListAdjacentChunks)

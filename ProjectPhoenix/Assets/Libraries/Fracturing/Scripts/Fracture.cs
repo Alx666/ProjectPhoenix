@@ -368,7 +368,7 @@ namespace UltimateFracturing
 
             fracturedComponent.ListFracturedChunks.Clear();
             fracturedComponent.DecomposeRadius = (meshfIn.sharedMesh.bounds.max - meshfIn.sharedMesh.bounds.min).magnitude;
-            Random.seed = fracturedComponent.RandomSeed;
+            Random.InitState(fracturedComponent.RandomSeed);
 
             // Check if the input object already has been split, to get its split closing submesh
 
@@ -623,7 +623,7 @@ namespace UltimateFracturing
 
             fracturedComponent.ListFracturedChunks.Clear();
             fracturedComponent.DecomposeRadius = (meshfIn.sharedMesh.bounds.max - meshfIn.sharedMesh.bounds.min).magnitude;
-            Random.seed = fracturedComponent.RandomSeed;
+            Random.InitState(fracturedComponent.RandomSeed);
 
             // Check if the input object already has been split, to get its split closing submesh
 
@@ -1642,7 +1642,7 @@ namespace UltimateFracturing
 
             newGameObject.GetComponent<Renderer>().lightmapIndex       = gameObjectIn.GetComponent<Renderer>().lightmapIndex;
             newGameObject.GetComponent<Renderer>().lightmapScaleOffset = gameObjectIn.GetComponent<Renderer>().lightmapScaleOffset;
-            newGameObject.GetComponent<Renderer>().useLightProbes      = gameObjectIn.GetComponent<Renderer>().useLightProbes;
+            newGameObject.GetComponent<Renderer>().lightProbeUsage      = gameObjectIn.GetComponent<Renderer>().lightProbeUsage;
 
 //          Debug.Log("Out: " + newGameObject.name + ": " + meshFilter.sharedMesh.subMeshCount + " submesh(es), " + ": " + (meshFilter.sharedMesh.triangles.Length / 3) + " triangles, " + meshFilter.sharedMesh.vertexCount + " vertices, " + (meshFilter.sharedMesh.normals != null ? meshFilter.sharedMesh.normals.Length : 0) + " normals, " + (meshFilter.sharedMesh.tangents != null ? meshFilter.sharedMesh.tangents.Length : 0) + " tangents, " + (meshFilter.sharedMesh.colors != null ? meshFilter.sharedMesh.colors.Length : 0) + " colors, " + (meshFilter.sharedMesh.colors32 != null ? meshFilter.sharedMesh.colors32.Length : 0) + " colors32, " + (meshFilter.sharedMesh.uv != null ? meshFilter.sharedMesh.uv.Length : 0) + " uv1, " + (meshFilter.sharedMesh.uv2 != null ? meshFilter.sharedMesh.uv2.Length : 0) + " uv2");
 

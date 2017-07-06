@@ -17,7 +17,6 @@ namespace RootMotion {
 		public delegate void DrawArrayElementLabel(SerializedProperty prop, bool editHierarchy);
 		public delegate void OnAddToArray(SerializedProperty prop);
 		
-		private static string arrayName;
 		private static SerializedProperty property;
 		private static SerializedProperty element;
 		

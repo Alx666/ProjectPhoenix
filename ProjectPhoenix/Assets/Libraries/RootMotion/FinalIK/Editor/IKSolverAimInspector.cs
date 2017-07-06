@@ -53,15 +53,15 @@ using System;
 				IKSolver.Bone bone = solver.bones[i];
 
 				if (i < solver.bones.Length - 1) Handles.DrawLine(bone.transform.position, solver.bones[i + 1].transform.position);
-				Handles.SphereCap(0, solver.bones[i].transform.position, Quaternion.identity, GetHandleSize(solver.bones[i].transform.position));
+				Handles.SphereHandleCap(0, solver.bones[i].transform.position, Quaternion.identity, GetHandleSize(solver.bones[i].transform.position), EventType.Ignore);
 			}
 			
-			if (solver.axis != Vector3.zero) Handles.ConeCap(0, solver.transform.position, Quaternion.LookRotation(solver.transform.rotation * solver.axis), GetHandleSize(solver.transform.position) * 2f);
+			if (solver.axis != Vector3.zero) Handles.ConeHandleCap(0, solver.transform.position, Quaternion.LookRotation(solver.transform.rotation * solver.axis), GetHandleSize(solver.transform.position) * 2f, EventType.Ignore);
 			
 			// Selecting joint and manipulating IKPosition
 			if (Application.isPlaying && solver.IKPositionWeight > 0) {
 				if (modifiable) {
-					Handles.SphereCap(0, solver.IKPosition, Quaternion.identity, GetHandleSize(solver.IKPosition));
+					Handles.SphereHandleCap(0, solver.IKPosition, Quaternion.identity, GetHandleSize(solver.IKPosition), EventType.Ignore);
 						
 					// Manipulating position
 					solver.IKPosition = Handles.PositionHandle(solver.IKPosition, Quaternion.identity);
@@ -78,7 +78,7 @@ using System;
 			// Pole
 			if (Application.isPlaying && solver.poleWeight > 0f) {
 				if (modifiable) {
-					Handles.SphereCap(0, solver.polePosition, Quaternion.identity, GetHandleSize(solver.IKPosition) * 0.5f);
+					Handles.SphereHandleCap(0, solver.polePosition, Quaternion.identity, GetHandleSize(solver.IKPosition) * 0.5f, EventType.Ignore);
 					
 					// Manipulating position
 					solver.polePosition = Handles.PositionHandle(solver.polePosition, Quaternion.identity);
