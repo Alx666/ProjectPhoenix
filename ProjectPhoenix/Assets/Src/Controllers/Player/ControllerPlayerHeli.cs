@@ -22,7 +22,7 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
     Vector3 mousePos;
     GameObject weapon;
     bool isGrounded;
-    float mass;
+    //float mass;
     float engineForce;
     float forwardForce;
     float strafeForce;
@@ -35,7 +35,7 @@ internal class ControllerPlayerHeli : NetworkBehaviour, IControllerPlayer
     void Awake()
     {
         this.HeliRigidBody = GetComponent<Rigidbody>();
-        this.mass = HeliRigidBody.mass;
+        //this.mass = HeliRigidBody.mass;
         this.isGrounded = true;
         this.playerPlane = new Plane(Vector3.up, this.transform.position);
         m_hCurrentWeapon = GetComponentInChildren<IWeapon>();

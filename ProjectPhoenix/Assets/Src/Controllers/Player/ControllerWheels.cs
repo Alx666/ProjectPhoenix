@@ -643,11 +643,11 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
     private class TurnedState : IFlyState
     {
         private ControllerWheels m_hOwner;
-        private Vector3 m_vTurnOverride;
+        //private Vector3 m_vTurnOverride;
         public TurnedState(ControllerWheels hOwner, Vector3 vTurnOverride)
         {
             m_hOwner = hOwner;
-            m_vTurnOverride = vTurnOverride;
+            //m_vTurnOverride = vTurnOverride;
         }
 
         public IFlyState Next { get; set; }

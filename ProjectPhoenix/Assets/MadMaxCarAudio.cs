@@ -24,10 +24,10 @@ public class MadMaxCarAudio : MonoBehaviour
     private AudioSource m_hLowDecel;
 
     private ControllerWheels m_hWheelCtrl;
-    private float       m_fMaxSpeed;
+    //private float       m_fMaxSpeed;
     //private float       m_fChange;
     private float       m_fSpeed;
-    private float       m_fAcceleration;
+    //private float       m_fAcceleration;
 
 
     [Range(0f, 100f)]
@@ -38,7 +38,7 @@ public class MadMaxCarAudio : MonoBehaviour
     void Awake ()
     {
         m_hWheelCtrl    = this.GetComponent<ControllerWheels>();
-        m_fMaxSpeed     = m_hWheelCtrl.MaxSpeed;
+        //m_fMaxSpeed     = m_hWheelCtrl.MaxSpeed;
         m_hHighAccel    = SetUpEngineAudioSource(HighAccelClip);
         m_hHighDecel    = SetUpEngineAudioSource(HighDecelClip);
         m_hLowAccel     = SetUpEngineAudioSource(LowAccelClip);
@@ -49,7 +49,7 @@ public class MadMaxCarAudio : MonoBehaviour
     {        
         m_fSpeed = Mathf.Lerp(m_fSpeed, m_hWheelCtrl.CurrentSpeed, 0.1f);
 
-        m_fAcceleration = (m_fSpeed - m_hWheelCtrl.CurrentSpeed) * AccelerationCoeff;
+        //m_fAcceleration = (m_fSpeed - m_hWheelCtrl.CurrentSpeed) * AccelerationCoeff;
 
 
         float pitch = Curve.Evaluate(m_fSpeed);

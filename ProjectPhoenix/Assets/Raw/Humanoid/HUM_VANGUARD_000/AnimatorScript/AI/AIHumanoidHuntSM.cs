@@ -6,7 +6,7 @@ using Pathfinding;
 public class AIHumanoidHuntSM : StateMachineBehaviour
 {
 
-    int toKeepDistance;
+    //int toKeepDistance;
     int readyToAimHash;
     int toStationaryHash;
     ControllerAIHumanoid controller;
@@ -17,7 +17,7 @@ public class AIHumanoidHuntSM : StateMachineBehaviour
 
         if (firstSetting)
         {
-            this.toKeepDistance = Animator.StringToHash("ToKeepDistance");
+            //this.toKeepDistance = Animator.StringToHash("ToKeepDistance");
 
             this.readyToAimHash = Animator.StringToHash("ReadyToAim");
             this.toStationaryHash = Animator.StringToHash("ToStationary");

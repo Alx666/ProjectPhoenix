@@ -33,9 +33,6 @@ public class ParticleVfx : MonoBehaviour, IVisualEffect, IPoolable
 
         if (FirstPlay)
         {
-            //m_hParticle.ForEach(hP => hP.startSize = hP.startSize * scaleCoef);
-
-            //TODO: verify
             m_hParticle.ForEach(hP =>
             {
                 ParticleSystem.MainModule module = hP.main;

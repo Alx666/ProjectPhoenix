@@ -30,7 +30,7 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
 
     private ParticlesController m_hParticlesController;
     private Rigidbody m_hRigidBody;
-    private Vector3 m_vShootPosition;
+    //private Vector3 m_vShootPosition;
     private GameObject target;
     
     public GameObject Target { get { return target; } set { target = value; } }
@@ -68,7 +68,7 @@ public class BulletPhysics : NetworkBehaviour, IPoolable, IBullet
 
         m_hRigidBody.AddForce(this.gameObject.transform.forward * Force, ForceMode.VelocityChange);
 
-        m_vShootPosition = vPosition;
+        //m_vShootPosition = vPosition;
         Owner = hOwner;
     }
 

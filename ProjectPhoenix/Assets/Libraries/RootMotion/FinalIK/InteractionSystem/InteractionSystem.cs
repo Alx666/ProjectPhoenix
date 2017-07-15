@@ -38,12 +38,12 @@ namespace RootMotion.FinalIK {
 		/// The collider that registers OnTriggerEnter and OnTriggerExit events with InteractionTriggers.
 		/// </summary>
 		[Tooltip("The collider that registers OnTriggerEnter and OnTriggerExit events with InteractionTriggers.")]
-		public new Collider collider;
+		public Collider coll;
 		/// <summary>
 		/// Will be used by Interaction Triggers that need the camera's position. Assign the first person view character camera.
 		/// </summary>
 		[Tooltip("Will be used by Interaction Triggers that need the camera's position. Assign the first person view character camera.")]
-		public new Transform camera;
+		public Transform cam;
 		/// <summary>
 		/// The layers that will be raycasted from the camera (along camera.forward). All InteractionTrigger look at target colliders should be included.
 		/// </summary>
@@ -498,7 +498,7 @@ namespace RootMotion.FinalIK {
 				return false;
 			}
 			
-			bestRangeIndex = inContact[index].GetBestRangeIndex(transform, camera, raycastHit);
+			bestRangeIndex = inContact[index].GetBestRangeIndex(transform, cam, raycastHit);
 			if (bestRangeIndex == -1) return false;
 			
 			return true;
@@ -509,7 +509,7 @@ namespace RootMotion.FinalIK {
 			if (Application.isPlaying) return;
 			
 			if (fullBody == null) fullBody = GetComponent<FullBodyBipedIK>();
-			if (collider == null) collider = GetComponent<Collider>();
+			if (coll == null) coll = GetComponent<Collider>();
 		}
 		
 		void Update() {
@@ -539,29 +539,29 @@ namespace RootMotion.FinalIK {
 		// Finds triggers that need camera position and rotation
 		private void Raycasting() {
 			if (camRaycastLayers == -1) return;
-			if (camera == null) return;
+			if (cam == null) return;
 			
-			Physics.Raycast(camera.position, camera.forward, out raycastHit, camRaycastDistance, camRaycastLayers);
+			Physics.Raycast(cam.position, cam.forward, out raycastHit, camRaycastDistance, camRaycastLayers);
 		}
 		
 		// Update collider and TriggerEventBroadcaster
 		private void UpdateTriggerEventBroadcasting() {
-			if (collider == null) collider = c;
+			if (coll == null) coll = c;
 			
-			if (collider != null && collider != c) {
+			if (coll != null && coll != c) {
 				
-				if (collider.GetComponent<TriggerEventBroadcaster>() == null) {
-					var t = collider.gameObject.AddComponent<TriggerEventBroadcaster>();
+				if (coll.GetComponent<TriggerEventBroadcaster>() == null) {
+					var t = coll.gameObject.AddComponent<TriggerEventBroadcaster>();
 					t.target = gameObject;
 				}
 				
-				if (lastCollider != null && lastCollider != c && lastCollider != collider) {
+				if (lastCollider != null && lastCollider != c && lastCollider != coll) {
 					var t = lastCollider.GetComponent<TriggerEventBroadcaster>();
 					if (t != null) Destroy(t);
 				}
 			}
 			
-			lastCollider = collider;
+			lastCollider = coll;
 			
 		}
 		

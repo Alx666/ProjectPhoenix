@@ -37,7 +37,7 @@ public class ControllerAIHumanoid : NetworkBehaviour, IDamageable
     List<IControllerPlayer> NearEnemies;
     float fieldOfView = 110f;
     SphereCollider hearingCollider;
-    CapsuleCollider capsuleCollider;
+    //CapsuleCollider capsuleCollider;
     Animator animator;
     float turnValue;
     float forwardValue;
@@ -73,7 +73,7 @@ public class ControllerAIHumanoid : NetworkBehaviour, IDamageable
     {
         this.AI = GetComponent<AIPath>();
         this.hearingCollider = GetComponent<SphereCollider>();
-        this.capsuleCollider = GetComponent<CapsuleCollider>();
+        //this.capsuleCollider = GetComponent<CapsuleCollider>();
         this.forwardHash = Animator.StringToHash("Forward");
         this.turnHash = Animator.StringToHash("Turn");
         this.toChaseHash = Animator.StringToHash("ToChase");

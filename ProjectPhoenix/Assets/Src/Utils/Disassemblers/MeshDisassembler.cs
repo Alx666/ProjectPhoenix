@@ -95,14 +95,14 @@ public class MeshDisassembler : MonoBehaviour
 
            info.generatedCollider.enabled = true;
 
-           Rigidbody hRb;
+           //Rigidbody hRb;
            if (!info.hasInitialRigidbody)
            {
-               hRb = hT.AddComponent<Rigidbody>();
+               /*hRb = */hT.AddComponent<Rigidbody>();
            }
            else
            {
-               hRb = hT.GetComponent<Rigidbody>();
+               /*hRb = */hT.GetComponent<Rigidbody>();
            }
        });
 

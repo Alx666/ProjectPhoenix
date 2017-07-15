@@ -6,7 +6,7 @@ using System.Linq;
 
 public class Radar : MonoBehaviour
 {
-    private Vector3             m_vScreenCenter;
+    //private Vector3             m_vScreenCenter;
     private List<TargetArrow>   m_hArrows;
     private List<float>         m_hFloats;
     private Plane               m_vPlaneRight;
@@ -28,7 +28,7 @@ public class Radar : MonoBehaviour
         m_hFloats = new List<float>();
         GuiArrows.ForEach(x => x.enabled = false);
 
-        m_vScreenCenter     = new Vector3(0.5f, 0.5f, 0f);
+        //m_vScreenCenter     = new Vector3(0.5f, 0.5f, 0f);
         m_vPlaneRight       = new Plane(Vector3.left,   1f);
         m_vPlaneUpper       = new Plane(Vector3.down,   1f);
         m_vPlaneLeft        = new Plane(Vector3.right,  0f);

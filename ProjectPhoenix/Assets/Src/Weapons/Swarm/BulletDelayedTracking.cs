@@ -23,7 +23,7 @@ public class BulletDelayedTracking : MonoBehaviour, IBullet, IPoolable
     public float HeavyArmorDamageRate;
 
     private Rigidbody m_hRigidbody;
-    private Collider  m_hCollider;
+    //private Collider  m_hCollider;
     private DelayState m_hDelay;
     private ParticlesController m_hParticlesController;
 
@@ -32,7 +32,7 @@ public class BulletDelayedTracking : MonoBehaviour, IBullet, IPoolable
     void Awake()
     {
         m_hRigidbody = this.GetComponent<Rigidbody>();
-        m_hCollider  = this.GetComponent<Collider>();
+        //m_hCollider  = this.GetComponent<Collider>();
         m_hParticlesController = this.GetComponentInChildren<ParticlesController>();
 
         m_hDelay = new DelayState(this);

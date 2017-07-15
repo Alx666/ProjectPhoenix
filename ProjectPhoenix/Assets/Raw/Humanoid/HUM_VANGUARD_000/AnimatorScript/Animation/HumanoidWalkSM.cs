@@ -3,14 +3,14 @@ using System.Collections;
 
 public class HumanoidWalkSM : StateMachineBehaviour
 {
-    ControllerAIHumanoid controller;
+    //ControllerAIHumanoid controller;
     int shootingLayer;
     bool firstSetting = true;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (firstSetting)
         {
-            this.controller = animator.GetComponent<ControllerAIHumanoid>();
+            //this.controller = animator.GetComponent<ControllerAIHumanoid>();
             this.shootingLayer = animator.GetLayerIndex("Shoot");
             this.firstSetting = false;
         }

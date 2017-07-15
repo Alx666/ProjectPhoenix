@@ -79,11 +79,11 @@ public class ProviderAIHelicopter : MonoBehaviour, IControllerAI {
 	#region PRIMARY FSM
 	private class StateIdle				 : IState
 	{
-		private ProviderAIHelicopter owner;
+		//private ProviderAIHelicopter owner;
 
 		public StateIdle( ProviderAIHelicopter owner )
 		{
-			this.owner = owner;
+			//this.owner = owner;
 		}
 
 		public void OnStateEnter()
@@ -196,11 +196,11 @@ public class ProviderAIHelicopter : MonoBehaviour, IControllerAI {
 
 	private class StateLanding : IState
 	{
-		private ProviderAIHelicopter providerAIHelicopter;
+		//private ProviderAIHelicopter providerAIHelicopter;
 
 		public StateLanding( ProviderAIHelicopter providerAIHelicopter )
 		{
-			this.providerAIHelicopter = providerAIHelicopter;
+			//this.providerAIHelicopter = providerAIHelicopter;
 		}
 
 		public StateIdle Idle { get; internal set; }

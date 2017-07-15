@@ -18,24 +18,24 @@ internal class ControllerAITurret : NetworkBehaviour
     public Actor Owner { get; set; }
 
     private Weapon        m_hWeapon;
-    private StateIdle     m_hIdle;
+    //private StateIdle     m_hIdle;
     private StatePatrol   m_hPatrol;
     private IState        m_hCurrent;
     private GameObject    m_hTarget;
 
-    [SyncVar(hook = "OnTargetChanged")]
-    private bool          m_bHasTarget;
+    //[SyncVar(hook = "OnTargetChanged")]
+    //private bool          m_bHasTarget;
 
-    private void OnTargetChanged(bool b)
-    {
-        m_bHasTarget = b;
-    }
+    //private void OnTargetChanged(bool b)
+    //{
+    //    m_bHasTarget = b;
+    //}
 
     private void Awake()
     {
         m_hWeapon = this.GetComponent<Weapon>();
         Owner = GetComponent<Actor>();
-        m_hIdle             = new StateIdle(this);
+        //m_hIdle             = new StateIdle(this);
         m_hPatrol           = new StatePatrol(this);
 
         switch ((int)AimMode)
@@ -98,13 +98,13 @@ internal class ControllerAITurret : NetworkBehaviour
 
     private class StateIdle : IState
     {
-        private ControllerAITurret m_hOwner;
+        //private ControllerAITurret m_hOwner;
 
         public IState Next { get; set; }
 
         public StateIdle(ControllerAITurret hOwner)
         {
-            m_hOwner = hOwner;
+            //m_hOwner = hOwner;
         }
 
         public void OnStateEnter()
@@ -170,7 +170,7 @@ internal class ControllerAITurret : NetworkBehaviour
 
                 if (fNearest < m_hOwner.DetectionRange)
                 {
-                    m_hOwner.OnTargetChanged(true);
+                    //m_hOwner.OnTargetChanged(true);
                     m_hOwner.m_hTarget = hTarget;//il server setta il target
                     m_hOwner.RpcSetTarget(hTarget.GetComponent<PhoenixActor>().netId);//chiama il client
                 }

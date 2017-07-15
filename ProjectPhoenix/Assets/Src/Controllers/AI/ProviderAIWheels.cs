@@ -303,14 +303,14 @@ public class ProviderAIWheels : MonoBehaviour, IControllerAI
     }
     private class StateWait : IState
     {
-        private ProviderAIWheels owner;
+        //private ProviderAIWheels owner;
         private float waitTime;
 
         public StatePatrol Patrol { get; internal set; }
 
         public StateWait(ProviderAIWheels owner)
         {
-            this.owner = owner;
+            //this.owner = owner;
         }
 
         public void OnStateEnter()

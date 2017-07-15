@@ -35,14 +35,14 @@ namespace RootMotion.FinalIK {
 		
 		private float lastTime;
 		private Animator animator;
-		private new Animation animation;
+		private Animation anim;
 		private bool updateFrame;
 		private bool componentInitiated;
 
 		private bool animatePhysics {
 			get {
 				if (animator != null) return animator.updateMode == AnimatorUpdateMode.AnimatePhysics;
-				if (animation != null) return animation.animatePhysics;
+				if (anim != null) return anim.animatePhysics;
 				return false;
 			}
 		}
@@ -71,19 +71,19 @@ namespace RootMotion.FinalIK {
 			if (isAnimated) return;
 
 			animator = t.GetComponent<Animator>();
-			animation = t.GetComponent<Animation>();
+			anim = t.GetComponent<Animation>();
 
 			if (isAnimated) return;
 
 			if (animator == null && findInChildren) animator = t.GetComponentInChildren<Animator>();
-			if (animation == null && findInChildren) animation = t.GetComponentInChildren<Animation>();
+			if (anim == null && findInChildren) anim = t.GetComponentInChildren<Animation>();
 
 			if (!isAnimated && t.parent != null) FindAnimatorRecursive(t.parent, false);
 		}
 
 		private bool isAnimated {
 			get {
-				return animator != null || animation != null;
+				return animator != null || anim != null;
 			}
 		}
 

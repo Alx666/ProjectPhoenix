@@ -4,12 +4,12 @@ using System.Collections;
 [RequireComponent(typeof(Collider))]
 public class DeathPlane : MonoBehaviour
 {
-    private Collider m_hCollider;
+    //private Collider m_hCollider;
 
-    void Awake()
-    {
-        m_hCollider = this.GetComponent<Collider>();
-    }
+    //void Awake()
+    //{
+    //    m_hCollider = this.GetComponent<Collider>();
+    //}
 
     void OnTriggerEnter(Collider hColl)
     {

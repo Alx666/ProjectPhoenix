@@ -23,7 +23,7 @@ public class UnitSpawner : NetworkBehaviour
     private int toOpen = Animator.StringToHash("ToOpen");
     private int toClose = Animator.StringToHash("ToClose");
 
-    private StateIdle idle;
+    //private StateIdle idle;
     private StateReady ready;
     private StateWait wait;
     private StateSpawn spawn;
@@ -43,7 +43,7 @@ public class UnitSpawner : NetworkBehaviour
         animator = GetComponent<Animator>();
         units = new List<GameObject>();
 
-        idle = new StateIdle(this);
+        //idle = new StateIdle(this);
         ready = new StateReady(this);
         wait = new StateWait(this);
         spawn = new StateSpawn(this);
@@ -89,11 +89,11 @@ public class UnitSpawner : NetworkBehaviour
 
     private class StateIdle : IState
     {
-        private UnitSpawner unitSpawner;
+        //private UnitSpawner unitSpawner;
 
         public StateIdle(UnitSpawner unitSpawner)
         {
-            this.unitSpawner = unitSpawner;
+            //this.unitSpawner = unitSpawner;
         }
 
         public void OnStateEnter()

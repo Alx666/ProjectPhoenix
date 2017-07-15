@@ -184,17 +184,16 @@ public class AIGraphEditor : Editor
 }
 
 
-public class NodeGizmoDrawer
-{
-    //occhio a rispettare la signature
-    [DrawGizmo(GizmoType.Selected | GizmoType.Active)]
-    static void DrawGizmoForMyScript(POI hNode, GizmoType gizmoType)
-    {
-        RaycastHit vHit;
-        Ray vRay = new Ray(SceneView.lastActiveSceneView.camera.transform.position, SceneView.lastActiveSceneView.camera.transform.forward);
-        if (Physics.Raycast(vRay, out vHit))
-        {
-            Gizmos.DrawSphere(vHit.point, 1.0f);
-        }
-    }
-}
+//public class NodeGizmoDrawer
+//{
+//    [DrawGizmo(GizmoType.Selected | GizmoType.Active)]
+//    static void DrawGizmoForMyScript(POI hNode, GizmoType gizmoType)
+//    {
+//        RaycastHit vHit;
+//        Ray vRay = new Ray(SceneView.lastActiveSceneView.camera.transform.position, SceneView.lastActiveSceneView.camera.transform.forward);
+//        if (Physics.Raycast(vRay, out vHit))
+//        {
+//            Gizmos.DrawSphere(vHit.point, 1.0f);
+//        }
+//    }
+//}

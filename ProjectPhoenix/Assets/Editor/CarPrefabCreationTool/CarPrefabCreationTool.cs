@@ -54,7 +54,7 @@ public class CarPrefabCreationTool : EditorWindow
     [MenuItem("DRAIVTools/CarPrefabConfiguration")]
     private static void OpenWindow()
     {
-        CarPrefabCreationTool Wnd = EditorWindow.GetWindow<CarPrefabCreationTool>();
+        /*CarPrefabCreationTool Wnd = */EditorWindow.GetWindow<CarPrefabCreationTool>();
     }
 
     private void OnGUI()
@@ -239,7 +239,7 @@ public class CarPrefabCreationTool : EditorWindow
     private static void SetupGameGUI(GameObject gameCar)
     {
         //adding In Game GUI
-        GameObject tempInGameGUI = GameObject.Instantiate(Preset.InGameGUIPrefab, gameCar.transform);
+        /*GameObject tempInGameGUI = */GameObject.Instantiate(Preset.InGameGUIPrefab, gameCar.transform);
     }
 
     private static void SetupRigidBody(GameObject gameCar)

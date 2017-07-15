@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class DeathBomb : MonoBehaviour
 {
-    public float BombTimer;
-    public float VelocityThreshold;
-    public float StartingFrequency = 1.0f;
+    public float BombTimer = 7f;
+    public float VelocityThreshold = 5f;
+    public float StartingFrequency = 1f;
     public AudioSource Audio;
 
     public string STATE_DEBUG = string.Empty;
@@ -208,35 +208,35 @@ public class DeathBomb : MonoBehaviour
     private class LightBulb
     {
         public bool PulseReady { get; private set; }
-        private DeathBomb deathBomb;
+        private DeathBomb owner;
 
-        public LightBulb(DeathBomb deathBomb)
+        public LightBulb(DeathBomb owner)
         {
-            this.deathBomb = deathBomb;
+            this.owner = owner;
         }
 
         public void TurnOn()
         {
             PulseReady = false;
-            deathBomb.m_hLight.enabled = true;
+            owner.m_hLight.enabled = true;
         }
 
         public void TurnOff()
         {
-            deathBomb.m_hLight.enabled = false;
+            owner.m_hLight.enabled = false;
         }
 
         public void Reset()
         {
             PulseReady = true;
-            deathBomb.m_hLight.enabled = false;
+            TurnOff();
         }
     }
 
-    internal void Reset()
-    {
-        inactive.OnStateEnter();
-        currentState = inactive;
-        m_hBulb.Reset();
-    }
+    //internal void Reset()
+    //{
+    //    inactive.OnStateEnter();
+    //    currentState = inactive;
+    //    m_hBulb.Reset();
+    //}
 }

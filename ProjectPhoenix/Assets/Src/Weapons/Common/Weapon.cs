@@ -26,7 +26,7 @@ public class Weapon : NetworkBehaviour, IWeapon
 
     public Actor Owner { get; set; }
 
-    private Pool m_hPool;
+    //private Pool m_hPool;
     private IWeaponState m_hStateMachine;
     private WeaponReady m_hTrigger;
 
@@ -38,7 +38,7 @@ public class Weapon : NetworkBehaviour, IWeapon
     {
         Owner = GetComponent<Actor>();
         QueueLocators = new Queue<GameObject>(ShootLocators);
-        m_hPool = GlobalFactory.GetPool(BulletPrefab);
+        /*m_hPool = */GlobalFactory.GetPool(BulletPrefab);
 
         //Automatic State Machine Composition
         //One Ready State

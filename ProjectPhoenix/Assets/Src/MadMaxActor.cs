@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 using System.Linq;
 
-[RequireComponent(typeof(InputProviderPCStd))]
 public class MadMaxActor : Actor
 {
     //TODO: this is a field added to set up initial HP from automated script "CarImportTool". Temp solution.
@@ -27,7 +26,7 @@ public class MadMaxActor : Actor
     private MonoBehaviour m_hWeapon;
     private List<Renderer> m_hRenderers;
     private List<Collider> m_hColliders;
-    private Vector3 PlayableCenterOfMass;
+    //private Vector3 PlayableCenterOfMass;
     private MadMaxCarAudio m_hAudioCtrl;
     //private DMGImageMGR dmgImgMGR;
 
@@ -79,7 +78,7 @@ public class MadMaxActor : Actor
         m_hAudioCtrl = this.GetComponent<MadMaxCarAudio>();
 
         impactCoolDownActors = new LinkedList<MadMaxActor>();
-        PlayableCenterOfMass = m_hRigidbody.centerOfMass;
+        //PlayableCenterOfMass = m_hRigidbody.centerOfMass;
 
         wheels = GetComponent<ControllerWheels>();
 
@@ -127,8 +126,9 @@ public class MadMaxActor : Actor
         m_hHpSlider.value = Mathf.Clamp(currentHealth, 0f, base.Hp); //TODO: Make RPC
 
         //debug
-        if (Input.GetKeyDown(KeyCode.Space))
-            this.Die(this);
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //    this.Die(this);
+
         //if (Input.GetKeyDown(KeyCode.H))
         //    dmgImgMGR.FlashIn();
 
@@ -346,10 +346,10 @@ public class MadMaxActor : Actor
                 damage = dmg;           //Danno da impatto TOTALE
                 break;
             case ArmorType.Medium:
-                damage = dmg; //* 0.5f;    //Danno da impatto DIMEZZATO
+                damage = dmg * 0.5f;    //Danno da impatto DIMEZZATO
                 break;
             case ArmorType.Heavy:
-                damage = dmg;// * 0.3f;    //Danno da impatto di UN TERZO
+                damage = dmg * 0.3f;    //Danno da impatto di UN TERZO
                 break;
             default:
                 break;
@@ -363,7 +363,6 @@ public class MadMaxActor : Actor
         this.impactCoolDownActors.AddLast(actor);
         yield return new WaitForSeconds(ImpactCoolDownTime);
         this.impactCoolDownActors.Remove(actor);
-
     }
     #endregion
 }

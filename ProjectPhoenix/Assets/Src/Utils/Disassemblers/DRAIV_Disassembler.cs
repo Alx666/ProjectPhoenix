@@ -27,6 +27,8 @@ public class DRAIV_Disassembler : MonoBehaviour, IDamageable
     {
         //DELETE?
         hRigidbody.useGravity = true;
+
+
         //DELETE?
 
         //Rigidbody hRigidbody = AddRigidbody();
@@ -35,7 +37,10 @@ public class DRAIV_Disassembler : MonoBehaviour, IDamageable
 
     public void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<DRAIV_Disassembler>() != null || collision.gameObject.GetComponent<TerrainCollider>() != null)
+        if (collision.gameObject.GetComponent<TerrainCollider>() != null)
+            return;
+
+        if (collision.gameObject.GetComponent<DRAIV_Disassembler>() != null)
             return;
 
         //DELETE?
@@ -43,12 +48,11 @@ public class DRAIV_Disassembler : MonoBehaviour, IDamageable
         //DELETE?
 
         //AddRigidbody();
-
     }
 
     private Rigidbody AddRigidbody()
     {
-        this.gameObject.transform.SetParent(null);
+        //this.gameObject.transform.SetParent(null);
 
         Rigidbody hRigidbody = this.GetComponent<Rigidbody>();
         if (hRigidbody == null)

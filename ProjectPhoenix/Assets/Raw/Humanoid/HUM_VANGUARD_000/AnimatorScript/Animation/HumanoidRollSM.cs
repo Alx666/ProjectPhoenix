@@ -3,14 +3,14 @@ using System.Collections;
 
 public class HumanoidRollSM : StateMachineBehaviour
 {
-    Animator animator;
+    //Animator animator;
     bool firstSetting = true;
     int rollingHash;
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (firstSetting)
         {
-            this.animator = animator;
+            //this.animator = animator;
             this.rollingHash = Animator.StringToHash("Rolling");
             this.firstSetting = false;
         }
