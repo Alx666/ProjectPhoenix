@@ -213,6 +213,11 @@ public class MadMaxActor : Actor
 
         if (isLocalPlayer)
         {
+            if (wheels != null)
+            {
+                wheels.ResetInput();
+            }
+
             m_hController.enabled = false;
             m_hProvider.enabled = false;
         }
@@ -264,10 +269,6 @@ public class MadMaxActor : Actor
         CanTakeDamage = true;
 
         //m_hBomb.Reset();
-        if (wheels != null)
-        {
-            wheels.Reset();
-        }
 
         if (isLocalPlayer)
         {

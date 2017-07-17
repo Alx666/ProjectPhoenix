@@ -125,7 +125,7 @@ public class GameManager : NetworkBehaviour
 
     public void WoW(Actor killer, Actor killed)
     {
-        WoWText.text = killer.Name + " pwned " + killed.Name + "\n";
+        WoWText.text = killer.Name + " pawned " + killed.Name + "\n";
 
         if (killer == killed)
             AddScore(-1, killer);

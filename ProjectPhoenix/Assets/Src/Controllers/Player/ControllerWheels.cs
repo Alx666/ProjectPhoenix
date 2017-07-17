@@ -291,7 +291,7 @@ public class ControllerWheels : NetworkBehaviour, IControllerPlayer
         m_hWheels.Skip(2).ToList().ForEach(hW => hW.Collider.brakeTorque = BrakeSpeed);
     }
 
-    internal void Reset()
+    internal void ResetInput()
     {
         //RILASCIA I TASTI PREMUTI
         EndForward();

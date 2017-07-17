@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 public class DeathBomb : MonoBehaviour
@@ -7,12 +8,12 @@ public class DeathBomb : MonoBehaviour
     public float VelocityThreshold = 5f;
     public float StartingFrequency = 1f;
     public AudioSource Audio;
+    public Light Light;
 
     public string STATE_DEBUG = string.Empty;
 
     private MadMaxActor m_hActor;
     private Rigidbody m_hRigidbody;
-    private Light m_hLight;
     private LightBulb m_hBulb;
 
     private StateInactive inactive;
@@ -21,11 +22,21 @@ public class DeathBomb : MonoBehaviour
 
     private IStateDetonator currentState;
 
+    public void Reset()
+    {
+        BombTimer = 7f;
+        VelocityThreshold = 5f;
+        StartingFrequency = 1f;
+
+        Light = GetComponentsInChildren<Light>().Where(hL => hL.name.Contains("Bomb")).FirstOrDefault();
+        Audio = GetComponentsInChildren<AudioSource>().Where(hL => hL.name.Contains("Bomb")).FirstOrDefault();
+    }
+
     private void Awake()
     {
         m_hActor = GetComponent<MadMaxActor>();
         m_hRigidbody = GetComponent<Rigidbody>();
-        m_hLight = GetComponentInChildren<Light>();
+        Light.enabled = false;
 
         m_hBulb = new LightBulb(this);
 
@@ -218,12 +229,14 @@ public class DeathBomb : MonoBehaviour
         public void TurnOn()
         {
             PulseReady = false;
-            owner.m_hLight.enabled = true;
+            owner.Light.enabled = true;
+
+            owner.Audio.Play();
         }
 
         public void TurnOff()
         {
-            owner.m_hLight.enabled = false;
+            owner.Light.enabled = false;
         }
 
         public void Reset()
