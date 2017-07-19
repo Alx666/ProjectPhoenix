@@ -79,6 +79,7 @@ GameObject:
   - component: {fileID: 22285096}
   - component: {fileID: 11488346}
   - component: {fileID: 11445424}
+  - component: {fileID: 114534881866274884}
   m_Layer: 5
   m_Name: CreateGame
   m_TagString: Untagged
@@ -182,6 +183,7 @@ GameObject:
   - component: {fileID: 22286858}
   - component: {fileID: 11464722}
   - component: {fileID: 11420664}
+  - component: {fileID: 114601794822655264}
   m_Layer: 5
   m_Name: JoinButton
   m_TagString: Untagged
@@ -234,6 +236,7 @@ GameObject:
   - component: {fileID: 22420528}
   - component: {fileID: 22258900}
   - component: {fileID: 11411802}
+  - component: {fileID: 114294785941720350}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -337,6 +340,7 @@ GameObject:
   - component: {fileID: 22436660}
   - component: {fileID: 22215782}
   - component: {fileID: 11462478}
+  - component: {fileID: 114525162188771470}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -372,6 +376,7 @@ GameObject:
   - component: {fileID: 22246072}
   - component: {fileID: 11452416}
   - component: {fileID: 11405158}
+  - component: {fileID: 114761656060147922}
   m_Layer: 5
   m_Name: CreditsButton
   m_TagString: Untagged
@@ -440,6 +445,7 @@ GameObject:
   - component: {fileID: 22406748}
   - component: {fileID: 22241138}
   - component: {fileID: 11469784}
+  - component: {fileID: 114661013108326248}
   m_Layer: 5
   m_Name: Label
   m_TagString: Untagged
@@ -475,6 +481,7 @@ GameObject:
   - component: {fileID: 22239058}
   - component: {fileID: 11479130}
   - component: {fileID: 11429958}
+  - component: {fileID: 114498006293739416}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -611,6 +618,7 @@ GameObject:
   - component: {fileID: 22468000}
   - component: {fileID: 22268114}
   - component: {fileID: 11413632}
+  - component: {fileID: 114503565495256230}
   m_Layer: 5
   m_Name: Label
   m_TagString: Untagged
@@ -777,8 +785,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 0.78431374, g: 0, b: 0, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -1158,9 +1166,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.78431374, g: 0, b: 0, a: 1}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1297,8 +1305,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 0.78431374, g: 0, b: 0, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -1475,9 +1483,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.78431374, g: 0, b: 0, a: 1}
     m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
-    m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.49803922}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -1733,7 +1741,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -2229,7 +2237,7 @@ MonoBehaviour:
   m_PlayerPrefab: {fileID: 143454, guid: 168fc58bdc326a44fabad3f349b6206e, type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
-  m_OfflineScene: DRAIV_Vehicle_Selection
+  m_OfflineScene: DRAIV_Vehicle_Selection_Heavy
   m_OnlineScene: 
   m_SpawnPrefabs:
   - {fileID: 171344, guid: ffe5c5b8316482b4f84fa3bfbc4eb8ff, type: 2}
@@ -2257,12 +2265,6 @@ MonoBehaviour:
   - {fileID: 199474, guid: 39329436ee4914542b2b363853fbf157, type: 2}
   - {fileID: 175320, guid: 9f0fee9a700a295438af80f116f20b98, type: 2}
   - {fileID: 165722, guid: 00f68ed76c3dcf546a8367f23a0fc6e4, type: 2}
-  - {fileID: 142000, guid: b12e34c87a2330b46a2a322ec79374f9, type: 2}
-  - {fileID: 163644, guid: 6407bb3b5de2c6e4ab492287fe140550, type: 2}
-  - {fileID: 148604, guid: c0cf99ad894d3fa4ab35643ac616d1ac, type: 2}
-  - {fileID: 149850, guid: 051988ea49acba84cb0315584179fce0, type: 2}
-  - {fileID: 176136, guid: 9bf00b32f6c4d684aa7e68c0b74921bd, type: 2}
-  - {fileID: 100000, guid: c74bc7ee383205642a1d19ea4091c0de, type: 2}
   - {fileID: 1299708602317806, guid: 92259ae40a9d2e542b9b9673eb1e67c4, type: 2}
   - {fileID: 1769824045446562, guid: 1625538aee3e10248bb9a76ca4a52711, type: 2}
   - {fileID: 1137664849278734, guid: 4fd7345b2ccaa6549a7512f1c2501a2b, type: 2}
@@ -2297,6 +2299,12 @@ MonoBehaviour:
   - {fileID: 1912605747757374, guid: 69702fc607693b94690baff4e940cc1b, type: 2}
   - {fileID: 1442568830668088, guid: dd6000edee76b514d8952b6d76875b89, type: 2}
   - {fileID: 1539970717409394, guid: d49977440fa2ca944b18b444141d7dcd, type: 2}
+  - {fileID: 142000, guid: b12e34c87a2330b46a2a322ec79374f9, type: 2}
+  - {fileID: 163644, guid: 6407bb3b5de2c6e4ab492287fe140550, type: 2}
+  - {fileID: 148604, guid: c0cf99ad894d3fa4ab35643ac616d1ac, type: 2}
+  - {fileID: 149850, guid: 051988ea49acba84cb0315584179fce0, type: 2}
+  - {fileID: 176136, guid: 9bf00b32f6c4d684aa7e68c0b74921bd, type: 2}
+  - {fileID: 100000, guid: c74bc7ee383205642a1d19ea4091c0de, type: 2}
   m_CustomConfig: 1
   m_MaxConnections: 10
   m_ConnectionConfig:
@@ -2359,7 +2367,7 @@ MonoBehaviour:
   m_LobbyPlayerPrefab: {fileID: 11492310, guid: 5ecdac01cab2b584189fb337571f4aea,
     type: 2}
   m_GamePlayerPrefab: {fileID: 143454, guid: 168fc58bdc326a44fabad3f349b6206e, type: 2}
-  m_LobbyScene: DRAIV_Vehicle_Selection
+  m_LobbyScene: DRAIV_Vehicle_Selection_Heavy
   m_PlayScene: DRAIV_Game_TrackEight
   lobbySlots: []
   PrematchCountdown: 5
@@ -3740,6 +3748,186 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114294785941720350
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 132188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3026f5b9d9a5c0b45b265acebd4c170c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectionColor: {r: 1, g: 1, b: 1, a: 1}
+  FadeDuration: 0.1
+--- !u!114 &114498006293739416
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 166204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114294785941720350}
+          m_MethodName: OnSelect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114294785941720350}
+          m_MethodName: OnDeselect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
+--- !u!114 &114503565495256230
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 182214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3026f5b9d9a5c0b45b265acebd4c170c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectionColor: {r: 1, g: 1, b: 1, a: 1}
+  FadeDuration: 0.1
+--- !u!114 &114525162188771470
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3026f5b9d9a5c0b45b265acebd4c170c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectionColor: {r: 1, g: 1, b: 1, a: 1}
+  FadeDuration: 0.1
+--- !u!114 &114534881866274884
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 107984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114661013108326248}
+          m_MethodName: OnSelect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114661013108326248}
+          m_MethodName: OnDeselect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
+--- !u!114 &114601794822655264
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 120250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114503565495256230}
+          m_MethodName: OnSelect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114503565495256230}
+          m_MethodName: OnDeselect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!114 &114615231891741688
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3752,6 +3940,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TextChild: {fileID: 11442806}
+--- !u!114 &114661013108326248
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 161638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3026f5b9d9a5c0b45b265acebd4c170c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectionColor: {r: 1, g: 1, b: 1, a: 1}
+  FadeDuration: 0.1
 --- !u!114 &114707197739909344
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3790,6 +3991,53 @@ MonoBehaviour:
     Lucidi Bruno,\r Mastrangelo Antonio,\r Middei Gianluca,\r Nuzzo Fabio,\r Palazzo
     Valentino,\r Palliotto Filippo,\r Passarello Giacomo,\r Ritelli Marco,\r Stucchi
     Davide,\r Tosti Guglielmo,\r Valmori Enrico"
+--- !u!114 &114761656060147922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114525162188771470}
+          m_MethodName: OnSelect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 114525162188771470}
+          m_MethodName: OnDeselect
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!222 &222484265086962318
 CanvasRenderer:
   m_ObjectHideFlags: 1
