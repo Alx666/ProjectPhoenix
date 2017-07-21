@@ -4,6 +4,8 @@ public class DRAIV_Disassembler : MonoBehaviour, IDamageable
 {
     public ArmorType Armor = ArmorType.Light;
     public float Mass = 1;
+
+    public bool DEBUG_DISASSEMBLED;
     private MeshCollider hCollider;
 
     //DELETE?
@@ -43,8 +45,16 @@ public class DRAIV_Disassembler : MonoBehaviour, IDamageable
         if (collision.gameObject.GetComponent<DRAIV_Disassembler>() != null)
             return;
 
+        if (collision.gameObject.GetComponent<DRAIV_TerrainCollider>() != null)
+            return;
+
         //DELETE?
         hRigidbody.useGravity = true;
+        DEBUG_DISASSEMBLED = true;
+
+        hRigidbody.drag = 1f;
+        hRigidbody.angularDrag = 1f;
+
         //DELETE?
 
         //AddRigidbody();
@@ -63,6 +73,9 @@ public class DRAIV_Disassembler : MonoBehaviour, IDamageable
         //DELETE?
         hRigidbody.useGravity = false;
         //DELETE?
+
+        hRigidbody.drag = 5f;
+        hRigidbody.angularDrag = 5f;
 
         return hRigidbody;
     }
