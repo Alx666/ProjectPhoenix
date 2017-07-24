@@ -32,7 +32,7 @@ public class FlameThrower : NetworkBehaviour, IBeam, IPoolable
     private List<ParticleSystem> m_hParticleSystems;
     void Awake()
     {
-        Owner = GetComponent<Actor>();
+        //Owner = GetComponent<Actor>();
         m_hParticleSystems = this.GetComponentsInChildren<ParticleSystem>().ToList();
         FlameLight.enabled = false;
         LightIntensity = FlameLight.intensity;
@@ -55,11 +55,18 @@ public class FlameThrower : NetworkBehaviour, IBeam, IPoolable
 
         if (Physics.Raycast(vRay, out m_hHitPoint, MaxFireLength))
         {
-            IDamageable hHit = m_hHitPoint.collider.GetComponent<IDamageable>();
+            IDamageable hHit = m_hHitPoint.collider.transform.root.GetComponent<IDamageable>();
             FlammableObject m_hFlamObj = m_hHitPoint.collider.GetComponent<FlammableObject>();
 
+            Debug.Log(hHit);
+
             if (hHit != null)
-                hHit.Damage(this);
+            {
+                if (GameManager.Instance.isServer)
+                {
+                    hHit.Damage(this);//non necessita di rpc perche agisce su Hp syncVar
+                }
+            }
 
             if (m_hFlamObj != null)
                 m_hFlamObj.SetOnFire();

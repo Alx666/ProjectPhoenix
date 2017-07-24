@@ -9,13 +9,13 @@ public class ChangeTextColor : MonoBehaviour
     public float FadeDuration = 0.1f;
     private Color deselectionColor;
 
+    private Color buttonOldColor;
+
     Text text;
-    Button button;
 
     void Awake()
     {
         text = GetComponent<Text>();
-        button = GetComponentInParent<Button>();
         deselectionColor = text.color;
     }
 

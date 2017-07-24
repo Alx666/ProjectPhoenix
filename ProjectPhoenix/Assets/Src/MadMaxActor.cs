@@ -56,7 +56,9 @@ public class MadMaxActor : Actor
     {
         #region Initialize stuff
         //Dangerous code, health hp can be set freely
-        Hp = HpToSet;
+        //Hp = HpToSet;
+
+        Hp = 100f;
 
         currentHealth = Hp;
         HealthBar = this.GetComponentInChildren<Canvas>();
@@ -206,7 +208,11 @@ public class MadMaxActor : Actor
         //m_hDisassembler.Explode(10f, 20f);
         //m_hRigidbody.isKinematic = true;
         m_hWeapon.enabled = false;
-        m_hWeapon.GetComponent<Weapon>().Reset();
+
+        Weapon w = m_hWeapon as Weapon;
+        if(w != null)
+            w.Reset();
+
         //m_hBomb.enabled = false;
         HealthBar.enabled = false;
         m_hAudioCtrl.enabled = false;

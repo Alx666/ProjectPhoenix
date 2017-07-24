@@ -32,7 +32,9 @@ public class WeaponBeam : MonoBehaviour, IWeapon
     {
         Owner = GetComponent<Actor>();
         GameObject tmp = Instantiate(Beam);
+        //tmp.transform.parent = this.transform;
         m_hBeam = tmp.GetComponent<IBeam>();
+        m_hBeam.Owner = this.GetComponent<Actor>();
         m_fDurationTime = ActiveTime;
 
         m_hWeaponOff = new WeaponOff(this);

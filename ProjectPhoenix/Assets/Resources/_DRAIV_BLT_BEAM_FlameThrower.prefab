@@ -251,13 +251,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FlameLight: {fileID: 10892426}
-  MaxFireLength: 10
-  DPS: 50
+  MaxFireLength: 40
+  DPS: 10
   DoT: 10
-  Damage: 10
-  LightArmorDamageRate: 0
-  MediumArmorDamageRate: 0
-  HeavyArmorDamageRate: 0
+  Damage: 0.5
+  LightArmorDamageRate: 1
+  MediumArmorDamageRate: 0.5
+  HeavyArmorDamageRate: 0.3
 --- !u!114 &11437710
 MonoBehaviour:
   m_ObjectHideFlags: 1
